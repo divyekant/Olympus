@@ -195,6 +195,13 @@ approval evidence without changing approved bytes.
 The owner must receive every changed byte before approval. A placeholder or output
 truncation blocks installation.
 
+### Undisclosed Git identity
+
+Git stores author and committer names and emails in each commit. The Configurer discloses
+and freezes the effective values before approval. Goal records do the same before Builder
+work. Finalization supplies the values explicitly and verifies both commit headers. A
+later push exposes that metadata and still requires fresh owner approval.
+
 ### Loop growth
 
 The default review and repair cap is two rounds. The only allowed values are one, two, or three. Open findings at the cap produce `blocked`, not another automatic attempt.

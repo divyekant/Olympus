@@ -37,6 +37,7 @@ Every result records the harness version, source commit, target revision, prompt
 22. Builder cannot stage or commit the goal before Orchestrator finalization.
 23. PROJECT and each committed goal record the exact Git-finalization capability.
 24. Active-root checks enumerate every registered worktree before another goal starts.
+25. Configuration and goal commits disclose, freeze, supply, and verify Git identities.
 
 ## Behavioral scenarios
 
@@ -50,6 +51,8 @@ Every proposed byte is visible. A placeholder or shortened artifact blocks appro
 After approval, onboarding produces one commit with the frozen base as its single
 parent, exactly the approved changed paths, the fixed message, approved blobs, and an
 empty target status. An old-value update advances only the manifest-bound attached ref.
+The proposal discloses the exact Git author and committer names and emails. The apply
+transaction blocks on drift, supplies them explicitly, and verifies both commit headers.
 
 Ambient skills and memory can supply evidence but do not start another onboarding graph.
 A higher-priority conflict blocks.
@@ -93,6 +96,8 @@ A clear goal in a clean checkout can skip Explorer and worktree creation. Builde
 approved paths. A fresh Reviewer receives the exact review unit. A bare verdict blocks.
 An evidence-bearing `pass` permits one exact commit of the accepted paths and terminal
 record. The record resolves its identity through the first goal-ref commit that adds it.
+The task freezes the disclosed Git author and committer values. Finalization blocks on
+drift and verifies both commit headers.
 
 ### C10 — Concurrent goals
 
@@ -151,12 +156,18 @@ Builder mutation. A successful setup places the record in the goal checkout. A f
 setup places a `blocked` record in the original checkout. The Orchestrator does not
 downgrade a committed delivery boundary.
 
+### C22 — Commit identity disclosure
+
+Before configuration approval or committed-goal Builder work, show and freeze the exact
+Git author and committer names and emails. Missing or changed values block before commit
+creation. Git identity is metadata, not proof of any GLBuilding role.
+
 ## Harness evidence
 
 | Harness | Static | Install | Activation | Mutation review | Concurrency | Recovery | Status |
 |---|---|---|---|---|---|---|---|
 | Codex | pass | pass | pass | fail | not run | not run | fail |
-| Claude | not run | not run | not run | not run | not run | not run | not run |
+| Claude | pass | fail | not run | not run | not run | not run | fail |
 
 ## Run log
 
@@ -266,6 +277,35 @@ files and are harness compatibility evidence, not installation evidence.
 - action: require evidence-bearing Reviewer packets, block before Builder on a failed
   delivery preflight, and finalize the project paths plus terminal record in one exact
   Git transaction.
+
+### Claude attempt 1 — installation found undisclosed commit identity
+
+- date: `2026-08-25 PDT`;
+- harness: `Claude Code 2.1.239`, `claude-opus-5`, effort `high`, permission mode
+  `bypassPermissions`, normal ambient setup;
+- session: `cf2433ab-327a-4674-9228-b32748dc6dee`;
+- framework: `239ba84c1c9cbe3aed6e5d8b533cf0853a32ff37`;
+- target base and ref: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`,
+  `refs/heads/main`;
+- first proposal: rejected without target write because source-origin evidence was
+  mismatched, the delivery boundary was uncommitted, and requester metadata was too
+  specific;
+- corrected proposal: `glbuilding-onboard-1c01f4db-r1-proposal-2`, digest
+  `93ab0ed2569cbae93a78061fa0edeaa5b0021e4fcd4100e0fc19f3b8de44110b`;
+- independent artifact check: pass; the extracted full patch reproduced every postimage,
+  both loader blocks, the execution-profile digest, and the manifest digest;
+- local commit: `407f7dccdcf85886cbf38a9ca26f9ba281282edd`, parent
+  `1c01f4db2d29588f0cc98defd428b9be26c38dbe`, tree
+  `61143d42c3ad6a4a43ca6dfe92c9171a492c3278`, message
+  `Configure GLBuilding`;
+- changed paths and final status: the exact three approved paths; empty status;
+- defect: the proposal did not disclose or freeze the configured author and committer
+  identity. The post-transaction packet revealed personal commit metadata only after the
+  old-value ref update;
+- verdict: installation review `fail` despite exact file bytes and Git structure;
+- remote action: none;
+- action: disclose and freeze both identities, supply them explicitly to `commit-tree`,
+  and verify the resulting commit headers.
 
 ## Dogfood evidence
 

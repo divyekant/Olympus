@@ -79,6 +79,11 @@ harness transaction packet carries approval time and evidence. Configuration and
 evolution changes apply only to new goals. An omitted or shortened artifact cannot be
 approved; output limits block the proposal.
 
+The file manifest remains specific to the ref, base, paths, and file bytes. The proposal
+separately discloses and freezes the effective Git author and committer names and emails.
+The transaction passes those values explicitly and verifies both commit headers. This is
+workflow enforcement, not identity authentication. Commit times remain apply-time values.
+
 ### D012 — Customization only narrows fixed slots
 
 Custom instructions and evolutions are named, scoped additions or narrowings. The protected base wins. Ambiguity blocks. Sources are recorded for later re-mining but are not runtime dependencies.

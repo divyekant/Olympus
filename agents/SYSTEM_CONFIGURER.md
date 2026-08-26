@@ -51,6 +51,8 @@ Present one proposal that includes:
 - named custom additions and evolutions, with scope and effects;
 - tools, models, budgets, review cap, protected paths, risks, and material conflicts;
 - the fixed local-commit persistence result;
+- the exact effective Git author name and email and committer name and email. State that
+  Git stores them in local history and that a later push exposes them;
 - the exact full unified patch for PROJECT and both bootstrap blocks, with every changed
   or added line;
 - SHA-256 preimage and postimage hashes for every file. Use `absent` as the preimage
@@ -84,8 +86,9 @@ revision `1`.
 
 ## Apply transaction
 
-1. Re-read the target symbolic ref and `HEAD`, then hash every target file. Stop without
-   writing if the ref, `HEAD`, or any preimage differs.
+1. Re-read the target symbolic ref and `HEAD`, hash every target file, and re-resolve the
+   effective Git author and committer name and email. Stop without writing if the ref,
+   `HEAD`, a preimage, or an identity differs or is missing.
 2. Stop without writing for malformed, duplicate, or nested sentinels. Do not silently
    repair content. Use the exact block in [templates/BOOTSTRAP.md](../templates/BOOTSTRAP.md).
 3. Apply only `.glbuilding/PROJECT.md` and the two managed sentinel regions. Preserve
@@ -98,10 +101,11 @@ revision `1`.
    attempted postimage. If current bytes differ, preserve them and stop as `blocked`.
 7. Stage only the approved changed paths. Verify the complete index tree against the
    frozen target tree, approved changed-path set, and SHA-256 of each changed blob.
-8. Use Git `commit-tree` to create one commit from that exact tree. Project commit hooks
-   do not run. Use `Configure GLBuilding` for onboarding or
-   `Update GLBuilding configuration` for a later change. Verify the commit tree, single
-   parent, fixed message, changed paths, and blob hashes.
+8. Pass the frozen author and committer names and emails explicitly to Git `commit-tree`;
+   do not change Git configuration. Create one commit from the exact tree. Project commit
+   hooks do not run. Use `Configure GLBuilding` for onboarding or
+   `Update GLBuilding configuration` for a later change. Verify both identity headers,
+   the commit tree, single parent, fixed message, changed paths, and blob hashes.
 9. Recheck the symbolic target ref. Advance it with an old-value check from the frozen
    `HEAD` to the verified commit. This compare-and-swap must fail on concurrent ref drift.
 10. Check status; empty is expected. Before ref advance, roll back only approved paths
@@ -109,7 +113,8 @@ revision `1`.
     advance, preserve the exact commit and any concurrent state. New dirty state then
     blocks activation but does not revoke the configuration commit. Stop as `blocked` on
     any earlier mismatch; do not reset or amend.
-11. Return the local commit, hashes, approval evidence, validation output, and conflicts.
+11. Return the local commit, identity headers, hashes, approval evidence, validation
+    output, and conflicts.
 
 Configuration changes apply only to new goals. Restart an active goal before it can use
 the new revision. The source pin is an identity check, not a security trust anchor.

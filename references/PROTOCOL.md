@@ -112,6 +112,7 @@ or target-project mutation, the record freezes:
 - maximum capability envelope and harness enforcement labels;
 - branch and worktree identity;
 - Git-finalization capability and hook or signing compatibility for a committed boundary;
+- disclosed Git author and committer names and emails for a committed boundary;
 - attempt number and root Orchestrator identity;
 - delivery boundary and required owner approvals.
 
@@ -191,6 +192,9 @@ the cap becomes `blocked`. Every recheck starts fresh and reviews the whole curr
 - Verify every Git capability required by the frozen delivery boundary before Builder
   mutation. A failed branch, ref, worktree, hook, signing, or commit preflight blocks.
   Do not replace a committed boundary with an uncommitted result.
+- For a committed boundary, disclose and freeze the effective Git author and committer
+  names and emails before Builder mutation. Git identity is commit metadata. It does not
+  prove owner, Orchestrator, Builder, or Reviewer identity.
 
 For a committed-goal boundary, finalization uses one Git-native transaction:
 
@@ -198,13 +202,15 @@ For a committed-goal boundary, finalization uses one Git-native transaction:
    First verify that its path is absent from the frozen base. Identify delivery as `the
    first commit reachable from the goal ref that introduces this task-record path`.
    Never put that commit's own commit, tree, or record-blob hash inside the record.
-2. Recheck the frozen source, config, base, goal ref, current diff, and required checks.
+2. Recheck the frozen source, config, base, goal ref, current diff, required checks, and
+   author and committer identities. Identity drift blocks before commit creation.
 3. Stage only the accepted project paths and that task record. Verify the complete index
    tree, changed-path set, task-record add status, and project-file content identities
    against the frozen base.
-4. Use Git `commit-tree` with the frozen base as its single parent and the fixed message
-   `Complete GLBuilding goal <goal-id>`. Verify its tree, parent, message, complete path
-   set, task record, and project-file blobs.
+4. Pass the frozen author and committer names and emails explicitly to Git `commit-tree`;
+   do not change Git configuration. Use the frozen base as the single parent and the
+   fixed message `Complete GLBuilding goal <goal-id>`. Verify both identity headers,
+   its tree, parent, message, complete path set, task record, and project-file blobs.
 5. Recheck the goal ref, then advance it from the frozen base with an old-value
    `update-ref`. Compare-and-swap success makes terminal `complete` effective. Return
    the actual commit and post-update status in the transaction packet.
@@ -235,6 +241,9 @@ approved manifest binds an attached symbolic target ref and its full `HEAD`. Git
 advances only that ref from the frozen `HEAD`. The tree, parent, message, complete
 changed-path set, and blob hashes must match the proposal. Initial onboarding uses
 `Configure GLBuilding`; a later change uses `Update GLBuilding configuration`.
+The proposal also discloses and freezes the effective author and committer names and
+emails. The Configurer supplies them explicitly and verifies both commit headers. Git
+stores this metadata in local history; a later push exposes it.
 The verified old-value ref update makes that configuration commit effective. New dirty
 state after the update is preserved and reported; it blocks activation or later work but
 does not revoke the commit.

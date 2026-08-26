@@ -66,6 +66,7 @@ Use safe defaults in the proposal:
 - remote and destructive actions: fresh approval for each action;
 - onboarding persistence: one local commit containing only the approved install paths;
 - committed-goal persistence: one exact Git transaction; project hooks do not run;
+- local commit identity: effective Git author and committer values, shown before approval;
 - advanced model, tool, budget, and evolution choices: unchanged or omitted;
 - worktree: only for concurrency, relevant dirty state, or project policy.
 
@@ -86,6 +87,8 @@ Show:
 - rejected custom instructions and the protected rule they conflict with;
 - persistence and behavioral-enforcement limits;
 - the fixed `Configure GLBuilding` local commit result;
+- the exact effective Git author name and email and committer name and email. State that
+  Git stores them in local history and that a later push exposes them;
 - the config revision and proposal metadata that will be recorded.
 
 Do not write yet.
@@ -115,8 +118,9 @@ No approval means no write.
 
 ### 6. Apply the approved patch
 
-Recheck the target symbolic ref, full `HEAD`, and each preimage immediately before any
-write. Stop if the ref, `HEAD`, or any file changed.
+Recheck the target symbolic ref, full `HEAD`, each preimage, and the disclosed Git author
+and committer names and emails immediately before any write. Stop if any value changed or
+is missing.
 
 Create or update only:
 
@@ -147,9 +151,11 @@ Onboarding always creates one local configuration commit:
 1. stage only the approved changed paths;
 2. verify the complete index tree against the frozen target tree, changed-path set, and
    SHA-256 of each changed blob;
-3. use Git `commit-tree` to create a commit from that exact tree with the fixed message
-   `Configure GLBuilding`; project commit hooks do not run;
-4. verify its tree, single parent, complete changed-path set, message, and blob hashes;
+3. pass the frozen author and committer names and emails explicitly to Git `commit-tree`;
+   do not change Git configuration. Create a commit from the exact tree with the fixed
+   message `Configure GLBuilding`; project commit hooks do not run;
+4. verify both identity headers, its tree, single parent, complete changed-path set,
+   message, and blob hashes;
 5. recheck the symbolic target ref;
 6. advance that ref with an old-value check from the frozen `HEAD` to the verified commit;
 7. check the target Git status; empty is expected.
@@ -164,7 +170,8 @@ If project rules require commit hooks for this metadata-only commit, return `blo
 before the proposal. Do not silently bypass a higher-priority rule.
 
 A local commit persists on that Git clone. It does not persist across an ephemeral host.
-Push or pull-request creation still requires fresh owner approval.
+Git stores the disclosed identity in local history. A later push exposes it. Push or
+pull-request creation still requires fresh owner approval.
 
 ## Existing project instructions
 

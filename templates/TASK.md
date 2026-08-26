@@ -25,6 +25,7 @@ Roles return packets. The Orchestrator accepts or rejects them here.
 | branch and worktree | `<identity>` |
 | delivery boundary | `<effective boundary>` |
 | Git finalization capability | `<label and evidence, or not required>` |
+| commit author and committer | `<exact disclosed name and email pairs, or not required>` |
 | maximum capability envelope | `<semantic capabilities and labels>` |
 
 No packet can widen these values.
