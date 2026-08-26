@@ -11,6 +11,7 @@ First experimental release.
 - Git-backed project configuration, goal records, and bounded handoffs.
 - Conditional specification, planning, documentation, design, council, and liaison roles.
 - Mandatory fresh review for project mutations.
+- Apache-2.0 licensing.
 - Codex installation and dogfood evidence, including the controlled FPLGuru Issue #750
   A/B comparison.
 

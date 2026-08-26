@@ -27,6 +27,8 @@ The owner reset version one to its product goal: faster, correct software buildi
 | D018 | Fixed conditional 14-role catalog | The catalog and order are Orchestrator, System Configurer, Explorer, Spec Writer, Claims Reviewer, Spec Reviewer, Plan Writer, Plan Verifier, Builder, Docs Writer, Reviewer, Design Reviewer, Decision Council, and Liaison. Protocol triggers determine invocation. The Orchestrator remains the sole hub; paired verification, fresh review, owner gates, and protected authority remain fixed. |
 | D019 | Olympus product identity | The framework is Olympus. Its fixed collection of specialized roles is the Pantheon. Project paths, records, loader markers, commands, and documentation use the Olympus name. |
 | D020 | Experimental version 0.1.0 | The Issue #750 A/B result is enough to start larger experiments. Version `0.1.0` makes no production-readiness or quality-superiority claim. |
+| D021 | Apache-2.0 license | Olympus uses Apache-2.0. It is permissive and includes an explicit contributor patent grant. |
+| D022 | Private incubation through 0.x | The canonical repository is `https://github.com/divyekant/Olympus`. Keep it private through experimental `0.x` releases. Make it public only with owner approval for version `1.0.0`. |
 
 ## Removed hardening rationale
 
@@ -42,11 +44,10 @@ Version one removes them and keeps four useful lessons:
 
 Git history preserves the detailed experiments as rationale, not runtime rules.
 
-## Open owner decisions
+## Release visibility
 
-- Select an open-source license before public release.
-- Select the canonical public repository URL before external installation.
-- Approve any public remote, tag, release, or publication when release work begins.
+- Keep the canonical repository private through `0.x`.
+- Public visibility starts only with explicit owner approval for `1.0.0`.
 
 ## Explicit deferrals
 

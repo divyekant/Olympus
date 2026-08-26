@@ -10,7 +10,7 @@ promise.
 | 3 — Dogfood | complete | Codex correctness pilot `214be8163ba672d42b62ec7ad8ebe8fa71b466b5` |
 | 4 — Large-codebase proof | complete, mixed | D02 failed; Issue #750 tied with no P0-P2 defects; see D05 |
 | 5 — Second harness and unrelated project | complete | Claude `unsupported`; unrelated Codex mutation `pass`; see D03–D04 in `docs/CONFORMANCE.md` |
-| 6 — OSS readiness | preparing | Version `0.1.0` selected; license, canonical URL, tag, and publication approval remain open |
+| 6 — OSS readiness | release ready | Apache-2.0; private canonical repository; `v0.1.0` source ready |
 | Catalog expansion | dogfood started | Issue #750 used framework `3d67f064821c3e4a05b5e87118eeea19119a16e6`; not every conditional role was invoked |
 
 ## Phase 1 — Specify the fixed framework
@@ -81,9 +81,8 @@ Keep harness-specific mappings outside the semantic core.
 fresh-clone installation; known limits and unsupported paths; conformance evidence; and
 owner approval for public remote, tag, package, or release actions.
 
-**Outcome:** Preparing experimental `0.1.0`. The owner approved the version and larger
-experiments. License, canonical public URL, tag, and public release approval remain owner
-decisions.
+**Outcome:** Experimental `0.1.0` uses Apache-2.0 and is ready for a private tagged release.
+Keep the canonical repository private until the owner approves public version `1.0.0`.
 
 ## Deferred until evidence requires it
 

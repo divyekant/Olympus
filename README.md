@@ -34,7 +34,8 @@ protected rules.
 
 ## Install
 
-Give an agent the exact Olympus repository URL and immutable commit, then ask it to follow [the installation guide](docs/INSTALLATION.md).
+Give an authorized agent `https://github.com/divyekant/Olympus` and an immutable commit,
+then ask it to follow [the installation guide](docs/INSTALLATION.md).
 
 Approved onboarding creates one local Git commit with only PROJECT and both loader files.
 Remote persistence still needs fresh owner approval.
@@ -69,18 +70,24 @@ Project-changing requests do.
 - [Installation and onboarding](docs/INSTALLATION.md)
 - [Conformance plan and evidence](docs/CONFORMANCE.md)
 - [Roadmap](ROADMAP.md)
+- [Changelog](CHANGELOG.md)
 
-## Release status
+## Version status
 
-Olympus `0.1.0` is the first experimental release. A controlled FPLGuru Issue #750 A/B
+Olympus `0.1.0` is the first experimental version. A controlled FPLGuru Issue #750 A/B
 test found no P0-P2 defect in either the normal Codex or Olympus implementation. Olympus
 produced broader focused-test evidence and caught an order-dependent combined-test problem;
 normal Codex used less process. The result was a correctness tie, not proof of superiority.
 
-The release exists so owners can run larger experiments. See
+This version exists so owners can run larger experiments. See
 [current harness evidence](docs/CONFORMANCE.md#current-harness-evidence) for exact limits.
-Public publication still requires an owner-selected license, canonical repository URL, and
-fresh approval for the tag and release.
+Version `0.1.0` is ready for a private tagged release. Keep the repository private through
+the experimental `0.x` line. Public visibility starts only with owner approval for version
+`1.0.0`.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).
 
 ## Enforcement limit
 
