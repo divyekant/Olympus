@@ -25,6 +25,9 @@ Do not write before both events occur.
 1. Verify the owner-supplied framework URL and full commit.
 2. Inspect the repository, current instructions, documentation, validation commands,
    Git state, and harness support.
+   Available subagent tools mean `untested`, not `supported`. Record `supported` only
+   after a mutation at the pinned framework commit uses a separate Builder and fresh
+   Reviewer successfully.
 3. Derive the smallest useful Intent, Map, Validation, role mapping, and Git policy.
 4. Ask only about unresolved intent, boot mode, or authority choices.
 5. Present the complete effective PROJECT content, the exact loader changes, every path
