@@ -109,6 +109,12 @@ One Orchestrator can route several non-overlapping goals in one repository. Each
 gets its own record and isolation only when needed. Multi-repository orchestration is
 deferred.
 
+### D016 — Target substantial software goals
+
+GLBuilding is for goals where codebase scope, context loss, or change risk justifies
+separate role contexts and fresh review. Small tasks can test conformance. Their elapsed
+time does not measure product speed.
+
 ## Superseded hardening experiment
 
 Early Codex and Claude trials exposed real instruction and delivery failures. The project
@@ -120,9 +126,8 @@ briefly added:
 - transcript-level mutation provenance;
 - exhaustive ownership, recovery, and hostile-harness conformance cases.
 
-These mechanisms could improve audit proof. They did not improve the core product. They
-made onboarding and one-line goals much slower and moved framework effort toward proving
-that an agent obeyed instructions.
+These mechanisms could improve audit proof. They did not improve the core product and
+moved framework effort toward proving instruction obedience.
 
 Version one removes those mechanisms. It retains four lessons:
 

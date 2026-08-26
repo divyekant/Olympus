@@ -2,6 +2,15 @@
 
 The roadmap is evidence-gated. A later phase cannot convert an untested claim into a feature promise.
 
+| Phase | Status | Evidence |
+| --- | --- | --- |
+| 1 — Fixed framework | complete | lean baseline `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` |
+| 2 — One target harness | in progress | Codex onboarding partially exercised; reviewed manual goal passed |
+| 3 — Dogfood | complete | Codex correctness pilot ended at `214be8163ba672d42b62ec7ad8ebe8fa71b466b5` |
+| 4 — Large-codebase proof | not run | — |
+| 5 — Second harness and unrelated project | not run | — |
+| 6 — OSS readiness | not run | — |
+
 ## Phase 1 — Specify the fixed framework
 
 **Goal:** Define the smallest complete Markdown protocol.
@@ -33,8 +42,9 @@ The roadmap is evidence-gated. A later phase cannot convert an untested claim in
 - remote and destructive actions stop for fresh approval;
 - a harness that cannot keep Builder and Reviewer separate is marked unsupported.
 
-Run Codex first. If it is unsupported, run Claude. Dogfood starts after one target
-harness completes the simple flow.
+Run Codex first. If it is unsupported, run Claude. Dogfood can start after one target
+harness installs and completes one reviewed manual goal. Phase 2 closes only after all
+listed cases have evidence.
 
 **Exit:** One target harness has a recorded end-to-end pass.
 

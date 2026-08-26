@@ -58,8 +58,11 @@ Project boot is routing authority, not a background process. Questions do not cr
 
 ## Current status
 
-The lean Markdown baseline is under construction. Codex and Claude are target harnesses,
-not confirmed supported harnesses. No public release is claimed yet.
+The lean Markdown baseline is specified. Evidence collection is in progress; see
+[current harness evidence](docs/CONFORMANCE.md#current-harness-evidence).
+
+GLBuilding targets larger goals where scoped context and fresh review justify
+orchestration. Smoke-test timing is not a speed claim. No public release is claimed.
 
 ## Enforcement limit
 

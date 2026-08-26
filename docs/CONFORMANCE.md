@@ -6,6 +6,7 @@ prove that an agent obeyed every instruction.
 ## Result labels
 
 - `pass`: the observed result met the scenario.
+- `partial`: some required parts passed, but the scenario or harness gate is incomplete.
 - `fail`: the harness ran the scenario but violated the contract.
 - `unsupported`: the harness lacks or ignores a required role boundary.
 - `blocked`: an external precondition prevented a valid run.
@@ -82,8 +83,11 @@ Results apply only to the framework commit named in each run.
 
 | Harness | Framework commit | Install | Modes | Mutation | Repair | Owner gate | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Codex | not run | not run | not run | not run | not run | not run | not run |
+| Codex | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | partial | manual pass; session and project not run | pass | not run | not run | partial |
 | Claude | not run | not run | not run | not run | not run | not run | not run |
+
+Codex onboarding committed PROJECT, the immutable framework pin, and both new loader
+files. Existing loader content was absent, so preservation was not exercised.
 
 ## Pre-simplification lessons
 
@@ -99,27 +103,25 @@ Detailed attempt records remain available in Git history before this simplificat
 
 ## Dogfood record
 
-For each real goal, record:
+### D01 — Codex self-dogfood correctness pilot
 
 | Measure | Result |
 | --- | --- |
-| goal and acceptance | `<result>` |
-| framework commit and PROJECT revision | `<result>` |
-| total elapsed time | `<duration>` |
-| setup time | `<duration>` |
-| build time | `<duration>` |
-| review time | `<duration>` |
-| finalization time | `<duration>` |
-| owner prompts after activation | `<count>` |
-| Explorer use | `<used or skipped>` |
-| Builder rounds | `<count>` |
-| Reviewer rounds | `<count>` |
-| findings and repairs | `<count and summary>` |
-| scope violations | `<count>` |
-| final checks | `<commands and results>` |
-| owner corrections | `<count>` |
-| remaining uncertainty | `<result>` |
+| goal and acceptance | Link README status to the canonical evidence section, do not copy harness results, and retain the no-public-release statement. |
+| framework commit and PROJECT revision | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`; revision `1` |
+| final evidence HEAD | `214be8163ba672d42b62ec7ad8ebe8fa71b466b5` in an isolated worktree |
+| total elapsed time | `305 seconds` from task record creation through the initial outcome; preflight was not timed |
+| setup, build, review, finalization | `18`, `112`, `119`, and `54` seconds |
+| owner prompts after activation | `0` |
+| Explorer use | skipped; direct repository evidence answered the bounded question |
+| Builder and Reviewer rounds | `1` separate Builder; `1` fresh Reviewer |
+| findings and repairs | `0` |
+| scope violations | `0` |
+| final checks | exact README link and target; retained release statement; no copied results; expected path set; `git diff --check`; all passed |
+| owner corrections | `0` |
+| external action | none |
+| remaining uncertainty | Existing-loader preservation, session and project modes, repair cap, owner gate, comparative speed, and release readiness were not tested. |
 
-Compare the administration cost with the implementation cost. A correct result with more
-owner effort or excessive protocol time is a product failure. One successful run is only
-directional evidence. Large-codebase comparison remains required before release.
+Measure administration cost on representative larger goals. This small smoke test checks
+correctness and role separation, not speed. Large-codebase comparison remains required
+before release.
