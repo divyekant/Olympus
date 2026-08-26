@@ -8,7 +8,7 @@ The owner reset version one to its product goal: faster, correct software buildi
 | ID | Decision | Meaning and boundary |
 | --- | --- | --- |
 | D001 | Markdown-only framework | Instructions, charters, templates, and docs only. No runtime, service, database, scheduler, queue, or project package dependency. |
-| D002 | Five fixed roles | The roles are Orchestrator, System Configurer, Explorer, Builder, and Reviewer. Owners choose models, tools, limits, and named instruction additions inside fixed slots; they cannot add roles, remove duties, change hub ownership, or bypass fresh review. |
+| D002 | Five-role baseline (superseded) | The original baseline roles were Orchestrator, System Configurer, Explorer, Builder, and Reviewer. D018 replaces this catalog while retaining the baseline authority and review boundaries. |
 | D003 | Hub-only communication | The Orchestrator routes work and owns task records. Workers return bounded packets to it and do not talk to each other or change the graph. |
 | D004 | Configuration uses double opt-in | The owner requests onboarding or a change. The Configurer shows the complete effective configuration and exact affected file changes. Only explicit approval of that proposal permits the write. |
 | D005 | One source pin | PROJECT stores one repository URL and full immutable commit. The source may advance, but the pin identifies content, not authentication. Resolve it in a clean checkout or cache, not from a mismatched source working tree. |
@@ -24,6 +24,7 @@ The owner reset version one to its product goal: faster, correct software buildi
 | D015 | One repository can hold several goals | One Orchestrator can route non-overlapping goals, each with its own record and isolation when needed. Multi-repository orchestration is deferred. |
 | D016 | Target substantial software goals | Separate contexts and fresh review are for goals where codebase scope, context loss, or risk justifies them. Small tasks can test conformance; their elapsed time does not measure product speed. |
 | D017 | Evidence gates release | A simple conformance pass does not qualify a release. A failed representative proof stops release and becomes a product finding; it does not add obedience machinery. |
+| D018 | Fixed conditional 14-role catalog | The catalog and order are Orchestrator, System Configurer, Explorer, Spec Writer, Claims Reviewer, Spec Reviewer, Plan Writer, Plan Verifier, Builder, Docs Writer, Reviewer, Design Reviewer, Decision Council, and Liaison. Protocol triggers determine invocation. The Orchestrator remains the sole hub; paired verification, fresh review, owner gates, and protected authority remain fixed. |
 
 ## Removed hardening rationale
 
@@ -51,7 +52,7 @@ Git history preserves the detailed experiments as rationale, not runtime rules.
 - Distributed locks and cross-host checkpoint services.
 - CLI installer and background execution.
 - Runtime graph engine or graph configuration language.
-- Extra roles and automatic self-evolution.
+- Automatic self-evolution.
 - Cryptographic proposal manifests and transcript provenance.
 - Custom Git transaction or recovery machinery.
 - Telemetry, analytics, dashboards, and non-Git projects.

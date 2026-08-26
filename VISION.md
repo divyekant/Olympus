@@ -32,10 +32,14 @@ The owner approves one complete effective configuration and the proposed install
 - session-wide orchestration;
 - project-default orchestration;
 - multiple non-overlapping goals with worktrees when concurrent;
+- conditional specification, claims, planning, documentation, design, decision, and
+  liaison contexts;
 - bounded discovery and build contexts, plus fresh review;
 - bounded repair and evidence-backed completion.
 
-The owner can adjust supported knobs inside fixed slots. The owner cannot change the five roles, their duties, hub communication, graph ownership, or protected rules.
+The owner can adjust supported knobs inside fixed slots. The owner cannot change the
+fourteen fixed role duties, hub communication, graph ownership, triggers, or protected
+rules. The [runtime protocol](references/PROTOCOL.md) is the canonical catalog and graph.
 
 ## Product principles
 
@@ -43,7 +47,9 @@ The owner can adjust supported knobs inside fixed slots. The owner cannot change
 - Tweakable only inside named boundaries.
 - Every configuration change uses double opt-in.
 - One repository-root Orchestrator owns all goal graphs.
-- Role sessions receive bounded inputs and return structured results.
+- Role sessions receive bounded inputs and return structured results to the Orchestrator.
+- Every invoked role has explicit harness mapping and `supported`, `unsupported`, or
+  `untested` evidence.
 - Exploration is conditional. Fresh review is mandatory for mutations.
 - Unknown evidence cannot pass review.
 - Repair is bounded. The default cap is two rounds.
@@ -70,7 +76,8 @@ The owner can adjust supported knobs inside fixed slots. The owner cannot change
 An owner completes onboarding, starts a real goal, receives a verified result, and does not route agents manually.
 
 GLBuilding can dogfood after one target harness passes the simple contract. It must test
-both Codex and Claude, label unsupported modes honestly, and complete a representative
-task in a larger codebase before its first public release.
+each invoked role through the harness, test both Codex and Claude, label unsupported modes
+honestly, and complete a representative task in a larger codebase before its first public
+release. The 14-role catalog is not yet dogfood-tested.
 
 The result must reduce owner correction or elapsed delivery time without reducing correctness. If its administration costs more than the change, the framework has failed its purpose.

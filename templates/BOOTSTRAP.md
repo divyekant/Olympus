@@ -19,8 +19,12 @@ The System Configurer inserts the same managed block in root `AGENTS.md` and
 5. Stop if the exact commit is unavailable or the resolved checkout is mismatched or dirty.
 6. Read `SKILL.md` and `references/PROTOCOL.md` from that framework version.
 7. Load only the charter required for the next role.
-8. Existing host and project instructions still apply. Stop and report a conflict that
-   prevents the fixed GLBuilding workflow.
+8. Before dispatch, confirm a role-specific harness mapping, freshness, tools, support
+   status, and evidence for every invoked role. Missing mapping blocks the goal.
+9. For configuration, require System Configurer support and a fresh Reviewer mapping for
+   the exact uncommitted configuration unit before staging or commit.
+10. Existing host and project instructions still apply. Stop and report a conflict that
+    prevents the fixed GLBuilding workflow.
 <!-- GLBUILDING:END -->
 ```
 
@@ -32,4 +36,6 @@ Confirm:
 - both loader files contain one complete marker pair;
 - content outside the managed blocks is unchanged;
 - the recorded source URL and full commit resolve to a clean, readable GLBuilding pack;
-- the harness can run a separate Builder and fresh Reviewer.
+- the harness has role-specific support for every invoked role;
+- mutation goals have a separate Builder and fresh Reviewer;
+- configuration goals have a System Configurer and fresh Reviewer for the exact unit.

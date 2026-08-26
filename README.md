@@ -1,8 +1,11 @@
 # GLBuilding
 
-GLBuilding is a small, opinionated Markdown framework for reliable agent-led software development.
+GLBuilding is a small, opinionated Markdown framework for reliable agent-led software
+development.
 
-It gives a coding agent one fixed orchestration graph, five fixed roles, bounded review, and Git-backed handoffs. It adds no runtime, service, database, package, or scheduler.
+It gives a coding agent one fixed orchestration graph, fourteen conditional roles, bounded
+review, and Git-backed handoffs. It adds no runtime, service, database, package, or
+scheduler.
 
 ## Why it exists
 
@@ -13,11 +16,21 @@ Long agent sessions lose scope on large codebases. They can mix discovery, imple
 - One repository-root Orchestrator owns routing and goal records.
 - The System Configurer onboards the project and applies approved configuration changes.
 - Explorers answer bounded repository questions without edits.
+- Spec Writers, Claims Reviewers, and Spec Reviewers define and falsify substantial goals.
+- Plan Writers and Plan Verifiers cover dependent or cross-layer implementation steps.
 - Builders make the smallest approved project change.
+- Docs Writers synchronize approved documentation when the contract requires it.
 - Fresh Reviewers verify each mutation and return `pass`, `repair`, or `blocked`.
+- Design Reviewers check material user-facing changes against project-provided standards.
+- Decision Council gives read-only advice for unresolved material trade-offs.
+- Liaisons answer human status and explanation requests from current evidence.
 - Clean sequential goals can use branches. Concurrent goals use Git worktrees when their scopes do not overlap.
 
-Project owners can configure fixed slots, tools, models, review rounds, project instructions, and activation mode. They cannot change the five role duties, agent communication, graph ownership, or protected rules.
+The [runtime protocol](references/PROTOCOL.md) defines the fixed order, triggers, packets,
+and authority. Project owners can configure role preferences, tools, models, review rounds,
+project instructions, activation mode, and matching standards. They cannot change role
+duties, suppress triggers, enable peer communication, change graph ownership, or bypass
+protected rules.
 
 ## Install
 
@@ -44,7 +57,8 @@ The framework stays outside the target repository and is resolved at the exact c
 - Every session: choose `boot mode: orchestration` during onboarding
 - Stop session routing: `Deactivate GLBuilding orchestration`
 
-Project boot is routing authority, not a background process. Questions do not create graphs. Project-changing goals do.
+Project boot is routing authority, not a background process. Questions do not create goals.
+Project-changing requests do.
 
 ## Read next
 
@@ -58,9 +72,11 @@ Project boot is routing authority, not a background process. Questions do not cr
 
 ## Current status
 
-The lean Markdown system is built at baseline `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`.
-The representative large-codebase comparison failed; see
-[current harness evidence](docs/CONFORMANCE.md#current-harness-evidence).
+The lean Markdown system now defines a fixed conditional 14-role catalog. Existing
+harness evidence remains tied to the immutable commits listed in
+[current harness evidence](docs/CONFORMANCE.md#current-harness-evidence); no 14-role
+execution has been run. The representative large-codebase comparison failed; see that
+evidence for the exact failure and limits.
 
 No public release or release candidate is claimed. License, public URL, version, tag, and
 release approval remain owner decisions.

@@ -7,32 +7,56 @@ a common failure mode: one long session must discover a large codebase, choose s
 edit it, and judge its own work. Context fills with old assumptions and self-review
 inherits the Builder's blind spots.
 
-GLBuilding keeps one small Orchestrator context and sends bounded work to four worker
-roles. Git stores project configuration and task records. Codex or Claude supplies the
-agents and tools. GLBuilding supplies no runtime. Its success criterion is product
-delivery: administration that costs more than the change is a failure.
+GLBuilding keeps one small Orchestrator context and sends bounded work to a fixed
+conditional catalog of fourteen roles. Git stores project configuration and task records.
+Codex or Claude supplies the agents and tools. GLBuilding supplies no runtime. Its
+success criterion is product delivery: administration that costs more than the change is
+a failure.
 
 The [runtime protocol](../references/PROTOCOL.md) is the canonical operational contract.
 This paper explains the design and its limits.
 
 ## Design thesis
 
-The smallest useful graph is fixed. Every worker outcome returns to the Orchestrator:
+The smallest useful graph is fixed, and every role outcome returns to the Orchestrator.
+The [runtime protocol](../references/PROTOCOL.md) is the canonical catalog and trigger
+contract:
 
 ```mermaid
 flowchart TD
     O[Orchestrator] --> C[System Configurer<br/>onboarding or approved change]
-    O --> E[Explorer<br/>only for unresolved questions]
+    O --> E[Explorer<br/>material question or audit]
+    O --> S[Spec Writer<br/>substantial goal]
+    O --> CR[Claims Reviewer<br/>fresh after spec]
+    O --> SR[Spec Reviewer<br/>fresh after spec]
+    O --> P[Plan Writer<br/>dependent steps]
+    O --> PV[Plan Verifier<br/>fresh after plan]
     O --> B[Builder<br/>project mutation]
+    O --> D[Docs Writer<br/>conditional after builder]
     O --> R[Fresh Reviewer<br/>every mutation]
+    O --> DR[Design Reviewer<br/>conditional after mutation]
+    O --> DC[Decision Council<br/>advisory]
+    O --> L[Liaison<br/>status]
+    C --> O
+    E --> O
+    S --> O
+    CR --> O
+    SR --> O
+    P --> O
+    PV --> O
+    B --> O
+    D --> O
+    DR --> O
+    DC --> O
+    L --> O
     R -->|review packet| O
     O -->|repair below cap| B
     O -->|pass| V[Final verification]
     O -->|blocked or cap reached| H[Owner or blocked result]
 ```
 
-Worker roles do not talk to each other. They return concise packets to the Orchestrator.
-Only accepted results enter the goal record. This keeps:
+Roles do not talk to each other. They return concise packets to the Orchestrator. Only
+accepted results enter the goal record. This keeps:
 
 1. discovery noise out of the Builder context;
 2. Builder assumptions out of the Reviewer context;
@@ -68,18 +92,28 @@ Configuration uses double opt-in:
 ```mermaid
 sequenceDiagram
     participant Owner
+    participant O as Orchestrator
     participant Configurer
+    participant R as Reviewer
     participant Git
-    Owner->>Configurer: Request onboarding or change
+    Owner->>O: Request onboarding or change
+    O->>Configurer: Bounded request and repository evidence
     Configurer->>Configurer: Inspect repository and derive defaults
-    Configurer->>Owner: Show complete configuration and file changes
-    Owner->>Configurer: Approve that proposal
-    Configurer->>Git: Apply, validate, and commit named paths
+    Configurer-->>O: Complete proposal
+    O->>Owner: Show configuration and file changes
+    Owner->>O: Approve that proposal
+    O->>Configurer: Apply approved unit without commit
+    Configurer-->>O: Exact uncommitted unit
+    O->>R: Fresh review of exact uncommitted unit
+    R-->>O: Pass or findings
+    O->>Configurer: Stage and commit only after pass
+    Configurer->>Git: Named-path commit
 ```
 
-The owner can select models, tools, review rounds, boot mode, protected paths, and scoped
-custom instructions. Fixed roles, hub communication, fresh review, and the external-action
-gate remain unchanged.
+The owner can select models, tools, review rounds, boot mode, protected paths, matching
+design standards, and scoped custom instructions. Fixed roles, trigger floors, hub
+communication, fresh review, and the external-action gate remain unchanged. Configuration
+is applied uncommitted and receives a fresh review before staging or commit.
 
 ## Project knowledge
 
@@ -102,29 +136,63 @@ They cannot change GLBuilding role duties or owner authority.
 sequenceDiagram
     participant O as Orchestrator
     participant E as Explorer
+    participant S as Spec Writer
+    participant CR as Claims Reviewer
+    participant SR as Spec Reviewer
+    participant P as Plan Writer
+    participant PV as Plan Verifier
     participant B as Builder
+    participant D as Docs Writer
     participant R as Reviewer
+    participant DR as Design Reviewer
     O->>O: Record goal, criteria, scope, and isolation
     opt Material repository question
         O->>E: One bounded question
         E-->>O: Evidence and uncertainty
     end
-    O->>B: Goal, allowed paths, evidence, checks
+    opt Substantial, ambiguous, architectural, or cross-layer goal
+        O->>S: Bounded goal packet
+        S-->>O: Contract
+        O->>CR: Complete contract and evidence
+        CR-->>O: Claim checks
+        O->>SR: Complete contract and evidence
+        SR-->>O: Specification verdict
+    end
+    opt Plan trigger holds
+        O->>P: Accepted contract or specification
+        P-->>O: Ordered plan
+        O->>PV: Contract and whole plan
+        PV-->>O: Plan verdict
+    end
+    O->>B: Goal, accepted packet, paths, evidence, checks
     B-->>O: Diff, results, uncertainty
+    opt Documentation trigger holds
+        O->>D: Complete behavior diff and approved docs
+        D-->>O: Documentation result
+    end
     O->>R: Goal, complete diff, results
-    alt Pass
-        R-->>O: Criterion checks and pass
+    R-->>O: General review verdict
+    opt Design trigger holds
+        alt Matching standards available
+            O->>DR: Diff and matching standards
+            DR-->>O: Design verdict
+        else Required standards missing
+            O->>O: Record blocked
+        end
+    end
+    alt Every invoked review passes
         O->>O: Final verification and completion
     else Repair below cap
-        R-->>O: Scoped findings
-        O->>B: Findings and current task
+        O->>B: Aggregated findings and current task
     else Blocked
-        R-->>O: Missing evidence or authority
+        O->>O: Record missing evidence or authority
     end
 ```
 
-The task record contains outcomes, not whole conversations. Activation modes enter this
-same flow; questions do not create goals.
+The task record contains outcomes, predicted and actual role population, support evidence,
+and uncertainty, not whole conversations. Activation modes enter this same flow; questions
+do not create goals. Decision Council can advise on one unresolved trade-off, and Liaison
+can answer a human status request, but neither changes the graph or grants authority.
 
 ## Why no runtime graph framework
 
@@ -155,8 +223,9 @@ after real goals show that Markdown, native agents, and Git cannot provide the r
 ### Ceremony cost
 
 The main risk is that the framework becomes slower than the work. Configurer, Explorer,
-and worktrees are conditional. Task records stay short. Dogfood measures setup, build,
-review, and finalization separately.
+specification, planning, Docs Writer, Design Reviewer, Council, Liaison, and worktrees are
+conditional. Task records stay short. Dogfood measures setup, build, review, and
+finalization separately.
 
 ### Stale project knowledge
 
@@ -176,8 +245,9 @@ produce `blocked`, not another automatic loop.
 ### Partial installation
 
 The Configurer shows the complete configuration and changed files, waits for approval,
-rechecks affected paths, stages named files, and uses normal Git. A conflict stops the
-install. The framework does not promise a database transaction. See the [installation
+rechecks affected paths, applies the exact unit uncommitted, pauses for a fresh Reviewer,
+then stages named files after a pass and uses normal Git. A conflict stops the install.
+The framework does not promise a database transaction. See the [installation
 guide](INSTALLATION.md) and [System Configurer charter](../agents/SYSTEM_CONFIGURER.md).
 
 ### Dirty or concurrent work
@@ -194,8 +264,9 @@ the project's normal owner-approved Git flow.
 ### Harness variance
 
 Codex and Claude can interpret the same Markdown differently. Test each harness on the
-simple workflow. Record `supported`, `unsupported`, or `untested`; do not infer parity.
-The framework does not add provenance machinery to force obedience.
+simple workflow and each role invoked by a goal. Record `supported`, `unsupported`, or
+`untested`; do not infer parity or role support from tool availability. The framework does
+not add provenance machinery to force obedience.
 
 ## Evaluation
 

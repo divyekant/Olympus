@@ -20,9 +20,9 @@ versioned charter change for new goals.
 ## Source influences
 
 The FPLGuru pattern at `d77b93ba` supplied separate mutation and review contexts, one
-loop owner, and one canonical charter copy. GLBuilding keeps that pattern and five roles.
-It does not copy project-specific roles, review history, provider delivery paths, or
-unbounded review pressure.
+loop owner, and one canonical charter copy. GLBuilding keeps that pattern for the fixed
+14-role catalog. It does not copy project-specific roles, review history, service delivery
+paths, or unbounded review pressure.
 
 ## Source ledger
 
@@ -41,8 +41,26 @@ requirements.
 | `using-git-worktrees/SKILL.md` | conditional isolation, dirty-state safety, baseline verification | Orchestrator protocol |
 | `verification-before-completion/SKILL.md` | current command evidence before completion claims | Builder, Reviewer, Orchestrator |
 | `requesting-code-review/SKILL.md` | exact review unit, independent feedback, evidence-backed response | Reviewer, Orchestrator |
-| `council/SKILL.md` | adversarial design review and challenge resolution | Design process only |
+| `council/SKILL.md` | adversarial option comparison, challenge resolution, and pre-mortem | Decision Council advisory role |
 | `skill-creator/SKILL.md` | valid metadata and progressive loading | Pack structure and conformance |
+
+## Historical charter sources for C roles
+
+These seven historical charter sources informed the added generic roles. They are design
+provenance only. They are not loaded or invoked at runtime.
+
+| Historical source | Retained generic behavior | Excluded behavior |
+| --- | --- | --- |
+| Claims Reviewer charter | Grade material claims from current evidence; attack universals, history, and counts. | Product packs, digests, and service-specific commands. |
+| Plan Writer charter | Turn an accepted contract into ordered, independently verifiable steps with red checks. | Task artifacts, commits, and delivery. |
+| Plan Verifier charter | Verify paths, interfaces, dependency order, criteria, scope, and red checks. | Edits, implementation, and plan authority. |
+| Docs Writer charter | Synchronize false tracked documentation, keep one canonical home, and verify links. | Code, configuration, and task edits. |
+| Design Reviewer charter | Check accessibility, interaction, responsive behavior, themes, and component reuse against supplied standards. | Assumed tokens, breakpoints, frameworks, or services. |
+| Decision Council charter | Compare viable options, recommend, challenge, pre-mortem, and state dissent. | Gates, owner decisions, and role routing. |
+| Liaison charter | Answer human status and explanation questions from current task and Git evidence. | Goal creation, edits, and action execution. |
+
+The source charters remain historical inputs. The seven new charters retain only this
+generic behavior and remain untested in a 14-role dogfood run.
 
 ## Deliberate exclusions
 
@@ -50,7 +68,8 @@ requirements.
 - Source model names are not copied; projects choose capability tiers or explicit models inside fixed slots.
 - Full test-driven development ceremony is not universal. Nontrivial behavior leaves the smallest check that can fail.
 - FPLGuru labels, branches, continuous-integration providers, declarations, and review lanes are not copied.
-- Council is not a runtime role. Material owner decisions go to the owner.
+- Decision Council is a runtime advisory role with no gate. Material owner decisions still
+  go to the owner.
 - No source skill can automatically modify a charter.
 
 ## Owner-approved evolution

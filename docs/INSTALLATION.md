@@ -26,7 +26,10 @@ Use a full commit, not a branch, tag, `main`, or `latest`.
   to `HEAD`; absent paths are allowed and unrelated unstaged paths can remain.
 - The owner supplied a framework repository URL and full commit.
 - The agent can read both repositories and run Git.
-- The harness can run a separate Builder and fresh Reviewer for mutation goals.
+- The harness has a role-specific mapping for every role the goal invokes, including a
+  separate Builder and fresh Reviewer for mutation goals.
+- Official configuration requires a System Configurer mapping and a fresh Reviewer
+  mapping for the exact configuration unit.
 
 ## Onboarding
 
@@ -36,16 +39,18 @@ The owner request is the first opt-in. Approval of the complete proposal is the 
    `HEAD` match the request. Otherwise fetch or clone that commit into a local cache.
    Stop if the commit is unavailable or unreadable. The pin identifies content, not trust.
 2. Inspect existing `AGENTS.md`, `CLAUDE.md`, `.glbuilding/PROJECT.md`, project maps,
-   validation commands, Git conventions, and available role mappings. Derive the smallest
-   useful Intent, Map, Validation, boundaries, and preferences. Ask only unresolved
-   questions about intent, boot mode, or authority.
+   validation commands, Git conventions, role-specific mappings, and design-standard
+   sources. Derive the smallest useful Intent, Map, Validation, boundaries, exact role
+   preferences, harness evidence, and matching details. Ask only unresolved questions
+   about intent, boot mode, or authority.
 3. Show the complete proposed PROJECT, exact managed loader changes, every changed path,
    conflicts, rejected custom settings, planned local commit, and no remote action.
 4. Wait for explicit owner approval of that complete proposal. This is the second opt-in.
 5. Recheck affected paths. Stop if they changed, or if markers are malformed, duplicate,
    nested, or incomplete. Apply only `.glbuilding/PROJECT.md` and the managed blocks in
    root `AGENTS.md` and `CLAUDE.md`; preserve all other content.
-6. Validate the pin, boot mode, PROJECT, both loader blocks, and surrounding content.
+6. Validate the pin, boot mode, PROJECT, every invoked role mapping, both loader blocks,
+   and surrounding content.
 
 If the repository does not decide, use `manual` boot, review cap `2`, a current
 checkout/branch for clean sequential work, and a worktree for concurrent or unrelated
@@ -56,11 +61,14 @@ major or external actions. Use host-default models and tools.
 
 Use normal project Git commands:
 
-1. Stage only the approved installation paths.
-2. Inspect the complete staged diff and path list.
-3. Run normal project hooks and commit with `Configure GLBuilding` or
+1. Apply only the approved installation content without a commit.
+2. Inspect the exact uncommitted `PROJECT.md` plus managed-loader unit.
+3. Run a fresh Reviewer over that unit. Stop on `repair` or `blocked`.
+4. After a passing review, stage only the approved installation paths.
+5. Run normal project hooks and commit with `Configure GLBuilding` or
    `Update GLBuilding configuration`.
-4. Confirm the committed content matches the approved proposal and report the commit and
+6. If a hook changed reviewed content, run a fresh review of the committed content.
+7. Confirm the committed content matches the approved proposal and report the commit and
    remaining worktree state.
 
 Do not reset, stash, bypass hooks, change Git identity, or include unrelated files. If

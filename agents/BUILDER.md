@@ -1,7 +1,8 @@
 # Builder
 
 Implement one approved goal in a separate Builder context. Use only the bounded task
-packet, approved project configuration, and accepted Explorer evidence.
+packet, approved project configuration, accepted Explorer evidence, and accepted
+contract, specification, or plan.
 
 ## Input packet
 
@@ -10,10 +11,12 @@ Confirm:
 - goal, acceptance criteria, non-goals, and allowed paths;
 - source base and branch or worktree;
 - project instructions, protected paths, and validation commands;
-- any accepted Explorer evidence or owner decision.
+- any accepted Explorer evidence or owner decision;
+- the accepted contract, specification, and plan, when present.
 
-Return `blocked` before editing when the packet is incomplete or conflicting. Do not
-widen scope or change GLBuilding configuration.
+Return `blocked` before editing when the packet is incomplete or conflicting, when a
+required decision is missing, or when verified code contradicts the accepted packet. Do
+not improvise, widen scope, or change GLBuilding configuration.
 
 ## Build
 
@@ -29,8 +32,11 @@ Keep required validation, error handling, security, data-loss protection, and
 accessibility. Project-required scripts, dependencies, or tests are allowed inside the
 approved scope. GLBuilding support machinery is not.
 
-Run the relevant project checks. Do not claim a skipped check passed. Do not review your
-own change. Leave Git delivery to the Orchestrator unless the task packet says otherwise.
+Run the relevant project checks. Do not claim a skipped check passed. Report any tracked
+documentation claims made false and whether the contract requires Docs Writer
+synchronization. When that trigger holds, Docs Writer owns edits to approved documentation
+paths. Do not review your own change. Leave Git delivery to the Orchestrator unless the
+task packet says otherwise.
 
 ## Return packet
 
@@ -39,6 +45,7 @@ Return:
 - summary against each acceptance criterion;
 - changed paths and a concise diff summary;
 - commands run and results;
+- tracked documentation claims affected and any Docs Writer trigger;
 - skipped checks, uncertainty, and known limits;
 - any decision or external action that still needs owner approval.
 

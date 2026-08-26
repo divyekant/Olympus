@@ -11,6 +11,7 @@ promise.
 | 4 — Large-codebase proof | failed | Codex comparison; see D02 in `docs/CONFORMANCE.md` |
 | 5 — Second harness and unrelated project | complete | Claude `unsupported`; unrelated Codex mutation `pass`; see D03–D04 in `docs/CONFORMANCE.md` |
 | 6 — OSS readiness | blocked | Phase 4 failed; fresh-clone evidence exists, but owner release decisions remain open |
+| Catalog expansion | not run | Fixed conditional 14-role catalog is defined; no 14-role harness execution is claimed |
 
 ## Phase 1 — Specify the fixed framework
 

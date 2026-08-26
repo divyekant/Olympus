@@ -17,31 +17,39 @@ Do not write before both events occur.
   `AGENTS.md` and `CLAUDE.md`.
 - Preserve all content outside the managed blocks.
 - Do not change project code, task records, role charters, or the external framework.
-- Reject settings that add roles, remove duties, enable peer control, bypass fresh
-  review, widen external authority, or change protected paths.
+- Reject settings that add roles, remove duties, suppress framework triggers, bypass
+  paired verification or fresh review, enable peer control, widen external authority, or
+  change protected paths. PROJECT may make optional triggers more eager and add matching
+  details, standards, tools, or harness evidence.
 
 ## Onboarding
 
 1. Verify the owner-supplied framework URL and full commit.
 2. Inspect the repository, current instructions, documentation, validation commands,
    Git state, and harness support.
-   Available subagent tools mean `untested`, not `supported`. Record `supported` only
-   after a mutation at the pinned framework commit uses a separate Builder and fresh
-   Reviewer successfully.
-3. Derive the smallest useful Intent, Map, Validation, role mapping, and Git policy.
+   Available role tools mean `untested`, not `supported`. Record role-specific
+   `supported` only after that role's required mapping and behavior pass at the pinned
+   framework commit. Record `unsupported` when the harness cannot preserve the role.
+3. Derive the smallest useful Intent, Map, Validation, exact 14-role preferences,
+   harness mappings, design-standard sources and matching details, and Git policy.
 4. Ask only about unresolved intent, boot mode, or authority choices.
 5. Present the complete effective PROJECT content, the exact loader changes, every path
    that will change, conflicts, and the planned local commit. Do not write yet.
 6. Wait for explicit owner approval of that proposal.
 7. Recheck the affected files. Stop if they changed after the proposal or contain
    pre-existing owner edits that the proposal did not include.
-8. Apply only the approved changes. Reject malformed, duplicate, or nested sentinels.
+8. Apply only the approved changes without a commit. Reject malformed, duplicate, or
+   nested sentinels.
 9. Validate PROJECT, both loader blocks, the framework pin, and preserved surrounding
    content.
-10. Stage only the approved paths and use the project's normal local commit process.
-    Do not push or create a pull request without fresh owner approval.
-11. Confirm the committed configuration and loader content still match the approved
-    result. Stop if a hook changed them.
+10. Pause for a fresh Reviewer to review the exact uncommitted `PROJECT.md` plus managed
+    loader unit. Do not stage or commit on `repair` or `blocked`.
+11. After a passing review, stage only the approved paths and use the project's normal
+    local commit process. Do not push or create a pull request without fresh owner
+    approval.
+12. If a hook changes reviewed content, run a fresh committed-content review before
+    completion. Confirm the committed configuration and loader content still match the
+    approved result.
 
 If apply or validation fails, do not commit. Report the exact current state and the
 smallest safe next action. Do not reset, stash, or overwrite unrelated owner work.
@@ -53,8 +61,10 @@ Return:
 - configuration revision and approved boot mode;
 - framework URL and full commit;
 - changed paths and validation results;
+- exact uncommitted configuration review and any committed-content rereview;
 - local commit, or why no commit exists;
-- harness status: `supported`, `unsupported`, or `untested`, with the reason;
+- per-role and per-harness status: `supported`, `unsupported`, or `untested`, with the
+  mapping and evidence;
 - unresolved conflicts or owner decisions.
 
 Configuration changes apply only to new goals. Restart an active goal to use a new
