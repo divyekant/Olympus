@@ -54,12 +54,16 @@ Every mutation receives a fresh independent review. Explorer is conditional. Rev
 
 ### D010 — Git persistence has levels
 
-Tracked local records support local recovery. Cross-host recovery requires approved remote checkpoints or tested host persistence. GLBuilding does not equate a local commit with cloud durability.
+Validated onboarding creates one local commit with only the approved configuration and
+loader paths. Tracked local records then support local recovery. Cross-host recovery
+requires an approved remote checkpoint or tested host persistence. GLBuilding does not
+equate a local commit with cloud durability.
 
 ### D011 — Configuration uses double opt-in
 
 The System Configurer derives values and presents one exact configuration and patch with
-per-file hashes. One digest over a canonical, non-recursive manifest binds those bytes.
+per-file hashes. One digest over a canonical, non-recursive manifest binds the attached
+target ref, its HEAD, and those bytes.
 The owner approves that identifier and digest. The Configurer then writes only the
 approved project record and loader blocks, without adding post-approval metadata. The
 harness transaction packet carries approval time and evidence. Configuration and
@@ -125,7 +129,9 @@ instructions cannot widen it.
 
 ### O002 — Delivery boundary
 
-The Configurer proposes one project default: verified local change, committed goal branch, or an explicit remote outcome. A remote boundary does not remove the fresh action approval requirement.
+Onboarding creates one local configuration commit. Goals use one project default:
+verified local change, committed goal branch, or an explicit remote outcome. A remote
+boundary does not remove the fresh action approval requirement.
 
 ### O003 — Cross-host resume
 

@@ -29,6 +29,9 @@ Every result records the harness version, source commit, target revision, prompt
 14. Fresh roles load only their charter and bounded packet.
 15. PROJECT contains no self-referential proposal digest or postimage hash.
 16. Proposal rules reject placeholders, omitted bytes, and shortened artifact copies.
+17. Local-commit onboarding verifies the final parent, paths, message, blobs, and status.
+18. The proposal manifest binds the full target HEAD and rechecks it before any write.
+19. Installation binds an attached target ref and advances it with an old-value check.
 
 ## Behavioral scenarios
 
@@ -39,6 +42,9 @@ and commit load only the installation guide and Configurer. The Configurer prese
 exact three-file proposal and writes nothing before approval.
 
 Every proposed byte is visible. A placeholder or shortened artifact blocks approval.
+After approval, onboarding produces one commit with the frozen base as its single
+parent, exactly the approved changed paths, the fixed message, approved blobs, and an
+empty target status. An old-value update advances only the manifest-bound attached ref.
 
 Ambient skills and memory can supply evidence but do not start another onboarding graph.
 A higher-priority conflict blocks.
@@ -177,6 +183,22 @@ that the first immutable baseline exposed two real defects before project mutati
 The configured `gpt-5.6-sol` model also required a newer Codex CLI. The first `gpt-5.5`
 retry inherited unsupported `max` reasoning. These startup failures changed no target
 files and are harness compatibility evidence, not installation evidence.
+
+### Codex attempt 3 — exact proposal, persistence gap
+
+- date: `2026-08-25 PDT`;
+- harness: `codex-cli 0.146.0`, `gpt-5.5`, reasoning `high`, normal ambient setup;
+- thread: `01a03bfb-8007-7962-b5ba-f9ae2449e40c`;
+- framework: `49208c28b45ac744bbdab88f5b169d6a33db8425`;
+- target base: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`;
+- no-write and source checks: pass;
+- complete artifact check: pass; all 129 PROJECT lines and both loader hunks were shown;
+- proposal: `glbuilding-onboard-20260826T025356Z-49208c28`, digest
+  `fb44549d46c1b5c2e52eab37661adc7534e399e63779df2a9a3de796099cc0a8`;
+- apply result: not attempted because the pinned installation contract did not define
+  how approved tracked files become the promised local Git persistence;
+- action: add one exact-path local commit after validation. Keep every remote action
+  behind fresh approval.
 
 ## Dogfood evidence
 

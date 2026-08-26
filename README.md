@@ -23,6 +23,9 @@ Project owners can configure fixed slots, tools, models, review rounds, project 
 
 Give an agent the exact GLBuilding repository URL and immutable commit, then ask it to follow [the installation guide](docs/INSTALLATION.md).
 
+Approved onboarding creates one local Git commit with only PROJECT and both loader files.
+Remote persistence still needs fresh owner approval.
+
 The target repository receives:
 
 ```text

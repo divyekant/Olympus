@@ -21,6 +21,8 @@ Do not use a branch, tag, release name, `main`, or `latest` as the source identi
 
 - The target is a Git repository.
 - The target has a resolvable committed base.
+- The target `HEAD` is attached to a symbolic branch ref.
+- The target Git status is empty, including staged and untracked changes.
 - The agent can read the repository and run Git.
 - The agent can reach the source or verify an existing local checkout.
 - The owner supplied the canonical source URL and full commit.
@@ -62,6 +64,7 @@ Use safe defaults in the proposal:
 - review and repair cap: `2`;
 - cross-host resume: `off`;
 - remote and destructive actions: fresh approval for each action;
+- onboarding persistence: one local commit containing only the approved install paths;
 - advanced model, tool, budget, and evolution choices: unchanged or omitted;
 - worktree: only for concurrency, relevant dirty state, or project policy.
 
@@ -73,13 +76,15 @@ Show:
 - the exact full unified patch for PROJECT and both loader blocks, with every changed
   or added line;
 - existing file preimage hashes and expected postimage hashes;
-- one canonical manifest starting with `GLBUILDING-PROPOSAL-V1` and
-  `proposal=<identifier>`, then byte-sorted
+- one canonical manifest starting with `GLBUILDING-PROPOSAL-V1`,
+  `proposal=<identifier>`, `target-head=<full commit>`, and
+  `target-ref=<refs/heads/name>`, then byte-sorted
   `<path><TAB><preimage><TAB><postimage>` rows;
 - one SHA-256 over the UTF-8 manifest with LF endings and one final newline;
 - every path that will change;
 - rejected custom instructions and the protected rule they conflict with;
 - persistence and behavioral-enforcement limits;
+- the fixed `Configure GLBuilding` local commit result;
 - the config revision and proposal metadata that will be recorded.
 
 Do not write yet.
@@ -105,7 +110,8 @@ No approval means no write.
 
 ### 6. Apply the approved patch
 
-Recheck each preimage immediately before its write. Stop if any file changed.
+Recheck the target symbolic ref, full `HEAD`, and each preimage immediately before any
+write. Stop if the ref, `HEAD`, or any file changed.
 
 Create or update only:
 
@@ -128,6 +134,31 @@ Confirm:
 - repository content outside the approved patch is unchanged.
 
 If validation fails, restore a preimage only when the current file still matches the attempted postimage. If it changed again, preserve it and return `blocked` with the conflict. Never use a broad Git reset.
+
+### 8. Persist the installation
+
+Onboarding always creates one local configuration commit:
+
+1. stage only the approved changed paths;
+2. verify the complete index tree against the frozen target tree, changed-path set, and
+   SHA-256 of each changed blob;
+3. use Git `commit-tree` to create a commit from that exact tree with the fixed message
+   `Configure GLBuilding`; project commit hooks do not run;
+4. verify its tree, single parent, complete changed-path set, message, and blob hashes;
+5. recheck the symbolic target ref;
+6. advance that ref with an old-value check from the frozen `HEAD` to the verified commit;
+7. require an empty target Git status.
+
+Before ref advance, roll back only approved paths whose worktree and index bytes still
+match their postimages. After a successful ref advance, preserve the exact commit and
+any concurrent state. Return `blocked` on any mismatch. Do not reset or amend. A later
+configuration commit uses the fixed message `Update GLBuilding configuration`.
+
+If project rules require commit hooks for this metadata-only commit, return `blocked`
+before the proposal. Do not silently bypass a higher-priority rule.
+
+A local commit persists on that Git clone. It does not persist across an ephemeral host.
+Push or pull-request creation still requires fresh owner approval.
 
 ## Existing project instructions
 

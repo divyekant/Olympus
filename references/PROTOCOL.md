@@ -178,6 +178,13 @@ The v1 action boundary permits routine in-scope read, edit, check, worktree setu
 local commit after the goal freeze. This baseline applies unless a later owner-approved
 framework revision changes it. Project instructions cannot widen it.
 
+An approved Configurer transaction creates one local commit after exact validation. The
+approved manifest binds an attached symbolic target ref and its full `HEAD`. Git
+`commit-tree` creates the exact commit without project hooks. An old-value ref update
+advances only that ref from the frozen `HEAD`. The tree, parent, message, complete
+changed-path set, and blob hashes must match the proposal. Initial onboarding uses
+`Configure GLBuilding`; a later change uses `Update GLBuilding configuration`.
+
 Every push, pull request creation, merge, deploy, publish, force operation, secret change,
 remote deletion, or other hard-to-reverse external effect requires fresh owner approval
 at the point of action. Record the exact command or effect, target, owner, timestamp, and

@@ -115,6 +115,7 @@ Map and Validation entries are hints until verified against the frozen source re
 Committed Git state is durable on one persistent machine. It is not automatically durable across ephemeral cloud hosts.
 
 - Local record commits support local resume.
+- Validated onboarding creates one local commit containing only PROJECT and both loaders.
 - Cross-host resume requires an approved checkpoint push or a host that guarantees workspace persistence.
 - Without either, the project records cross-host resume as unsupported.
 
@@ -177,9 +178,13 @@ empty staged, tracked, and untracked status before it reads the pack.
 
 Three Markdown files are not a database transaction. Installation binds approval to exact preimages and postimages. The Configurer stops on concurrent edits and rolls back only when rollback cannot overwrite newer work.
 
-The approval digest covers a canonical manifest of file preimages and postimages. PROJECT
-does not contain its own hash, the proposal digest, or approval-time data. The harness
-transaction packet carries later approval evidence without changing approved bytes.
+After byte validation, Git `commit-tree` creates the exact local commit without project
+hooks. An old-value update advances only the approved attached ref from its frozen HEAD.
+
+The approval digest covers the attached target ref, its full HEAD, and a canonical
+manifest of file preimages and postimages. PROJECT does not contain its own hash, the
+proposal digest, or approval-time data. The harness transaction packet carries later
+approval evidence without changing approved bytes.
 The owner must receive every changed byte before approval. A placeholder or output
 truncation blocks installation.
 
