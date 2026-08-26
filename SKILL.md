@@ -19,13 +19,15 @@ only the charter needed for the next role.
 - `Deactivate GLBuilding orchestration` stops new routing in the current session.
 - Questions do not create goals. An explicit read-only audit uses Explorer.
 
-The [runtime protocol](references/PROTOCOL.md) defines the five fixed roles, goal flow,
+The [runtime protocol](references/PROTOCOL.md) defines the fixed roles, goal flow,
 handoffs, owner gates, states, activation rules, and Git workflow.
 
 ## Load on demand
 
 - Configurer: [charter](agents/SYSTEM_CONFIGURER.md), [project template](templates/PROJECT.md), [bootstrap block](templates/BOOTSTRAP.md)
 - Explorer: [charter](agents/EXPLORER.md)
+- Spec Writer: [charter](agents/SPEC_WRITER.md)
+- Spec Reviewer: [charter](agents/SPEC_REVIEWER.md)
 - Builder: [charter](agents/BUILDER.md)
 - Reviewer: [charter](agents/REVIEWER.md)
 - Orchestrator: [task template](templates/TASK.md)

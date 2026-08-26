@@ -48,6 +48,19 @@ Delete this section when no owner decision was needed after activation.
 | --- | --- | --- | --- |
 | `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line>` | `<answer or limit>` |
 
+## Specification rounds
+
+Use this bracket only for substantial, ambiguous, architectural, or cross-layer goals. Verdicts
+are `pass`, `repair`, or `blocked`. At the configured cap, open findings block the goal. The
+same configured numeric cap applies independently to specification-review and implementation-review
+brackets.
+
+| Round | Spec Writer context | Fresh Spec Reviewer context | Verdict | Accepted specification or findings/evidence | Uncertainty |
+| --- | --- | --- | --- | --- | --- |
+| `<n>` | `<separate context>` | `<fresh context>` | `<verdict>` | `<accepted specification or findings and exact evidence>` | `<none or limit>` |
+
+Specification round cap: `<1, 2, or 3; default 2>`.
+
 ## Builder and review rounds
 
 Builder rounds use a separate context:

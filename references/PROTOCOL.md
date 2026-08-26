@@ -4,13 +4,15 @@ This is the shared contract for every GLBuilding goal. It is intentionally small
 
 ## 1. Fixed system
 
-GLBuilding has five roles:
+GLBuilding has seven fixed roles:
 
 | Role | Responsibility |
 | --- | --- |
 | Orchestrator | Owns routing, task records, Git isolation, and owner escalation. |
 | System Configurer | Onboards the project and applies approved configuration changes. |
 | Explorer | Answers one bounded repository question without edits. |
+| Spec Writer | Converts a bounded substantial goal into a testable specification. |
+| Spec Reviewer | Falsifies a complete specification in a fresh, read-only context. |
 | Builder | Makes the approved project change and runs relevant checks. |
 | Reviewer | Reviews the complete change in a fresh context. |
 
@@ -79,17 +81,28 @@ Use these states: `planned`, `active`, `reviewing`, `complete`, `blocked`, or `c
 
 Then:
 
-1. Decide whether the goal is clear enough to build.
+1. Decide whether the goal is clear enough to build and classify it.
 2. Use Explorer only for a material unresolved repository question.
-3. Start a separate Builder with the bounded task packet.
-4. Collect the Builder diff and check results.
-5. Start a fresh Reviewer that did not build the change.
-6. On `repair`, send only the findings and current task packet back to Builder.
-7. Start a fresh final review after each repair. Stop at the configured round cap.
-8. On `pass`, run the final relevant checks and record the result.
-9. Use the project's normal local Git process when the goal includes a commit.
-10. If commit hooks changed reviewed project content, run a fresh review of the committed
+3. For substantial, ambiguous, architectural, or cross-layer goals, run the specification
+   bracket after Explorer and before Builder:
+   - send a bounded packet to Spec Writer;
+   - send the complete returned specification to a fresh Spec Reviewer;
+   - on `repair`, route only the findings through the Orchestrator to the same Spec Writer,
+     then start a new fresh Spec Reviewer;
+   - at the configured cap, open findings block the goal; on `pass`, accepted specification
+     content enters the Builder packet.
+4. Start a separate Builder with the bounded task packet.
+5. Collect the Builder diff and check results.
+6. Start a fresh Reviewer that did not build the change.
+7. On `repair`, send only the findings and current task packet back to Builder.
+8. Start a fresh final review after each repair. Stop at the configured round cap.
+9. On `pass`, run the final relevant checks and record the result.
+10. Use the project's normal local Git process when the goal includes a commit.
+11. If commit hooks changed reviewed project content, run a fresh review of the committed
     result before completion.
+
+The configured numeric cap applies independently to the specification-review and
+implementation-review brackets. No bracket starts another round after its cap.
 
 A Reviewer `pass` must state how each acceptance criterion was checked. Unknown or
 skipped evidence stays visible. It does not become a passing claim.
@@ -104,12 +117,20 @@ Every packet contains only the information needed by the receiving role.
 
 - Configurer receives the owner request, project evidence, and configuration template.
 - Explorer receives one question, path scope, revision, and relevant documentation.
+- Spec Writer receives the goal classification, goal boundary, source/base revision, relevant
+  paths and documentation, accepted evidence, validation, and owner/permission boundaries.
+  It returns the specification packet only to the Orchestrator.
+- Spec Reviewer receives the complete specification, goal boundary, source/base revision,
+  relevant paths and documentation, validation, owner/permission boundaries, and prior
+  findings only for repair context. It returns `pass`, `repair`, or `blocked` only to the
+  Orchestrator.
 - Builder receives the goal, acceptance criteria, allowed paths, accepted evidence, and
   validation commands.
 - Reviewer receives the same goal boundary, complete diff, and Builder check results.
 
 Packets can narrow scope or add evidence. They cannot widen authority. The Orchestrator
-records accepted results in the task record. Whole conversations are not task state.
+records accepted results in the task record. Whole conversations are not task state. The
+specification bracket adds no new engine or peer edge.
 
 ## 6. Git and multiple goals
 
