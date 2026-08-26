@@ -5,8 +5,8 @@ schema: 1
 
 # GLBuilding project configuration
 
-This file is the project-level source of truth. The System Configurer changes it only
-after double opt-in.
+This file is the project source of truth. The System Configurer changes it only after
+double opt-in.
 
 ## Project
 
@@ -18,15 +18,15 @@ after double opt-in.
 | boot mode | `manual` or `orchestration` |
 | configured at | `<date>` |
 
-## Framework source
+## Framework source pin
 
 | Field | Value |
 | --- | --- |
 | repository URL | `<canonical URL>` |
 | full immutable commit | `<full commit>` |
 
-The pin identifies framework content. It does not authenticate the source or grant
-remote authority.
+The pin identifies framework content. It does not authenticate the source or grant remote
+authority.
 
 ## Project knowledge
 
@@ -56,8 +56,9 @@ Map and Validation are hints. Check them against current code for each goal.
 | allowed project areas | `<paths or all except protected paths>` |
 | branch/worktree policy | `<current checkout or branch for clean sequential work; worktree for concurrent work or unrelated dirty state; commit or explicitly include relevant dirty work>` |
 | review round cap | `2` (`1`, `2`, or `3`) |
-| external actions | `fresh owner approval` |
 | local commit policy | `<project convention>` |
+
+The owner gates in the runtime protocol are fixed and not configurable in PROJECT.
 
 ## Harness support
 
@@ -82,7 +83,7 @@ These settings select implementations inside fixed duties. They do not change th
 | Builder | every mutation | `<preference>` | `<tools>` | `<limit>` |
 | Reviewer | every mutation | `<preference>` | `<read-only tools>` | `<limit>` |
 
-## Custom instructions and evolutions
+## Approved custom instructions and evolutions
 
 Entries can add or narrow behavior. They cannot add roles, remove duties, change hub
 communication, bypass review, alter protected paths, or widen external authority.

@@ -9,14 +9,15 @@ inherits the Builder's blind spots.
 
 GLBuilding keeps one small Orchestrator context and sends bounded work to four worker
 roles. Git stores project configuration and task records. Codex or Claude supplies the
-agents and tools. GLBuilding supplies no runtime.
+agents and tools. GLBuilding supplies no runtime. Its success criterion is product
+delivery: administration that costs more than the change is a failure.
 
-Its success criterion is product delivery. If its administration costs more than the
-change, the framework has failed.
+The [runtime protocol](../references/PROTOCOL.md) is the canonical operational contract.
+This paper explains the design and its limits.
 
 ## Design thesis
 
-The smallest useful graph is fixed:
+The smallest useful graph is fixed. Every worker outcome returns to the Orchestrator:
 
 ```mermaid
 flowchart TD
@@ -24,15 +25,14 @@ flowchart TD
     O --> E[Explorer<br/>only for unresolved questions]
     O --> B[Builder<br/>project mutation]
     O --> R[Fresh Reviewer<br/>every mutation]
-    R -->|repair below cap| B
-    R -->|pass| V[Final verification]
-    R -->|blocked or cap reached| H[Owner or blocked result]
+    R -->|review packet| O
+    O -->|repair below cap| B
+    O -->|pass| V[Final verification]
+    O -->|blocked or cap reached| H[Owner or blocked result]
 ```
 
 Worker roles do not talk to each other. They return concise packets to the Orchestrator.
-Only accepted results enter the goal record.
-
-This design aims to keep:
+Only accepted results enter the goal record. This keeps:
 
 1. discovery noise out of the Builder context;
 2. Builder assumptions out of the Reviewer context;
@@ -53,17 +53,11 @@ flowchart LR
 ```
 
 The framework does not call model APIs, schedule jobs, store conversations, or run a
-service. The host uses its normal subagent and tool features.
-
-The target project contains only:
-
-- a small loader block in root `AGENTS.md` and `CLAUDE.md`;
-- `.glbuilding/PROJECT.md`;
-- `.glbuilding/tasks/<goal-id>.md` records.
-
+service. The host uses its normal subagent and tool features. The target project contains
+only loader blocks, `.glbuilding/PROJECT.md`, and `.glbuilding/tasks/<goal-id>.md` records.
 The detailed framework stays outside the target repository at the pinned commit.
 
-## Onboarding and configuration
+## Configuration boundary
 
 The owner supplies a framework repository URL and full commit. The Configurer inspects
 the target repository and derives a minimal configuration. It asks only questions that
@@ -84,42 +78,25 @@ sequenceDiagram
 ```
 
 The owner can select models, tools, review rounds, boot mode, protected paths, and scoped
-custom instructions. The owner cannot change the five roles, hub communication, fresh
-review requirement, or external-action gate.
-
-## Activation
-
-All activation paths enter the same flow:
-
-```mermaid
-flowchart TD
-    M[Manual goal] --> G[Create one goal record]
-    S[Session activation] --> A[Route later project changes]
-    P[Project boot] --> A
-    A --> G
-    Q[Question] --> N[No goal]
-```
-
-PROJECT stores `manual` or `orchestration`. Session activation is temporary.
-Deactivation stops new routing, not active work.
+custom instructions. Fixed roles, hub communication, fresh review, and the external-action
+gate remain unchanged.
 
 ## Project knowledge
 
-GLBuilding records three kinds of project knowledge:
+GLBuilding records three kinds of project knowledge in PROJECT:
 
 - **Intent:** owner-approved direction.
 - **Map:** code, interfaces, and documentation that locate the work.
 - **Validation:** commands and evidence that can disprove a result.
 
-Map and Validation are hints until verified against current code. This distinction is
-important on large repositories: good documentation speeds work, but stale documentation
-can misroute it. The Configurer records missing or stale sources. Explorer resolves only
-the material gaps needed for a goal.
+Map and Validation are hints until verified against current code. Good documentation
+speeds work, but stale documentation can misroute it. The Configurer records missing or
+stale sources. Explorer resolves only the material gaps needed for a goal.
 
-Native host instructions, project instructions, skills, and memory still exist. They can
-supply context. They cannot change GLBuilding role duties or owner authority.
+Native host instructions, project instructions, skills, and memory can supply context.
+They cannot change GLBuilding role duties or owner authority.
 
-## Goal flow and handoffs
+## Goal architecture
 
 ```mermaid
 sequenceDiagram
@@ -146,59 +123,15 @@ sequenceDiagram
     end
 ```
 
-The task record contains outcomes, not whole conversations. It is short enough to read
-at the start of a later session.
-
-## Git and multiple goals
-
-A simple sequential goal can use a clean current checkout or branch. Concurrent work or
-unrelated dirty state uses a worktree. Relevant dirty work must first be committed or
-explicitly kept in the current-checkout goal. Non-overlapping goals can run under one
-Orchestrator. Overlapping paths or shared interfaces are serialized.
-
-Worktrees isolate files, indexes, and `HEAD`. They do not lock shared services or prevent
-semantic conflicts. GLBuilding therefore compares declared scope before parallel work.
-
-Installation and goal delivery use normal project Git. Stage named paths, run normal
-hooks, preserve unrelated work, and use the repository's commit policy. If hooks change
-reviewed content, review the committed result again. A local commit does not prove
-cross-host persistence.
-
-## Owner authority
-
-Routine approved work can read, edit, check, create local isolation, and create local
-commits. The Orchestrator surfaces:
-
-- major scope or architecture decisions;
-- push, pull request, merge, deploy, publish, and release actions;
-- force operations, secrets, remote deletion, and destructive data changes;
-- paid services or other hard-to-reverse external effects.
-
-Each external action needs fresh owner approval. Configuration cannot preauthorize it.
-
-## Harness support
-
-GLBuilding targets semantic outcomes, not provider tool names. A supported harness must:
-
-- load the pinned Markdown pack;
-- run a separate Builder with a bounded task;
-- run a fresh Reviewer that did not build the change;
-- read and edit the repository;
-- run relevant project commands;
-- ask the owner when required.
-
-If Codex or Claude cannot follow this contract, that harness or mode is unsupported.
-GLBuilding does not add transcript provenance, cryptographic manifests, or custom Git
-transactions to prove that a host obeyed the workflow.
+The task record contains outcomes, not whole conversations. Activation modes enter this
+same flow; questions do not create goals.
 
 ## Why no runtime graph framework
 
 Runtime graph systems can provide durable checkpoints, human interrupts, and long-term
 stores. They also add code, serialization, storage, deployment, and operations.
-GLBuilding does not need those components to test its first claim.
-
-Add a runtime only after real goals show that Markdown, native agents, and Git cannot
-provide the needed result.
+GLBuilding does not need those components to test its first claim. Add a runtime only
+after real goals show that Markdown, native agents, and Git cannot provide the result.
 
 ## External research
 
@@ -222,8 +155,8 @@ provide the needed result.
 ### Ceremony cost
 
 The main risk is that the framework becomes slower than the work. Configurer, Explorer,
-and worktrees are conditional. Task records are short. Dogfood measures setup, build,
-review, and finalization time separately.
+and worktrees are conditional. Task records stay short. Dogfood measures setup, build,
+review, and finalization separately.
 
 ### Stale project knowledge
 
@@ -244,7 +177,8 @@ produce `blocked`, not another automatic loop.
 
 The Configurer shows the complete configuration and changed files, waits for approval,
 rechecks affected paths, stages named files, and uses normal Git. A conflict stops the
-install. The framework does not promise a database transaction.
+install. The framework does not promise a database transaction. See the [installation
+guide](INSTALLATION.md) and [System Configurer charter](../agents/SYSTEM_CONFIGURER.md).
 
 ### Dirty or concurrent work
 
@@ -261,6 +195,7 @@ the project's normal owner-approved Git flow.
 
 Codex and Claude can interpret the same Markdown differently. Test each harness on the
 simple workflow. Record `supported`, `unsupported`, or `untested`; do not infer parity.
+The framework does not add provenance machinery to force obedience.
 
 ## Evaluation
 

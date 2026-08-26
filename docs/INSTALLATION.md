@@ -1,7 +1,9 @@
 # Install and onboard GLBuilding
 
 Give this guide to a Codex or Claude session in the target repository. Installation adds
-Markdown configuration and loader blocks only.
+Markdown configuration and loader blocks only. Use the [System Configurer charter](../agents/SYSTEM_CONFIGURER.md),
+[PROJECT template](../templates/PROJECT.md), and [BOOTSTRAP template](../templates/BOOTSTRAP.md)
+for the detailed role and loader contracts.
 
 ## Owner instruction
 
@@ -19,117 +21,61 @@ Use a full commit, not a branch, tag, `main`, or `latest`.
 
 ## Preconditions
 
-- The target is a Git repository with a committed base.
-- The Git index has no staged owner changes.
+- The target is a Git repository with a committed base and no staged owner changes.
 - Existing `AGENTS.md`, `CLAUDE.md`, and `.glbuilding/PROJECT.md` paths are clean relative
-  to `HEAD`. Absent paths are allowed. Unrelated unstaged paths can remain.
+  to `HEAD`; absent paths are allowed and unrelated unstaged paths can remain.
 - The owner supplied a framework repository URL and full commit.
 - The agent can read both repositories and run Git.
 - The harness can run a separate Builder and fresh Reviewer for mutation goals.
 
-## Onboarding flow
+## Onboarding
 
-### 1. Resolve the framework
+The owner request is the first opt-in. Approval of the complete proposal is the second.
 
-Use a clean existing checkout only when its source and `HEAD` match the owner request.
-Otherwise fetch or clone the exact commit into a local cache. Stop if it cannot be read.
+1. Resolve the exact framework commit. Use a clean existing checkout only when its source and
+   `HEAD` match the request. Otherwise fetch or clone that commit into a local cache.
+   Stop if the commit is unavailable or unreadable. The pin identifies content, not trust.
+2. Inspect existing `AGENTS.md`, `CLAUDE.md`, `.glbuilding/PROJECT.md`, project maps,
+   validation commands, Git conventions, and available role mappings. Derive the smallest
+   useful Intent, Map, Validation, boundaries, and preferences. Ask only unresolved
+   questions about intent, boot mode, or authority.
+3. Show the complete proposed PROJECT, exact managed loader changes, every changed path,
+   conflicts, rejected custom settings, planned local commit, and no remote action.
+4. Wait for explicit owner approval of that complete proposal. This is the second opt-in.
+5. Recheck affected paths. Stop if they changed, or if markers are malformed, duplicate,
+   nested, or incomplete. Apply only `.glbuilding/PROJECT.md` and the managed blocks in
+   root `AGENTS.md` and `CLAUDE.md`; preserve all other content.
+6. Validate the pin, boot mode, PROJECT, both loader blocks, and surrounding content.
 
-The commit identifies the intended framework content. It does not prove that the source
-is trusted.
+If the repository does not decide, use `manual` boot, review cap `2`, a current
+checkout/branch for clean sequential work, and a worktree for concurrent or unrelated
+dirty work. Commit or explicitly include relevant dirty work. Require fresh approval for
+major or external actions. Use host-default models and tools.
 
-### 2. Inspect the project
-
-Use the System Configurer. Read:
-
-- existing root `AGENTS.md` and `CLAUDE.md`;
-- existing `.glbuilding/PROJECT.md`, if present;
-- project documentation and codebase maps;
-- build, test, lint, and validation commands;
-- Git state and branch or worktree conventions;
-- available Codex and Claude role mappings.
-
-Derive the smallest useful Intent, Map, Validation, boundaries, and role preferences.
-Do not ask the owner for facts that the repository already supplies. Record missing or
-stale documentation as a limit.
-
-### 3. Ask only material questions
-
-Ask about:
-
-1. boot mode when it is not known: `manual` or `orchestration`;
-2. unresolved project intent or protected areas;
-3. a major local Git policy choice that project instructions do not settle;
-
-Use these defaults when the repository does not decide them:
-
-- boot mode: `manual`;
-- review round cap: `2`;
-- current checkout for one clean goal;
-- branch for clean sequential work; worktree for concurrent work, unrelated dirty state,
-  or policy isolation;
-- commit relevant dirty work first, or explicitly include it in the current-checkout goal;
-- fresh owner approval for every major or external action;
-- host-default models and tools.
-
-### 4. Present one proposal
-
-Show:
-
-- the complete proposed `.glbuilding/PROJECT.md`;
-- the exact managed block changes for root `AGENTS.md` and `CLAUDE.md`;
-- every path that will change;
-- existing instruction conflicts and rejected custom settings;
-- the planned local commit and the fact that no remote action is included.
-
-Do not write yet. This is the first opt-in result.
-
-### 5. Obtain approval
-
-Wait for the owner to approve the displayed configuration and changes. A summary-only
-approval does not cover hidden changes. No approval means no write.
-
-### 6. Apply and validate
-
-Recheck the affected paths. Stop if they changed after the proposal.
-
-Create or update only:
-
-- `.glbuilding/PROJECT.md`;
-- the managed GLBuilding block in root `AGENTS.md`;
-- the managed GLBuilding block in root `CLAUDE.md`.
-
-Preserve all content outside the managed blocks. Stop on malformed, duplicate, nested,
-or incomplete markers.
-
-Confirm that PROJECT uses the approved source, commit, boot mode, boundaries, and role
-settings. Confirm both loaders have one complete block and resolve that source version.
-
-### 7. Persist locally
+## Persist locally
 
 Use normal project Git commands:
 
-1. stage only the changed installation paths;
-2. inspect the complete staged diff and path list;
-3. run applicable project hooks through the normal commit process;
-4. commit with `Configure GLBuilding` or `Update GLBuilding configuration`;
-5. confirm the committed installation content still matches the approved result;
-6. report the commit and remaining working-tree state.
+1. Stage only the approved installation paths.
+2. Inspect the complete staged diff and path list.
+3. Run normal project hooks and commit with `Configure GLBuilding` or
+   `Update GLBuilding configuration`.
+4. Confirm the committed content matches the approved proposal and report the commit and
+   remaining worktree state.
 
-Do not bypass project hooks or change Git identity settings. If the commit fails, report
-the normal Git error and current state. Do not reset, stash, or include unrelated files.
-
-The local commit persists in that clone. A push, pull request, merge, or release needs
-fresh owner approval.
+Do not reset, stash, bypass hooks, change Git identity, or include unrelated files. If
+the commit fails, report the Git error and current state. A push, pull request, merge,
+release, or other remote action needs fresh owner approval.
 
 ## Activation
 
-### Manual goal
+Manual goal:
 
 ```text
 Use GLBuilding for: <goal>
 ```
 
-### Session orchestration
+Session orchestration:
 
 ```text
 Activate GLBuilding orchestration
@@ -141,19 +87,17 @@ Later project-changing requests become goals until session end or:
 Deactivate GLBuilding orchestration
 ```
 
-### Project orchestration
-
-Set PROJECT boot mode to `orchestration` through an approved Configurer change.
+Project orchestration sets PROJECT boot mode to `orchestration` through an approved
+Configurer change. Questions do not create goals.
 
 ## Update or remove
 
-Use the System Configurer. It must show the complete new configuration and exact affected
-loader changes, then wait for owner approval. An update affects new goals only.
-
-For removal, preserve task history unless the owner explicitly approves its deletion.
-Report every removed path and whether Git can recover it.
+Use the System Configurer. It must show the complete effective configuration and exact
+affected loader changes, then wait for owner approval. Updates affect new goals only.
+For removal, preserve task history unless the owner explicitly approves deletion, and
+report every removed path and whether Git can recover it.
 
 ## Persistence limit
 
-Git-tracked configuration survives only where the repository history is available. Do
-not claim cross-host continuity until the project uses its normal approved remote flow.
+Git-tracked configuration survives only where repository history is available. Do not
+claim cross-host continuity until the project uses its normal approved remote flow.
