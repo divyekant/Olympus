@@ -25,6 +25,8 @@ The framework passes static inspection when:
 7. The runtime contains no manifest, transcript-provenance, custom Git-transaction, or
    exhaustive recovery requirement.
 8. All internal Markdown links resolve.
+9. The managed loader resolves the exact pin in a clean checkout or cache when the source
+   working tree is at another commit.
 
 ## Behavioral smoke tests
 

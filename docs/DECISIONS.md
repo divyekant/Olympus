@@ -42,6 +42,8 @@ of that proposal permits the write.
 
 PROJECT stores one framework repository URL and full immutable commit. Root loader blocks
 read that pin. The pin identifies content and limits drift. It is not authentication.
+The source repository can advance; the loader resolves the pin in a clean checkout or
+cache instead of reading the source working tree.
 
 ### D006 — Three activation paths, one goal flow
 
