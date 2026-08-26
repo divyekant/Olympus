@@ -1,4 +1,4 @@
-# GLBuilding decision record
+# Olympus decision record
 
 The initial Council review covered architecture, trust, onboarding, and failure modes.
 The owner reset version one to its product goal: faster, correct software building.
@@ -23,8 +23,10 @@ The owner reset version one to its product goal: faster, correct software buildi
 | D014 | Charters are distilled, not linked | Charters are derived from useful skills and experience, not loaded as runtime dependencies. Source changes have no automatic effect; an owner-approved Configurer proposal is required for a new charter revision. |
 | D015 | One repository can hold several goals | One Orchestrator can route non-overlapping goals, each with its own record and isolation when needed. Multi-repository orchestration is deferred. |
 | D016 | Target substantial software goals | Separate contexts and fresh review are for goals where codebase scope, context loss, or risk justifies them. Small tasks can test conformance; their elapsed time does not measure product speed. |
-| D017 | Evidence gates release | A simple conformance pass does not qualify a release. A failed representative proof stops release and becomes a product finding; it does not add obedience machinery. |
+| D017 | Evidence gates claims and maturity | A simple conformance pass does not prove product value. Failed or tied comparisons remain visible product findings. A controlled no-defect comparison can support an experimental release for larger tests, but it cannot support a superiority or production-readiness claim. |
 | D018 | Fixed conditional 14-role catalog | The catalog and order are Orchestrator, System Configurer, Explorer, Spec Writer, Claims Reviewer, Spec Reviewer, Plan Writer, Plan Verifier, Builder, Docs Writer, Reviewer, Design Reviewer, Decision Council, and Liaison. Protocol triggers determine invocation. The Orchestrator remains the sole hub; paired verification, fresh review, owner gates, and protected authority remain fixed. |
+| D019 | Olympus product identity | The framework is Olympus. Its fixed collection of specialized roles is the Pantheon. Project paths, records, loader markers, commands, and documentation use the Olympus name. |
+| D020 | Experimental version 0.1.0 | The Issue #750 A/B result is enough to start larger experiments. Version `0.1.0` makes no production-readiness or quality-superiority claim. |
 
 ## Removed hardening rationale
 

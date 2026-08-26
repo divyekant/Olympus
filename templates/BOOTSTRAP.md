@@ -1,4 +1,4 @@
-# GLBuilding bootstrap template
+# Olympus bootstrap template
 
 The System Configurer inserts the same managed block in root `AGENTS.md` and
 `CLAUDE.md`. Preserve all content outside the block. Keep one complete marker pair.
@@ -6,13 +6,13 @@ The System Configurer inserts the same managed block in root `AGENTS.md` and
 ## Managed block
 
 ```markdown
-<!-- GLBUILDING:BEGIN -->
-## GLBuilding loader
+<!-- OLYMPUS:BEGIN -->
+## Olympus loader
 
-1. Read `.glbuilding/PROJECT.md`.
-2. In `manual` boot mode, load GLBuilding only for `Use GLBuilding for: <goal>` or
-   `Activate GLBuilding orchestration`.
-3. In `orchestration` boot mode, route project-changing requests through GLBuilding.
+1. Read `.olympus/PROJECT.md`.
+2. In `manual` boot mode, load Olympus only for `Use Olympus for: <goal>` or
+   `Activate Olympus orchestration`.
+3. In `orchestration` boot mode, route project-changing requests through Olympus.
    Questions do not create goals.
 4. Resolve the exact framework repository URL and full commit recorded in PROJECT in a
    clean checkout or cache. Do not read a newer source working tree.
@@ -24,8 +24,8 @@ The System Configurer inserts the same managed block in root `AGENTS.md` and
 9. For configuration, require System Configurer support and a fresh Reviewer mapping for
    the exact uncommitted configuration unit before staging or commit.
 10. Existing host and project instructions still apply. Stop and report a conflict that
-    prevents the fixed GLBuilding workflow.
-<!-- GLBUILDING:END -->
+    prevents the fixed Olympus workflow.
+<!-- OLYMPUS:END -->
 ```
 
 ## Validation
@@ -35,7 +35,7 @@ Confirm:
 - PROJECT exists and records `manual` or `orchestration`;
 - both loader files contain one complete marker pair;
 - content outside the managed blocks is unchanged;
-- the recorded source URL and full commit resolve to a clean, readable GLBuilding pack;
+- the recorded source URL and full commit resolve to a clean, readable Olympus pack;
 - the harness has role-specific support for every invoked role;
 - mutation goals have a separate Builder and fresh Reviewer;
 - configuration goals have a System Configurer and fresh Reviewer for the exact unit.

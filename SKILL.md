@@ -1,22 +1,22 @@
 ---
-name: glbuilding
+name: olympus
 description: >-
-  Use when an owner asks to onboard GLBuilding, activate orchestration, or run
+  Use when an owner asks to onboard Olympus, activate orchestration, or run
   a project goal through its fixed role workflow.
 ---
 
-# GLBuilding
+# Olympus
 
-GLBuilding is a fixed Markdown workflow. It adds no runtime, service, database, or project
+Olympus is a fixed Markdown workflow. It adds no runtime, service, database, or project
 dependency. Read the [runtime protocol](references/PROTOCOL.md) before routing work; load
 only the charter needed for the next role.
 
 ## Activation
 
-- `Use GLBuilding for: <goal>` runs one goal.
-- `Activate GLBuilding orchestration` routes later project-changing requests in the current session.
+- `Use Olympus for: <goal>` runs one goal.
+- `Activate Olympus orchestration` routes later project-changing requests in the current session.
 - PROJECT boot mode `orchestration` routes project-changing requests in every session.
-- `Deactivate GLBuilding orchestration` stops new routing in the current session.
+- `Deactivate Olympus orchestration` stops new routing in the current session.
 - Questions do not create goals. An explicit read-only audit uses Explorer.
 
 The [runtime protocol](references/PROTOCOL.md) defines the fixed roles, goal flow,

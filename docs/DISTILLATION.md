@@ -2,7 +2,7 @@
 
 ## Purpose
 
-GLBuilding role charters are self-contained. They are distilled from selected skills and
+Olympus role charters are self-contained. They are distilled from selected skills and
 prior FPLGuru charter work; those sources are not loaded at runtime.
 
 Distillation means:
@@ -20,7 +20,7 @@ versioned charter change for new goals.
 ## Source influences
 
 The FPLGuru pattern at `d77b93ba` supplied separate mutation and review contexts, one
-loop owner, and one canonical charter copy. GLBuilding keeps that pattern for the fixed
+loop owner, and one canonical charter copy. Olympus keeps that pattern for the fixed
 14-role catalog. It does not copy project-specific roles, review history, service delivery
 paths, or unbounded review pressure.
 
@@ -60,7 +60,7 @@ provenance only. They are not loaded or invoked at runtime.
 | Liaison charter | Answer human status and explanation questions from current task and Git evidence. | Goal creation, edits, and action execution. |
 
 The source charters remain historical inputs. The seven new charters retain only this
-generic behavior and remain untested in a 14-role dogfood run.
+generic behavior. Issue #750 began catalog dogfood, but not every conditional role ran.
 
 ## Deliberate exclusions
 
@@ -75,10 +75,10 @@ generic behavior and remain untested in a 14-role dogfood run.
 ## Owner-approved evolution
 
 1. Record the changed source path and version.
-2. State the observed GLBuilding escape or material new behavior.
+2. State the observed Olympus escape or material new behavior.
 3. Propose the smallest charter delta and exact effective result.
 4. Run the System Configurer conflict check and obtain owner approval.
 5. Publish a new immutable revision only after conformance.
 6. Apply it to new goals. Restart an active goal only with explicit owner approval.
 
-If no GLBuilding behavior needs to change, record no charter delta.
+If no Olympus behavior needs to change, record no charter delta.

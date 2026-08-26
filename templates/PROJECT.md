@@ -1,9 +1,9 @@
 ---
-record: glbuilding-project
+record: olympus-project
 schema: 1
 ---
 
-# GLBuilding project configuration
+# Olympus project configuration
 
 This file is the project source of truth. The System Configurer changes it only after
 double opt-in.
@@ -52,7 +52,7 @@ Map and Validation are hints. Check them against current code for each goal.
 
 | Setting | Approved value |
 | --- | --- |
-| protected paths | `.glbuilding/`; managed blocks in `AGENTS.md` and `CLAUDE.md`; `<other>` |
+| protected paths | `.olympus/`; managed blocks in `AGENTS.md` and `CLAUDE.md`; `<other>` |
 | allowed project areas | `<paths or all except protected paths>` |
 | branch/worktree policy | `<current checkout or branch for clean sequential work; worktree for concurrent work or unrelated dirty state; commit or explicitly include relevant dirty work>` |
 | review round cap | `2` (`1`, `2`, or `3`) |
@@ -82,7 +82,7 @@ that a goal can invoke. A tool's availability alone is `untested`.
 | `<harness>` | Decision Council | `<status>` | `<mapping>` | `<tools>` | `<evidence or limit>` |
 | `<harness>` | Liaison | `<status>` | `<mapping>` | `<tools>` | `<evidence or limit>` |
 
-Unsupported harnesses do not run goals that invoke unsupported roles through GLBuilding.
+Unsupported harnesses do not run goals that invoke unsupported roles through Olympus.
 
 ## Project design standards
 

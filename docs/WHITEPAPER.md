@@ -1,15 +1,15 @@
-# GLBuilding framework white paper
+# Olympus framework white paper
 
 ## Abstract
 
-GLBuilding is a Markdown-only workflow for agent-led software development. It addresses
+Olympus is a Markdown-only workflow for agent-led software development. It addresses
 a common failure mode: one long session must discover a large codebase, choose scope,
 edit it, and judge its own work. Context fills with old assumptions and self-review
 inherits the Builder's blind spots.
 
-GLBuilding keeps one small Orchestrator context and sends bounded work to a fixed
+Olympus keeps one small Orchestrator context and sends bounded work to a fixed
 conditional catalog of fourteen roles. Git stores project configuration and task records.
-Codex or Claude supplies the agents and tools. GLBuilding supplies no runtime. Its
+Codex or Claude supplies the agents and tools. Olympus supplies no runtime. Its
 success criterion is product delivery: administration that costs more than the change is
 a failure.
 
@@ -68,8 +68,8 @@ accepted results enter the goal record. This keeps:
 flowchart LR
     Owner --> Host[Codex or Claude]
     Host --> Loader[Project loader block]
-    Loader --> Project[.glbuilding/PROJECT.md]
-    Project --> Pack[External GLBuilding<br/>exact commit]
+    Loader --> Project[.olympus/PROJECT.md]
+    Project --> Pack[External Olympus<br/>exact commit]
     Pack --> Flow[Fixed Markdown workflow]
     Flow --> Repo[Target Git repository]
     Repo --> Tasks[One task record per goal]
@@ -78,7 +78,7 @@ flowchart LR
 
 The framework does not call model APIs, schedule jobs, store conversations, or run a
 service. The host uses its normal subagent and tool features. The target project contains
-only loader blocks, `.glbuilding/PROJECT.md`, and `.glbuilding/tasks/<goal-id>.md` records.
+only loader blocks, `.olympus/PROJECT.md`, and `.olympus/tasks/<goal-id>.md` records.
 The detailed framework stays outside the target repository at the pinned commit.
 
 ## Configuration boundary
@@ -117,7 +117,7 @@ is applied uncommitted and receives a fresh review before staging or commit.
 
 ## Project knowledge
 
-GLBuilding records three kinds of project knowledge in PROJECT:
+Olympus records three kinds of project knowledge in PROJECT:
 
 - **Intent:** owner-approved direction.
 - **Map:** code, interfaces, and documentation that locate the work.
@@ -128,7 +128,7 @@ speeds work, but stale documentation can misroute it. The Configurer records mis
 stale sources. Explorer resolves only the material gaps needed for a goal.
 
 Native host instructions, project instructions, skills, and memory can supply context.
-They cannot change GLBuilding role duties or owner authority.
+They cannot change Olympus role duties or owner authority.
 
 ## Goal architecture
 
@@ -198,7 +198,7 @@ can answer a human status request, but neither changes the graph or grants autho
 
 Runtime graph systems can provide durable checkpoints, human interrupts, and long-term
 stores. They also add code, serialization, storage, deployment, and operations.
-GLBuilding does not need those components to test its first claim. Add a runtime only
+Olympus does not need those components to test its first claim. Add a runtime only
 after real goals show that Markdown, native agents, and Git cannot provide the result.
 
 ## External research
@@ -214,9 +214,9 @@ after real goals show that Markdown, native agents, and Git cannot provide the r
 - Git documents how [worktrees](https://git-scm.com/docs/git-worktree.html) provide
   separate working trees while sharing repository state.
 - [LangGraph](https://langchain-ai.github.io/langgraph/index.html) shows the runtime
-  capabilities that GLBuilding deliberately defers.
+  capabilities that Olympus deliberately defers.
 - Microsoft's [AutoGen multi-agent debate pattern](https://microsoft.github.io/autogen/stable/user-guide/core-user-guide/design-patterns/multi-agent-debate.html)
-  shows a peer graph. GLBuilding uses a hub because it needs handoffs, not open debate.
+  shows a peer graph. Olympus uses a hub because it needs handoffs, not open debate.
 
 ## Pitfalls and containment
 
@@ -270,7 +270,7 @@ not add provenance machinery to force obedience.
 
 ## Evaluation
 
-GLBuilding succeeds only when it improves delivery:
+Olympus succeeds only when it improves delivery:
 
 - fewer owner routing steps and corrections;
 - equal or better acceptance coverage;

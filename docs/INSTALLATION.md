@@ -1,4 +1,4 @@
-# Install and onboard GLBuilding
+# Install and onboard Olympus
 
 Give this guide to a Codex or Claude session in the target repository. Installation adds
 Markdown configuration and loader blocks only. Use the [System Configurer charter](../agents/SYSTEM_CONFIGURER.md),
@@ -10,7 +10,7 @@ for the detailed role and loader contracts.
 Replace the placeholders and send:
 
 ```text
-Onboard this Git repository with GLBuilding from <repository-url> at exact commit
+Onboard this Git repository with Olympus from <repository-url> at exact commit
 <full-commit>. Read docs/INSTALLATION.md from that version. Inspect and propose the
 complete project configuration and file changes. Do not write until I approve that
 proposal. Preserve existing project instructions. Do not start another orchestration
@@ -22,7 +22,7 @@ Use a full commit, not a branch, tag, `main`, or `latest`.
 ## Preconditions
 
 - The target is a Git repository with a committed base and no staged owner changes.
-- Existing `AGENTS.md`, `CLAUDE.md`, and `.glbuilding/PROJECT.md` paths are clean relative
+- Existing `AGENTS.md`, `CLAUDE.md`, and `.olympus/PROJECT.md` paths are clean relative
   to `HEAD`; absent paths are allowed and unrelated unstaged paths can remain.
 - The owner supplied a framework repository URL and full commit.
 - The agent can read both repositories and run Git.
@@ -38,7 +38,7 @@ The owner request is the first opt-in. Approval of the complete proposal is the 
 1. Resolve the exact framework commit. Use a clean existing checkout only when its source and
    `HEAD` match the request. Otherwise fetch or clone that commit into a local cache.
    Stop if the commit is unavailable or unreadable. The pin identifies content, not trust.
-2. Inspect existing `AGENTS.md`, `CLAUDE.md`, `.glbuilding/PROJECT.md`, project maps,
+2. Inspect existing `AGENTS.md`, `CLAUDE.md`, `.olympus/PROJECT.md`, project maps,
    validation commands, Git conventions, role-specific mappings, and design-standard
    sources. Derive the smallest useful Intent, Map, Validation, boundaries, exact role
    preferences, harness evidence, and matching details. Ask only unresolved questions
@@ -47,7 +47,7 @@ The owner request is the first opt-in. Approval of the complete proposal is the 
    conflicts, rejected custom settings, planned local commit, and no remote action.
 4. Wait for explicit owner approval of that complete proposal. This is the second opt-in.
 5. Recheck affected paths. Stop if they changed, or if markers are malformed, duplicate,
-   nested, or incomplete. Apply only `.glbuilding/PROJECT.md` and the managed blocks in
+   nested, or incomplete. Apply only `.olympus/PROJECT.md` and the managed blocks in
    root `AGENTS.md` and `CLAUDE.md`; preserve all other content.
 6. Validate the pin, boot mode, PROJECT, every invoked role mapping, both loader blocks,
    and surrounding content.
@@ -65,8 +65,8 @@ Use normal project Git commands:
 2. Inspect the exact uncommitted `PROJECT.md` plus managed-loader unit.
 3. Run a fresh Reviewer over that unit. Stop on `repair` or `blocked`.
 4. After a passing review, stage only the approved installation paths.
-5. Run normal project hooks and commit with `Configure GLBuilding` or
-   `Update GLBuilding configuration`.
+5. Run normal project hooks and commit with `Configure Olympus` or
+   `Update Olympus configuration`.
 6. If a hook changed reviewed content, run a fresh review of the committed content.
 7. Confirm the committed content matches the approved proposal and report the commit and
    remaining worktree state.
@@ -80,19 +80,19 @@ release, or other remote action needs fresh owner approval.
 Manual goal:
 
 ```text
-Use GLBuilding for: <goal>
+Use Olympus for: <goal>
 ```
 
 Session orchestration:
 
 ```text
-Activate GLBuilding orchestration
+Activate Olympus orchestration
 ```
 
 Later project-changing requests become goals until session end or:
 
 ```text
-Deactivate GLBuilding orchestration
+Deactivate Olympus orchestration
 ```
 
 Project orchestration sets PROJECT boot mode to `orchestration` through an approved

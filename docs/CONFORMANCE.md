@@ -1,4 +1,4 @@
-# GLBuilding conformance and dogfood evidence
+# Olympus conformance and dogfood evidence
 
 Conformance checks whether a harness can use the fixed framework. It does not prove
 that an agent obeyed every instruction.
@@ -130,9 +130,10 @@ they do not establish general harness reliability.
 | Simple conformance | Codex | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `pass` |
 | Fresh-clone installation | Codex | `e6a70e777213afb0935ac9c572e558d600624bb1` | `pass` |
 | Large-codebase comparison | Codex | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `fail` |
+| Controlled Issue #750 A/B comparison | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `pass` |
 | Unrelated-project mutation | Codex | `e6a70e777213afb0935ac9c572e558d600624bb1` | `pass` |
 | Second-harness trial | Claude | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `unsupported` |
-| Fixed conditional 14-role catalog | not run | prospective C working revision | `not run` |
+| Fixed conditional 14-role catalog | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `partial` |
 
 At framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`, Codex passed manual mutation;
 session activation, deactivation, and question routing; project activation; repair-cap and
@@ -141,8 +142,8 @@ owner-gate dry-runs; and existing-loader preservation. At framework
 passed. Loader ambiguity was observed and fixed at
 `0d7705069a90ffea996a1de33a0eb52b023acb66`.
 
-No 14-role execution or role-specific support harness has run for this catalog expansion.
-Do not infer support from earlier baseline evidence.
+Issue #750 exercised the fixed catalog and its specification, build, and review path. Not
+every conditional role ran. Do not infer support for an uninvoked role.
 
 ## Dogfood record
 
@@ -166,7 +167,7 @@ release readiness remained untested at D01.
 | --- | --- |
 | product and framework bases | FPLGuru `9ca23d2efb3a8eaa28bcbe40bf4914e7d8ffff65`; framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` |
 | unstructured control | `454 seconds`; checks passed; independent review found two defects |
-| structured GLBuilding arm | onboarding commit `60af43f233ef9e08536d7b36680140c20d34b014`; `1,128 seconds` after second opt-in or `1,385.6 seconds` including first onboarding; separate Explorer, Builder, and fresh Reviewer; checks passed |
+| structured Olympus arm | onboarding commit `60af43f233ef9e08536d7b36680140c20d34b014`; `1,128 seconds` after second opt-in or `1,385.6 seconds` including first onboarding; separate Explorer, Builder, and fresh Reviewer; checks passed |
 | independent review | found the same two functional defects plus an invalid revision-2 support/configuration change |
 | functional defects | synthetic `squad_mutation`/`squad_build` keys did not match `squad_add`, `squad_remove`, `squad_replace`, `constrain_budget`, and `build_squad`; `/chat/history` omitted persisted `squad_mutation_status`, so reload lost it |
 | conclusion | no correctness benefit and higher elapsed cost; comparison is failed, not hidden or release-qualified |
@@ -194,3 +195,31 @@ The code commit was `177fc8c4ace26620e411557b3095a970d756bf87`; the task outcome
 and patch checks passed. No network or remote action occurred. PROJECT remains intentionally
 Codex-untested until a separate Configurer proposal; central evidence records this as a
 mutation pass.
+
+### D05 — FPLGuru Issue #750 controlled A/B comparison pass
+
+The experiment compared normal Codex with Codex using Olympus. Both arms started from
+FPLGuru `1f1efd1`, used the same model, reasoning level, issue packet, and isolated
+worktrees, and received the same external review process. Olympus used framework
+`3d67f064821c3e4a05b5e87118eeea19119a16e6`.
+
+Specification PRs
+[#919](https://github.com/darshanpania/fplguru/pull/919) and
+[#920](https://github.com/darshanpania/fplguru/pull/920) were approved at heads
+`218d7314690b166b7150bb36b40d5386b4e98959` and
+`ce1a429af9ea2ac5fe22363d07eefe06fceb31f5`. Implementation PRs
+[#921](https://github.com/darshanpania/fplguru/pull/921) and
+[#922](https://github.com/darshanpania/fplguru/pull/922) were reviewed at heads
+`5fcbedba8ce2af6f4ac251b1f310f3d12b558e4f` and
+`658b4057ac6eef4d44ae37d8fd69c29cbb098be2` against base
+`6019c2005a4b3552d77928bc3905b69cb227a746`.
+
+The external implementation reviews found no P0-P2 defect. Their GitHub status remained
+`pending` because both pull requests were drafts and required checks were unavailable.
+Normal Codex supplied two focused passing tests. Olympus supplied 21 focused passing tests
+across the cache regression and direct consumers. Olympus also caught an order-dependent
+combined-test problem before final implementation.
+
+The correctness outcome was a tie. Normal Codex was leaner. Olympus produced stronger
+evidence and review separation. This result supports experimental version `0.1.0` and
+larger tests. It does not prove that Olympus produces better final code.

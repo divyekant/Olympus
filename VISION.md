@@ -2,7 +2,7 @@
 shaping: true
 ---
 
-# GLBuilding vision
+# Olympus vision
 
 ## Source
 
@@ -24,11 +24,11 @@ Give project owners a ready-to-use build system. Do not require them to design, 
 
 ## End state
 
-An owner points Codex or Claude at one installation guide and one exact GLBuilding commit. A System Configurer inspects the Git repository, derives the smallest useful configuration, and asks only questions that change owner intent or authority.
+An owner points Codex or Claude at one installation guide and one exact Olympus commit. A System Configurer inspects the Git repository, derives the smallest useful configuration, and asks only questions that change owner intent or authority.
 
 The owner approves one complete effective configuration and the proposed installation changes. The project then supports:
 
-- one-off GLBuilding goals;
+- one-off Olympus goals;
 - session-wide orchestration;
 - project-default orchestration;
 - multiple non-overlapping goals with worktrees when concurrent;
@@ -75,9 +75,10 @@ rules. The [runtime protocol](references/PROTOCOL.md) is the canonical catalog a
 
 An owner completes onboarding, starts a real goal, receives a verified result, and does not route agents manually.
 
-GLBuilding can dogfood after one target harness passes the simple contract. It must test
-each invoked role through the harness, test both Codex and Claude, label unsupported modes
-honestly, and complete a representative task in a larger codebase before its first public
-release. The 14-role catalog is not yet dogfood-tested.
+Olympus can dogfood after one target harness passes the simple contract. It must test each
+invoked role through the harness, test Codex and Claude, and label unsupported modes
+honestly. The 14-role catalog began dogfood in the controlled Issue #750 A/B comparison;
+not every conditional role has evidence. Experimental version `0.1.0` exists to run larger
+tests, not to claim production readiness.
 
 The result must reduce owner correction or elapsed delivery time without reducing correctness. If its administration costs more than the change, the framework has failed its purpose.

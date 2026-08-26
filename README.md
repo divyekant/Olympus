@@ -1,15 +1,15 @@
-# GLBuilding
+# Olympus
 
-GLBuilding is a small, opinionated Markdown framework for reliable agent-led software
-development.
+Olympus is an opinionated, Markdown-only build system for reliable agent-led software
+development. Version `0.1.0` is experimental.
 
 It gives a coding agent one fixed orchestration graph, fourteen conditional roles, bounded
-review, and Git-backed handoffs. It adds no runtime, service, database, package, or
-scheduler.
+review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
+no runtime, service, database, package, or scheduler.
 
 ## Why it exists
 
-Long agent sessions lose scope on large codebases. They can mix discovery, implementation, and self-review in one context. GLBuilding separates those duties and carries only accepted evidence between fresh role sessions.
+Long agent sessions lose scope on large codebases. They can mix discovery, implementation, and self-review in one context. Olympus separates those duties and carries only accepted evidence between fresh role sessions.
 
 ## The fixed system
 
@@ -34,7 +34,7 @@ protected rules.
 
 ## Install
 
-Give an agent the exact GLBuilding repository URL and immutable commit, then ask it to follow [the installation guide](docs/INSTALLATION.md).
+Give an agent the exact Olympus repository URL and immutable commit, then ask it to follow [the installation guide](docs/INSTALLATION.md).
 
 Approved onboarding creates one local Git commit with only PROJECT and both loader files.
 Remote persistence still needs fresh owner approval.
@@ -44,18 +44,18 @@ The target repository receives:
 ```text
 AGENTS.md                         # stable Codex loader block
 CLAUDE.md                         # stable Claude loader block
-.glbuilding/PROJECT.md            # approved project configuration and framework pin
-.glbuilding/tasks/<goal-id>.md    # one tracked record per goal
+.olympus/PROJECT.md               # approved project configuration and framework pin
+.olympus/tasks/<goal-id>.md       # one tracked record per goal
 ```
 
 The framework stays outside the target repository and is resolved at the exact commit in `PROJECT.md`.
 
 ## Use
 
-- One goal: `Use GLBuilding for: <goal>`
-- This session: `Activate GLBuilding orchestration`
+- One goal: `Use Olympus for: <goal>`
+- This session: `Activate Olympus orchestration`
 - Every session: choose `boot mode: orchestration` during onboarding
-- Stop session routing: `Deactivate GLBuilding orchestration`
+- Stop session routing: `Deactivate Olympus orchestration`
 
 Project boot is routing authority, not a background process. Questions do not create goals.
 Project-changing requests do.
@@ -70,17 +70,18 @@ Project-changing requests do.
 - [Conformance plan and evidence](docs/CONFORMANCE.md)
 - [Roadmap](ROADMAP.md)
 
-## Current status
+## Release status
 
-The lean Markdown system now defines a fixed conditional 14-role catalog. Existing
-harness evidence remains tied to the immutable commits listed in
-[current harness evidence](docs/CONFORMANCE.md#current-harness-evidence); no 14-role
-execution has been run. The representative large-codebase comparison failed; see that
-evidence for the exact failure and limits.
+Olympus `0.1.0` is the first experimental release. A controlled FPLGuru Issue #750 A/B
+test found no P0-P2 defect in either the normal Codex or Olympus implementation. Olympus
+produced broader focused-test evidence and caught an order-dependent combined-test problem;
+normal Codex used less process. The result was a correctness tie, not proof of superiority.
 
-No public release or release candidate is claimed. License, public URL, version, tag, and
-release approval remain owner decisions.
+The release exists so owners can run larger experiments. See
+[current harness evidence](docs/CONFORMANCE.md#current-harness-evidence) for exact limits.
+Public publication still requires an owner-selected license, canonical repository URL, and
+fresh approval for the tag and release.
 
 ## Enforcement limit
 
-Markdown rules are behavioral controls. They are not a security sandbox. Host permissions, filesystem controls, Git review, and branch protection can add enforcement, but GLBuilding does not claim that enforcement itself.
+Markdown rules are behavioral controls. They are not a security sandbox. Host permissions, filesystem controls, Git review, and branch protection can add enforcement, but Olympus does not claim that enforcement itself.

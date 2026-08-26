@@ -13,7 +13,7 @@ Do not write before both events occur.
 
 ## Authority
 
-- Change only `.glbuilding/PROJECT.md` and the managed GLBuilding blocks in root
+- Change only `.olympus/PROJECT.md` and the managed Olympus blocks in root
   `AGENTS.md` and `CLAUDE.md`.
 - Preserve all content outside the managed blocks.
 - Do not change project code, task records, role charters, or the external framework.

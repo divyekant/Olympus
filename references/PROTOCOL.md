@@ -1,12 +1,13 @@
-# GLBuilding runtime protocol
+# Olympus runtime protocol
 
-This is the shared contract for every GLBuilding goal. It stays small, conditional, and
+This is the shared contract for every Olympus goal. It stays small, conditional, and
 Markdown-only.
 
 ## 1. Fixed catalog
 
-GLBuilding has fourteen fixed roles in this order. The Orchestrator is the sole hub. A
-role is invoked only when its trigger holds, but no project setting can remove a trigger.
+The **Pantheon** is Olympus's fourteen fixed roles in this order. The Orchestrator is the
+sole hub. A role is invoked only when its trigger holds, but no project setting can remove
+a trigger.
 
 | # | Role | Trigger | Responsibility |
 | --- | --- | --- | --- |
@@ -29,24 +30,24 @@ Every role receives from and returns only to the Orchestrator. No role invokes o
 communicates with another role. The Orchestrator decides which conditional roles run and
 records each invoked role's result.
 
-Only the System Configurer changes `.glbuilding/PROJECT.md` or managed loader blocks.
-Only the Orchestrator writes `.glbuilding/tasks/<goal-id>.md`. Only the Builder changes
+Only the System Configurer changes `.olympus/PROJECT.md` or managed loader blocks.
+Only the Orchestrator writes `.olympus/tasks/<goal-id>.md`. Only the Builder changes
 approved non-documentation project paths. Only the Docs Writer changes approved
 documentation paths. Claims,
 Spec, Plan, Design, and general Reviewers are read-only. Decision Council is
 advisory and has no gate. Liaison is read-only and has no gate.
 
-For GLBuilding dogfood only, an immutable earlier revision can govern a goal that edits a
+For Olympus dogfood only, an immutable earlier revision can govern a goal that edits a
 separate target checkout for a prospective revision. The goal never reloads its own
 in-progress edits as instructions.
 
 ## 2. Activation
 
-- Manual mode: `Use GLBuilding for: <goal>` runs one goal.
-- Session mode: `Activate GLBuilding orchestration` routes later project-changing
+- Manual mode: `Use Olympus for: <goal>` runs one goal.
+- Session mode: `Activate Olympus orchestration` routes later project-changing
   requests until session end or deactivation.
 - Project mode: PROJECT boot mode `orchestration` activates routing in each new session.
-- `Deactivate GLBuilding orchestration` stops new session routing. It does not cancel an
+- `Deactivate Olympus orchestration` stops new session routing. It does not cancel an
   active goal or change PROJECT.
 - Questions do not create goals. Explicit read-only audits use Explorer.
 
@@ -62,7 +63,7 @@ Initial onboarding starts from the URL and commit in the owner's request. Later 
 read the pin from PROJECT. Load only that version. A source pin identifies content; it
 does not authenticate the source.
 
-Native host and project instructions still apply. Inside GLBuilding, use this order:
+Native host and project instructions still apply. Inside Olympus, use this order:
 
 1. fixed protocol and role duties;
 2. versioned defaults;
@@ -223,7 +224,7 @@ running goals together. Serialize overlapping work. Worktrees isolate files and 
 they do not prevent semantic conflicts.
 
 Stage named paths only. Preserve unrelated owner work. Do not reset, stash, amend, or
-delete work to recover from a failed GLBuilding step. Record the current state and stop
+delete work to recover from a failed Olympus step. Record the current state and stop
 as `blocked` when safe continuation is unclear.
 
 Local Git commits persist only in that clone. Cross-host or public persistence requires
@@ -246,4 +247,4 @@ instructions, or distilled role evolutions. Never change an active goal's rules 
 
 Ambient skills, memory, and host setup can help locate evidence. They do not grant
 authority or replace current repository checks. PROJECT and current repository evidence
-remain the project sources of truth. GLBuilding does not manage the host's ambient setup.
+remain the project sources of truth. Olympus does not manage the host's ambient setup.

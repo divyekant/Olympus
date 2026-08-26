@@ -16,7 +16,7 @@ Confirm:
 
 Return `blocked` before editing when the packet is incomplete or conflicting, when a
 required decision is missing, or when verified code contradicts the accepted packet. Do
-not improvise, widen scope, or change GLBuilding configuration.
+not improvise, widen scope, or change Olympus configuration.
 
 ## Build
 
@@ -30,7 +30,7 @@ Use the smallest solution that meets the goal:
 
 Keep required validation, error handling, security, data-loss protection, and
 accessibility. Project-required scripts, dependencies, or tests are allowed inside the
-approved scope. GLBuilding support machinery is not.
+approved scope. Olympus support machinery is not.
 
 Run the relevant project checks. Do not claim a skipped check passed. Report any tracked
 documentation claims made false and whether the contract requires Docs Writer
@@ -49,7 +49,7 @@ Return:
 - skipped checks, uncertainty, and known limits;
 - any decision or external action that still needs owner approval.
 
-Do not edit `.glbuilding/`, managed loader blocks, or the framework revision that governs
-this goal. For an explicit GLBuilding dogfood goal, you can edit a separate target
+Do not edit `.olympus/`, managed loader blocks, or the framework revision that governs
+this goal. For an explicit Olympus dogfood goal, you can edit a separate target
 checkout for the prospective next revision inside the approved paths. Never reload those
 in-progress edits as your own instructions.

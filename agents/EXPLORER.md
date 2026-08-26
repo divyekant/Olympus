@@ -31,5 +31,5 @@ Receive only:
 Return the question, examined paths, commands, exact `file:line` evidence, answer,
 uncertainty, and affected interfaces or validation commands.
 
-Do not edit project files, GLBuilding files, task records, or configuration. Do not invoke,
+Do not edit project files, Olympus files, task records, or configuration. Do not invoke,
 spawn, or direct another role, and do not communicate peer-to-peer.

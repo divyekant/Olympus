@@ -1,10 +1,10 @@
 ---
-record: glbuilding-task
+record: olympus-task
 schema: 1
 status: planned
 ---
 
-# GLBuilding task: `<goal-id>`
+# Olympus task: `<goal-id>`
 
 The Orchestrator is the sole owner of this record. Every role returns bounded results only
 to it.
@@ -59,7 +59,7 @@ Non-goals:
 | Scope item | Value |
 | --- | --- |
 | allowed paths | `<paths>` |
-| protected paths | `.glbuilding/`; managed loader blocks; `<other>` |
+| protected paths | `.olympus/`; managed loader blocks; `<other>` |
 | relevant project instructions | `<paths or summary>` |
 | validation commands | `<commands>` |
 
