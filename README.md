@@ -58,11 +58,12 @@ Project boot is routing authority, not a background process. Questions do not cr
 
 ## Current status
 
-The lean Markdown baseline is specified. Evidence collection is in progress; see
+The lean Markdown system is built at baseline `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`.
+The representative large-codebase comparison failed; see
 [current harness evidence](docs/CONFORMANCE.md#current-harness-evidence).
 
-GLBuilding targets larger goals where scoped context and fresh review justify
-orchestration. Smoke-test timing is not a speed claim. No public release is claimed.
+No public release or release candidate is claimed. License, public URL, version, tag, and
+release approval remain owner decisions.
 
 ## Enforcement limit
 

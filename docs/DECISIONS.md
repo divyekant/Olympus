@@ -117,6 +117,11 @@ GLBuilding is for goals where codebase scope, context loss, or change risk justi
 separate role contexts and fresh review. Small tasks can test conformance. Their elapsed
 time does not measure product speed.
 
+### D017 — Evidence gates release
+
+A simple conformance pass does not qualify a release. A failed representative proof stops
+release and is recorded as a product finding; it does not add obedience machinery.
+
 ## Superseded hardening experiment
 
 Early Codex and Claude trials exposed real instruction and delivery failures. The project

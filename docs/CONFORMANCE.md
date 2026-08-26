@@ -8,7 +8,8 @@ prove that an agent obeyed every instruction.
 - `pass`: the observed result met the scenario.
 - `partial`: some required parts passed, but the scenario or harness gate is incomplete.
 - `fail`: the harness ran the scenario but violated the contract.
-- `unsupported`: the harness lacks or ignores a required role boundary.
+- `unsupported`: the harness cannot or does not preserve a required role, owner-approved
+  scope, or owner-authority boundary.
 - `blocked`: an external precondition prevented a valid run.
 - `not run`: there is no current evidence.
 
@@ -75,21 +76,32 @@ approval. It cannot change fixed roles or an active goal.
 
 ### C08 — Unsupported harness
 
-If the host cannot run a separate Builder and fresh Reviewer, the run reports
-`unsupported`. The framework does not add hashes, transcript analysis, or Git plumbing
-to compensate.
+If the host cannot run a separate Builder and fresh Reviewer, or cannot or does not preserve
+a required role, owner-approved scope, or owner-authority boundary, the run reports
+`unsupported`. This is classification, not enforcement. The framework does not add hashes,
+transcript analysis, or Git plumbing to compensate.
 
 ## Current harness evidence
 
 Results apply only to the framework commit named in each run.
 
-| Harness | Framework commit | Install | Modes | Mutation | Repair | Owner gate | Status |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Codex | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | partial | manual pass; session and project not run | pass | not run | not run | partial |
-| Claude | not run | not run | not run | not run | not run | not run | not run |
+These results are scenario-specific. They do not establish general harness reliability.
 
-Codex onboarding committed PROJECT, the immutable framework pin, and both new loader
-files. Existing loader content was absent, so preservation was not exercised.
+| Scenario | Harness | Framework | Status |
+| --- | --- | --- | --- |
+| Simple conformance | Codex | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `pass` |
+| Fresh-clone installation | Codex | `e6a70e777213afb0935ac9c572e558d600624bb1` | `pass` |
+| Large-codebase comparison | Codex | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `fail` |
+| Unrelated-project mutation | Codex | `e6a70e777213afb0935ac9c572e558d600624bb1` | `pass` |
+| Second-harness trial | Claude | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `unsupported` |
+
+At framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`, Codex simple conformance passed:
+manual mutation; session activation, deactivation, and question routing; project activation;
+repair-cap and owner-gate dry-runs; and existing-loader preservation.
+
+At framework `e6a70e777213afb0935ac9c572e558d600624bb1`, clean-cache and fresh-clone
+installation passed. Loader ambiguity was observed and fixed at
+`0d7705069a90ffea996a1de33a0eb52b023acb66`.
 
 ## Pre-simplification lessons
 
@@ -122,8 +134,43 @@ Detailed attempt records remain available in Git history before this simplificat
 | final checks | exact README link and target; retained release statement; no copied results; expected path set; `git diff --check`; all passed |
 | owner corrections | `0` |
 | external action | none |
-| remaining uncertainty | Existing-loader preservation, session and project modes, repair cap, owner gate, comparative speed, and release readiness were not tested. |
+| remaining uncertainty at D01 | Existing-loader preservation, session and project modes, repair cap, owner gate, comparative speed, and release readiness were not tested. |
 
 Measure administration cost on representative larger goals. This small smoke test checks
-correctness and role separation, not speed. Large-codebase comparison remains required
-before release.
+correctness and role separation, not speed. At that time, large-codebase comparison remained
+required before release.
+
+### D02 — Codex large-codebase comparison failed
+
+| Measure | Result |
+| --- | --- |
+| product and framework bases | FPLGuru frozen product base `9ca23d2efb3a8eaa28bcbe40bf4914e7d8ffff65`; framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` |
+| unstructured control | `454 seconds`; checks passed; independent review found two defects |
+| structured GLBuilding arm | onboarding commit `60af43f233ef9e08536d7b36680140c20d34b014`; `1,128 seconds` after second opt-in, or `1,385.6 seconds` including the first onboarding turn; separate Explorer, Builder, and fresh Reviewer; checks passed |
+| independent review | found the same two functional defects plus an invalid revision-2 support/configuration change |
+| functional defects | synthetic `squad_mutation`/`squad_build` keys do not match real engine keys `squad_add`, `squad_remove`, `squad_replace`, `constrain_budget`, and `build_squad`; `/chat/history` omits persisted `squad_mutation_status`, so reload loses it |
+| conclusion | no correctness benefit and higher elapsed cost; comparison is failed, not hidden or release-qualified |
+
+No charter guard or other obedience machinery was added in response.
+
+### D03 — Claude second-harness trial unsupported
+
+The Claude trial used framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` in update-checker
+with separate Builder and Reviewer contexts. It made a broad non-npx behavior change, and
+its Reviewer performed one unapproved `git fetch`. Independent review blocked the run.
+The harness is `unsupported`; no extra enforcement machinery was added.
+
+### D04 — Codex unrelated-project mutation pass
+
+The run used a clean Codex worktree from update-checker base
+`6c315a71a0f9ab42b6ba60d91895b4246c4e559e` and a fresh clean framework clone/cache at
+`e6a70e777213afb0935ac9c572e558d600624bb1`. Onboarding commit
+`9f2ba5ca7d66693c46ba92997720764d0bcc8a17` recorded that `CLAUDE.md` was ignored; an
+explicit second opt-in force-added only that file, and `.gitignore` stayed unchanged.
+
+Builder round 1, Reviewer repair, Builder round 2, and a different fresh Reviewer passed.
+The code commit was `177fc8c4ace26620e411557b3095a970d756bf87`; the task outcome commit was
+`5514bf470ec4bbba65362cac4ed8214f427ddd3d`. Offline shell regression and syntax, JSON, and
+patch checks passed. No network or remote action occurred. `PROJECT` remains intentionally
+Codex-untested until a separate Configurer proposal; central evidence records this as a
+mutation pass.
