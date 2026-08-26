@@ -28,6 +28,7 @@ Every result records the harness version, source commit, target revision, prompt
 13. Read-only, repair, retry, takeover, and cancellation paths are complete.
 14. Fresh roles load only their charter and bounded packet.
 15. PROJECT contains no self-referential proposal digest or postimage hash.
+16. Proposal rules reject placeholders, omitted bytes, and shortened artifact copies.
 
 ## Behavioral scenarios
 
@@ -36,6 +37,8 @@ Every result records the harness version, source commit, target revision, prompt
 Given a clean Git repository without project instruction files, the owner-supplied URL
 and commit load only the installation guide and Configurer. The Configurer presents an
 exact three-file proposal and writes nothing before approval.
+
+Every proposed byte is visible. A placeholder or shortened artifact blocks approval.
 
 Ambient skills and memory can supply evidence but do not start another onboarding graph.
 A higher-priority conflict blocks.
@@ -129,7 +132,7 @@ Onboarding and results state whether each boundary is native-enforced, workflow-
 
 | Harness | Static | Install | Activation | Mutation review | Concurrency | Recovery | Status |
 |---|---|---|---|---|---|---|---|
-| Codex | not run | not run | not run | not run | not run | not run | not run |
+| Codex | pass | blocked | not run | not run | not run | not run | blocked |
 | Claude | not run | not run | not run | not run | not run | not run | not run |
 
 ## Run log
@@ -150,6 +153,30 @@ Onboarding and results state whether each boundary is native-enforced, workflow-
 
 This is not an installation pass. It is evidence that the no-write boundary held and
 that the first immutable baseline exposed two real defects before project mutation.
+
+### Codex attempt 2 — proposal artifact blocked
+
+- date: `2026-08-25 PDT`;
+- harness: `codex-cli 0.146.0` with normal ambient skills and memory;
+- compatible run: `gpt-5.5`, reasoning `xhigh`, thread
+  `01a03bef-ae90-7610-b92b-8832a9b4cb72`;
+- framework: `b2c1c586e7fd9a212f6873dabbe23e0b4bcd7a6e`;
+- target base: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`;
+- no-write boundary: pass; the target stayed clean and `.glbuilding` stayed absent;
+- source verification: pass for exact origin, full commit, and clean cache;
+- computed proposal: `glbuilding-onboard-20260826T024220Z-b2c1c586`, digest
+  `814442ef0cdccb51b9a6a82aba611643b4450fe56ca6ee3d2dd9cedac75c06e0`;
+- artifact result: blocked because the final patch replaced the PROJECT postimage with
+  a `[full PROJECT content as shown above]` placeholder and the shown copy was shorter
+  than the hashed postimage;
+- capability result: the read-only proposal sandbox correctly recorded mutation as
+  unavailable, so that proposal could not govern a later write-enabled goal;
+- action: do not approve; reject omitted bytes at the Configurer boundary and rerun the
+  proposal with the normal write-capable harness while retaining workflow double opt-in.
+
+The configured `gpt-5.6-sol` model also required a newer Codex CLI. The first `gpt-5.5`
+retry inherited unsupported `max` reasoning. These startup failures changed no target
+files and are harness compatibility evidence, not installation evidence.
 
 ## Dogfood evidence
 

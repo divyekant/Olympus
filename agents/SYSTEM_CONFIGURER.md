@@ -36,14 +36,15 @@ approves the exact resulting proposal. Neither action alone authorizes a write.
 
 Present one proposal that includes:
 
-- the complete effective PROJECT configuration;
+- the complete effective PROJECT configuration, once, inside the full patch;
 - config revision and owner request;
 - canonical framework URL and full immutable commit;
 - Intent, Map, Validation, delivery boundary, persistence, Git/worktree policy, and
   capability rows with `native-enforced`, `workflow-instructed`, or `unavailable`;
 - named custom additions and evolutions, with scope and effects;
 - tools, models, budgets, review cap, protected paths, risks, and material conflicts;
-- the exact unified patch for PROJECT and both bootstrap blocks;
+- the exact full unified patch for PROJECT and both bootstrap blocks, with every changed
+  or added line;
 - SHA-256 preimage and postimage hashes for every file. Use `absent` as the preimage
   for a file that does not exist;
 - one canonical manifest whose first lines are `GLBUILDING-PROPOSAL-V1` and
@@ -53,6 +54,11 @@ Present one proposal that includes:
 
 Manifest paths are repository-relative POSIX paths. Hashes are 64 lowercase hex
 characters; an absent preimage is the literal `absent`.
+
+Never use an omission marker, placeholder, `as shown above`, or ellipsis inside the
+proposal artifacts. Do not repeat a shorter PROJECT copy that differs from the hashed
+postimage. If the host cannot present every approved byte, return `blocked`; do not ask
+for approval.
 
 Wait for explicit owner approval that identifies the proposal and its digest. Record the
 approval time and evidence in the returned transaction packet, not in a proposed file.

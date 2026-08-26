@@ -180,6 +180,8 @@ Three Markdown files are not a database transaction. Installation binds approval
 The approval digest covers a canonical manifest of file preimages and postimages. PROJECT
 does not contain its own hash, the proposal digest, or approval-time data. The harness
 transaction packet carries later approval evidence without changing approved bytes.
+The owner must receive every changed byte before approval. A placeholder or output
+truncation blocks installation.
 
 ### Loop growth
 

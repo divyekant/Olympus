@@ -63,7 +63,8 @@ per-file hashes. One digest over a canonical, non-recursive manifest binds those
 The owner approves that identifier and digest. The Configurer then writes only the
 approved project record and loader blocks, without adding post-approval metadata. The
 harness transaction packet carries approval time and evidence. Configuration and
-evolution changes apply only to new goals.
+evolution changes apply only to new goals. An omitted or shortened artifact cannot be
+approved; output limits block the proposal.
 
 ### D012 — Customization only narrows fixed slots
 

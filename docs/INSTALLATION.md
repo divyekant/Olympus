@@ -69,9 +69,9 @@ Use safe defaults in the proposal:
 
 Show:
 
-- the complete proposed `.glbuilding/PROJECT.md`;
-- the exact `AGENTS.md` loader block;
-- the exact `CLAUDE.md` loader block;
+- the complete proposed `.glbuilding/PROJECT.md` once, inside the full unified patch;
+- the exact full unified patch for PROJECT and both loader blocks, with every changed
+  or added line;
 - existing file preimage hashes and expected postimage hashes;
 - one canonical manifest starting with `GLBUILDING-PROPOSAL-V1` and
   `proposal=<identifier>`, then byte-sorted
@@ -84,17 +84,22 @@ Show:
 
 Do not write yet.
 
+Never abbreviate an artifact. Do not use a placeholder, omission marker, `as shown
+above`, or ellipsis. If the host cannot present every approved byte, return `blocked`.
+Do not ask for approval of an incomplete proposal.
+
 Manifest paths are repository-relative POSIX paths. Hashes use 64 lowercase hex
 characters. Use the literal `absent` for a missing preimage.
 
 Do not put the digest, file hashes, or approval-time data inside PROJECT. PROJECT stores
-only the proposal identifier, proposal time, request principal, and binding limit. Keep
-the later approval time and evidence in the returned transaction packet.
+only proposal metadata fixed before approval: identifier, proposal time, request
+principal, binding limit, and conflicts. Keep later approval evidence in the returned
+transaction packet.
 
 ### 5. Obtain exact approval
 
 The owner must approve the proposal identifier and its SHA-256. Approval of a summary,
-an earlier revision, or a different digest is not approval.
+an earlier revision, a different digest, or an incomplete artifact is not approval.
 
 No approval means no write.
 
