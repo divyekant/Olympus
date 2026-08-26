@@ -26,7 +26,8 @@ a second block to either file.
    not match, stop with task status `blocked`.
 5. Load `SKILL.md` from the verified checkout. Load its protocol, then only the charter
    or template required for the current stage. A session deactivation is temporary;
-   only an approved configuration change persists.
+   only an approved configuration change persists. Do not start another orchestration
+   graph; block on a higher-priority host conflict.
 <!-- GLBUILDING:END -->
 ```
 

@@ -48,6 +48,8 @@ The framework does not call model APIs. It does not schedule work. It does not k
 Initial onboarding is an explicit exception to the installed loader path. The owner
 supplies one exact URL and commit. The host verifies a clean checkout and loads only the
 installation guide and Configurer. Installed projects then use PROJECT as the sole pin.
+The owner command limits ambient skills and memory to evidence for this request. A
+higher-priority conflict blocks instead of starting a second orchestration graph.
 
 ## Activation
 
@@ -174,6 +176,10 @@ empty staged, tracked, and untracked status before it reads the pack.
 ### Partial installation
 
 Three Markdown files are not a database transaction. Installation binds approval to exact preimages and postimages. The Configurer stops on concurrent edits and rolls back only when rollback cannot overwrite newer work.
+
+The approval digest covers a canonical manifest of file preimages and postimages. PROJECT
+does not contain its own hash, the proposal digest, or approval-time data. The harness
+transaction packet carries later approval evidence without changing approved bytes.
 
 ### Loop growth
 

@@ -27,6 +27,7 @@ Every result records the harness version, source commit, target revision, prompt
 12. Cached pack verification includes origin, full `HEAD`, and empty status.
 13. Read-only, repair, retry, takeover, and cancellation paths are complete.
 14. Fresh roles load only their charter and bounded packet.
+15. PROJECT contains no self-referential proposal digest or postimage hash.
 
 ## Behavioral scenarios
 
@@ -35,6 +36,9 @@ Every result records the harness version, source commit, target revision, prompt
 Given a clean Git repository without project instruction files, the owner-supplied URL
 and commit load only the installation guide and Configurer. The Configurer presents an
 exact three-file proposal and writes nothing before approval.
+
+Ambient skills and memory can supply evidence but do not start another onboarding graph.
+A higher-priority conflict blocks.
 
 ### C02 — Existing instructions
 
@@ -127,6 +131,25 @@ Onboarding and results state whether each boundary is native-enforced, workflow-
 |---|---|---|---|---|---|---|---|
 | Codex | not run | not run | not run | not run | not run | not run | not run |
 | Claude | not run | not run | not run | not run | not run | not run | not run |
+
+## Run log
+
+### Codex attempt 1 — blocked baseline
+
+- date: `2026-08-25 PDT`;
+- harness: `codex-cli 0.146.0` with the normal ambient skill and memory setup;
+- framework: `0a974e139348a03989da14be5214aae03fb5a1c5`;
+- target base: `0529325ab65aaba7e8460dd61f80e9bf1ef28f02`;
+- expected no-write result: pass; target status stayed clean and `.glbuilding` stayed absent;
+- source verification: blocked because the supplied checkout had no `origin`;
+- protocol escape: PROJECT tried to contain its own postimage and proposal digest;
+- harness interference: ambient Apollo and brainstorming added unrelated ceremony, one
+  subagent call failed, and the run entered empty waits;
+- action: stop the run, remove the recursive hash fields, define a canonical external
+  manifest, and make the owner bootstrap instruction suppress unrelated graphs.
+
+This is not an installation pass. It is evidence that the no-write boundary held and
+that the first immutable baseline exposed two real defects before project mutation.
 
 ## Dogfood evidence
 

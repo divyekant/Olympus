@@ -10,7 +10,9 @@ Replace the placeholders and send this from the target repository root:
 Onboard this Git repository with GLBuilding from <canonical-repository-url>
 at exact commit <full-immutable-commit>. Read docs/INSTALLATION.md from that
 exact commit. Inspect and propose only. Do not write until I approve the exact
-effective configuration and exact patch.
+effective configuration and exact patch. Do not activate another onboarding,
+design, or orchestration framework for this request. Ambient skills and memory
+may supply evidence only. If a higher-priority host rule conflicts, stop and report it.
 ```
 
 Do not use a branch, tag, release name, `main`, or `latest` as the source identity.
@@ -71,13 +73,23 @@ Show:
 - the exact `AGENTS.md` loader block;
 - the exact `CLAUDE.md` loader block;
 - existing file preimage hashes and expected postimage hashes;
-- one proposal SHA-256 that binds the complete proposal, patch, paths, and file hashes;
+- one canonical manifest starting with `GLBUILDING-PROPOSAL-V1` and
+  `proposal=<identifier>`, then byte-sorted
+  `<path><TAB><preimage><TAB><postimage>` rows;
+- one SHA-256 over the UTF-8 manifest with LF endings and one final newline;
 - every path that will change;
 - rejected custom instructions and the protected rule they conflict with;
 - persistence and behavioral-enforcement limits;
-- the config revision and owner approval text that will be recorded.
+- the config revision and proposal metadata that will be recorded.
 
 Do not write yet.
+
+Manifest paths are repository-relative POSIX paths. Hashes use 64 lowercase hex
+characters. Use the literal `absent` for a missing preimage.
+
+Do not put the digest, file hashes, or approval-time data inside PROJECT. PROJECT stores
+only the proposal identifier, proposal time, request principal, and binding limit. Keep
+the later approval time and evidence in the returned transaction packet.
 
 ### 5. Obtain exact approval
 

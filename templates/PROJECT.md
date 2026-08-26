@@ -34,19 +34,14 @@ This is the only canonical source identity. Each task copies the commit that gov
 
 The pin identifies content. It is not a security trust anchor.
 
-## Approval
+## Proposal metadata
 
 | Field | Record |
 | --- | --- |
 | proposal identifier | `<stable identifier>` |
-| proposal SHA-256 | `<digest of complete proposal, patch, paths, and file hashes>` |
-| approved by | `<current session principal>` |
-| approved at | `<timestamp>` |
-| approval text | `<exact approval naming identifier and digest>` |
-| config preimage | `<absent or SHA-256>` |
-| config postimage | `<SHA-256>` |
-| AGENTS preimage and postimage | `<SHA-256 values>` |
-| CLAUDE preimage and postimage | `<SHA-256 values>` |
+| proposed at | `<timestamp fixed before approval>` |
+| requested by | `<current session principal>` |
+| principal binding limit | `<native control or workflow-only>` |
 | conflicts | `<none or exact rejected conflict>` |
 
 ## Project knowledge

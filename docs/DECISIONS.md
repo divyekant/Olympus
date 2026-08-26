@@ -58,7 +58,12 @@ Tracked local records support local recovery. Cross-host recovery requires appro
 
 ### D011 — Configuration uses double opt-in
 
-The System Configurer derives values and presents one exact configuration and patch with per-file hashes. One proposal digest binds those bytes. The owner approves that identifier and digest. The Configurer then writes only the approved project record and loader blocks. Configuration and evolution changes apply only to new goals.
+The System Configurer derives values and presents one exact configuration and patch with
+per-file hashes. One digest over a canonical, non-recursive manifest binds those bytes.
+The owner approves that identifier and digest. The Configurer then writes only the
+approved project record and loader blocks, without adding post-approval metadata. The
+harness transaction packet carries approval time and evidence. Configuration and
+evolution changes apply only to new goals.
 
 ### D012 — Customization only narrows fixed slots
 
@@ -99,6 +104,9 @@ The baseline changed as follows:
 - provider tool, model, and budget mappings freeze through one execution-profile digest;
 - inactive manual sessions and fresh roles load only the files they need;
 - duplicate protocol tables collapsed into PROJECT and one append-only task event log.
+- approval hashes moved out of PROJECT to remove a self-referential postimage loop;
+- the installation prompt suppresses unrelated ambient onboarding graphs when host
+  precedence permits.
 
 The audit did not justify a runtime, lease service, installer, or database.
 

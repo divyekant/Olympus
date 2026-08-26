@@ -53,6 +53,9 @@ isolate files; they do not isolate orchestration ownership or approval state.
 - Initial onboarding is the only exception. The owner's installation command supplies
   the exact URL and commit out of band. Verify that checkout, then load only the
   installation guide and System Configurer before PROJECT and loader files exist.
+- That owner command also limits ambient skills and memory to evidence. Do not start a
+  second onboarding, design, or orchestration graph. A conflicting higher-priority host
+  rule blocks installation.
 - A full immutable commit is a complete commit identifier, not a branch, tag, or short SHA.
 - A loader reads that URL and commit, then checks a cached checkout's exact origin,
   `HEAD`, and clean status. The status must show no tracked, staged, or untracked change.

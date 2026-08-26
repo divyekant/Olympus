@@ -46,11 +46,23 @@ Present one proposal that includes:
 - the exact unified patch for PROJECT and both bootstrap blocks;
 - SHA-256 preimage and postimage hashes for every file. Use `absent` as the preimage
   for a file that does not exist;
-- one SHA-256 proposal digest over the complete proposal, patch, paths, and file hashes.
+- one canonical manifest whose first lines are `GLBUILDING-PROPOSAL-V1` and
+  `proposal=<identifier>`, followed by byte-sorted
+  `<path><TAB><preimage><TAB><postimage>` rows;
+- one SHA-256 over UTF-8 manifest bytes with LF endings and a final newline.
 
-Wait for explicit owner approval that identifies the proposal and its digest. Record its
-time. The digest binds every target path and expected hash. No approval means no write
-and a `blocked` packet.
+Manifest paths are repository-relative POSIX paths. Hashes are 64 lowercase hex
+characters; an absent preimage is the literal `absent`.
+
+Wait for explicit owner approval that identifies the proposal and its digest. Record the
+approval time and evidence in the returned transaction packet, not in a proposed file.
+The digest binds every target path and expected hash. No approval means no write and a
+`blocked` packet. Apply the approved postimages byte for byte; do not add approval-time
+metadata after approval.
+
+Do not put the proposal digest, file hashes, or approval-time data inside PROJECT. Those
+values would be recursive or unknowable before approval. PROJECT stores only proposal
+metadata fixed before approval.
 
 For a configuration change, increment the config revision. Keep the initial proposal at
 revision `1`.
@@ -64,8 +76,9 @@ revision `1`.
    all content outside each region. Do not write task records or project files.
 4. Validate the resulting PROJECT schema, full source pin, boot mode, capability labels,
    review cap, named scopes, and exactly one marker pair per loader file.
-5. Hash the results and compare them to the approved postimages. Record the approval,
-   hashes, validation output, and any conflict for the Orchestrator.
+5. Hash the results and compare them to the approved postimages. Return the proposal
+   digest, hashes, approval evidence, validation output, and conflicts to the owner and
+   Orchestrator.
 6. If validation fails, roll back only a file whose current bytes exactly match its
    attempted postimage. If current bytes differ, preserve them and stop as `blocked`.
 
