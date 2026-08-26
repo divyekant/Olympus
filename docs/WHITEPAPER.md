@@ -116,10 +116,17 @@ Committed Git state is durable on one persistent machine. It is not automaticall
 
 - Local record commits support local resume.
 - Validated onboarding creates one local commit containing only PROJECT and both loaders.
+- A committed goal stores its accepted paths and terminal record in one exact local
+  commit. The record identifies the first goal-ref commit that introduces its path.
 - Cross-host resume requires an approved checkpoint push or a host that guarantees workspace persistence.
 - Without either, the project records cross-host resume as unsupported.
 
 This limit avoids adding a storage service before evidence requires one.
+
+The goal record cannot contain its own commit hash. GLBuilding therefore binds the
+frozen base, reviewed path identities, exact index tree, fixed message, and goal ref.
+Git creates and verifies the commit before an old-value ref update makes `complete`
+effective. The returned transaction packet records the actual commit.
 
 ## Approval model
 
@@ -210,9 +217,9 @@ Different worktrees can change the same interface, migration, validation resourc
 
 ### Root ownership race
 
-The Orchestrator scans non-terminal task records for another root identity before it
-accepts a goal. This is a behavioral check, not a distributed lease. A host without an
-exclusive-create control must disclose the remaining start race.
+The Orchestrator enumerates every registered Git worktree and scans its non-terminal task
+records before it accepts a goal. This is a behavioral check, not a distributed lease. A
+host without an exclusive-create control must disclose the remaining start race.
 
 ### Harness variance
 

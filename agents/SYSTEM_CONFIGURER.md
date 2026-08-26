@@ -104,10 +104,11 @@ revision `1`.
    parent, fixed message, changed paths, and blob hashes.
 9. Recheck the symbolic target ref. Advance it with an old-value check from the frozen
    `HEAD` to the verified commit. This compare-and-swap must fail on concurrent ref drift.
-10. Require an empty status. Before ref advance, roll back only approved paths whose
-    worktree and index bytes still match their postimages. After a successful ref advance,
-    preserve the exact commit and any concurrent state. Stop as `blocked` on any mismatch;
-    do not reset or amend.
+10. Check status; empty is expected. Before ref advance, roll back only approved paths
+    whose worktree and index bytes still match their postimages. After a successful ref
+    advance, preserve the exact commit and any concurrent state. New dirty state then
+    blocks activation but does not revoke the configuration commit. Stop as `blocked` on
+    any earlier mismatch; do not reset or amend.
 11. Return the local commit, hashes, approval evidence, validation output, and conflicts.
 
 Configuration changes apply only to new goals. Restart an active goal before it can use

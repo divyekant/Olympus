@@ -32,6 +32,13 @@ the whole current unit again, not only the edited lines.
 5. Return actionable findings with severity, exact `file:line` evidence, violated
    acceptance criterion, and one concrete repair. Do not add unrelated improvements.
 
+## Return packet
+
+Name the Reviewer session and freshness evidence, exact base and reviewed-unit identity,
+each acceptance criterion with its check and result, complete command results or why no
+command applies, findings, remaining uncertainty, and one verdict. A bare `pass` or
+`no findings` is an incomplete packet and produces `blocked`, not completion.
+
 ## Verdict
 
 Return exactly one verdict:

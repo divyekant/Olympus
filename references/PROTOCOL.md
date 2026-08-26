@@ -19,6 +19,7 @@ their charter and a bounded packet.
   the managed bootstrap blocks in `AGENTS.md` and `CLAUDE.md`.
 - The Builder may change approved target-project paths, including goal-required scripts,
   dependencies, CLIs, and tests. Those are target work, not GLBuilding machinery.
+- The Builder does not stage or commit. The Orchestrator owns committed-goal finalization.
 
 ## 2. Activation and graph ownership
 
@@ -38,9 +39,11 @@ their charter and a bounded packet.
 - Same-goal concurrent ownership is unsupported. If ownership, intent, or authority is
   ambiguous, stop as `blocked` until the owner explicitly takes over.
 
-Before accepting a goal, scan all non-terminal task records. A different active root
-identity blocks the goal. This is workflow coordination, not a distributed lock. If two
-sessions can race and the host has no exclusive-create control, report that limit.
+Before accepting a goal, enumerate `git worktree list --porcelain` and scan every
+registered checkout's non-terminal task records. If a checkout cannot be inspected,
+block another goal start. A different active root identity blocks the goal. This is
+workflow coordination, not a distributed lock. If two sessions can race and the host
+has no exclusive-create control, report that limit.
 
 Before starting concurrent goals or integrating their results, compare their paths,
 interfaces, migrations, and validation resources. Serialize any overlap. Worktrees
@@ -96,8 +99,11 @@ apply only to new goals; restart an active goal to use them.
 
 ## 5. Goal record and stage packets
 
-For each goal, the Orchestrator creates `.glbuilding/tasks/<goal-id>.md` from
-[templates/TASK.md](../templates/TASK.md). Before any role runs, the record freezes:
+For each goal, the Orchestrator first freezes the values for
+`.glbuilding/tasks/<goal-id>.md` from [templates/TASK.md](../templates/TASK.md). After
+successful Git setup, it writes the record in the selected goal checkout. If setup
+fails, it writes a terminal `blocked` record in the original checkout. Before any role
+or target-project mutation, the record freezes:
 
 - framework URL and full commit;
 - project configuration revision;
@@ -105,12 +111,18 @@ For each goal, the Orchestrator creates `.glbuilding/tasks/<goal-id>.md` from
 - goal identity, acceptance criteria, scope, and non-goals;
 - maximum capability envelope and harness enforcement labels;
 - branch and worktree identity;
+- Git-finalization capability and hook or signing compatibility for a committed boundary;
 - attempt number and root Orchestrator identity;
 - delivery boundary and required owner approvals.
 
 A stage packet may only narrow the frozen authority or add accepted evidence and findings.
 It cannot widen scope, capabilities, delivery authority, topology, or protected-path rules.
 The Orchestrator alone merges accepted packets into the task record.
+
+The Orchestrator rejects an incomplete role packet. A Reviewer packet must name its fresh
+session, exact reviewed identity, criterion checks and results, complete command results
+or why none apply, findings, remaining uncertainty, and one verdict. A bare `pass` or
+`no findings` is `blocked`.
 
 Every capability uses one label: `native-enforced`, `workflow-instructed`, or
 `unavailable`. The first is host-enforced. The second is a behavioral instruction. The
@@ -135,7 +147,8 @@ terminal task.
 - `exploring -> building` requires accepted evidence. A simple goal may go directly
   from `planned` to `building`.
 - `building -> reviewing` requires the Builder diff and verification packet.
-- `reviewing -> complete` requires a fresh Reviewer `pass` and final verification.
+- `reviewing -> complete` requires a complete evidence-bearing packet from a fresh
+  Reviewer with verdict `pass`, followed by final verification.
 - `reviewing -> repairing` requires a fresh Reviewer `repair` finding.
 - `repairing -> reviewing` requires a Builder repair packet and a new fresh Reviewer.
 - `failed` and `cancelled` can be reached from any non-terminal state.
@@ -168,9 +181,47 @@ the cap becomes `blocked`. Every recheck starts fresh and reviews the whole curr
 - Concurrent goals or relevant dirty state require separate worktrees based on a committed
   base. Relevant dirty state requires an exact named snapshot approved by the owner;
   otherwise block.
-- Freeze branch, worktree path or identity, committed base, and snapshot name in the task.
+- Freeze branch, worktree path or identity, committed base, and snapshot name as task
+  values before Git setup. An untracked record does not follow a new worktree.
+- After successful setup, write the record in the selected goal checkout. On setup
+  failure, write a `blocked` record in the original checkout. Do not run a role or
+  mutate target-project paths first.
 - Check for concurrent drift before mutation, review, integration, and recovery. Do not
   merge or integrate overlapping work until the Orchestrator serializes it.
+- Verify every Git capability required by the frozen delivery boundary before Builder
+  mutation. A failed branch, ref, worktree, hook, signing, or commit preflight blocks.
+  Do not replace a committed boundary with an uncommitted result.
+
+For a committed-goal boundary, finalization uses one Git-native transaction:
+
+1. After an evidence-bearing Reviewer `pass`, prepare the terminal task-record postimage.
+   First verify that its path is absent from the frozen base. Identify delivery as `the
+   first commit reachable from the goal ref that introduces this task-record path`.
+   Never put that commit's own commit, tree, or record-blob hash inside the record.
+2. Recheck the frozen source, config, base, goal ref, current diff, and required checks.
+3. Stage only the accepted project paths and that task record. Verify the complete index
+   tree, changed-path set, task-record add status, and project-file content identities
+   against the frozen base.
+4. Use Git `commit-tree` with the frozen base as its single parent and the fixed message
+   `Complete GLBuilding goal <goal-id>`. Verify its tree, parent, message, complete path
+   set, task record, and project-file blobs.
+5. Recheck the goal ref, then advance it from the frozen base with an old-value
+   `update-ref`. Compare-and-swap success makes terminal `complete` effective. Return
+   the actual commit and post-update status in the transaction packet.
+
+Project commit hooks do not run in this transaction. If a higher-priority project rule
+requires hooks or commit signing, block before Builder mutation. Before ref advance,
+restore only index and terminal-record bytes that still match the attempted postimages.
+After ref advance, preserve the exact commit and any concurrent state. Do not reset or
+amend. An empty post-update status is expected. New dirty state after compare-and-swap
+does not revoke completion; report it and block later goal work or integration.
+
+On resume or inspection, reconcile a prepared terminal record with the frozen goal ref
+before interpreting its status. The old frozen ref always means finalization is
+incomplete, even if `commit-tree` left an unreachable commit object: restore the record
+to `reviewing` and reverify before retrying. The new verified commit and matching
+first-add record mean `complete`. Any other ref, tree, path set, parent, message, or
+record mismatch is `blocked`; preserve it.
 
 ## 8. Delivery and action boundary
 
@@ -184,6 +235,9 @@ approved manifest binds an attached symbolic target ref and its full `HEAD`. Git
 advances only that ref from the frozen `HEAD`. The tree, parent, message, complete
 changed-path set, and blob hashes must match the proposal. Initial onboarding uses
 `Configure GLBuilding`; a later change uses `Update GLBuilding configuration`.
+The verified old-value ref update makes that configuration commit effective. New dirty
+state after the update is preserved and reported; it blocks activation or later work but
+does not revoke the commit.
 
 Every push, pull request creation, merge, deploy, publish, force operation, secret change,
 remote deletion, or other hard-to-reverse external effect requires fresh owner approval

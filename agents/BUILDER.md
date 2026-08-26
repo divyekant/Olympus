@@ -39,6 +39,9 @@ support, and framework infrastructure out of target goals. Use existing project 
 Add only the smallest material runnable check for non-trivial logic; a test framework is
 target-project scope, never part of GLBuilding.
 
+Do not stage or commit. The Orchestrator owns the exact committed-goal finalization
+transaction after an evidence-bearing Reviewer `pass`.
+
 ## Handoff
 
 Return a packet to the Orchestrator with:

@@ -87,6 +87,7 @@ Use one label: `native-enforced`, `workflow-instructed`, or `unavailable`.
 | --- | --- | --- | --- |
 | Orchestrator | task-record write and active-root scan | `<label>` | `<control>` |
 | Orchestrator | branch and worktree setup | `<label>` | `<control>` |
+| Git finalization | exact `commit-tree` and old-value `update-ref`; hooks or signing not required | `<label>` | `<control or limit>` |
 | System Configurer | PROJECT and sentinel-only write | `<label>` | `<control>` |
 | Explorer | fresh read-only inspection | `<label>` | `<control>` |
 | Builder | approved-path edit and checks | `<label>` | `<control>` |

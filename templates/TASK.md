@@ -24,6 +24,7 @@ Roles return packets. The Orchestrator accepts or rejects them here.
 | committed base | `<commit>` |
 | branch and worktree | `<identity>` |
 | delivery boundary | `<effective boundary>` |
+| Git finalization capability | `<label and evidence, or not required>` |
 | maximum capability envelope | `<semantic capabilities and labels>` |
 
 No packet can widen these values.
@@ -83,11 +84,12 @@ Delete this section when Explorer is skipped and record the reason in the event 
 Add one row only when a round occurs. Every recheck uses a fresh Reviewer and the
 complete current review unit. Verdicts are `pass`, `repair`, or `blocked`.
 
-| Round | Reviewer and freshness | Diff/base | Verdict | Findings or verification evidence |
+| Round | Reviewer and freshness | Diff/base | Verdict | Criterion checks/results, findings, and uncertainty |
 | --- | --- | --- | --- | --- |
-| `<n>` | `<identity and fresh-context evidence>` | `<identity>` | `<verdict>` | `<severity, file:line, criterion, repair>` |
+| `<n>` | `<identity and fresh-context evidence>` | `<identity>` | `<verdict>` | `<criterion checks and results; commands with complete results or why none apply; findings with severity, file:line, criterion, and repair; remaining uncertainty>` |
 
 Round cap: `<1, 2, or 3; default 2>`. A repair at the cap becomes `blocked`.
+A bare `pass` or `no findings` is not a complete Reviewer packet and cannot finish a task.
 
 ## Final verification and terminal result
 
@@ -99,11 +101,21 @@ Round cap: `<1, 2, or 3; default 2>`. A repair at the cap becomes `blocked`.
 | --- | --- |
 | terminal status | `<complete | blocked | failed | cancelled>` |
 | reason | `<evidence-backed result>` |
-| final source and diff identity | `<commit/hash>` |
+| final source and diff identity | `<frozen base; reviewed diff identity if any; for a successful committed goal, the first goal-ref commit that introduces this task-record path; otherwise no delivery commit>` |
 | remaining uncertainty | `<none or exact detail>` |
 | recovery | `<none | resume | takeover | cancel; retry uses a linked new record>` |
 
-Do not continue a terminal record. Resume requires the same freeze. Retry creates a
+For a committed goal, never put the record's own commit, tree, or blob hash here. Never
+write `local commit to follow` in a terminal record. The verified transaction packet
+returns the actual commit after its old-value ref update succeeds. A pre-delivery
+terminal record states that no delivery commit exists.
+
+Before interpreting `complete`, reconcile this record with its frozen goal ref. The old
+ref means prepared but incomplete, even if an unreachable commit object exists; restore
+`reviewing` and reverify. The verified new commit means `complete`. Any other ref or
+commit mismatch is `blocked` and must be preserved.
+
+Do not continue a verified terminal record. Resume requires the same freeze. Retry creates a
 linked higher-attempt record after the cause is resolved and the owner permits it.
 Takeover appends the new root identity after the prior root stops. Cancellation retains
 all evidence and stops work.

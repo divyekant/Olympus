@@ -32,6 +32,11 @@ Every result records the harness version, source commit, target revision, prompt
 17. Local-commit onboarding verifies the final parent, paths, message, blobs, and status.
 18. The proposal manifest binds the full target HEAD and rechecks it before any write.
 19. Installation binds an attached target ref and advances it with an old-value check.
+20. A bare Reviewer verdict cannot pass without criterion checks and complete evidence.
+21. A committed goal uses one self-reference-safe commit and old-value ref update.
+22. Builder cannot stage or commit the goal before Orchestrator finalization.
+23. PROJECT and each committed goal record the exact Git-finalization capability.
+24. Active-root checks enumerate every registered worktree before another goal starts.
 
 ## Behavioral scenarios
 
@@ -84,11 +89,16 @@ or mutation authority.
 
 ### C09 — Simple mutation
 
-A clear goal in a clean checkout can skip Explorer and worktree creation. Builder changes approved paths. A fresh Reviewer receives the exact review unit before completion.
+A clear goal in a clean checkout can skip Explorer and worktree creation. Builder changes
+approved paths. A fresh Reviewer receives the exact review unit. A bare verdict blocks.
+An evidence-bearing `pass` permits one exact commit of the accepted paths and terminal
+record. The record resolves its identity through the first goal-ref commit that adds it.
 
 ### C10 — Concurrent goals
 
-Two non-overlapping goals receive separate records, branches, and worktrees under one root Orchestrator. No record or changed path crosses goals.
+Two non-overlapping goals receive separate records, branches, and worktrees under one root
+Orchestrator. Before either starts, the root enumerates every registered worktree and scans
+its task records. No record or changed path crosses goals.
 
 ### C11 — Overlapping goals
 
@@ -110,7 +120,7 @@ A Reviewer repair verdict returns to Builder. A fresh Reviewer rechecks the whol
 
 ### C15 — Missing evidence
 
-An unavailable required check produces Reviewer `blocked`, never `pass`.
+An unavailable required check or a bare Reviewer verdict produces `blocked`, never `pass`.
 
 ### C16 — Configuration conflict
 
@@ -134,11 +144,18 @@ With cross-host resume off, the Orchestrator does not promise cloud recovery. Wi
 
 Onboarding and results state whether each boundary is native-enforced, workflow-instructed, or unavailable. No Markdown rule is described as a security sandbox.
 
+### C21 — Required Git capability
+
+A failed required branch, ref, worktree, hook, signing, or commit preflight blocks before
+Builder mutation. A successful setup places the record in the goal checkout. A failed
+setup places a `blocked` record in the original checkout. The Orchestrator does not
+downgrade a committed delivery boundary.
+
 ## Harness evidence
 
 | Harness | Static | Install | Activation | Mutation review | Concurrency | Recovery | Status |
 |---|---|---|---|---|---|---|---|
-| Codex | pass | blocked | not run | not run | not run | not run | blocked |
+| Codex | pass | pass | pass | fail | not run | not run | fail |
 | Claude | not run | not run | not run | not run | not run | not run | not run |
 
 ## Run log
@@ -199,6 +216,56 @@ files and are harness compatibility evidence, not installation evidence.
   how approved tracked files become the promised local Git persistence;
 - action: add one exact-path local commit after validation. Keep every remote action
   behind fresh approval.
+
+### Codex attempt 4 — installation pass
+
+- date: `2026-08-25 PDT`;
+- harness: `codex-cli 0.146.0`, `gpt-5.5`, reasoning `high`, normal ambient setup;
+- thread: `01a03c12-5f88-7313-9118-af5756d03914`;
+- framework: `f8ee6bfd9c531d78fa75ac9ce7a7bc0dff3ad2e2`;
+- target base and ref: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`,
+  `refs/heads/main`;
+- first proposal: rejected without write because its target-ref evidence, conflicts row,
+  role-session mapping, and worktree authority text were inaccurate;
+- approved proposal: `glbuilding-onboard-20260826T032459Z-f8ee6bfd`, digest
+  `46a633d5c508bb29cd170e9c387080650f7b7435853bcecca2ad2f471561eb46`;
+- independent artifact check: pass; applying the shown patch in a disposable clone
+  reproduced every postimage hash and the manifest digest;
+- local commit: `466de389900ad267c28d5e5e5f5cc155c555daaa`, parent
+  `1c01f4db2d29588f0cc98defd428b9be26c38dbe`, tree
+  `0ee6e2a481f3a549129a27b987cd4bc223d7b0fd`, message
+  `Configure GLBuilding`;
+- changed paths: only `.glbuilding/PROJECT.md`, `AGENTS.md`, and `CLAUDE.md`;
+- final target and source status: empty;
+- remote action: none.
+
+### Codex attempt 5 — mutation found three contract gaps
+
+- date: `2026-08-25 PDT`;
+- framework and config: `f8ee6bfd9c531d78fa75ac9ce7a7bc0dff3ad2e2`,
+  PROJECT revision `1`;
+- goal: `Use GLBuilding for: change greet.txt from hello to hello GLBuilding`;
+- normal workspace-write thread: `01a03c20-6c1e-7a32-9a2a-c1b735444fbd`;
+- required branch setup: blocked by the harness. The Orchestrator then proposed an
+  unauthorized downgrade to an uncommitted result. The run was interrupted before
+  `greet.txt` or a task record changed;
+- local-Git-capable retry: disposable fixture with
+  `--dangerously-bypass-approvals-and-sandbox`; thread
+  `01a03c23-47d2-7c61-b4f8-a67be950eab3`;
+- Explorer: skipped for the one-line, known-path goal;
+- Builder: fresh subagent `01a03c25-571a-73b2-a098-c050f2fb980e`, changed only
+  `greet.txt`;
+- Reviewer: fresh subagent `01a03c27-0cbd-7952-bfaa-632eb83247c4`, but returned only
+  `pass` without criterion or command evidence;
+- resulting local commit: `b56af58b1698ba681dd694282155a74430d4ae8e` on
+  `glbuilding/greet-txt-20260826T033709Z`; exact content and clean status passed;
+- task-record defect: terminal content said `local commit to follow` and did not carry a
+  self-reference-safe finalization identity;
+- verdict: mutation review `fail` despite the correct project byte. A bare verdict and
+  downgraded delivery can permit unsafe completion claims;
+- action: require evidence-bearing Reviewer packets, block before Builder on a failed
+  delivery preflight, and finalize the project paths plus terminal record in one exact
+  Git transaction.
 
 ## Dogfood evidence
 

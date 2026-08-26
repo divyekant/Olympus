@@ -27,16 +27,19 @@ before routing work. Load a role charter only when that role runs.
 
 ## Fixed workflow
 
-1. Verify the pinned pack, project configuration, harness capabilities, and current
-   repository state. Block when the current path needs an unavailable capability.
+1. Use read-only checks to verify the pinned pack, project configuration, repository
+   state, and expected delivery capabilities.
 2. Route missing or changed configuration only to the [System Configurer](agents/SYSTEM_CONFIGURER.md).
-3. Freeze one goal record from [templates/TASK.md](templates/TASK.md), including its
-   source, base, identity, capability envelope, and delivery boundary.
-4. Use the [Explorer](agents/EXPLORER.md) only for required bounded repository questions.
-5. For mutation, send the accepted task and evidence to the [Builder](agents/BUILDER.md).
-6. After mutation, send the exact frozen diff to a fresh [Reviewer](agents/REVIEWER.md).
-7. Repair actionable findings, then start a fresh review. Stop at the configured cap.
-8. Record verification and one terminal status: `complete`, `blocked`, `failed`, or
+3. Freeze the goal values for [templates/TASK.md](templates/TASK.md), including source,
+   base, intended branch or worktree, capability envelope, and delivery boundary.
+4. Perform required Git setup. On success, write the task record in the selected goal
+   checkout. On failure, write a `blocked` record in the original checkout. Do either
+   before any role or target-project mutation. Never downgrade the delivery boundary.
+5. Use the [Explorer](agents/EXPLORER.md) only for required bounded repository questions.
+6. For mutation, send the accepted task and evidence to the [Builder](agents/BUILDER.md).
+7. After mutation, send the exact frozen diff to a fresh [Reviewer](agents/REVIEWER.md).
+8. Repair actionable findings, then start a fresh review. Stop at the configured cap.
+9. Record verification and one terminal status: `complete`, `blocked`, `failed`, or
    `cancelled`.
 
 The protocol defines ownership, activation, Git, approval, persistence, capability,

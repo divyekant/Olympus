@@ -50,7 +50,9 @@ Each goal freezes the framework commit, project configuration revision, committe
 
 ### D009 — Bounded review
 
-Every mutation receives a fresh independent review. Explorer is conditional. Review and repair default to two rounds, allow one to three, and stop as `blocked` at the cap. Unknown evidence cannot produce `pass`.
+Every mutation receives a fresh independent review. Explorer is conditional. Review and
+repair default to two rounds, allow one to three, and stop as `blocked` at the cap. A
+bare verdict is not a review packet. Unknown or missing evidence cannot produce `pass`.
 
 ### D010 — Git persistence has levels
 
@@ -58,6 +60,13 @@ Validated onboarding creates one local commit with only the approved configurati
 loader paths. Tracked local records then support local recovery. Cross-host recovery
 requires an approved remote checkpoint or tested host persistence. GLBuilding does not
 equate a local commit with cloud durability.
+
+A committed goal uses one exact local Git transaction for its accepted paths and terminal
+record. The record identifies the first goal-ref commit that introduces its path, which
+avoids a self-referential commit hash. The returned transaction packet carries the actual
+commit.
+For a new worktree, the Orchestrator freezes values first and writes the record there only
+after setup succeeds. A setup failure leaves a `blocked` record in the original checkout.
 
 ### D011 — Configuration uses double opt-in
 
@@ -103,7 +112,8 @@ The baseline changed as follows:
 - cached framework checkouts must match origin and `HEAD` and have empty Git status;
 - the Orchestrator can create branches and worktrees but cannot edit target code;
 - read-only audits, repair return, retry records, takeover, and deactivation have explicit paths;
-- active-root checks scan non-terminal task records and disclose the remaining start race;
+- active-root checks enumerate registered worktrees, scan their non-terminal task
+  records, and disclose the remaining start race;
 - native host instruction precedence remains above the GLBuilding configuration layer;
 - owner identity and approval are limited to the principal control that the harness proves;
 - provider tool, model, and budget mappings freeze through one execution-profile digest;

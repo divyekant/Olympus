@@ -65,6 +65,7 @@ Use safe defaults in the proposal:
 - cross-host resume: `off`;
 - remote and destructive actions: fresh approval for each action;
 - onboarding persistence: one local commit containing only the approved install paths;
+- committed-goal persistence: one exact Git transaction; project hooks do not run;
 - advanced model, tool, budget, and evolution choices: unchanged or omitted;
 - worktree: only for concurrency, relevant dirty state, or project policy.
 
@@ -88,6 +89,10 @@ Show:
 - the config revision and proposal metadata that will be recorded.
 
 Do not write yet.
+
+If the owner selects a committed goal branch, disclose that its exact finalization uses
+Git plumbing without project commit hooks. If project rules require hooks or commit
+signing, that delivery boundary is unavailable in version one.
 
 Never abbreviate an artifact. Do not use a placeholder, omission marker, `as shown
 above`, or ellipsis. If the host cannot present every approved byte, return `blocked`.
@@ -147,12 +152,13 @@ Onboarding always creates one local configuration commit:
 4. verify its tree, single parent, complete changed-path set, message, and blob hashes;
 5. recheck the symbolic target ref;
 6. advance that ref with an old-value check from the frozen `HEAD` to the verified commit;
-7. require an empty target Git status.
+7. check the target Git status; empty is expected.
 
 Before ref advance, roll back only approved paths whose worktree and index bytes still
 match their postimages. After a successful ref advance, preserve the exact commit and
-any concurrent state. Return `blocked` on any mismatch. Do not reset or amend. A later
-configuration commit uses the fixed message `Update GLBuilding configuration`.
+any concurrent state. New dirty state then blocks activation but does not revoke the
+configuration commit. Return `blocked` on any earlier mismatch. Do not reset or amend.
+A later configuration commit uses the fixed message `Update GLBuilding configuration`.
 
 If project rules require commit hooks for this metadata-only commit, return `blocked`
 before the proposal. Do not silently bypass a higher-priority rule.
