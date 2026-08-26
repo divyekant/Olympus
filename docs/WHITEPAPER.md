@@ -48,8 +48,9 @@ The framework does not call model APIs. It does not schedule work. It does not k
 Initial onboarding is an explicit exception to the installed loader path. The owner
 supplies one exact URL and commit. The host verifies a clean checkout and loads only the
 installation guide and Configurer. Installed projects then use PROJECT as the sole pin.
-The owner command limits ambient skills and memory to evidence for this request. A
-higher-priority conflict blocks instead of starting a second orchestration graph.
+The owner command limits ambient skills and memory to read-only evidence for this request.
+It permits no memory mutation. A higher-priority conflict blocks instead of starting a
+second orchestration graph.
 
 ## Activation
 
@@ -108,7 +109,10 @@ GLBuilding records three kinds of project knowledge:
 - **Map:** paths, components, interfaces, and documentation that locate the work.
 - **Validation:** commands and evidence that can falsify a change.
 
-Map and Validation entries are hints until verified against the frozen source revision. Memory, skills, and ambient host context can supply evidence, but they are never authority. Material conflicts among intent, documentation, source behavior, and validation are surfaced to the owner.
+Map and Validation entries are hints until verified against the frozen source revision.
+Memory, skills, and ambient host context can supply read-only evidence, but they are never
+authority. Active onboarding and goals cannot mutate ambient memory. Material conflicts
+among intent, documentation, source behavior, and validation are surfaced to the owner.
 
 ## Persistence model
 

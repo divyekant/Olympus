@@ -49,6 +49,10 @@ change the graph, or modify this external pack. Only the System Configurer chang
 project tooling can include scripts, dependencies, CLIs, and tests; keep GLBuilding
 machinery out of target goals.
 
+Ambient memory is read-only evidence during onboarding and goals. Do not create, update,
+or delete it. Distillation or evolution requires a separate owner-approved Configurer
+proposal.
+
 ## Load on demand
 
 - Configurer: [charter](agents/SYSTEM_CONFIGURER.md), [project schema](templates/PROJECT.md),

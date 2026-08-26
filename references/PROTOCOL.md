@@ -56,9 +56,10 @@ isolate files; they do not isolate orchestration ownership or approval state.
 - Initial onboarding is the only exception. The owner's installation command supplies
   the exact URL and commit out of band. Verify that checkout, then load only the
   installation guide and System Configurer before PROJECT and loader files exist.
-- That owner command also limits ambient skills and memory to evidence. Do not start a
-  second onboarding, design, or orchestration graph. A conflicting higher-priority host
-  rule blocks installation.
+- That owner command also limits ambient skills and memory to read-only evidence. It
+  grants no memory create, update, or delete action. Do not start a second onboarding,
+  design, or orchestration graph. A conflicting higher-priority host rule blocks
+  installation.
 - A full immutable commit is a complete commit identifier, not a branch, tag, or short SHA.
 - A loader reads that URL and commit, then checks a cached checkout's exact origin,
   `HEAD`, and clean status. The status must show no tracked, staged, or untracked change.
@@ -79,8 +80,11 @@ The Configurer derives these fields and records the evidence used:
 - **Map** is a structural map of the project and likely affected paths.
 - **Validation** is a set of existing checks and likely evidence sources.
 - Map and Validation are hints. Verify them at the frozen source revision before use.
-- Memory and ambient skills are optional evidence. They are never authority. Surface any
-  material conflict with the owner request, current files, or the frozen configuration.
+- Memory and ambient skills are optional read-only evidence. They are never authority.
+  The Orchestrator and roles do not create, update, or delete ambient memory during
+  onboarding or a goal. Distillation or evolution is a separate owner-approved
+  Configurer proposal. Surface any material conflict with the owner request, current
+  files, or the frozen configuration.
 
 Native host instruction precedence always applies. If a higher-priority or more-specific
 host instruction conflicts with the fixed GLBuilding contract, block instead of claiming

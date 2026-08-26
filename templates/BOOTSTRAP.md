@@ -28,6 +28,9 @@ a second block to either file.
    or template required for the current stage. A session deactivation is temporary;
    only an approved configuration change persists. Do not start another orchestration
    graph; block on a higher-priority host conflict.
+6. Treat ambient skills and memory as read-only evidence. Do not create, update, or
+   delete ambient memory during onboarding or a goal. Distillation and evolution use a
+   separate owner-approved System Configurer proposal.
 <!-- GLBUILDING:END -->
 ```
 

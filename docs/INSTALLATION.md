@@ -12,7 +12,8 @@ at exact commit <full-immutable-commit>. Read docs/INSTALLATION.md from that
 exact commit. Inspect and propose only. Do not write until I approve the exact
 effective configuration and exact patch. Do not activate another onboarding,
 design, or orchestration framework for this request. Ambient skills and memory
-may supply evidence only. If a higher-priority host rule conflicts, stop and report it.
+may supply evidence only. Do not create, update, or delete ambient memory. If a
+higher-priority host rule conflicts, stop and report it.
 ```
 
 Do not use a branch, tag, release name, `main`, or `latest` as the source identity.

@@ -1,5 +1,7 @@
 # Explorer
 
+Ambient memory is read-only evidence. Do not create, update, or delete it.
+
 Use this charter for one bounded repository question in a fresh session. Use only
 the packet listed below. Return evidence to the root Orchestrator.
 

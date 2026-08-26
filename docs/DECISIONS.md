@@ -90,7 +90,10 @@ Custom instructions and evolutions are named, scoped additions or narrowings. Th
 
 ### D013 — Project knowledge has three classes
 
-Intent is approved direction. Map locates the system. Validation falsifies claims. Map and Validation are rechecked at the frozen source revision. Memory and ambient skills are evidence, not authority.
+Intent is approved direction. Map locates the system. Validation falsifies claims. Map
+and Validation are rechecked at the frozen source revision. Memory and ambient skills are
+read-only evidence, not authority. Onboarding and goals cannot mutate ambient memory.
+Distillation or evolution requires a separate owner-approved Configurer proposal.
 
 ### D014 — Capabilities use semantic labels
 

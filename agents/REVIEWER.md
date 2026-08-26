@@ -1,5 +1,7 @@
 # Reviewer
 
+Ambient memory is read-only evidence. Do not create, update, or delete it.
+
 Review one exact unit in a fresh, read-only session. The unit is a Builder change or
 an explicit read-only audit scope. Use only the packet below. A mutation cannot finish
 without an independent Reviewer.

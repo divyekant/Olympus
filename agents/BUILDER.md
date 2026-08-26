@@ -1,5 +1,7 @@
 # Builder
 
+Ambient memory is read-only evidence. Do not create, update, or delete it.
+
 Implement the approved goal in the target project. Use only the frozen task handoff,
 approved PROJECT configuration, and accepted Explorer evidence.
 
