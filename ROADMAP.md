@@ -13,31 +13,34 @@ The roadmap is evidence-gated. A later phase cannot convert an untested claim in
 - Council-backed decision record;
 - source-skill distillation ledger;
 - installation and onboarding contract;
-- host-neutral protocol and four role charters;
+- host-neutral protocol, one Orchestrator entrypoint, and four worker charters;
 - project, goal, and bootstrap templates;
 - conformance scenarios.
 
 **Exit:** Every shared rule has one canonical home. No rule requires a GLBuilding runtime.
 
-## Phase 2 — Prove installation and one goal on Codex
+## Phase 2 — Prove the simple flow on one target harness
 
 **Goal:** Complete a clean end-to-end local run.
 
 **Prove:**
 
-- exact pinned resolution and verified-cache behavior;
+- exact pinned framework loading;
 - onboarding preserves existing project instructions;
 - manual, session, and project activation route through one graph;
 - one mutation gets a fresh independent review;
 - the repair cap stops the loop;
 - remote and destructive actions stop for fresh approval;
-- records distinguish local persistence from cross-host persistence.
+- a harness that cannot keep Builder and Reviewer separate is marked unsupported.
 
-**Exit:** The Codex conformance cases have recorded evidence. Unsupported cases are labeled.
+Run Codex first. If it is unsupported, run Claude. Dogfood starts after one target
+harness completes the simple flow.
+
+**Exit:** One target harness has a recorded end-to-end pass.
 
 ## Phase 3 — Dogfood GLBuilding
 
-**Gate:** Start only after the Codex baseline can install and run one goal.
+**Gate:** Start only after one target harness can install and run one goal.
 
 Use GLBuilding to improve its own Markdown files. Treat each framework change as a new goal with a frozen prior framework revision. A running goal cannot change the rules that govern it.
 
@@ -51,11 +54,11 @@ Run a representative task in a large existing Git repository. Use scoped Explore
 
 **Exit:** Evidence shows scoped context, correct acceptance coverage, independent review, and no increase in owner correction. A failed comparison is a product finding, not a result to hide.
 
-## Phase 5 — Claude parity and unrelated-project proof
+## Phase 5 — Second-harness and unrelated-project proof
 
-Run the same minimum conformance cases on Claude. Record which capabilities are native-enforced, workflow-instructed, or unavailable.
-
-Then complete one goal in an unrelated project. Do not add provider-specific policy to the semantic core.
+Run the same simple flow on the second target harness and record `pass` or `unsupported`.
+Then complete one goal in an unrelated project. Keep harness-specific mappings outside
+the semantic core.
 
 ## Phase 6 — OSS release readiness
 
@@ -80,3 +83,5 @@ Then complete one goal in an unrelated project. Do not add provider-specific pol
 - automatic updates or self-evolution;
 - telemetry, analytics, or a dashboard;
 - non-Git project support.
+- cryptographic proposal manifests or transcript provenance;
+- custom Git transaction and recovery machinery.

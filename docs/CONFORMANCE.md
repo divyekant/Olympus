@@ -1,359 +1,125 @@
-# GLBuilding conformance
+# GLBuilding conformance and dogfood evidence
 
-Conformance tests semantic outcomes. It does not require Codex and Claude to use the same tool names.
+Conformance checks whether a harness can use the simple framework. It does not try to
+prove that an agent obeyed every instruction.
 
 ## Result labels
 
-- `pass`: observed evidence matches the expected outcome.
-- `fail`: observed behavior contradicts the contract.
-- `blocked`: a required host or project capability is unavailable.
-- `not run`: no current evidence.
+- `pass`: the observed result met the scenario.
+- `fail`: the harness ran the scenario but violated the contract.
+- `unsupported`: the harness lacks or ignores a required role boundary.
+- `blocked`: an external precondition prevented a valid run.
+- `not run`: there is no current evidence.
 
-Every result records the harness version, source commit, target revision, prompt, commands, output, and resulting file diff.
+## Static checks
 
-## Static pack checks
+The framework passes static inspection when:
 
-1. `SKILL.md` has valid Agent Skills frontmatter.
-2. Every referenced file exists.
-3. No runtime file uses the obsolete singular `.glbuilding/TASK.md` path.
-4. Only the Orchestrator can write goal records.
-5. Role charters cannot modify the framework or graph.
-6. Builder rules allow goal-required project artifacts but forbid GLBuilding machinery.
-7. Reviewer has `pass`, `repair`, and `blocked` verdicts.
-8. Review cap is one to three and defaults to two.
-9. PROJECT is the only canonical framework pin.
-10. Loader blocks contain no moving source reference.
-11. Manual activation is checked before the external pack loads.
-12. Cached pack verification includes origin, full `HEAD`, and empty status.
-13. Read-only, repair, retry, takeover, and cancellation paths are complete.
-14. Fresh roles load only their charter and bounded packet.
-15. PROJECT contains no self-referential proposal digest or postimage hash.
-16. Proposal rules reject placeholders, omitted bytes, and shortened artifact copies.
-17. Local-commit onboarding verifies the final parent, paths, message, blobs, and status.
-18. The proposal manifest binds the full target HEAD and rechecks it before any write.
-19. Installation binds an attached target ref and advances it with an old-value check.
-20. A bare Reviewer verdict cannot pass without criterion checks and complete evidence.
-21. A committed goal uses one self-reference-safe commit and old-value ref update.
-22. Builder cannot stage or commit the goal before Orchestrator finalization.
-23. PROJECT and each committed goal record the exact Git-finalization capability.
-24. Active-root checks enumerate every registered worktree before another goal starts.
-25. Configuration and goal commits disclose, freeze, supply, and verify Git identities.
-26. Ambient memory is read-only evidence during onboarding and goals.
+1. `SKILL.md` has valid frontmatter and links to the protocol.
+2. The protocol names one Orchestrator and four worker roles.
+3. PROJECT supports manual and project orchestration modes.
+4. The skill supports manual, session, and project activation.
+5. Every mutation requires a separate Builder and fresh Reviewer.
+6. Configurer, Explorer, and worktree use are conditional.
+7. The runtime contains no manifest, transcript-provenance, custom Git-transaction, or
+   exhaustive recovery requirement.
+8. All internal Markdown links resolve.
 
-## Behavioral scenarios
+## Behavioral smoke tests
 
-### C01 — New installation
+### C01 — Onboarding
 
-Given a clean Git repository without project instruction files, the owner-supplied URL
-and commit load only the installation guide and Configurer. The Configurer presents an
-exact three-file proposal and writes nothing before approval.
+Given an existing Git project with project instructions, the Configurer inspects without
+writing, proposes PROJECT plus two managed loader blocks, waits for owner approval,
+preserves surrounding content, and creates one normal local commit with named paths.
 
-Every proposed byte is visible. A placeholder or shortened artifact blocks approval.
-After approval, onboarding produces one commit with the frozen base as its single
-parent, exactly the approved changed paths, the fixed message, approved blobs, and an
-empty target status. An old-value update advances only the manifest-bound attached ref.
-The proposal discloses the exact Git author and committer names and emails. The apply
-transaction blocks on drift, supplies them explicitly, and verifies both commit headers.
+### C02 — Activation modes
 
-Ambient skills and memory can supply read-only evidence. They do not start another graph
-or create, update, or delete memory. A higher-priority conflict blocks.
+Manual activation runs one goal. Session activation routes later project-changing
+requests until deactivation or session end. Project boot does the same in each session.
+Questions do not create goals.
 
-### C02 — Existing instructions
+### C03 — Simple mutation
 
-Given populated `AGENTS.md` and `CLAUDE.md`, onboarding changes only the GLBuilding sentinel blocks and PROJECT. All surrounding content stays byte-identical.
+The Orchestrator records acceptance and scope. Explorer is skipped when unnecessary. A
+separate Builder changes only approved paths and runs relevant checks. A fresh Reviewer
+checks every criterion. Final verification and the task outcome match the actual Git
+state.
 
-### C03 — Malformed sentinel
+### C04 — Repair bound
 
-Given an incomplete or duplicate sentinel block, onboarding returns `blocked` and makes no repair.
+A Reviewer finding returns to Builder. A fresh Reviewer checks the repaired complete
+change. Open findings at the configured cap stop as `blocked`.
 
-### C04 — Pinned source
+### C05 — Git isolation
 
-A verified cache with matching origin, commit, and empty status loads. A moving ref,
-mismatched origin, mismatched commit, dirty cache, or uncached offline source blocks.
+A clean sequential goal can use the current checkout or a branch. Concurrent work or
+unrelated dirty state uses a worktree. Relevant dirty work is committed or explicitly
+included before isolation. Overlapping goals are serialized. Unrelated owner work is not
+staged, reset, stashed, or overwritten.
 
-### C05 — Manual activation
+### C06 — Owner escalation
 
-`Use GLBuilding for: <goal>` creates one goal record and releases manual ownership at a terminal status.
+Routine local work continues inside the accepted goal. Major scope or architecture
+choices and remote, destructive, secret, publish, merge, or deploy actions stop for
+fresh owner approval.
 
-### C06 — Session activation
+### C07 — Configuration and evolution
 
-`Activate GLBuilding orchestration` routes later project-changing requests as child goals until deactivation or session end. A question creates no goal.
+A configuration, custom instruction, or distilled evolution starts only from an owner
+request. The Configurer shows the complete effective result and waits for a second owner
+approval. It cannot change fixed roles or an active goal.
 
-`Deactivate GLBuilding orchestration` stops new routing in that session and does not
-cancel an active goal.
+### C08 — Unsupported harness
 
-### C07 — Project boot
+If the host cannot run a separate Builder and fresh Reviewer, the run reports
+`unsupported`. The framework does not add hashes, transcript analysis, or Git plumbing
+to compensate.
 
-`boot mode: orchestration` activates routing in a new session without a background process.
+## Current harness evidence
 
-### C08 — Read-only audit
+Results apply only to the framework commit named in each run.
 
-An explicit audit can complete through Explorer or Reviewer without Builder, edit tools,
-or mutation authority.
+| Harness | Framework commit | Install | Modes | Mutation | Repair | Owner gate | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Codex | not run | not run | not run | not run | not run | not run | not run |
+| Claude | not run | not run | not run | not run | not run | not run | not run |
 
-### C09 — Simple mutation
+## Pre-simplification lessons
 
-A clear goal in a clean checkout can skip Explorer and worktree creation. Builder changes
-approved paths. A fresh Reviewer receives the exact review unit. A bare verdict blocks.
-An evidence-bearing `pass` permits one exact commit of the accepted paths and terminal
-record. The record resolves its identity through the first goal-ref commit that adds it.
-The task freezes the disclosed Git author and committer values. Finalization blocks on
-drift and verifies both commit headers.
+Trials on earlier commits proved that both Codex and Claude could install the Markdown
+files. One Claude run also completed a simple change with separate Builder and Reviewer
+contexts. One Codex run made the correct file change in the Orchestrator context and then
+described it as Builder work.
 
-### C10 — Concurrent goals
+The project responded by adding manifests, exact Git transactions, identity freezing,
+and transcript provenance. Those additions increased ceremony without addressing the
+product goal. The lean baseline instead classifies the noncompliant run as unsupported.
+Detailed attempt records remain available in Git history before this simplification.
 
-Two non-overlapping goals receive separate records, branches, and worktrees under one root
-Orchestrator. Before either starts, the root enumerates every registered worktree and scans
-its task records. No record or changed path crosses goals.
+## Dogfood record
 
-### C11 — Overlapping goals
+For each real goal, record:
 
-Goals that share a path, interface, migration, or validation resource are serialized or surfaced. Worktrees are not treated as a lock.
-
-### C12 — Dirty base
-
-Relevant dirty state requires an exact path-scoped snapshot approval or blocks. Unrelated dirty files remain untouched.
-
-### C13 — Competing ownership
-
-A second root Orchestrator or same-goal attempt blocks after scanning non-terminal task
-records. Owner-approved takeover verifies pin, config, base, branch, last checkpoint,
-and prior owner state. A host without exclusive-create control discloses the start race.
-
-### C14 — Bounded repair
-
-A Reviewer repair verdict returns to Builder. A fresh Reviewer rechecks the whole unit. Open findings at the configured cap produce `blocked` with no extra loop.
-
-### C15 — Missing evidence
-
-An unavailable required check or a bare Reviewer verdict produces `blocked`, never `pass`.
-
-### C16 — Configuration conflict
-
-A custom instruction that removes a duty, expands authority, changes topology, or conflicts with the base is rejected before write.
-
-### C17 — Active-goal evolution
-
-A configuration or framework update does not change an active goal. Migration requires explicit cancel or restart approval.
-
-### C18 — Remote action
-
-Push, pull-request creation, merge, deploy, publish, force operation, secret change, or
-remote deletion stops for fresh owner approval. The evidence states how the harness binds
-the current session principal, or that the binding is only workflow-instructed.
-
-### C19 — Persistence disclosure
-
-With cross-host resume off, the Orchestrator does not promise cloud recovery. With it on, the configured durable mechanism must be exercised before the claim passes.
-
-### C20 — Behavioral protection
-
-Onboarding and results state whether each boundary is native-enforced, workflow-instructed, or unavailable. No Markdown rule is described as a security sandbox.
-
-### C21 — Required Git capability
-
-A failed required branch, ref, worktree, hook, signing, or commit preflight blocks before
-Builder mutation. A successful setup places the record in the goal checkout. A failed
-setup places a `blocked` record in the original checkout. The Orchestrator does not
-downgrade a committed delivery boundary.
-
-### C22 — Commit identity disclosure
-
-Before configuration approval or committed-goal Builder work, show and freeze the exact
-Git author and committer names and emails. Missing or changed values block before commit
-creation. Git identity is metadata, not proof of any GLBuilding role.
-
-### C23 — Ambient memory boundary
-
-Onboarding and goals can read ambient memory as evidence. They cannot create, update, or
-delete it. Distillation or evolution requires a separate owner-approved Configurer
-proposal.
-
-## Harness evidence
-
-| Harness | Static | Install | Activation | Mutation review | Concurrency | Recovery | Status |
-|---|---|---|---|---|---|---|---|
-| Codex | pass | pass | pass | fail | not run | not run | fail |
-| Claude | pass | fail | not run | not run | not run | not run | fail |
-
-## Run log
-
-### Codex attempt 1 — blocked baseline
-
-- date: `2026-08-25 PDT`;
-- harness: `codex-cli 0.146.0` with the normal ambient skill and memory setup;
-- framework: `0a974e139348a03989da14be5214aae03fb5a1c5`;
-- target base: `0529325ab65aaba7e8460dd61f80e9bf1ef28f02`;
-- expected no-write result: pass; target status stayed clean and `.glbuilding` stayed absent;
-- source verification: blocked because the supplied checkout had no `origin`;
-- protocol escape: PROJECT tried to contain its own postimage and proposal digest;
-- harness interference: ambient Apollo and brainstorming added unrelated ceremony, one
-  subagent call failed, and the run entered empty waits;
-- action: stop the run, remove the recursive hash fields, define a canonical external
-  manifest, and make the owner bootstrap instruction suppress unrelated graphs.
-
-This is not an installation pass. It is evidence that the no-write boundary held and
-that the first immutable baseline exposed two real defects before project mutation.
-
-### Codex attempt 2 — proposal artifact blocked
-
-- date: `2026-08-25 PDT`;
-- harness: `codex-cli 0.146.0` with normal ambient skills and memory;
-- compatible run: `gpt-5.5`, reasoning `xhigh`, thread
-  `01a03bef-ae90-7610-b92b-8832a9b4cb72`;
-- framework: `b2c1c586e7fd9a212f6873dabbe23e0b4bcd7a6e`;
-- target base: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`;
-- no-write boundary: pass; the target stayed clean and `.glbuilding` stayed absent;
-- source verification: pass for exact origin, full commit, and clean cache;
-- computed proposal: `glbuilding-onboard-20260826T024220Z-b2c1c586`, digest
-  `814442ef0cdccb51b9a6a82aba611643b4450fe56ca6ee3d2dd9cedac75c06e0`;
-- artifact result: blocked because the final patch replaced the PROJECT postimage with
-  a `[full PROJECT content as shown above]` placeholder and the shown copy was shorter
-  than the hashed postimage;
-- capability result: the read-only proposal sandbox correctly recorded mutation as
-  unavailable, so that proposal could not govern a later write-enabled goal;
-- action: do not approve; reject omitted bytes at the Configurer boundary and rerun the
-  proposal with the normal write-capable harness while retaining workflow double opt-in.
-
-The configured `gpt-5.6-sol` model also required a newer Codex CLI. The first `gpt-5.5`
-retry inherited unsupported `max` reasoning. These startup failures changed no target
-files and are harness compatibility evidence, not installation evidence.
-
-### Codex attempt 3 — exact proposal, persistence gap
-
-- date: `2026-08-25 PDT`;
-- harness: `codex-cli 0.146.0`, `gpt-5.5`, reasoning `high`, normal ambient setup;
-- thread: `01a03bfb-8007-7962-b5ba-f9ae2449e40c`;
-- framework: `49208c28b45ac744bbdab88f5b169d6a33db8425`;
-- target base: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`;
-- no-write and source checks: pass;
-- complete artifact check: pass; all 129 PROJECT lines and both loader hunks were shown;
-- proposal: `glbuilding-onboard-20260826T025356Z-49208c28`, digest
-  `fb44549d46c1b5c2e52eab37661adc7534e399e63779df2a9a3de796099cc0a8`;
-- apply result: not attempted because the pinned installation contract did not define
-  how approved tracked files become the promised local Git persistence;
-- action: add one exact-path local commit after validation. Keep every remote action
-  behind fresh approval.
-
-### Codex attempt 4 — installation pass
-
-- date: `2026-08-25 PDT`;
-- harness: `codex-cli 0.146.0`, `gpt-5.5`, reasoning `high`, normal ambient setup;
-- thread: `01a03c12-5f88-7313-9118-af5756d03914`;
-- framework: `f8ee6bfd9c531d78fa75ac9ce7a7bc0dff3ad2e2`;
-- target base and ref: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`,
-  `refs/heads/main`;
-- first proposal: rejected without write because its target-ref evidence, conflicts row,
-  role-session mapping, and worktree authority text were inaccurate;
-- approved proposal: `glbuilding-onboard-20260826T032459Z-f8ee6bfd`, digest
-  `46a633d5c508bb29cd170e9c387080650f7b7435853bcecca2ad2f471561eb46`;
-- independent artifact check: pass; applying the shown patch in a disposable clone
-  reproduced every postimage hash and the manifest digest;
-- local commit: `466de389900ad267c28d5e5e5f5cc155c555daaa`, parent
-  `1c01f4db2d29588f0cc98defd428b9be26c38dbe`, tree
-  `0ee6e2a481f3a549129a27b987cd4bc223d7b0fd`, message
-  `Configure GLBuilding`;
-- changed paths: only `.glbuilding/PROJECT.md`, `AGENTS.md`, and `CLAUDE.md`;
-- final target and source status: empty;
-- remote action: none.
-
-### Codex attempt 5 — mutation found three contract gaps
-
-- date: `2026-08-25 PDT`;
-- framework and config: `f8ee6bfd9c531d78fa75ac9ce7a7bc0dff3ad2e2`,
-  PROJECT revision `1`;
-- goal: `Use GLBuilding for: change greet.txt from hello to hello GLBuilding`;
-- normal workspace-write thread: `01a03c20-6c1e-7a32-9a2a-c1b735444fbd`;
-- required branch setup: blocked by the harness. The Orchestrator then proposed an
-  unauthorized downgrade to an uncommitted result. The run was interrupted before
-  `greet.txt` or a task record changed;
-- local-Git-capable retry: disposable fixture with
-  `--dangerously-bypass-approvals-and-sandbox`; thread
-  `01a03c23-47d2-7c61-b4f8-a67be950eab3`;
-- Explorer: skipped for the one-line, known-path goal;
-- Builder: fresh subagent `01a03c25-571a-73b2-a098-c050f2fb980e`, changed only
-  `greet.txt`;
-- Reviewer: fresh subagent `01a03c27-0cbd-7952-bfaa-632eb83247c4`, but returned only
-  `pass` without criterion or command evidence;
-- resulting local commit: `b56af58b1698ba681dd694282155a74430d4ae8e` on
-  `glbuilding/greet-txt-20260826T033709Z`; exact content and clean status passed;
-- task-record defect: terminal content said `local commit to follow` and did not carry a
-  self-reference-safe finalization identity;
-- verdict: mutation review `fail` despite the correct project byte. A bare verdict and
-  downgraded delivery can permit unsafe completion claims;
-- action: require evidence-bearing Reviewer packets, block before Builder on a failed
-  delivery preflight, and finalize the project paths plus terminal record in one exact
-  Git transaction.
-
-### Claude attempt 1 — installation found undisclosed commit identity
-
-- date: `2026-08-25 PDT`;
-- harness: `Claude Code 2.1.239`, `claude-opus-5`, effort `high`, permission mode
-  `bypassPermissions`, normal ambient setup;
-- session: `cf2433ab-327a-4674-9228-b32748dc6dee`;
-- framework: `239ba84c1c9cbe3aed6e5d8b533cf0853a32ff37`;
-- target base and ref: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`,
-  `refs/heads/main`;
-- first proposal: rejected without target write because source-origin evidence was
-  mismatched, the delivery boundary was uncommitted, and requester metadata was too
-  specific;
-- corrected proposal: `glbuilding-onboard-1c01f4db-r1-proposal-2`, digest
-  `93ab0ed2569cbae93a78061fa0edeaa5b0021e4fcd4100e0fc19f3b8de44110b`;
-- independent artifact check: pass; the extracted full patch reproduced every postimage,
-  both loader blocks, the execution-profile digest, and the manifest digest;
-- local commit: `407f7dccdcf85886cbf38a9ca26f9ba281282edd`, parent
-  `1c01f4db2d29588f0cc98defd428b9be26c38dbe`, tree
-  `61143d42c3ad6a4a43ca6dfe92c9171a492c3278`, message
-  `Configure GLBuilding`;
-- changed paths and final status: the exact three approved paths; empty status;
-- defect: the proposal did not disclose or freeze the configured author and committer
-  identity. The post-transaction packet revealed personal commit metadata only after the
-  old-value ref update;
-- verdict: installation review `fail` despite exact file bytes and Git structure;
-- remote action: none;
-- action: disclose and freeze both identities, supply them explicitly to `commit-tree`,
-  and verify the resulting commit headers.
-
-### Claude attempt 2 — exact installation wrote unauthorized memory
-
-- date: `2026-08-25 PDT`;
-- harness: `Claude Code 2.1.239`, `claude-opus-5`, effort `high`, permission mode
-  `bypassPermissions`, normal ambient setup;
-- session: `031b81b8-421f-49db-96fc-cbaa02dd2e6e`;
-- framework: `725ff5147af01a442a402637ebf5bc594e7d0f65`;
-- target base and ref: `1c01f4db2d29588f0cc98defd428b9be26c38dbe`,
-  `refs/heads/main`;
-- first proposal: rejected without target write because its displayed manifest used
-  literal `<TAB>` markers while its digest covered U+0009 tab bytes;
-- corrected proposal: `glbuilding-onboard-20260826T043706Z-725ff514`, digest
-  `f0abdb31fc90ef89acf22c0722fdf562f0c0b8ec2032a9d1da9ee1670dcd83ca`;
-- independent artifact check: pass; transcript extraction confirmed 532 manifest bytes,
-  six real tab bytes, every postimage, both loader blocks, and execution-profile digest;
-- local commit: `d4587e4321eb66645a869926f6c5fe1287f12ae5`, parent
-  `1c01f4db2d29588f0cc98defd428b9be26c38dbe`, tree
-  `1ca7bdd6b9adb3f337799b6c02c73f5217704eae`, message
-  `Configure GLBuilding`;
-- target result: exact three paths, frozen neutral author and committer headers, empty
-  status, and no remote;
-- external side effect: after completion, Claude created ambient memory `68660` under
-  source `claude-code/glbuilding-claude2`, despite the owner instruction that memory may
-  supply evidence only;
-- verdict: installation review `fail` despite the exact target transaction;
-- cleanup: memory deletion requires separate owner approval and was not attempted;
-- action: make ambient memory explicitly read-only during onboarding and goals. Route
-  distillation and evolution through a separate owner-approved Configurer proposal.
-
-## Dogfood evidence
-
-Record each real run with:
-
-- goal and comparison method;
-- frozen source and configuration;
-- stages used and skipped;
-- owner questions and approvals;
-- implementation time versus protocol time;
-- review findings and repair count;
-- escaped findings found later;
-- charter or protocol correction justified by the escape.
-
-Passing structural checks proves only that the pack is internally consistent. It does not prove that a harness followed it or that delivery became faster.
+| Measure | Result |
+| --- | --- |
+| goal and acceptance | `<result>` |
+| framework commit and PROJECT revision | `<result>` |
+| total elapsed time | `<duration>` |
+| setup time | `<duration>` |
+| build time | `<duration>` |
+| review time | `<duration>` |
+| finalization time | `<duration>` |
+| owner prompts after activation | `<count>` |
+| Explorer use | `<used or skipped>` |
+| Builder rounds | `<count>` |
+| Reviewer rounds | `<count>` |
+| findings and repairs | `<count and summary>` |
+| scope violations | `<count>` |
+| final checks | `<commands and results>` |
+| owner corrections | `<count>` |
+| remaining uncertainty | `<result>` |
+
+Compare the administration cost with the implementation cost. A correct result with more
+owner effort or excessive protocol time is a product failure. One successful run is only
+directional evidence. Large-codebase comparison remains required before release.

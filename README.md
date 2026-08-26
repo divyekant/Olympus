@@ -2,7 +2,7 @@
 
 GLBuilding is a small, opinionated Markdown framework for reliable agent-led software development.
 
-It gives a coding agent one fixed orchestration graph, four fixed roles, bounded review, and Git-backed handoffs. It adds no runtime, service, database, package, or scheduler.
+It gives a coding agent one fixed orchestration graph, five fixed roles, bounded review, and Git-backed handoffs. It adds no runtime, service, database, package, or scheduler.
 
 ## Why it exists
 
@@ -15,9 +15,9 @@ Long agent sessions lose scope on large codebases. They can mix discovery, imple
 - Explorers answer bounded repository questions without edits.
 - Builders make the smallest approved project change.
 - Fresh Reviewers verify each mutation and return `pass`, `repair`, or `blocked`.
-- Concurrent goals use separate Git worktrees when their scopes do not overlap.
+- Clean sequential goals can use branches. Concurrent goals use Git worktrees when their scopes do not overlap.
 
-Project owners can configure fixed slots, tools, models, review rounds, project instructions, and activation mode. They cannot change role duties, agent communication, graph ownership, or protected rules.
+Project owners can configure fixed slots, tools, models, review rounds, project instructions, and activation mode. They cannot change the five role duties, agent communication, graph ownership, or protected rules.
 
 ## Install
 
@@ -58,7 +58,8 @@ Project boot is routing authority, not a background process. Questions do not cr
 
 ## Current status
 
-The Markdown baseline is under construction and local validation is in progress. Codex and Claude conformance are release gates. No public release is claimed yet.
+The lean Markdown baseline is under construction. Codex and Claude are target harnesses,
+not confirmed supported harnesses. No public release is claimed yet.
 
 ## Enforcement limit
 

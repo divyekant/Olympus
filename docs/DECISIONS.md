@@ -2,188 +2,160 @@
 
 ## Decision method
 
-The design was reviewed through a Council sequence:
+The initial design used a Council sequence:
 
-1. An Architect drafted the smallest complete baseline.
-2. A Skeptic challenged trust, concurrency, Git, and enforcement claims.
-3. A User Advocate challenged onboarding, recovery, and daily cost.
-4. A Pragmatist ran a three-month failure pre-mortem.
-5. The Architect rebutted every challenge.
-6. A neutral refiner produced the revised recommendation.
-7. The deterministic resolver selected the revision because critical challenges existed.
+1. an Architect proposed the smallest complete system;
+2. a Skeptic challenged trust, concurrency, and enforcement claims;
+3. a User Advocate challenged onboarding cost and daily use;
+4. a Pragmatist ran a failure pre-mortem;
+5. a neutral refiner resolved the critical challenges.
 
-The result is high-stakes because the challenges affected owner authority and the product's trust claims. The Council did not recommend a runtime.
+The Council supported a Markdown-only system. Later harness trials pushed the design
+toward proof and recovery machinery. The owner then reset version one to its product
+goal: faster, correct software building.
 
 ## Accepted decisions
 
-### D001 — Markdown-only kernel
+### D001 — Markdown-only framework
 
-GLBuilding contains instructions, role charters, templates, and documentation. It has no application runtime, service, database, queue, scheduler, or project package dependency.
+GLBuilding contains instructions, role charters, templates, and documentation. It has no
+application runtime, service, database, scheduler, queue, or project package dependency.
 
-### D002 — One repository-root Orchestrator
+### D002 — Five fixed roles
 
-One root Orchestrator owns routing for a repository. It starts bounded child goal graphs. Independent root Orchestrators in the same repository are unsupported.
+The roles are Orchestrator, System Configurer, Explorer, Builder, and Reviewer. Owners
+can select models, tools, limits, and named instruction additions inside fixed slots.
+They cannot add roles, remove duties, change hub ownership, or bypass fresh review.
 
-### D003 — Four fixed roles
+### D003 — Hub-only communication
 
-The fixed roles are System Configurer, Explorer, Builder, and Reviewer. Owners can configure fixed slots. They cannot add roles, remove duties, change state transitions, or enable peer-to-peer control.
+The Orchestrator routes work and owns task records. Worker roles return bounded packets
+to it. They do not talk to each other or change the graph.
 
-### D004 — Hub-only communication and record writes
+### D004 — Configuration uses double opt-in
 
-Roles return structured results to the Orchestrator. They do not talk to each other. Only the Orchestrator accepts evidence and writes `.glbuilding/tasks/<goal-id>.md`.
+The owner first requests onboarding or configuration. The Configurer then shows the
+complete effective configuration and exact affected file changes. Only explicit approval
+of that proposal permits the write.
 
-### D005 — One canonical source pin
+### D005 — One source pin
 
-`.glbuilding/PROJECT.md` stores one owner-approved canonical repository URL and full immutable commit. Stable `AGENTS.md` and `CLAUDE.md` blocks read that value. Loaders also require a clean checkout. The pin provides identity and drift evidence, not trust authentication.
+PROJECT stores one framework repository URL and full immutable commit. Root loader blocks
+read that pin. The pin identifies content and limits drift. It is not authentication.
 
-### D006 — Three activation paths, one protocol
+### D006 — Three activation paths, one goal flow
 
-Manual invocation runs one goal. Session activation routes later project-changing goals until deactivation or session end. Project boot routes them in every session. Deactivation stops new routing, not active goals. Questions do not start graphs. Explicit read-only audits are supported without mutation authority.
+Manual invocation runs one goal. Session activation routes later project-changing
+requests until deactivation or session end. Project boot routes them in every session.
+Questions do not create goals.
 
-### D007 — Adaptive worktree isolation
+### D007 — Project knowledge is explicit
 
-A simple single goal can use a clean current checkout. Concurrent goals, relevant dirty state, or policy-required isolation use worktrees from committed bases. Worktrees do not replace orchestration ownership or semantic conflict checks.
+PROJECT stores Intent, Map, and Validation. Intent is owner direction. Map and Validation
+are repository hints that agents check against current code. Missing or stale
+documentation is recorded instead of replaced with invented context.
 
-### D008 — Per-goal frozen contract
+Ambient instructions, skills, and memory can supply context. They cannot change fixed
+role duties or owner authority. PROJECT and current repository evidence remain the
+project sources of truth. GLBuilding does not manage the host's ambient setup.
 
-Each goal freezes the framework commit, project configuration revision, committed base, goal identity, delivery boundary, and maximum capability envelope. Stage packets may narrow authority and add accepted evidence.
+### D008 — One simple record per goal
 
-### D009 — Bounded review
+Each goal records its request, acceptance criteria, paths, source base, isolation choice,
+owner decisions, role results, checks, and outcome. Whole conversations, transcript
+proof, cryptographic manifests, and internal agent telemetry are not task state.
 
-Every mutation receives a fresh independent review. Explorer is conditional. Review and
-repair default to two rounds, allow one to three, and stop as `blocked` at the cap. A
-bare verdict is not a review packet. Unknown or missing evidence cannot produce `pass`.
+### D009 — Explorer and worktrees are conditional
 
-### D010 — Git persistence has levels
+Use Explorer only for a material repository question. Use the current checkout or a
+branch for clean sequential work. Use a worktree for concurrent work or unrelated dirty
+state. Commit or explicitly include relevant dirty work. Serialize overlap.
 
-Validated onboarding creates one local commit with only the approved configuration and
-loader paths. Tracked local records then support local recovery. Cross-host recovery
-requires an approved remote checkpoint or tested host persistence. GLBuilding does not
-equate a local commit with cloud durability.
+### D010 — Fresh review is mandatory and bounded
 
-A committed goal uses one exact local Git transaction for its accepted paths and terminal
-record. The record identifies the first goal-ref commit that introduces its path, which
-avoids a self-referential commit hash. The returned transaction packet carries the actual
+Every mutation receives a Reviewer that did not build it. The Reviewer checks every
+acceptance criterion and returns `pass`, `repair`, or `blocked`. The owner can choose one
+to three review rounds; the default is two. Open findings at the cap stop the goal.
+
+### D011 — Use normal Git
+
+Installation and completed goals use the project's normal named-path staging and local
+commit process. Project hooks and Git configuration remain in force. GLBuilding does not
+reimplement commits, freeze Git identity, or claim cross-host durability from a local
 commit.
-For a new worktree, the Orchestrator freezes values first and writes the record there only
-after setup succeeds. A setup failure leaves a `blocked` record in the original checkout.
 
-### D011 — Configuration uses double opt-in
+### D012 — Major and external actions go to the owner
 
-The System Configurer derives values and presents one exact configuration and patch with
-per-file hashes. One digest over a canonical, non-recursive manifest binds the attached
-target ref, its HEAD, and those bytes.
-The owner approves that identifier and digest. The Configurer then writes only the
-approved project record and loader blocks, without adding post-approval metadata. The
-harness transaction packet carries approval time and evidence. Configuration and
-evolution changes apply only to new goals. An omitted or shortened artifact cannot be
-approved; output limits block the proposal.
+Routine in-scope local work can read, edit, check, isolate, and create local commits.
+Major scope or architecture choices and every push, pull request, merge, deploy, publish,
+release, force operation, secret change, remote deletion, or destructive external effect
+need fresh owner approval.
 
-The file manifest remains specific to the ref, base, paths, and file bytes. The proposal
-separately discloses and freezes the effective Git author and committer names and emails.
-The transaction passes those values explicitly and verifies both commit headers. This is
-workflow enforcement, not identity authentication. Commit times remain apply-time values.
+### D013 — Harness failure is a support result
 
-### D012 — Customization only narrows fixed slots
+Codex and Claude are the first target harnesses. A mutation harness must run a separate
+Builder and fresh Reviewer. If it cannot follow the simple Markdown contract, record it
+as unsupported. Do not expand the framework to prove or force agent obedience.
 
-Custom instructions and evolutions are named, scoped additions or narrowings. The protected base wins. Ambiguity blocks. Sources are recorded for later re-mining but are not runtime dependencies.
+### D014 — Charters are distilled, not linked
 
-### D013 — Project knowledge has three classes
+Role behavior is distilled from useful skills and prior project experience. Those skills
+are not runtime dependencies. A source change has no automatic effect. An owner-approved
+Configurer proposal is required for a new charter revision.
 
-Intent is approved direction. Map locates the system. Validation falsifies claims. Map
-and Validation are rechecked at the frozen source revision. Memory and ambient skills are
-read-only evidence, not authority. Onboarding and goals cannot mutate ambient memory.
-Distillation or evolution requires a separate owner-approved Configurer proposal.
+### D015 — One repository can hold several goals
 
-### D014 — Capabilities use semantic labels
+One Orchestrator can route several non-overlapping goals in one repository. Each goal
+gets its own record and isolation only when needed. Multi-repository orchestration is
+deferred.
 
-Codex and Claude mappings describe outcomes, not tool names. Each capability is labeled `native-enforced`, `workflow-instructed`, or `unavailable`. Required unavailable capabilities block the current path.
+## Superseded hardening experiment
 
-### D015 — Behavioral limits are explicit
+Early Codex and Claude trials exposed real instruction and delivery failures. The project
+briefly added:
 
-Protected Markdown is not a security sandbox. The framework does not claim that an instruction prevents a noncompliant agent or trusted repository writer from changing a file.
+- proposal manifests with file hashes;
+- Git `commit-tree` and compare-and-swap finalization;
+- author and committer identity freezing;
+- transcript-level mutation provenance;
+- exhaustive ownership, recovery, and hostile-harness conformance cases.
 
-### D016 — Target-project machinery is allowed when the goal needs it
+These mechanisms could improve audit proof. They did not improve the core product. They
+made onboarding and one-line goals much slower and moved framework effort toward proving
+that an agent obeyed instructions.
 
-Builders can add project scripts, dependencies, command-line interfaces, and tests when acceptance requires them. They cannot add GLBuilding runtime machinery during a project goal.
+Version one removes those mechanisms. It retains four lessons:
 
-### D017 — Codex first, Claude before release
+1. show the complete configuration and affected file changes before approval;
+2. stage named paths and preserve unrelated owner work;
+3. require a real fresh review with acceptance evidence;
+4. label a noncompliant harness unsupported.
 
-Codex is the first dogfood harness. Claude must pass the same minimum semantic conformance cases before version-one release.
+Git history preserves the detailed experiments. They are rationale, not runtime rules.
 
-## Runtime-audit corrections
+## Open owner decisions
 
-The Council shape passed a second adversarial runtime audit before implementation proof.
-The baseline changed as follows:
-
-- initial onboarding uses the owner-supplied URL and commit before installed loaders exist;
-- cached framework checkouts must match origin and `HEAD` and have empty Git status;
-- the Orchestrator can create branches and worktrees but cannot edit target code;
-- read-only audits, repair return, retry records, takeover, and deactivation have explicit paths;
-- active-root checks enumerate registered worktrees, scan their non-terminal task
-  records, and disclose the remaining start race;
-- native host instruction precedence remains above the GLBuilding configuration layer;
-- owner identity and approval are limited to the principal control that the harness proves;
-- provider tool, model, and budget mappings freeze through one execution-profile digest;
-- inactive manual sessions and fresh roles load only the files they need;
-- duplicate protocol tables collapsed into PROJECT and one append-only task event log.
-- approval hashes moved out of PROJECT to remove a self-referential postimage loop;
-- the installation prompt suppresses unrelated ambient onboarding graphs when host
-  precedence permits.
-
-The audit did not justify a runtime, lease service, installer, or database.
-
-## Safe defaults awaiting owner policy confirmation
-
-These defaults let local baseline work continue without external authority. They remain explicit onboarding choices.
-
-### O001 — External action authority
-
-Safe default: every push, pull-request creation, merge, deploy, publish, force operation, secret change, remote deletion, or hard-to-reverse external effect needs fresh owner approval.
-
-No standing preauthorization is included in the version-one baseline. This rule governs
-runtime behavior until an owner-approved framework revision changes it; project custom
-instructions cannot widen it.
-
-### O002 — Delivery boundary
-
-Onboarding creates one local configuration commit. Goals use one project default:
-verified local change, committed goal branch, or an explicit remote outcome. A remote
-boundary does not remove the fresh action approval requirement.
-
-### O003 — Cross-host resume
-
-Safe default: off. Enable only with an approved exact checkpoint destination or a tested persistent host workspace.
-
-### O004 — Git requirement
-
-Council recommendation: require an existing Git repository and a resolvable committed base in version one. Non-Git support is deferred.
-
-### O005 — License and release authority
-
-Select an open-source license before public release. Creating a public remote, tag, package, or release requires owner approval.
+- Select an open-source license before public release.
+- Select the canonical public repository URL before external installation.
+- Approve any public remote, tag, release, or publication when release work begins.
 
 ## Explicit deferrals
 
 - Multi-repository orchestration.
-- Multiple independent root Orchestrators per repository.
-- Distributed locks.
-- Cross-host checkpoint service.
-- CLI installer.
-- Background execution.
-- Runtime graph engine.
-- Extra role types.
-- Automatic framework updates or self-modification.
-- General graph configuration.
-- Telemetry and dashboards.
-- Non-Git projects.
+- Multiple independent root Orchestrators in one repository.
+- Distributed locks and cross-host checkpoint services.
+- CLI installer and background execution.
+- Runtime graph engine or graph configuration language.
+- Extra roles and automatic self-evolution.
+- Cryptographic proposal manifests and transcript provenance.
+- Custom Git transaction or recovery machinery.
+- Telemetry, analytics, dashboards, and non-Git projects.
 
 ## Rejected shapes
 
-- One giant `AGENTS.md`: consumes context and duplicates detailed policy.
-- One task file for all goals: conflicts under concurrency.
-- One Orchestrator per goal: fragments repository authority.
-- One worktree for every trivial goal: creates avoidable cleanup and integration cost.
-- Three copied source pins: increases drift without adding trust.
-- Peer-to-peer role communication: adds topology and state that the baseline does not need.
-- A runtime for persistence: solves a future problem before the baseline proves it.
+- One giant project instruction file: wastes context and duplicates the framework.
+- Peer-to-peer role graphs: add state without improving the fixed build flow.
+- One worktree for every goal: adds cost to trivial changes.
+- One task file for all goals: creates avoidable conflicts.
+- A runtime for persistence: solves a deferred problem before the Markdown system proves
+  value.

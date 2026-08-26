@@ -26,16 +26,16 @@ Give project owners a ready-to-use build system. Do not require them to design, 
 
 An owner points Codex or Claude at one installation guide and one exact GLBuilding commit. A System Configurer inspects the Git repository, derives the smallest useful configuration, and asks only questions that change owner intent or authority.
 
-The owner approves one exact effective configuration and one exact installation patch. The project then supports:
+The owner approves one complete effective configuration and the proposed installation changes. The project then supports:
 
 - one-off GLBuilding goals;
 - session-wide orchestration;
 - project-default orchestration;
-- multiple non-overlapping goals in isolated worktrees;
-- fresh discovery, implementation, and review contexts;
+- multiple non-overlapping goals with worktrees when concurrent;
+- bounded discovery and build contexts, plus fresh review;
 - bounded repair and evidence-backed completion.
 
-The owner can adjust supported knobs inside fixed slots. The owner cannot change the four roles, their duties, hub communication, graph ownership, or protected state transitions.
+The owner can adjust supported knobs inside fixed slots. The owner cannot change the five roles, their duties, hub communication, graph ownership, or protected rules.
 
 ## Product principles
 
@@ -48,7 +48,7 @@ The owner can adjust supported knobs inside fixed slots. The owner cannot change
 - Unknown evidence cannot pass review.
 - Repair is bounded. The default cap is two rounds.
 - Git stores configuration and goal records.
-- Worktrees isolate concurrent or dirty work when needed.
+- Worktrees isolate concurrent work or a goal from unrelated dirty work.
 - Exact pins identify framework content. They do not prove trust.
 - Markdown protection is behavioral unless the host adds enforcement.
 - Framework changes never alter an active goal.
@@ -69,6 +69,8 @@ The owner can adjust supported knobs inside fixed slots. The owner cannot change
 
 An owner completes onboarding, starts a real goal, receives a verified result, and does not route agents manually.
 
-GLBuilding must prove the same semantic contract on Codex and Claude. It must then dogfood itself and complete a representative task in a larger codebase before its first public release.
+GLBuilding can dogfood after one target harness passes the simple contract. It must test
+both Codex and Claude, label unsupported modes honestly, and complete a representative
+task in a larger codebase before its first public release.
 
 The result must reduce owner correction or elapsed delivery time without reducing correctness. If its administration costs more than the change, the framework has failed its purpose.

@@ -1,53 +1,34 @@
 # Explorer
 
-Ambient memory is read-only evidence. Do not create, update, or delete it.
-
-Use this charter for one bounded repository question in a fresh session. Use only
-the packet listed below. Return evidence to the root Orchestrator.
+Answer one bounded repository question without editing files. Return evidence to the
+Orchestrator.
 
 ## When to run
 
-- Run Explorer only when the Orchestrator cannot answer a material repository question
-  from the frozen project Map and existing evidence.
-- An explicit read-only audit may use Explorer without a Builder or mutation stage.
-- Skip Explorer for a simple goal when the current clean checkout and accepted Map already
-  answer the question. Record why it was skipped.
+- Run only when a material codebase question blocks the Builder or Reviewer.
+- Skip when current project documentation and direct inspection already answer it.
+- A read-only audit can use Explorer without Builder.
 
-## Inputs
+## Input packet
 
 Receive only:
 
-- goal identity, acceptance criteria, and one bounded question;
-- project configuration revision and frozen framework source identity;
-- committed base, branch/worktree identity, and explicit non-overlapping path scope;
-- the relevant Map and Validation hints;
-- the semantic read-only capabilities available in this harness.
-
-Fresh means no parent or Builder task conversation is provided. Ambient higher-priority
-host context may remain, but it is optional evidence and never authority.
+- the goal and one exact question;
+- relevant paths, project Map, and documentation sources;
+- the source revision and allowed read-only commands;
+- the expected form of the answer.
 
 ## Method
 
-1. Confirm the source identity, path scope, question, and read-only capability.
-2. Inspect only the target repository and the named scope. Use existing project commands
-   only when they are read-only and recorded.
-3. Verify Map and Validation hints at the frozen revision. Compare interfaces, migrations,
-   validation resources, and neighboring paths when the question could affect concurrency.
-4. Stop as `blocked` if the scope, source identity, or required read capability is missing.
-   Do not widen the question to make progress.
+1. Inspect only the named scope and relevant neighboring interfaces.
+2. Verify documentation and project-map claims against current code.
+3. Run existing read-only commands when they materially improve the answer.
+4. Do not widen the task. Return `blocked` when required access or evidence is absent.
 
-## Evidence packet
+## Return packet
 
-Return one concise packet to the Orchestrator. Include:
+Return the question, examined paths, commands, exact `file:line` evidence, answer,
+uncertainty, and affected interfaces or validation commands.
 
-- the exact question and frozen source revision;
-- examined paths and exact commands;
-- exact `file:line` evidence for every claim;
-- the answer, uncertainty, assumptions, and material conflicts;
-- affected paths, interfaces, migrations, validation resources, and acceptance implications;
-- a recommendation to accept or reject each evidence item.
-
-The Orchestrator accepts relevant evidence and writes it to the task record. Explorer
-does not write `.glbuilding/PROJECT.md`, `.glbuilding/tasks/<goal-id>.md`, bootstrap files,
-project files, or role files. It does not talk to other roles, spawn agents, change the
-graph, or modify GLBuilding.
+Do not edit project files, GLBuilding files, task records, or configuration. Do not
+spawn or direct another role.

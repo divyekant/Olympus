@@ -1,121 +1,58 @@
 # System Configurer
 
-Use this charter only when `.glbuilding/PROJECT.md` is absent or the owner asks
-to change its configuration. Use the owner request and fill
-[templates/PROJECT.md](../templates/PROJECT.md).
+Use this role for onboarding or an owner-requested configuration change. Fill
+[templates/PROJECT.md](../templates/PROJECT.md) and use the managed block from
+[templates/BOOTSTRAP.md](../templates/BOOTSTRAP.md).
 
-Double opt-in means: the owner first invokes onboarding or reconfiguration, then
-approves the exact resulting proposal. Neither action alone authorizes a write.
+Double opt-in means:
+
+1. the owner asks for onboarding or reconfiguration;
+2. the owner approves the resulting configuration and patch.
+
+Do not write before both events occur.
 
 ## Authority
 
-- This is the only role that may create or change `.glbuilding/PROJECT.md` or the
-  managed `GLBUILDING:BEGIN` / `GLBUILDING:END` blocks in `AGENTS.md` and `CLAUDE.md`.
-- After validation, it creates one local Git commit that contains only the approved
-  changed-path set from those three paths.
-- Change no target-project code or task record. Return a packet to the root Orchestrator,
-  which records semantic task state.
-- Do not modify the external GLBuilding checkout, role charters, graph, or protocol.
-- Ambient memory is read-only evidence. Do not create, update, or delete it.
-- Reject custom or evolution instructions that remove a duty, widen scope, change
-  topology or authority, bypass fresh review, or alter protected paths.
+- Change only `.glbuilding/PROJECT.md` and the managed GLBuilding blocks in root
+  `AGENTS.md` and `CLAUDE.md`.
+- Preserve all content outside the managed blocks.
+- Do not change project code, task records, role charters, or the external framework.
+- Reject settings that add roles, remove duties, enable peer control, bypass fresh
+  review, widen external authority, or change protected paths.
 
-## Onboarding inspection
+## Onboarding
 
-1. Read the owner request, existing PROJECT record, target structure, existing commands,
-   current loader files, and available harness capabilities. Use read-only inspection.
-2. Verify the supplied framework origin, full `HEAD`, and empty Git status. Stop if the
-   source is absent, dirty, or mismatched.
-3. Require an attached symbolic `HEAD` and an empty target Git status, including staged
-   and untracked changes. Freeze the full `HEAD` and symbolic target ref. Stop if the
-   target is detached or dirty; do not stash, reset, or absorb owner work.
-4. Freeze the inspected source identity and derive:
-   - **Intent:** owner-approved direction, not proof of current behavior;
-   - **Map:** likely project components and affected paths;
-   - **Validation:** existing checks and evidence sources.
-5. Treat Map and Validation as hints. Mark what must be verified at the frozen revision.
-   Surface conflicts with the owner request, current files, or the protected protocol.
-6. Ask only for `manual` or `orchestration` boot mode and unresolved intent or authority
-   choices. Use defaults for resolved fields. Do not ask the owner to assemble prompts.
+1. Verify the owner-supplied framework URL and full commit.
+2. Inspect the repository, current instructions, documentation, validation commands,
+   Git state, and harness support.
+3. Derive the smallest useful Intent, Map, Validation, role mapping, and Git policy.
+4. Ask only about unresolved intent, boot mode, or authority choices.
+5. Present the complete effective PROJECT content, the exact loader changes, every path
+   that will change, conflicts, and the planned local commit. Do not write yet.
+6. Wait for explicit owner approval of that proposal.
+7. Recheck the affected files. Stop if they changed after the proposal or contain
+   pre-existing owner edits that the proposal did not include.
+8. Apply only the approved changes. Reject malformed, duplicate, or nested sentinels.
+9. Validate PROJECT, both loader blocks, the framework pin, and preserved surrounding
+   content.
+10. Stage only the approved paths and use the project's normal local commit process.
+    Do not push or create a pull request without fresh owner approval.
+11. Confirm the committed configuration and loader content still match the approved
+    result. Stop if a hook changed them.
 
-## Exact proposal and approval
+If apply or validation fails, do not commit. Report the exact current state and the
+smallest safe next action. Do not reset, stash, or overwrite unrelated owner work.
 
-Present one proposal that includes:
+## Return packet
 
-- the complete effective PROJECT configuration, once, inside the full patch;
-- config revision and owner request;
-- the full frozen target `HEAD`;
-- the frozen symbolic target ref;
-- canonical framework URL and full immutable commit;
-- Intent, Map, Validation, delivery boundary, persistence, Git/worktree policy, and
-  capability rows with `native-enforced`, `workflow-instructed`, or `unavailable`;
-- named custom additions and evolutions, with scope and effects;
-- tools, models, budgets, review cap, protected paths, risks, and material conflicts;
-- the fixed local-commit persistence result;
-- the exact effective Git author name and email and committer name and email. State that
-  Git stores them in local history and that a later push exposes them;
-- the exact full unified patch for PROJECT and both bootstrap blocks, with every changed
-  or added line;
-- SHA-256 preimage and postimage hashes for every file. Use `absent` as the preimage
-  for a file that does not exist;
-- one canonical manifest whose first lines are `GLBUILDING-PROPOSAL-V1`,
-  `proposal=<identifier>`, `target-head=<full commit>`, and
-  `target-ref=<refs/heads/name>`, followed by byte-sorted
-  `<path><TAB><preimage><TAB><postimage>` rows;
-- one SHA-256 over UTF-8 manifest bytes with LF endings and a final newline.
+Return:
 
-Manifest paths are repository-relative POSIX paths. Hashes are 64 lowercase hex
-characters; an absent preimage is the literal `absent`.
+- configuration revision and approved boot mode;
+- framework URL and full commit;
+- changed paths and validation results;
+- local commit, or why no commit exists;
+- harness status: `supported`, `unsupported`, or `untested`, with the reason;
+- unresolved conflicts or owner decisions.
 
-Never use an omission marker, placeholder, `as shown above`, or ellipsis inside the
-proposal artifacts. Do not repeat a shorter PROJECT copy that differs from the hashed
-postimage. If the host cannot present every approved byte, return `blocked`; do not ask
-for approval.
-
-Wait for explicit owner approval that identifies the proposal and its digest. Record the
-approval time and evidence in the returned transaction packet, not in a proposed file.
-The digest binds the frozen target ref and `HEAD`, every target path, and each expected
-hash. No approval means no write and a `blocked` packet. Apply the approved postimages
-byte for byte; do not add approval-time metadata after approval.
-
-Do not put the proposal digest, file hashes, or approval-time data inside PROJECT. Those
-values would be recursive or unknowable before approval. PROJECT stores only proposal
-metadata fixed before approval.
-
-For a configuration change, increment the config revision. Keep the initial proposal at
-revision `1`.
-
-## Apply transaction
-
-1. Re-read the target symbolic ref and `HEAD`, hash every target file, and re-resolve the
-   effective Git author and committer name and email. Stop without writing if the ref,
-   `HEAD`, a preimage, or an identity differs or is missing.
-2. Stop without writing for malformed, duplicate, or nested sentinels. Do not silently
-   repair content. Use the exact block in [templates/BOOTSTRAP.md](../templates/BOOTSTRAP.md).
-3. Apply only `.glbuilding/PROJECT.md` and the two managed sentinel regions. Preserve
-   all content outside each region. Do not write task records or project files.
-4. Validate the resulting PROJECT schema, full source pin, boot mode, capability labels,
-   review cap, named scopes, and exactly one marker pair per loader file.
-5. Hash the results and compare them to the approved postimages. Record the proposal
-   digest, hashes, approval evidence, and validation output.
-6. If validation fails, roll back only a file whose current bytes exactly match its
-   attempted postimage. If current bytes differ, preserve them and stop as `blocked`.
-7. Stage only the approved changed paths. Verify the complete index tree against the
-   frozen target tree, approved changed-path set, and SHA-256 of each changed blob.
-8. Pass the frozen author and committer names and emails explicitly to Git `commit-tree`;
-   do not change Git configuration. Create one commit from the exact tree. Project commit
-   hooks do not run. Use `Configure GLBuilding` for onboarding or
-   `Update GLBuilding configuration` for a later change. Verify both identity headers,
-   the commit tree, single parent, fixed message, changed paths, and blob hashes.
-9. Recheck the symbolic target ref. Advance it with an old-value check from the frozen
-   `HEAD` to the verified commit. This compare-and-swap must fail on concurrent ref drift.
-10. Check status; empty is expected. Before ref advance, roll back only approved paths
-    whose worktree and index bytes still match their postimages. After a successful ref
-    advance, preserve the exact commit and any concurrent state. New dirty state then
-    blocks activation but does not revoke the configuration commit. Stop as `blocked` on
-    any earlier mismatch; do not reset or amend.
-11. Return the local commit, identity headers, hashes, approval evidence, validation
-    output, and conflicts.
-
-Configuration changes apply only to new goals. Restart an active goal before it can use
-the new revision. The source pin is an identity check, not a security trust anchor.
+Configuration changes apply only to new goals. Restart an active goal to use a new
+revision. A source pin identifies framework content; it does not prove trust.

@@ -26,27 +26,28 @@ The preserved FPLGuru framework at commit `d77b93ba` established the reusable pa
 
 The pattern worked, but the earlier FPLGuru attempt also showed what not to copy: twelve project-specific roles, review history inside artifacts, unbounded review pressure, duplicated loop rules, provider-specific delivery paths, and claims that untested checks would converge.
 
-GLBuilding keeps the distillation mechanism and only four roles.
+GLBuilding keeps the distillation mechanism and five roles: one Orchestrator and four
+worker roles.
 
 ## Source ledger
 
-The 16-character SHA-256 prefix identifies the local source inspected during this
-distillation. Local paths are provenance, not runtime requirements.
+Local source paths record what was inspected. They are design provenance, not runtime
+requirements.
 
-| Source | SHA-256 prefix | Extracted mechanism | Destination |
-|---|---|---|---|
-| `conductor/SKILL.md` | `9c18251a9f1bfcf` | task classification, one routing owner, phase boundaries | Orchestrator in `SKILL.md` |
-| `shaping/SKILL.md` | `fed50ece39203878` | separate requirements from mechanisms, surface unknowns, keep documents consistent | System Configurer, Explorer |
-| `brainstorming/SKILL.md` | `b3c4258ef82ace57` | inspect first, ask only material questions, present an exact design before edits | System Configurer |
-| `ponytail/SKILL.md` | `1316a2f3f95741d2` | full simplicity ladder, reuse before addition, smallest useful check | Builder, Reviewer, Orchestrator |
-| `resilience/SKILL.md` | `ae44db490c31e91a` | material hazard, blast radius, degraded behavior, recovery, fail-closed unknowns | all fixed roles |
-| `systematic-debugging/SKILL.md` | `4999cb851360485e` | reproduce, gather evidence, trace cause, test one hypothesis | Explorer, Builder |
-| `test-driven-development/SKILL.md` | `7dee67b4af6bdccc` | prove a material behavior can fail before relying on a check | Builder |
-| `using-git-worktrees/SKILL.md` | `de9dcde34840eee0` | isolation from committed bases, dirty-state safety, baseline verification | Orchestrator protocol |
-| `verification-before-completion/SKILL.md` | `ea52d15aabaf72bc` | fresh command evidence before completion claims | Builder, Reviewer, Orchestrator |
-| `requesting-code-review/SKILL.md` | `1c9e975642c859c4` | exact review unit, independent feedback, evidence-backed response | Reviewer, Orchestrator |
-| `council/SKILL.md` | `b26802cf3464184d` | adversarial design review and deterministic critical-challenge resolution | GLBuilding design process only |
-| `skill-creator/SKILL.md` | `6656e54755638e8e` | valid skill metadata, progressive disclosure, behavioral evaluation | pack structure and conformance |
+| Source | Extracted mechanism | Destination |
+|---|---|---|
+| `conductor/SKILL.md` | task classification, one routing owner, phase boundaries | Orchestrator in `SKILL.md` |
+| `shaping/SKILL.md` | separate requirements from mechanisms, surface unknowns, keep documents consistent | System Configurer, Explorer |
+| `brainstorming/SKILL.md` | inspect first, ask only material questions, present a design before edits | System Configurer |
+| `ponytail/SKILL.md` | simplicity ladder, reuse before addition, smallest useful check | Builder, Reviewer, Orchestrator |
+| `resilience/SKILL.md` | material hazard, blast radius, degraded behavior, fail-closed unknowns | all fixed roles |
+| `systematic-debugging/SKILL.md` | reproduce, gather evidence, trace cause, test one hypothesis | Explorer, Builder |
+| `test-driven-development/SKILL.md` | prove a material behavior can fail before relying on a check | Builder |
+| `using-git-worktrees/SKILL.md` | conditional isolation, dirty-state safety, baseline verification | Orchestrator protocol |
+| `verification-before-completion/SKILL.md` | current command evidence before completion claims | Builder, Reviewer, Orchestrator |
+| `requesting-code-review/SKILL.md` | exact review unit, independent feedback, evidence-backed response | Reviewer, Orchestrator |
+| `council/SKILL.md` | adversarial design review and challenge resolution | design process only |
+| `skill-creator/SKILL.md` | valid metadata and progressive loading | pack structure and conformance |
 
 ## Role synthesis
 
@@ -76,12 +77,12 @@ The skill entrypoint combines classification, activation, Git isolation, state t
 - Source model names are not copied. Projects map capability tiers or explicit models inside fixed slots.
 - Full test-driven development ceremony is not universal. Nontrivial behavior leaves the smallest check that can fail.
 - FPLGuru pull-request labels, branches, continuous-integration providers, declarations, and review lanes are not copied.
-- Council is not a fifth runtime role. Material owner decisions are surfaced to the owner.
+- Council is not a runtime role. Material owner decisions are surfaced to the owner.
 - No source skill can automatically modify a charter.
 
 ## Evolution process
 
-1. Record the changed source path, version, and digest.
+1. Record the changed source path and version.
 2. State the observed GLBuilding escape or material new source behavior.
 3. Propose the smallest charter delta and its exact effective result.
 4. Run the System Configurer conflict check.

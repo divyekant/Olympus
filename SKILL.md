@@ -1,63 +1,54 @@
 ---
 name: glbuilding
 description: >-
-  Use when an owner asks to activate GLBuilding or run a project goal with
-  scoped fresh-role orchestration in Codex or Claude.
+  Use when an owner asks to onboard GLBuilding, activate orchestration, or run
+  a project goal through its fixed role workflow.
 ---
 
 # GLBuilding
 
-GLBuilding is a fixed Markdown instruction pack. It has no runtime, service, or
-self-modifying project machinery. Load the shared [runtime protocol](references/PROTOCOL.md)
-before routing work. Load a role charter only when that role runs.
+GLBuilding is a fixed Markdown workflow. It adds no runtime, service, database,
+or project dependency. Read the [runtime protocol](references/PROTOCOL.md) before
+routing work. Load a role charter only when that role runs.
 
 ## Activation
 
-- In `manual` boot mode, use one explicit goal invocation for one goal.
-- In any session, `Activate GLBuilding orchestration` temporarily routes later
-  project-changing requests until owner deactivation or session end.
-- In `orchestration` boot mode, routing starts automatically in every session.
-  Session deactivation is temporary; a persistent mode change uses the Configurer.
-- `Deactivate GLBuilding orchestration` stops new routing only. It does not cancel an
-  active goal.
-- Casual questions do not create a graph. An explicit read-only audit may use an
-  Explorer or Reviewer without mutation.
-- The root Orchestrator is the repository hub and the sole semantic writer of
-  `.glbuilding/tasks/<goal-id>.md`. It routes only the fixed roles.
+- `Use GLBuilding for: <goal>` runs one goal.
+- `Activate GLBuilding orchestration` routes later project-changing requests in
+  the current session.
+- Project boot mode `orchestration` routes project-changing requests in every session.
+- `Deactivate GLBuilding orchestration` stops new routing in the current session.
+- Questions do not create goals. An explicit read-only audit can use Explorer.
 
 ## Fixed workflow
 
-1. Use read-only checks to verify the pinned pack, project configuration, repository
-   state, and expected delivery capabilities.
-2. Route missing or changed configuration only to the [System Configurer](agents/SYSTEM_CONFIGURER.md).
-3. Freeze the goal values for [templates/TASK.md](templates/TASK.md), including source,
-   base, intended branch or worktree, capability envelope, and delivery boundary.
-4. Perform required Git setup. On success, write the task record in the selected goal
-   checkout. On failure, write a `blocked` record in the original checkout. Do either
-   before any role or target-project mutation. Never downgrade the delivery boundary.
-5. Use the [Explorer](agents/EXPLORER.md) only for required bounded repository questions.
-6. For mutation, send the accepted task and evidence to the [Builder](agents/BUILDER.md).
-7. After mutation, send the exact frozen diff to a fresh [Reviewer](agents/REVIEWER.md).
-8. Repair actionable findings, then start a fresh review. Stop at the configured cap.
-9. Record verification and one terminal status: `complete`, `blocked`, `failed`, or
-   `cancelled`.
+1. Read `.glbuilding/PROJECT.md`. Confirm the framework pin, project rules, and boot mode.
+2. Create one simple task record from [templates/TASK.md](templates/TASK.md). Record the
+   goal, acceptance criteria, scope, base, and branch or worktree decision.
+3. Use [Explorer](agents/EXPLORER.md) only for a material question that blocks the build.
+4. Give a bounded packet to a separate [Builder](agents/BUILDER.md). The Builder makes
+   the smallest in-scope change and runs the relevant checks.
+5. Give the goal, exact diff, and check results to a fresh
+   [Reviewer](agents/REVIEWER.md). The Reviewer returns `pass`, `repair`, or `blocked`.
+6. If repair is required, return the findings to Builder. Stop at the configured cap.
+7. Verify the accepted result, update the task record, and use normal project Git policy
+   for a local commit.
+8. Ask the owner before a major scope or architecture choice, or any remote, destructive,
+   irreversible, secret, publish, merge, or deploy action.
 
-The protocol defines ownership, activation, Git, approval, persistence, capability,
-and recovery rules. Roles cannot talk peer-to-peer, spawn agents, edit goal records,
-change the graph, or modify this external pack. Only the System Configurer changes
-`.glbuilding/PROJECT.md` and the two bootstrap sentinel blocks. Goal-required target-
-project tooling can include scripts, dependencies, CLIs, and tests; keep GLBuilding
-machinery out of target goals.
+The five roles are Orchestrator, System Configurer, Explorer, Builder, and Reviewer.
+The Orchestrator is the hub. Other roles return bounded packets to it and do not control
+each other. Only [System Configurer](agents/SYSTEM_CONFIGURER.md) changes PROJECT or the
+managed loader blocks.
 
-Ambient memory is read-only evidence during onboarding and goals. Do not create, update,
-or delete it. Distillation or evolution requires a separate owner-approved Configurer
-proposal.
+Ambient skills, project instructions, documentation, and memory can supply context.
+They do not change the fixed role duties or owner approval boundary.
 
 ## Load on demand
 
-- Configurer: [charter](agents/SYSTEM_CONFIGURER.md), [project schema](templates/PROJECT.md),
-  and [bootstrap block](templates/BOOTSTRAP.md)
+- Configurer: [charter](agents/SYSTEM_CONFIGURER.md),
+  [project template](templates/PROJECT.md), and [bootstrap block](templates/BOOTSTRAP.md)
 - Explorer: [charter](agents/EXPLORER.md)
 - Builder: [charter](agents/BUILDER.md)
 - Reviewer: [charter](agents/REVIEWER.md)
-- Orchestrator goal record: [task schema](templates/TASK.md)
+- Orchestrator: [task template](templates/TASK.md)

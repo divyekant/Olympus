@@ -3,121 +3,90 @@ record: glbuilding-project
 schema: 1
 ---
 
-# GLBuilding Project Configuration
+# GLBuilding project configuration
 
-The System Configurer writes this record only after double opt-in. Fixed behavior
-comes from the pinned GLBuilding protocol. This file stores project values and
-approved overrides only.
+This file is the project-level source of truth. The System Configurer changes it only
+after double opt-in.
 
 ## Project
 
-| Field | Approved value |
+| Field | Value |
 | --- | --- |
 | project name | `<name>` |
-| repository root marker | `.` or `<stable repository-relative marker>` |
-| outcome | `<one measurable project outcome>` |
-| config revision | `<integer starting at 1>` |
+| repository root | `<path or repository-relative description>` |
+| configuration revision | `1` |
 | boot mode | `manual` or `orchestration` |
-
-Activation commands are fixed: `Use GLBuilding for: <goal>`,
-`Activate GLBuilding orchestration`, and `Deactivate GLBuilding orchestration`.
+| configured at | `<date>` |
 
 ## Framework source
 
-This is the only canonical source identity. Each task copies the commit that governs it.
-
-| Field | Approved value |
+| Field | Value |
 | --- | --- |
-| canonical repository URL | `<exact owner-approved URL>` |
-| full immutable commit | `<full commit; no branch, tag, or short SHA>` |
-| verification | `<origin, HEAD, and empty-status commands and results>` |
+| repository URL | `<canonical URL>` |
+| full immutable commit | `<full commit>` |
 
-The pin identifies content. It is not a security trust anchor.
-
-## Proposal metadata
-
-| Field | Record |
-| --- | --- |
-| proposal identifier | `<stable identifier>` |
-| proposed at | `<timestamp fixed before approval>` |
-| requested by | `<current session principal>` |
-| principal binding limit | `<native control or workflow-only>` |
-| conflicts | `<none or exact rejected conflict>` |
+The pin identifies framework content. It does not authenticate the source or grant
+remote authority.
 
 ## Project knowledge
 
 ### Intent
 
-`<owner-approved direction; not proof of current behavior>`
+`<Owner-approved product direction and current priorities.>`
 
-### Map
+### Map and documentation
 
-| Component or boundary | Likely paths | Why it matters | Frozen evidence |
+| Area | Paths or source | What it explains | Known gap or freshness limit |
 | --- | --- | --- | --- |
-| `<component>` | `<paths>` | `<impact>` | `<revision and file:line>` |
+| `<area>` | `<paths>` | `<purpose>` | `<none or limit>` |
 
 ### Validation
 
-| Check or evidence | Command or path | Read/write | Verified at revision |
+| Scope | Command or evidence | When to use it | Known limit |
 | --- | --- | --- | --- |
-| `<check>` | `<command or path>` | `<read-only or mutation>` | `<revision and result>` |
+| `<scope>` | `<command/source>` | `<condition>` | `<none or limit>` |
 
-Map and Validation are hints. Reverify them for each frozen goal.
+Map and Validation are hints. Check them against current code for each goal.
 
-## Project commands and boundaries
+## Boundaries
 
-| Field | Approved value |
+| Setting | Approved value |
 | --- | --- |
-| stack | `<language, platform, existing libraries, or none>` |
-| check | `<existing command or none>` |
-| test | `<existing command or none>` |
-| lint or format | `<existing command or none>` |
-| build | `<existing command or none>` |
-| default allowed paths | `<paths or task-specific>` |
-| protected paths | `.glbuilding/`; `AGENTS.md`; `CLAUDE.md`; `<other>` |
-| default delivery boundary | `<verified local change or committed goal branch>` |
-| cross-host resume | `off` or `<tested persistent-workspace/checkpoint contract>` |
-| v1 external-action policy | `fresh owner approval for each external effect` |
+| protected paths | `.glbuilding/`; managed blocks in `AGENTS.md` and `CLAUDE.md`; `<other>` |
+| allowed project areas | `<paths or all except protected paths>` |
+| branch/worktree policy | `<current checkout or branch for clean sequential work; worktree for concurrent work or unrelated dirty state; commit or explicitly include relevant dirty work>` |
+| review round cap | `2` (`1`, `2`, or `3`) |
+| external actions | `fresh owner approval` |
+| local commit policy | `<project convention>` |
 
-## Harness capabilities
+## Harness support
 
-Use one label: `native-enforced`, `workflow-instructed`, or `unavailable`.
+Use `supported`, `unsupported`, or `untested`.
 
-| Boundary | Semantic capability | Label | Host evidence |
-| --- | --- | --- | --- |
-| Orchestrator | task-record write and active-root scan | `<label>` | `<control>` |
-| Orchestrator | branch and worktree setup | `<label>` | `<control>` |
-| Git finalization | exact `commit-tree` and old-value `update-ref`; hooks or signing not required | `<label>` | `<control or limit>` |
-| System Configurer | PROJECT and sentinel-only write | `<label>` | `<control>` |
-| Explorer | fresh read-only inspection | `<label>` | `<control>` |
-| Builder | approved-path edit and checks | `<label>` | `<control>` |
-| Reviewer | fresh independent read-only review | `<label>` | `<control>` |
-| Harness | current-session owner-principal binding | `<label>` | `<control or limit>` |
-| Harness | fresh approval capture for external effects | `<label>` | `<control>` |
-
-## Optional execution profile
-
-`none` is valid. Limits use explicit units. Provider mappings cannot change role duties.
-
-| Role | Semantic tool scope | Codex mapping | Claude mapping | Model or tier | Limit |
-| --- | --- | --- | --- | --- | --- |
-| Configurer | `<scope or none>` | `<mapping>` | `<mapping>` | `<value>` | `<turns/minutes or none>` |
-| Explorer | `<scope or none>` | `<mapping>` | `<mapping>` | `<value>` | `<turns/minutes or none>` |
-| Builder | `<scope or none>` | `<mapping>` | `<mapping>` | `<value>` | `<turns/minutes or none>` |
-| Reviewer | `<scope or none>` | `<mapping>` | `<mapping>` | `<value>` | `<turns/minutes or none>` |
-
-| Other bounded setting | Approved value |
-| --- | --- |
-| review rounds | `2` (allowed: `1`, `2`, or `3`) |
-| maximum concurrent non-overlapping goals | `<integer or host default>` |
-
-Execution profile SHA-256: `<digest of the effective table and settings>`
-
-## Named custom additions and evolutions
-
-Entries can add or narrow instructions. They cannot remove duties or change topology,
-authority, protected paths, action policy, or independent review.
-
-| Name | Kind | Scope | Exact addition or narrowing | Approval and revision |
+| Harness | Status | Builder mapping | Reviewer mapping | Notes |
 | --- | --- | --- | --- | --- |
-| `<name>` | `custom` or `evolution` | `<role/path/goal>` | `<exact text>` | `<approval/revision>` |
+| Codex | `<status>` | `<native subagent or equivalent>` | `<fresh review context>` | `<limit>` |
+| Claude | `<status>` | `<native subagent or equivalent>` | `<fresh review context>` | `<limit>` |
+
+Unsupported harnesses do not run mutation goals through GLBuilding.
+
+## Role preferences
+
+These settings select implementations inside fixed duties. They do not change the graph.
+
+| Role | When used | Model or capability | Tools | Limit |
+| --- | --- | --- | --- | --- |
+| Orchestrator | every goal | `<preference or host default>` | `<tools>` | `<limit>` |
+| System Configurer | onboarding or approved change | `<preference>` | `<tools>` | `<limit>` |
+| Explorer | only for unresolved questions | `<preference>` | `<read-only tools>` | `<limit>` |
+| Builder | every mutation | `<preference>` | `<tools>` | `<limit>` |
+| Reviewer | every mutation | `<preference>` | `<read-only tools>` | `<limit>` |
+
+## Custom instructions and evolutions
+
+Entries can add or narrow behavior. They cannot add roles, remove duties, change hub
+communication, bypass review, alter protected paths, or widen external authority.
+
+| Name | Kind | Scope | Instruction | Approval revision |
+| --- | --- | --- | --- | --- |
+| `<name>` | `custom` or `evolution` | `<role/path/goal>` | `<exact text>` | `<revision>` |
