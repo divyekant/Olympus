@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.0 - 2026-08-26
+
+### Added
+
+- Guided Olympus onboarding with an inspect-first owner conversation, one material
+  question per turn, a complete proposal, double opt-in, and six truthful local stages.
+- One canonical plain-Markdown onboarding contract linked from all five consumers.
+
+### Changed
+
+- Configuration review, commit, and hook-rereview packets now preserve the Orchestrator as
+  the sole hub and name the exact uncommitted and committed units.
+
+### Known limits
+
+- No live target repository has run the guided onboarding contract yet.
+- Plain Markdown specifies the flow but does not enforce future harness behavior.
+
 ## 0.1.1 - 2026-08-26
 
 ### Added
