@@ -24,7 +24,7 @@ handoffs, owner gates, states, activation rules, and Git workflow.
 
 ## Load on demand
 
-- Configurer: [charter](agents/SYSTEM_CONFIGURER.md), [project template](templates/PROJECT.md), [bootstrap block](templates/BOOTSTRAP.md)
+- Configurer: [canonical guided onboarding contract](references/ONBOARDING.md), [charter](agents/SYSTEM_CONFIGURER.md), [project template](templates/PROJECT.md), [bootstrap block](templates/BOOTSTRAP.md)
 - Explorer: [charter](agents/EXPLORER.md)
 - Spec Writer: [charter](agents/SPEC_WRITER.md)
 - Claims Reviewer: [charter](agents/CLAIMS_REVIEWER.md)
