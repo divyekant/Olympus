@@ -40,6 +40,9 @@ then ask it to follow [the installation guide](docs/INSTALLATION.md).
 Approved onboarding creates one local Git commit with only PROJECT and both loader files.
 Remote persistence still needs fresh owner approval.
 
+The [guided onboarding contract](references/ONBOARDING.md) defines the inspect-first
+conversation, complete proposal, second opt-in, six local stages, and truthful reports.
+
 The target repository receives:
 
 ```text

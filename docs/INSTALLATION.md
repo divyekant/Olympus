@@ -1,9 +1,11 @@
 # Install and onboard Olympus
 
 Give this guide to a Codex or Claude session in the target repository. Installation adds
-Markdown configuration and loader blocks only. Use the [System Configurer charter](../agents/SYSTEM_CONFIGURER.md),
-[PROJECT template](../templates/PROJECT.md), and [BOOTSTRAP template](../templates/BOOTSTRAP.md)
-for the detailed role and loader contracts.
+Markdown configuration and loader blocks only. Use the [guided onboarding contract](../references/ONBOARDING.md)
+for the complete owner conversation, exact proposal, stage evidence, and reports. The
+[System Configurer charter](../agents/SYSTEM_CONFIGURER.md), [PROJECT template](../templates/PROJECT.md),
+and [BOOTSTRAP template](../templates/BOOTSTRAP.md) retain the role, project, and loader
+contracts.
 
 ## Owner instruction
 
@@ -33,29 +35,29 @@ Use a full commit, not a branch, tag, `main`, or `latest`.
 
 ## Onboarding
 
-The owner request is the first opt-in. Approval of the complete proposal is the second.
+The owner request is opt-in one. Follow the guided onboarding contract after inspection:
 
-1. Resolve the exact framework commit. Use a clean existing checkout only when its source and
-   `HEAD` match the request. Otherwise fetch or clone that commit into a local cache.
-   Stop if the commit is unavailable or unreadable. The pin identifies content, not trust.
-2. Inspect existing `AGENTS.md`, `CLAUDE.md`, `.olympus/PROJECT.md`, project maps,
-   validation commands, Git conventions, role-specific mappings, and design-standard
-   sources. Derive the smallest useful Intent, Map, Validation, boundaries, exact role
-   preferences, harness evidence, and matching details. Ask only unresolved questions
-   about intent, boot mode, or authority.
-3. Show the complete proposed PROJECT, exact managed loader changes, every changed path,
-   conflicts, rejected custom settings, planned local commit, and no remote action.
-4. Wait for explicit owner approval of that complete proposal. This is the second opt-in.
-5. Recheck affected paths. Stop if they changed, or if markers are malformed, duplicate,
-   nested, or incomplete. Apply only `.olympus/PROJECT.md` and the managed blocks in
-   root `AGENTS.md` and `CLAUDE.md`; preserve all other content.
-6. Validate the pin, boot mode, PROJECT, every invoked role mapping, both loader blocks,
-   and surrounding content.
+1. Resolve the exact URL and full commit in a clean checkout or cache. Stop if it is
+   unavailable, unreadable, mismatched, or dirty.
+2. Inspect the target and show the concise, exact `## What I learned` summary. Do not
+   ask a question before inspection.
+3. Ask at most one unresolved material question per turn. Each question has a
+   `Recommendation:` and a short exact `Effect:`. Apply documented defaults when they
+   decide the choice.
+4. When no material question remains, send one `## Ready to awaken Olympus` message with
+   the complete exact PROJECT, both loader blocks, paths, preservation rule, conflicts,
+   rejected settings, named-path commit, stages, mappings, evidence, and no remote action.
+5. Wait for explicit approval of that complete current proposal. This is opt-in two.
+6. Run the six stages in the canonical contract. Do not write before opt-in two. Stop on
+   a changed path, unsupported mapping, failed evidence, review repair, or blocked gate.
+
+## Defaults
 
 If the repository does not decide, use `manual` boot, review cap `2`, a current
 checkout/branch for clean sequential work, and a worktree for concurrent or unrelated
 dirty work. Commit or explicitly include relevant dirty work. Require fresh approval for
-major or external actions. Use host-default models and tools.
+major or external actions. Use host-default models and tools. Tools alone are `untested`;
+record `supported` only after the required mapping and behavior pass at the pinned commit.
 
 ## Persist locally
 
@@ -63,13 +65,17 @@ Use normal project Git commands:
 
 1. Apply only the approved installation content without a commit.
 2. Inspect the exact uncommitted `PROJECT.md` plus managed-loader unit.
-3. Run a fresh Reviewer over that unit. Stop on `repair` or `blocked`.
-4. After a passing review, stage only the approved installation paths.
-5. Run normal project hooks and commit with `Configure Olympus` or
+3. The Configurer returns that unit only to the Orchestrator. The Orchestrator runs a fresh
+   Reviewer over it and stops on `repair` or `blocked`.
+4. The Orchestrator returns a passing verdict to the Configurer.
+5. The Configurer stages only the approved installation paths.
+6. The Configurer runs normal project hooks and commits with `Configure Olympus` or
    `Update Olympus configuration`.
-6. If a hook changed reviewed content, run a fresh review of the committed content.
-7. Confirm the committed content matches the approved proposal and report the commit and
-   remaining worktree state.
+7. The Configurer returns the exact committed unit, commit, and hook evidence only to the
+   Orchestrator. If a hook changed reviewed content, the Orchestrator runs a fresh review
+   of that exact committed unit.
+8. The Configurer confirms the committed content matches the approved proposal and returns
+   the commit and remaining worktree state to the Orchestrator.
 
 Do not reset, stash, bypass hooks, change Git identity, or include unrelated files. If
 the commit fails, report the Git error and current state. A push, pull request, merge,

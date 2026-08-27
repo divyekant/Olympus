@@ -3,6 +3,8 @@
 Conformance checks whether a harness can use the fixed framework. It does not prove
 that an agent obeyed every instruction.
 
+The canonical presentation contract is the [guided onboarding contract](../references/ONBOARDING.md).
+
 ## Result labels
 
 - `pass`: the observed result met the scenario.
@@ -44,6 +46,23 @@ The framework passes static inspection when:
 13. All internal Markdown links resolve.
 14. The managed loader resolves the exact pin in a clean checkout or cache when the source
     working tree is at another commit.
+15. The guided onboarding contract is plain Markdown and contains inspect-first behavior,
+    the exact `## What I learned` summary, one-question turns with `Recommendation:` and
+    short exact `Effect:`, and one complete `## Ready to awaken Olympus` proposal message.
+16. The canonical contract contains the complete PROJECT and both managed loader units,
+    paths and preservation rules, conflicts and rejected settings, named-path commit,
+    no-remote statement, second opt-in, mapping and support gates, six ordered stages,
+    only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`, stage evidence, and exact success and
+    failure endings.
+17. Each of the five consumers has exactly one link to the canonical onboarding contract,
+    and every target and anchor resolves.
+18. The canonical contract retains the immutable pin, fourteen-role catalog, Orchestrator
+    authority, Configurer-only mutation, fresh exact-unit review, hook rereview, external
+    approval gates, truthful `supported`, `unsupported`, and `untested` meanings, and
+    plain-Markdown limitations.
+19. Every stage-state transition sends the complete compact six-stage table, including
+    `ACTIVE`, `PASS`, and `STOPPED`; only one stage is `ACTIVE`, later stages stay `PENDING`
+    after a stop, and no stage is `PASS` before its evidence exists.
 
 ## Behavioral smoke tests
 
@@ -149,6 +168,36 @@ the completeness check fail and prevents a ready packet.
 
 Failed intake remains visible in the task record. Recovery corrects and persists the
 handoff, then starts a new intake attempt. It does not consume or restore a formal round.
+
+### C15 — Guided onboarding contract
+
+Given an existing Git repository and an owner-supplied immutable framework pin, the
+Configurer inspects without writing, shows `## What I learned`, asks no more than one
+unresolved material question per turn with a recommendation and exact effect, then sends
+one complete `## Ready to awaken Olympus` message. That message contains exact PROJECT and
+both loader blocks, all paths and preservation rules, conflicts, rejected settings,
+named-path commit, no remote action, mappings and support evidence, and a second opt-in.
+After approval, the six ordered stages start as `PENDING`; only one stage is `ACTIVE`,
+each `PASS` has evidence, and a complete compact six-stage table is sent again whenever
+any stage becomes `ACTIVE`, `PASS`, or `STOPPED`. A `STOPPED` stage leaves later stages
+`PENDING`. The Configurer returns the exact uncommitted unit only to the Orchestrator. The
+Orchestrator dispatches a fresh exact-unit Reviewer and returns a passing verdict to the
+Configurer. The Configurer commits only named paths after both support gates and returns
+the exact committed unit, commit, and hook evidence to the Orchestrator. If a hook changed
+reviewed content, the Orchestrator dispatches a fresh review of that exact committed unit
+and returns the verdict. The Configurer confirms the committed result after that pass, or
+immediately when no hook changed content, and returns the confirmation to the Orchestrator.
+The Orchestrator reports either all six `PASS` stages ending `Olympus is awake.` or the
+exact stopped stage ending `Olympus stopped.`
+
+Red paths: a question before inspection; two questions in one turn; a missing
+recommendation or vague effect; a split, incomplete, or summarized proposal; a write
+before the second opt-in; a missing or unsupported required mapping; support inferred from
+tools, another role, or another commit; changed or malformed paths or markers; a
+Configurer-to-Reviewer handoff; an unreviewed or changed exact unit; staging before both
+support gates; a non-named path, remote action, evidence-free `PASS`, two active stages,
+an extra stage state, a missing complete transition table, or text after either exact
+final line.
 
 ## Current harness evidence
 

@@ -4,6 +4,10 @@ Use this role for onboarding or an owner-requested configuration change. Fill
 [templates/PROJECT.md](../templates/PROJECT.md) and use the managed block from
 [templates/BOOTSTRAP.md](../templates/BOOTSTRAP.md).
 
+Follow the [canonical guided onboarding contract](../references/ONBOARDING.md) for the
+complete onboarding presentation and stage flow. This charter retains the Configurer's
+authority, scope, gates, handoff, and return packet.
+
 Double opt-in means:
 
 1. the owner asks for onboarding or reconfiguration;
@@ -42,14 +46,19 @@ Do not write before both events occur.
    nested sentinels.
 9. Validate PROJECT, both loader blocks, the framework pin, and preserved surrounding
    content.
-10. Pause for a fresh Reviewer to review the exact uncommitted `PROJECT.md` plus managed
-    loader unit. Do not stage or commit on `repair` or `blocked`.
-11. After a passing review, stage only the approved paths and use the project's normal
-    local commit process. Do not push or create a pull request without fresh owner
-    approval.
-12. If a hook changes reviewed content, run a fresh committed-content review before
-    completion. Confirm the committed configuration and loader content still match the
-    approved result.
+10. Pause after validation and return the exact uncommitted `PROJECT.md` plus managed
+    loader unit only to the Orchestrator for the Stage 4 fresh Reviewer handoff. Do not
+    invoke or communicate with the Reviewer. Do not stage or commit on `repair` or
+    `blocked`.
+11. After the Orchestrator returns a passing review, stage only the approved paths and use
+    the project's normal local commit process. Return the exact committed unit, commit,
+    and hook evidence only to the Orchestrator. Do not push or create a pull request
+    without fresh owner approval.
+12. If a hook changed reviewed content, wait for the Orchestrator to dispatch a fresh
+    committed-content review and return the verdict. Do not invoke or communicate with the
+    Reviewer. After that pass, or when no hook changed content, confirm the committed
+    configuration and loader content match the approved result and return the confirmation
+    to the Orchestrator.
 
 If apply or validation fails, do not commit. Report the exact current state and the
 smallest safe next action. Do not reset, stash, or overwrite unrelated owner work.
