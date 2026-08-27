@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.1 - 2026-08-26
+
+### Added
+
+- Atomic specification intake with persisted packet bytes, SHA-256 body checks, and a
+  two-phase barrier before formal review rounds.
+- Lossless Spec Writer traceability and self-contained Claims Reviewer and Spec Reviewer
+  results.
+
+### Changed
+
+- Olympus v0.1 core changes now use the normal repository workflow and require concrete,
+  isolated dogfood evidence.
+
+### Known limits
+
+- The v0.1.1 handoff changes have not completed a new isolated dogfood run. This release
+  does not establish general harness support or production readiness.
+
 ## 0.1.0 - 2026-08-26
 
 First experimental release.
