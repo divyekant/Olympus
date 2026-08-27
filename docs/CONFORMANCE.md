@@ -24,19 +24,25 @@ The framework passes static inspection when:
 3. PROJECT supports manual and project orchestration modes, exact role preferences,
    trigger floors, harness evidence, and design-standard matching details.
 4. The skill supports manual, session, and project activation.
-5. Every Spec Writer result receives fresh Claims Reviewer and Spec Reviewer checks.
-6. Every Plan Writer result receives fresh Plan Verifier checks, when the plan trigger
+5. Every Spec Writer result has lossless source-to-validation traceability, fixed-control
+   closure, exact path ownership, exact counts and phrases, a completeness statement,
+   packet identifier, source commit, and content hash.
+6. The complete Writer result and current task metadata are persisted before fresh Claims
+   Reviewer and Spec Reviewer intake over the same immutable packet and hash.
+7. Missing content, stale metadata, or identifier or hash mismatch produces
+   `intake-invalid`; it is preserved as evidence and consumes no formal round.
+8. Every Plan Writer result receives fresh Plan Verifier checks, when the plan trigger
    holds.
-7. Every project or configuration mutation requires a fresh general Reviewer; Docs Writer
+9. Every project or configuration mutation requires a fresh general Reviewer; Docs Writer
    and Design Reviewer triggers are conditional and cannot replace that review.
-8. Configuration uses double opt-in, applies the exact approved unit uncommitted, reviews
+10. Configuration uses double opt-in, applies the exact approved unit uncommitted, reviews
    it fresh, and commits only after a pass; hook changes receive a fresh rereview.
-9. Explorer, Council, Liaison, and worktree use are conditional; every invoked role has
+11. Explorer, Council, Liaison, and worktree use are conditional; every invoked role has
    role-specific harness mapping and support evidence.
-10. The runtime contains no manifest, transcript-provenance, custom Git-transaction, or
+12. The runtime contains no manifest, transcript-provenance, custom Git-transaction, or
     exhaustive recovery requirement.
-11. All internal Markdown links resolve.
-12. The managed loader resolves the exact pin in a clean checkout or cache when the source
+13. All internal Markdown links resolve.
+14. The managed loader resolves the exact pin in a clean checkout or cache when the source
     working tree is at another commit.
 
 ## Behavioral smoke tests
@@ -87,8 +93,8 @@ It cannot change fixed roles or an active goal.
 
 If the host cannot or does not run a separate Builder and fresh Reviewer, or cannot or does
 not preserve a required role, owner-approved scope, or owner-authority boundary, report `unsupported`. This is
-classification, not enforcement. The framework does not add hashes, transcript analysis,
-or Git plumbing to compensate.
+classification, not enforcement. The framework does not add proposal-manifest hashes,
+transcript analysis, or Git plumbing to compensate.
 
 ### C09 — Fixed catalog and triggers
 
@@ -99,8 +105,11 @@ mapping, freshness, tools, support status, and observed evidence recorded.
 
 ### C10 — Specification and planning brackets
 
-Every Spec Writer result goes to fresh Claims Reviewer and Spec Reviewer contexts over the
-same complete packet. A triggered Plan Writer receives the accepted contract or
+The Orchestrator persists the complete Writer result, updates task metadata, records a
+packet identifier and content hash, gives both fresh reviewers the same immutable packet,
+and obtains matching intake acknowledgements. Each reviewer stops after intake. Only then
+does the Orchestrator authorize `formal-review` and increase the round counter. Each
+reviewer final is self-contained. A triggered Plan Writer receives the accepted contract or
 specification verbatim, and a fresh Plan Verifier receives that contract plus the whole
 plan. Repairs use complete fresh reviews. Specification, plan, configuration, and
 implementation caps apply independently.
@@ -119,6 +128,27 @@ Accessibility basics remain in Builder and general Reviewer checks.
 Decision Council answers one unresolved material trade-off question read-only and without
 a gate. Liaison answers human status or explanation questions from current task and Git
 evidence, without editing or creating a goal. Both return only to the Orchestrator.
+
+### C13 — Lossless specification traceability
+
+Use the guided-onboarding source packet with configuration support and exact-unit review
+gates, explicit Builder and Docs Writer path ownership, exactly five canonical consumer
+links, the required short effect statement, and current task-record status. Spec Writer
+must map every source item and applicable fixed control through requirement, acceptance
+criterion, red path, and validation evidence. Removing any one of these five items makes
+the completeness check fail and prevents a ready packet.
+
+### C14 — Atomic reviewer intake fixtures
+
+| Fixture | Expected handoff result | Formal rounds consumed | Required evidence |
+| --- | --- | --- | --- |
+| private Writer result not persisted | `intake-invalid` | `0` | missing specification content and pending task metadata |
+| complete packet with stale task metadata | `intake-invalid` | `0` | persisted metadata does not identify the complete Writer result |
+| reviewers receive different identifiers, bodies, or hashes | `intake-invalid` | `0` | both acknowledgements and the mismatch |
+| complete persisted packet, current metadata, matching identifier and hash | `formal-review`, then a formal verdict | `1` | both intake acknowledgements and both self-contained reviewer finals |
+
+Failed intake remains visible in the task record. Recovery corrects and persists the
+handoff, then starts a new intake attempt. It does not consume or restore a formal round.
 
 ## Current harness evidence
 
