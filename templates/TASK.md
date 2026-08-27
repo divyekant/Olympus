@@ -48,7 +48,7 @@ Acceptance criteria:
 
 - `<measurable result>`
 
-Accepted contract or specification:
+Accepted contract or specification after formal review:
 
 - `<verbatim accepted contract or specification, or not required>`
 
@@ -79,14 +79,46 @@ Delete this section when no owner decision was needed after activation.
 
 ## Specification rounds
 
-Use this bracket only for substantial, ambiguous, architectural, or cross-layer goals. Verdicts
-are `pass`, `repair`, or `blocked`. At the configured cap, open findings block the goal. The
-numeric cap applies independently to specification, plan, configuration, and implementation
-brackets.
+Use this bracket only for substantial, ambiguous, architectural, or cross-layer goals.
+Persist the complete Writer result and update task metadata before reviewer dispatch.
 
-| Round | Spec Writer context | Fresh Claims Reviewer context | Fresh Spec Reviewer context | Verdict | Accepted specification or findings/evidence | Uncertainty |
+### Persisted Writer result
+
+| Field | Value |
+| --- | --- |
+| status | `<complete or exact incomplete state>` |
+| packet identifier | `<identifier>` |
+| goal identifier | `<goal-id>` |
+| source commit | `<full commit>` |
+| content hash | `<lowercase SHA-256 of the exact body between the markers below>` |
+
+<!-- SPECIFICATION-BODY:BEGIN -->
+
+`<complete Spec Writer body, persisted verbatim before reviewer dispatch>`
+
+<!-- SPECIFICATION-BODY:END -->
+
+### Specification intake
+
+| Attempt | Writer result and metadata | Packet identifier | Content hash | Claims acknowledgement | Spec acknowledgement | Handoff state and evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<fresh context>` | `<fresh context>` | `<verdict>` | `<accepted specification or findings and exact evidence>` | `<none or limit>` |
+| `<n>` | `<persisted and current, or exact defect>` | `<identifier>` | `<lowercase SHA-256>` | `<matching identifier/recomputed hash and required sections, or defect>` | `<matching identifier/recomputed hash and required sections, or defect>` | `<healthy, intake-invalid, formal-review, or blocked; evidence>` |
+
+`intake-invalid` is preserved here as a pre-review result and consumes no round. Start and
+count a formal round only after both fresh reviewers acknowledge the same immutable healthy
+packet. Each reviewer stops after acknowledgement. Record the `formal-review` authorization
+for that exact identifier and hash before either reviewer starts formal work. Correct and
+persist the handoff before a new intake attempt.
+
+### Formal specification review
+
+Formal verdicts are `pass`, `repair`, or `blocked`. At the configured cap, open findings
+block the goal. The numeric cap applies independently to specification, plan, configuration,
+and implementation brackets.
+
+| Round | Packet identifier and hash | Spec Writer context | Fresh Claims Reviewer final | Fresh Spec Reviewer final | Aggregated verdict | Accepted specification or findings/evidence | Uncertainty |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `<n>` | `<identifier and hash>` | `<separate context>` | `<self-contained verdict, evidence, skipped checks, uncertainty, repair>` | `<self-contained verdict, criterion/red-path results, evidence, skipped checks, uncertainty, repair>` | `<verdict>` | `<accepted specification or findings and exact evidence>` | `<none or limit>` |
 
 Specification round cap: `<1, 2, or 3; default 2>`.
 

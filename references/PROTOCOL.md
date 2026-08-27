@@ -113,8 +113,18 @@ Then:
 4. For a substantial, ambiguous, architectural, or cross-layer goal, run the
    specification bracket before planning or building:
    - send the bounded packet to Spec Writer;
-   - send the complete result to a fresh Claims Reviewer and a fresh Spec Reviewer;
-   - keep both reviews over the same complete packet;
+   - persist the complete Writer result before starting review;
+   - update the task metadata from pending, then record the packet identifier and the
+     lowercase SHA-256 hash of the exact persisted specification body bytes, and verify
+     that hash against the Writer return;
+   - give a fresh Claims Reviewer and a fresh Spec Reviewer the same immutable packet,
+     identifier, and hash;
+   - obtain an intake acknowledgement from both reviewers that identifies the packet and
+     hash, confirms the required sections and current task metadata, and reports the hash
+     each reviewer recomputed from its received specification body;
+   - require each reviewer to stop after intake; only after both acknowledgements match,
+     change the handoff to `formal-review`, increment the specification round counter, and
+     authorize both reviewers to review that exact packet;
    - on repair, route only the findings through the Orchestrator, then run both fresh
      reviews over the repaired complete packet;
    - at the independent bracket cap, open findings block the goal.
@@ -152,6 +162,21 @@ The numeric cap applies independently to specification, plan, configuration, and
 implementation brackets. A repair always receives a complete fresh review from the
 relevant reviewer set. No bracket starts another round after its cap.
 
+The specification handoff has four visible states:
+
+- `healthy`: the complete Writer result is persisted, task metadata is current, and its
+  packet identifier and content hash are recorded;
+- `intake-invalid`: either reviewer reports missing specification content, pending or stale
+  task metadata, a packet identifier or hash mismatch, or different reviewer packets;
+- `formal-review`: both fresh reviewers acknowledged the same healthy packet and the round
+  counter was incremented once;
+- `blocked`: a required packet cannot be recovered, or formal findings remain at the cap.
+
+`intake-invalid` is a pre-review result, not a specification verdict, and consumes no
+formal round. Record the failed intake and its evidence in the task record. Correct and
+persist the handoff before a new intake attempt. Do not count, reuse, or reinterpret an
+intake failure as `pass`, `repair`, or `blocked` specification review.
+
 Before dispatch, the Orchestrator records for every invoked role:
 
 - harness and mapping;
@@ -183,13 +208,15 @@ Every packet contains only the information needed by the receiving role.
 - Explorer receives one question, path scope, revision, relevant documentation, and
   allowed read-only commands.
 - Spec Writer receives the goal boundary, source/base revision, paths, evidence,
-  validation, and owner or permission boundaries. It returns the specification only to the
-  Orchestrator.
-- Claims Reviewer receives the complete specification packet and current evidence. It
-  grades material facts as supported, falsified, or unverified and returns only to the
-  Orchestrator.
-- Spec Reviewer receives the same complete specification packet and prior findings only
-  for repair context. It returns `pass`, `repair`, or `blocked` only to the Orchestrator.
+  validation, source requirements, fixed controls, and owner or permission boundaries. It
+  returns the complete traceable specification only to the Orchestrator.
+- Claims Reviewer receives the complete persisted specification packet, packet identifier,
+  content hash, current task metadata, and current evidence. It first acknowledges intake,
+  then grades every material fact as supported, falsified, or unverified and returns only
+  to the Orchestrator.
+- Spec Reviewer receives that same immutable packet, identifier, hash, and task metadata,
+  plus prior findings only for repair context. It first acknowledges intake, then checks
+  every acceptance criterion and red path. It returns only to the Orchestrator.
 - Plan Writer receives the accepted contract or specification verbatim plus boundary,
   evidence, and validation. It returns an ordered plan only to the Orchestrator.
 - Plan Verifier receives that same contract plus the whole plan, paths, interfaces,

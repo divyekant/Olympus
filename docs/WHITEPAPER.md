@@ -152,11 +152,21 @@ sequenceDiagram
     end
     opt Substantial, ambiguous, architectural, or cross-layer goal
         O->>S: Bounded goal packet
-        S-->>O: Contract
-        O->>CR: Complete contract and evidence
-        CR-->>O: Claim checks
-        O->>SR: Complete contract and evidence
-        SR-->>O: Specification verdict
+        S-->>O: Complete traceable specification, identifier, and hash
+        O->>O: Persist body, update metadata, verify hash
+        O->>CR: Same immutable packet and metadata
+        CR-->>O: Identifier and recomputed hash, or intake-invalid
+        O->>SR: Same immutable packet and metadata
+        SR-->>O: Identifier and recomputed hash, or intake-invalid
+        alt Both intake acknowledgements match
+            O->>O: Start and count formal review
+            O->>CR: Review every material claim
+            CR-->>O: Self-contained claim verdict
+            O->>SR: Review every criterion and red path
+            SR-->>O: Self-contained specification verdict
+        else Intake invalid
+            O->>O: Preserve evidence; consume zero rounds
+        end
     end
     opt Plan trigger holds
         O->>P: Accepted contract or specification

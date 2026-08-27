@@ -29,6 +29,8 @@ The owner reset version one to its product goal: faster, correct software buildi
 | D020 | Experimental version 0.1.0 | The Issue #750 A/B result is enough to start larger experiments. Version `0.1.0` makes no production-readiness or quality-superiority claim. |
 | D021 | Apache-2.0 license | Olympus uses Apache-2.0. It is permissive and includes an explicit contributor patent grant. |
 | D022 | Private incubation through 0.x | The canonical repository is `https://github.com/divyekant/Olympus`. Keep it private through experimental `0.x` releases. Make it public only with owner approval for version `1.0.0`. |
+| D023 | v0.1 core changes stay outside Olympus | Implement and review core-framework changes through the normal repository workflow. An enhancement needs concrete dogfood evidence, then a new isolated dogfood run at the changed immutable commit. Each run is scenario evidence only; one scenario cannot establish general support or production readiness. External actions and protected repository controls do not change. |
+| D024 | Specification intake is an atomic barrier | Persist one complete Writer body and current task metadata before two fresh reviewers receive it. Each reviewer recomputes the body hash. Formal review starts only after matching acknowledgements. `intake-invalid` preserves handoff evidence and consumes no round. The hash is an integrity checksum, not an authority proof or proposal manifest. |
 
 ## Removed hardening rationale
 
