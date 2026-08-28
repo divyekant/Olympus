@@ -159,22 +159,29 @@ sequenceDiagram
         O->>SR: Same immutable packet and metadata
         SR-->>O: Identifier and recomputed hash, or intake-invalid
         alt Both intake acknowledgements match
-            O->>O: Start and count formal review
-            O->>CR: Review every material claim
-            CR-->>O: Self-contained claim verdict
-            O->>SR: Review every criterion and red path
-            SR-->>O: Self-contained specification verdict
+            O->>O: Reserve candidate round and attempt ID
+            O->>CR: Review every material claim for that attempt
+            O->>SR: Review every criterion and red path for that attempt
+            CR-->>O: Complete claim packet or halted return
+            SR-->>O: Complete specification packet or halted return
+            alt Both complete packets return
+                O->>O: Count completed round and freeze finding ledger
+            else Attempt halted
+                O->>O: Preserve provisional findings; count zero rounds
+                O->>O: Retry once with fresh reviewers, then escalate
+            end
         else Intake invalid
             O->>O: Preserve evidence; consume zero rounds
         end
     end
     opt Plan trigger holds
         O->>P: Accepted contract or specification
-        P-->>O: Ordered plan
-        O->>PV: Contract and whole plan
-        PV-->>O: Plan verdict
+        P-->>O: Complete plan with identity and hash
+        O->>O: Persist plan and verify identity
+        O->>PV: Contract and exact persisted plan
+        PV-->>O: Matching plan identity and verdict
     end
-    O->>B: Goal, accepted packet, paths, evidence, checks
+    O->>B: Goal, accepted specification and plan identities, paths, evidence, checks
     B-->>O: Diff, results, uncertainty
     opt Documentation trigger holds
         O->>D: Complete behavior diff and approved docs
@@ -249,8 +256,10 @@ different Reviewer context. A host that cannot do this is unsupported.
 
 ### Loop growth
 
-Review rounds are capped at one to three, with two by default. Open findings at the cap
-produce `blocked`, not another automatic loop.
+Specification review is capped at ten completed rounds and expects closure in two or three.
+Halted attempts do not consume that cap. One fresh retry is automatic; another runtime
+failure escalates. Other review brackets keep their smaller configured caps. Open findings
+at a cap produce `blocked`, not another automatic loop.
 
 ### Partial installation
 

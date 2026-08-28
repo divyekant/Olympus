@@ -10,8 +10,9 @@ promise.
 | 3 — Dogfood | complete | Codex correctness pilot `214be8163ba672d42b62ec7ad8ebe8fa71b466b5` |
 | 4 — Large-codebase proof | complete, mixed | D02 failed; Issue #750 tied with no P0-P2 defects; see D05 |
 | 5 — Second harness and unrelated project | complete | Claude `unsupported`; unrelated Codex mutation `pass`; see D03–D04 in `docs/CONFORMANCE.md` |
-| 6 — OSS readiness | release ready | Apache-2.0; private canonical repository; `v0.1.0` source ready |
-| Catalog expansion | dogfood started | Issue #750 used framework `3d67f064821c3e4a05b5e87118eeea19119a16e6`; not every conditional role was invoked |
+| 6 — OSS readiness | private experimental releases | Apache-2.0; private canonical repository; `v0.3.0` prepared for manual validation |
+| Role and state quality | static pass, live test pending | all existing charters strengthened at `d894317851b5ceacc0337578b9d684729401e7b6`; C17-C18 specified |
+| Catalog expansion | deferred | the catalog remains fourteen roles; Release Agent work restarts only after `v0.3.0` manual evidence |
 
 ## Phase 1 — Specify the fixed framework
 
@@ -81,8 +82,10 @@ Keep harness-specific mappings outside the semantic core.
 fresh-clone installation; known limits and unsupported paths; conformance evidence; and
 owner approval for public remote, tag, package, or release actions.
 
-**Outcome:** Experimental `0.1.0` uses Apache-2.0 and is ready for a private tagged release.
-Keep the canonical repository private until the owner approves public version `1.0.0`.
+**Outcome:** Experimental releases use Apache-2.0 and remain private. Version `0.3.0`
+strengthens the fixed role and state contracts. Its first live target-repository test is
+pending. Keep the canonical repository private until the owner approves public version
+`1.0.0`.
 
 ## Deferred until evidence requires it
 

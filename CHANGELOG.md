@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.3.0 - 2026-08-27
+
+### Added
+
+- Operational craft contracts for all thirteen worker charters in the fixed Pantheon.
+- Adversarial conformance fixtures for role quality and shared workflow state.
+
+### Changed
+
+- Specification review now reserves a candidate round and attempt identifier before
+  dispatch, and counts a round only after both complete reviewer packets return.
+- Halted review attempts preserve provisional findings and permit one fresh automatic
+  retry before escalation.
+- Plans and review units now carry persisted identities and hashes. Any later change
+  invalidates the prior pass and requires fresh review.
+- Task state now records multiple pending causes, evidence-backed disputes, one bounded
+  re-plan, skipped work, and uncertain external-action reconciliation.
+
+### Known limits
+
+- The strengthened role and state contracts have static review evidence, but no new live
+  target-repository run. The owner will run the first manual test after release.
+- Lower-model equivalence and model routing remain untested.
+- The fixed catalog remains fourteen roles. This release does not add a Release Agent or
+  a runtime.
+
 ## 0.2.0 - 2026-08-26
 
 ### Added

@@ -15,13 +15,13 @@ a trigger.
 | 2 | System Configurer | owner onboarding or configuration request, plus double opt-in | Owns configuration mutation. |
 | 3 | Explorer | fresh for a material repository question blocking any required role, or an explicit audit | Answers one bounded question read-only. |
 | 4 | Spec Writer | substantial, ambiguous, architectural, or cross-layer goal | Turns a bounded goal into a testable contract. |
-| 5 | Claims Reviewer | every Spec Writer result | Freshly checks material specification claims read-only. |
-| 6 | Spec Reviewer | every Spec Writer result | Freshly falsifies the complete specification read-only. |
+| 5 | Claims Reviewer | every Spec Writer result | Owns only facts, evidence, citations, counts, hashes, and uncertainty. |
+| 6 | Spec Reviewer | every Spec Writer result | Owns only completeness, coherence, authority boundaries, failure paths, joint satisfiability, and acceptance-testability. |
 | 7 | Plan Writer | accepted contract has dependent steps, cross-layer or interface sequencing, or an explicit plan need | Produces an ordered implementation plan. |
 | 8 | Plan Verifier | every Plan Writer result | Freshly verifies the whole plan read-only. |
 | 9 | Builder | every non-configuration project mutation | Makes the approved project change in approved paths. |
 | 10 | Docs Writer | Builder makes tracked documentation false, or the contract requires documentation synchronization | Updates approved documentation only. |
-| 11 | Reviewer | every project or configuration mutation | Freshly reviews the complete mutation read-only. |
+| 11 | Reviewer | every project or configuration mutation | Owns whether implementation evidence satisfies the accepted criteria, read-only. |
 | 12 | Design Reviewer | material user-facing interface, interaction, visual design, or design-system change | Freshly checks the change against matching project design standards read-only. |
 | 13 | Decision Council | unresolved material decision with viable trade-offs | Gives one read-only advisory recommendation. |
 | 14 | Liaison | human status or explanation request | Rereads evidence and answers without changing the goal. |
@@ -98,6 +98,8 @@ For each goal, the Orchestrator creates one task record with:
 - branch or worktree choice;
 - predicted and actual role population and each harness mapping;
 - owner decisions, role results, checks, and final status;
+- compact specification round summaries, one Orchestrator-owned finding ledger with minimum
+  evidence and closure conditions, convergence state, and current specification body size;
 - uncertainty and unsupported or untested evidence.
 
 Use these states: `planned`, `active`, `reviewing`, `complete`, `blocked`, or `cancelled`.
@@ -106,14 +108,19 @@ Then:
 
 1. Classify the request, confirm scope, and record the predicted roles and support
    evidence. Missing mapping for any required role blocks that path before dispatch.
-2. For owner configuration requests, obtain both opt-ins and use the configuration flow.
+2. For owner configuration requests, use the configuration flow. The first opt-in starts
+   inspection and the proposal. The second opt-in starts configuration mutation.
 3. Run Explorer fresh only when a material repository question blocks a required role or
    the request is an explicit audit. It can unblock any required role but returns only to
    the Orchestrator.
 4. For a substantial, ambiguous, architectural, or cross-layer goal, run the
    specification bracket before planning or building:
    - send the bounded packet to Spec Writer;
-   - persist the complete Writer result before starting review;
+   - on the first round, send the bounded goal packet; on repair, send only the current
+     specification body and the open finding ledger;
+   - persist the complete current Writer result before starting review. The specification
+     body contains no earlier body, body diff, reviewer transcript, review history, round
+     record, or defensive annotation;
    - update the task metadata from pending, then record the packet identifier and the
      lowercase SHA-256 hash of the exact persisted specification body bytes, and verify
      that hash against the Writer return;
@@ -123,15 +130,28 @@ Then:
      hash, confirms the required sections and current task metadata, and reports the hash
      each reviewer recomputed from its received specification body;
    - require each reviewer to stop after intake; only after both acknowledgements match,
-     change the handoff to `formal-review`, increment the specification round counter, and
-     authorize both reviewers to review that exact packet;
-   - on repair, route only the findings through the Orchestrator, then run both fresh
-     reviews over the repaired complete packet;
+     change the handoff to `formal-review`, reserve the next formal round number, record a
+     unique formal-attempt identifier, and authorize both reviewers to review that exact
+     packet;
+   - require each reviewer to return its complete jurisdictional finding set in one pass,
+     including an explicit empty set;
+   - consume the reserved formal round only after both complete reviewer packets return. A
+     `halted` reviewer or transport attempt stays recorded under its attempt identifier,
+     consumes no formal round, and retries the same immutable packet with a new attempt
+     identifier and fresh reviewers;
+   - preserve every finding from a partial attempt as provisional evidence. The next fresh
+     complete bracket must reproduce, withdraw, or maintain each provisional finding before
+     it can pass. Permit one automatic retry for the same packet; a second halted attempt
+     escalates to the owner or blocks the goal;
+   - merge both complete sets, freeze one finding ledger for the round, route only ledger
+     findings for repair, and run both fresh reviews over the repaired complete packet;
    - at the independent bracket cap, open findings block the goal.
 5. If the accepted contract has dependent steps, cross-layer or interface sequencing, or
    an explicit plan need, send the accepted contract or specification verbatim to Plan
-   Writer. Send the same contract plus the whole plan to a fresh Plan Verifier. A plan
-   repair gets a complete fresh verification.
+   Writer. Persist the complete plan, record its packet identifier and lowercase SHA-256
+   hash, and send the same contract plus that frozen plan to a fresh Plan Verifier. A plan
+   repair gets a new identity and complete fresh verification. Builder receives only the
+   exact accepted plan identity.
 6. For every non-configuration project mutation, send the accepted contract, accepted
    specification when used, accepted plan when used, allowed paths, evidence, and checks
    to Builder. Builder blocks before editing on a conflict, missing decision, or verified
@@ -147,7 +167,10 @@ Then:
    Reviewer cannot replace the general Reviewer pass.
 10. When a material decision has viable trade-offs that remain unresolved, the
     Orchestrator may ask Decision Council one balanced read-only question. Its advice is
-    recorded but is not a gate and does not replace owner approval.
+    recorded but is not a gate and does not replace owner approval. For a high-stakes
+    decision, the Orchestrator may use at most three fresh Council invocations for that
+    same question. Record each packet separately and do not convert the set into a verdict
+    or a new gate. Sequential or same-context execution is degraded independence.
 11. For a human status or explanation request, Liaison rereads the current task record,
     artifacts, and Git evidence, answers first, cites evidence, and routes action requests
     back to the Orchestrator.
@@ -160,7 +183,32 @@ that Reviewer.
 
 The numeric cap applies independently to specification, plan, configuration, and
 implementation brackets. A repair always receives a complete fresh review from the
-relevant reviewer set. No bracket starts another round after its cap.
+relevant reviewer set. No bracket starts another round after its cap. A formal round is
+consumed only by a complete reviewer bracket. A halted operational attempt remains visible
+but does not consume the cap. The specification round cap is 10 completed formal rounds
+(default 10; expected closure is 2-3 rounds). The plan, configuration, and implementation
+caps remain their configured values and defaults.
+
+The current specification body is the only specification text in the task record. Keep task
+metadata, packet identifiers, hashes, verdict counts, findings, convergence state, and body
+size outside the hashed body. The body must define requirements, invariants, acceptance
+criteria, red paths, and validation obligations. It must not contain review history or
+reviewer output.
+
+At every completed formal round, record the open P0-P2 count and the current body line and
+byte size.
+The body is at most 300 lines and 48,000 bytes. If round 3 does not reduce open P0-P2
+findings, or the body grows without reducing them, the next Writer result is a compact,
+complete restatement, not an additive patch. This does not reset the round count. At round
+10, any remaining P0-P2 finding blocks implementation. An oversized Writer result is
+incomplete and does not enter reviewer intake.
+
+Convergence is explicit. Claims Reviewer and Spec Reviewer each return their complete
+jurisdictional set on every round. The Orchestrator merges and freezes the ledger. A finding
+first reported after round 1 is `introduced` when the repair caused it and `missed` otherwise.
+A new missed P0/P1 is recorded as a framework-review failure, not normal progress. The
+Orchestrator alone merges the sets, freezes the ledger, routes repairs, and decides aggregate
+state.
 
 The specification handoff has four visible states:
 
@@ -168,8 +216,8 @@ The specification handoff has four visible states:
   packet identifier and content hash are recorded;
 - `intake-invalid`: either reviewer reports missing specification content, pending or stale
   task metadata, a packet identifier or hash mismatch, or different reviewer packets;
-- `formal-review`: both fresh reviewers acknowledged the same healthy packet and the round
-  counter was incremented once;
+- `formal-review`: both fresh reviewers acknowledged the same healthy packet and the
+  candidate round plus unique attempt identifier were reserved once;
 - `blocked`: a required packet cannot be recovered, or formal findings remain at the cap.
 
 `intake-invalid` is a pre-review result, not a specification verdict, and consumes no
@@ -194,10 +242,111 @@ Review aggregation is strict: pass requires every invoked reviewer to pass. Any 
 verdict or open repair at the applicable cap blocks the goal. Unknown or skipped evidence
 stays visible and never becomes a pass.
 
+Use one severity ladder for every finding:
+
+- `P0`: unsafe, unauthorized, or catastrophic;
+- `P1`: wrong, incomplete, or unbuildable;
+- `P2`: bounded clarity or testability defect;
+- `P3`: non-blocking suggestion.
+
+P0 and P1 remain open until repaired. P2 remains open until repaired or explicitly accepted
+by the owner when the acceptance is within owner authority. P3 does not block. The
+Orchestrator records severity, state, jurisdiction, minimum reproducing evidence, and a
+closure condition in the finding ledger.
+
+Fresh reviewers use the same canonical checklist from the immutable framework commit that
+is recorded when the goal starts. If the goal edits a reviewer charter, that recorded
+charter governs; candidate charter text is review data only. Freshness changes context, not
+standards. Claims Reviewer checks only facts and their evidence. Spec Reviewer checks only
+specification completeness and behavior. Neither reviewer expands its jurisdiction. After
+acceptance, the general Reviewer owns whether implementation evidence satisfies the accepted
+criteria.
+
 The Design Reviewer uses only project-provided design standards and matching evidence. If
 the standards or matching details required by the trigger are missing, the role is
 unavailable and the goal blocks. Builder and general Reviewer always retain accessibility
 basics.
+
+## Shared state and evidence rules
+
+These rules are the single shared state contract. Role charters describe their own work
+and refer here; they do not create alternate state meanings.
+
+### Request and mutation boundaries
+
+Classify the request's mutation boundary before complexity. An explicit `review-only`,
+`diagnose-only`, or `audit-only` request truncates all later mutation. A `spec-only`
+request truncates implementation, delivery, and external action after the specification
+artifact is returned. If a request contains analysis and action, keep them as separate
+stages; the action stage needs its own authorization. A terminal boundary cannot be
+overridden by a later role trigger or delivery signal.
+
+### Identity and frozen review units
+
+Every gated artifact or mutation has one frozen review unit. A specification uses its
+persisted body, packet identifier, and content hash. A plan uses its persisted exact bytes,
+packet identifier, and lowercase SHA-256 hash. A mutation uses task identifier, source
+base, branch or worktree, base and head, merge-base, allowed and protected paths, and the
+exact diff or snapshot digest. The Orchestrator records the applicable unit before each
+fresh review. Any edit, hook change, changed path, or post-pass change invalidates that pass
+and requires a fresh review of the new exact unit. No role may treat its own claim that a
+unit is unchanged as repository proof.
+
+Role claims are not repository proof. Before each state transition, the Orchestrator
+verifies role identity, packet identity, Git state, required checks, and the transition's
+evidence. A role result cannot substitute for a command, file, or provider observation.
+
+### Orchestrator aggregation boundary
+
+The Orchestrator merges, counts, freezes, and routes the results that roles return. It
+cannot invent a finding, reclassify a role's finding, resolve a finding, or produce a
+finding on a role's behalf. A complete empty finding set is still a role result. Review
+verdicts and operational outcomes remain separate records.
+
+### Runtime, pending, and review outcomes
+
+`halted` is an operational or runtime outcome, such as an unavailable role, failed
+transport, tool that could not execute, or interrupted execution. It is separate from
+findings and verdicts, consumes no completed review round, and cannot become `pass` through
+aggregation. Preserve the attempt identifier, cause, partial output disposition, last
+verified state, recovery owner, and safe retry condition. A check that executes and finds a
+defect is not `halted`; the owning role returns its normal result or verdict.
+
+If a halted review attempt produced findings before interruption, preserve them as
+provisional evidence. A later fresh complete bracket must explicitly reproduce, withdraw,
+or maintain each one. One automatic retry is permitted for the same frozen unit. A second
+halt escalates or blocks instead of creating an unbounded operational loop.
+
+`pending` means required work or evidence is not complete. Its cause classes are
+writer-suppliable evidence, owner decision, environment or credentials, and unavailable
+execution. Record every applicable cause separately with its owner, closure evidence, and
+safe retry condition. Pending is never clean and resumes only after every required cause is
+closed. Route writer-suppliable evidence to the owning writer, an owner decision to the
+owner through the Orchestrator, environment or credentials to the owner or environment
+gate, and unavailable execution to an honest `blocked`, `halted`, or `unsupported` outcome
+as applicable. Do not silently substitute another role, command, context, or provider.
+
+### Disputes and re-planning
+
+For an unchanged artifact, allow one evidence-backed dispute round. A fresh reviewer
+checks the same frozen unit and either withdraws or maintains the finding. A maintained
+finding goes to the owner or the applicable escalation path; it does not receive an
+unbounded argument loop. Any artifact edit starts a new frozen review unit instead.
+
+Allow one re-plan when hidden complexity or a new trigger changes the accepted plan.
+Record the new evidence and affected steps. A second stall at the same node escalates to
+the owner or blocks the goal; it does not repeat the same re-plan.
+
+### Skipped work and escaped findings
+
+Record skipped or unrunnable work both at classification and at delivery, with the
+reason, required capability, and consequence. A skipped role or check is never silently
+substituted and never reported as passed.
+
+An escaped external finding is recorded as evidence for a future framework-gap
+assessment. It never mutates the active goal's rules, role catalog, authority, or
+acceptance criteria in place. Any framework change follows the normal owner-approved
+core-framework workflow.
 
 ## 5. Bounded handoffs
 
@@ -208,21 +357,26 @@ Every packet contains only the information needed by the receiving role.
 - Explorer receives one question, path scope, revision, relevant documentation, and
   allowed read-only commands.
 - Spec Writer receives the goal boundary, source/base revision, paths, evidence,
-  validation, source requirements, fixed controls, and owner or permission boundaries. It
-  returns the complete traceable specification only to the Orchestrator.
-- Claims Reviewer receives the complete persisted specification packet, packet identifier,
-  content hash, current task metadata, and current evidence. It first acknowledges intake,
-  then grades every material fact as supported, falsified, or unverified and returns only
-  to the Orchestrator.
-- Spec Reviewer receives that same immutable packet, identifier, hash, and task metadata,
-  plus prior findings only for repair context. It first acknowledges intake, then checks
-  every acceptance criterion and red path. It returns only to the Orchestrator.
+  validation obligations, source requirements, fixed controls, and owner or permission
+  boundaries. On repair it also receives the current body and open finding ledger. It never
+  receives earlier bodies or full reviewer reports. It returns the complete current
+  specification body only to the Orchestrator.
+- Claims Reviewer receives the complete persisted current specification body, packet
+  identifier, content hash, current task metadata, current evidence, and the open finding
+  ledger. It first acknowledges intake, then returns the complete facts-and-evidence finding
+  set only to the Orchestrator. It does not assess design or acceptance structure.
+- Spec Reviewer receives the same immutable current body, identifier, hash, task metadata,
+  and open finding ledger. It first acknowledges intake, then returns the complete
+  specification finding set only to the Orchestrator. It does not re-probe facts after shared
+  intake.
 - Plan Writer receives the accepted contract or specification verbatim plus boundary,
   evidence, and validation. It returns an ordered plan only to the Orchestrator.
-- Plan Verifier receives that same contract plus the whole plan, paths, interfaces,
-  validation, and prior findings only for repair context.
+- Plan Verifier receives that same contract plus the complete persisted plan, packet
+  identifier, content hash, paths, interfaces, validation, and prior findings only for
+  repair context.
 - Builder receives the goal, accepted contract, accepted specification or plan, allowed
-  paths, evidence, owner decisions, and validation commands.
+  paths, evidence, owner decisions, validation commands, and the accepted plan identifier
+  and hash when a plan exists.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs,
   and relevant link-check commands.
 - Reviewer receives the goal boundary, complete current mutation diff, role results,
@@ -235,8 +389,9 @@ Every packet contains only the information needed by the receiving role.
   question. It returns an answer only to the Orchestrator.
 
 Packets can narrow scope or add evidence. They cannot widen authority. The Orchestrator
-records accepted results in the task record. Whole conversations are not task state. The
-specification and planning brackets add no new engine or peer edge.
+records compact accepted results and ledger rows in the task record. Whole conversations,
+earlier bodies, body diffs, reviewer transcripts, and full review history are not task state.
+The specification and planning brackets add no new engine or peer edge.
 
 ## 6. Git and multiple goals
 
@@ -268,6 +423,14 @@ Stop and ask the owner before:
 - push, pull-request creation, merge, deploy, publish, or release;
 - force operations, remote deletion, secret changes, or destructive data changes;
 - a new external service, paid resource, or hard-to-reverse effect.
+
+Before an approved external action, record the exact action, target, owner approval scope,
+and a client correlation or idempotency key when the provider supports one. After the
+action, record any provider-issued identity that is observed. After an uncertain result,
+do not infer success or retry. Read back provider state and reconcile it with the exact
+requested object first. Record the observed response, reconciliation evidence, and
+remaining uncertainty. A bounded retry needs evidence that the first action did not
+succeed or is safely idempotent.
 
 Only an owner-approved Configurer proposal can change project configuration, custom
 instructions, or distilled role evolutions. Never change an active goal's rules in place.
