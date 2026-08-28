@@ -320,6 +320,7 @@ they do not establish general harness reliability.
 | Second-harness trial | Claude | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `unsupported` |
 | Fixed conditional 14-role catalog | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `partial` |
 | Release Agent specification convergence | Codex | `103559b2ae57e5684035820e084c8617129a6cb1` | `fail` |
+| Role craft and shared state static validation | Codex | `d894317851b5ceacc0337578b9d684729401e7b6` | `pass` |
 
 At framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`, Codex passed manual mutation;
 session activation, deactivation, and question routing; project activation; repair-cap and
@@ -423,3 +424,19 @@ larger tests. It does not prove that Olympus produces better final code.
 
 This scenario demonstrates the specification convergence failure only. It does not establish
 general harness quality.
+
+### D07 — Role craft and shared state upgrade
+
+This core-framework change used the normal repository workflow outside Olympus. Commit
+`d894317851b5ceacc0337578b9d684729401e7b6` strengthens the thirteen existing worker
+charters and keeps the ordered fourteen-role catalog unchanged. It also adds C17 and C18
+for adversarial role quality and shared workflow state.
+
+Static validation found all 13 charters had the required structure, all 16 role-specific
+craft markers were present, all 46 checked local Markdown links and anchors resolved, and
+the protocol and task tables were consistent. Fresh contract and resilience reviews found
+no P0-P2 issue in the final exact tree. The reviewed tree matched the committed tree.
+
+This is static and independent-review evidence only. No live target repository has run the
+new C17 or C18 fixtures. It does not prove lower-model equivalence, general harness support,
+quality superiority, or production readiness.

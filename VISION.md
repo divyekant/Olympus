@@ -52,7 +52,8 @@ rules. The [runtime protocol](references/PROTOCOL.md) is the canonical catalog a
   `untested` evidence.
 - Exploration is conditional. Fresh review is mandatory for mutations.
 - Unknown evidence cannot pass review.
-- Repair is bounded. The default cap is two rounds.
+- Repair is bounded. Specification review permits at most ten completed rounds and expects
+  closure in two or three. Other review brackets keep their smaller configured caps.
 - Git stores configuration and goal records.
 - Worktrees isolate concurrent work or a goal from unrelated dirty work.
 - Exact pins identify framework content. They do not prove trust.
@@ -78,7 +79,8 @@ An owner completes onboarding, starts a real goal, receives a verified result, a
 Olympus can dogfood after one target harness passes the simple contract. It must test each
 invoked role through the harness, test Codex and Claude, and label unsupported modes
 honestly. The 14-role catalog began dogfood in the controlled Issue #750 A/B comparison;
-not every conditional role has evidence. Experimental version `0.1.0` exists to run larger
-tests, not to claim production readiness.
+not every conditional role has evidence. Experimental version `0.3.0` strengthens role
+craft and shared state after the Release Agent specification failed to converge. It exists
+for larger tests, not to claim production readiness.
 
 The result must reduce owner correction or elapsed delivery time without reducing correctness. If its administration costs more than the change, the framework has failed its purpose.

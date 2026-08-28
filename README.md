@@ -1,7 +1,7 @@
 # Olympus
 
 Olympus is an opinionated, Markdown-only build system for reliable agent-led software
-development. Version `0.1.0` is experimental.
+development. Version `0.3.0` is experimental.
 
 It gives a coding agent one fixed orchestration graph, fourteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
@@ -77,16 +77,20 @@ Project-changing requests do.
 
 ## Version status
 
-Olympus `0.1.0` is the first experimental version. A controlled FPLGuru Issue #750 A/B
-test found no P0-P2 defect in either the normal Codex or Olympus implementation. Olympus
-produced broader focused-test evidence and caught an order-dependent combined-test problem;
-normal Codex used less process. The result was a correctness tie, not proof of superiority.
+Olympus `0.3.0` strengthens all existing role charters and the state shared across
+specification, planning, mutation, and external-action boundaries. Review units now carry
+exact identities. Formal specification rounds count only after both reviewer packets
+complete. Halted attempts preserve provisional findings and allow one fresh retry.
 
-This version exists so owners can run larger experiments. See
+The fixed catalog still has fourteen roles. This release adds no runtime or Release Agent.
+The role and state contracts passed static and independent review, but have not completed a
+new live target-repository run. The owner will run that manual validation next. Lower-model
+equivalence is also untested. See
 [current harness evidence](docs/CONFORMANCE.md#current-harness-evidence) for exact limits.
-Version `0.1.0` is ready for a private tagged release. Keep the repository private through
-the experimental `0.x` line. Public visibility starts only with owner approval for version
-`1.0.0`.
+
+Olympus remains a private experimental `0.x` project. Existing dogfood shows mixed results
+and does not prove quality superiority or production readiness. Public visibility starts
+only with owner approval for version `1.0.0`.
 
 ## License
 

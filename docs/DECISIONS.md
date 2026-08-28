@@ -17,7 +17,7 @@ The owner reset version one to its product goal: faster, correct software buildi
 | D008 | One simple record per goal | Record the request, criteria, paths, source base, isolation, owner decisions, role results, checks, and outcome. Whole conversations, transcript proof, cryptographic manifests, and telemetry are not task state. |
 | D009 | Explorer and worktrees are conditional | Use Explorer only for a material repository question. Use a current checkout or branch for clean sequential work, and a worktree for concurrent or unrelated dirty work. Commit or explicitly include relevant dirty work; serialize overlap. |
 | D010 | Fresh review is mandatory and bounded | Every mutation gets a Reviewer that did not build it. It checks every criterion and returns `pass`, `repair`, or `blocked`. The cap is one to three rounds, default two; open findings at the cap stop the goal. |
-| D011 | Use normal Git | Use project named-path staging, hooks, and local commit policy. Do not reimplement commits, freeze identity, or claim cross-host durability from a local commit. |
+| D011 | Use normal Git with exact review identity | Use project named-path staging, hooks, and local commit policy. Record the exact specification, plan, diff, and commit identity needed for review. If the unit changes, invalidate the pass and review the new unit. Do not replace Git with custom transaction machinery or claim cross-host durability from a local commit. |
 | D012 | Major and external actions go to the owner | Routine approved local work is allowed. Major scope or architecture choices and every push, pull request, merge, deploy, publish, release, force operation, secret change, remote deletion, destructive effect, paid service, or hard-to-reverse effect need fresh owner approval. Configuration cannot preauthorize them. |
 | D013 | Harness failure is a support result | Codex and Claude are target harnesses. A mutation harness must preserve separate Builder and fresh Reviewer roles. A harness that cannot follow the Markdown contract is `unsupported`; do not add obedience machinery. |
 | D014 | Charters are distilled, not linked | Charters are derived from useful skills and experience, not loaded as runtime dependencies. Source changes have no automatic effect; an owner-approved Configurer proposal is required for a new charter revision. |
@@ -31,17 +31,19 @@ The owner reset version one to its product goal: faster, correct software buildi
 | D022 | Private incubation through 0.x | The canonical repository is `https://github.com/divyekant/Olympus`. Keep it private through experimental `0.x` releases. Make it public only with owner approval for version `1.0.0`. |
 | D023 | v0.1 core changes stay outside Olympus | Implement and review core-framework changes through the normal repository workflow. An enhancement needs concrete dogfood evidence, then a new isolated dogfood run at the changed immutable commit. Each run is scenario evidence only; one scenario cannot establish general support or production readiness. External actions and protected repository controls do not change. |
 | D024 | Specification intake is an atomic barrier | Persist one complete Writer body and current task metadata before two fresh reviewers receive it. Each reviewer recomputes the body hash. Formal review starts only after matching acknowledgements. `intake-invalid` preserves handoff evidence and consumes no round. The hash is an integrity checksum, not an authority proof or proposal manifest. |
+| D025 | Fixed roles need operational craft | Each role charter defines a narrow jurisdiction, bounded input, evidence method, readiness check, complete return packet, and stop boundary. Shared protocol remains canonical; charters add role-specific craft instead of copying workflow rules. |
+| D026 | Attempts and review units have explicit state | Reserve a candidate round and attempt identifier before specification review. Count a round only after both complete packets return. Preserve provisional findings from halted attempts, allow one fresh retry, and invalidate any passed specification, plan, or mutation unit that later changes. |
 
 ## Removed hardening rationale
 
 Early trials exposed instruction and delivery failures, so the project briefly added
-proposal hashes, custom Git transactions, identity freezing, transcript provenance, and
+proposal manifests, custom Git transactions, transcript provenance, and
 exhaustive recovery cases. They increased ceremony without improving product delivery.
 Version one removes them and keeps four useful lessons:
 
 1. show the complete configuration and affected files before approval;
 2. stage named paths and preserve unrelated owner work;
-3. require a real fresh review with acceptance evidence;
+3. require a real fresh review of an exact, unchanged unit with acceptance evidence;
 4. label a noncompliant harness `unsupported`.
 
 Git history preserves the detailed experiments as rationale, not runtime rules.
