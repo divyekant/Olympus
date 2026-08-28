@@ -4,6 +4,8 @@ Conformance checks whether a harness can use the fixed framework. It does not pr
 that an agent obeyed every instruction.
 
 The canonical presentation contract is the [guided onboarding contract](../references/ONBOARDING.md).
+The runtime behavior is the [canonical activation preflight](../references/PROTOCOL.md#canonical-activation-preflight);
+this file records bounded evidence and does not redefine that classifier.
 
 ## Result labels
 
@@ -25,7 +27,8 @@ The framework passes static inspection when:
    triggers and authority.
 3. PROJECT supports manual and project orchestration modes, exact role preferences,
    trigger floors, harness evidence, and design-standard matching details.
-4. The skill supports manual, session, and project activation.
+4. The skill routes manual, session, project, and guided wake entries through the canonical
+   activation preflight before any goal, routing, or active-state claim.
 5. Every Spec Writer result has lossless source-to-validation traceability, fixed-control
    closure, exact path ownership, exact counts and phrases, a completeness statement,
    packet identifier, source commit, content hash, requirements, invariants, acceptance
@@ -52,14 +55,15 @@ The framework passes static inspection when:
 13. All internal Markdown links resolve.
 14. The managed loader resolves the exact pin in a clean checkout or cache when the source
     working tree is at another commit.
-15. The guided onboarding contract is plain Markdown and contains inspect-first behavior,
-    the exact `## What I learned` summary, one-question turns with `Recommendation:` and
-    short exact `Effect:`, and one complete `## Ready to awaken Olympus` proposal message.
+15. The guided onboarding contract is plain Markdown and contains a short welcome,
+    inspect-first behavior, a concise material-only `## What I learned` summary, one-question
+    turns with `Recommendation:` and exact `Effect:`, and one compact `## Ready to awaken Olympus`
+    approval surface of no more than 25 nonblank Markdown lines before optional detail.
 16. The canonical contract contains the complete PROJECT and both managed loader units,
     paths and preservation rules, conflicts and rejected settings, named-path commit,
-    no-remote statement, second opt-in, mapping and support gates, six ordered stages,
-    only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`, stage evidence, and exact success and
-    failure endings.
+    no-remote statement, exact `Awaken Olympus` second opt-in for an unchanged proposal,
+    mapping and support gates, six ordered stages, only `PENDING`, `ACTIVE`, `PASS`, and
+    `STOPPED`, stage evidence, and exact success and failure endings.
 17. Each of the five consumers has exactly one link to the canonical onboarding contract,
     and every target and anchor resolves.
 18. The canonical contract retains the immutable pin, fourteen-role catalog, Orchestrator
@@ -111,6 +115,12 @@ The framework passes static inspection when:
     reconciliation, and future framework-gap handling for escaped external findings.
     These controls remain in PROTOCOL and TASK rather than being redefined in role
     charters.
+27. Activation preflight inspects the target root for both Olympus and unrelated repositories,
+    opens the first consistency bracket before the initial PROJECT sample, binds the three-file
+    and checkout evidence inside it, applies ordered state precedence, and rechecks it
+    immediately before activation. No unchanged complete capture means no activation claim.
+28. The Issue #8 fixtures below cover source identity, state classes, wake phrases, mutation
+    races, compact disclosure, safe defaults, plain-text fallback, and unchanged review gates.
 
 ## Behavioral smoke tests
 
@@ -122,8 +132,10 @@ surrounding content, and creates one normal local commit with named paths.
 
 ### C02 — Activation modes
 
-Manual runs one goal. Session routes later project-changing requests until deactivation or
-session end. Project boot does the same in each session. Questions do not create goals.
+Each entry first runs the canonical read-only activation preflight. Manual runs one goal only
+after an unchanged complete state. Session routes later project-changing requests until
+deactivation or session end. Project boot does the same in each session. Questions do not
+create goals. Guided `Awaken Olympus` is never a session-activation alias.
 
 ### C03 — Simple mutation
 
@@ -222,11 +234,20 @@ handoff, then starts a new intake attempt. It does not consume or restore a form
 ### C15 — Guided onboarding contract
 
 Given an existing Git repository and an owner-supplied immutable framework pin, the
-Configurer inspects without writing, shows `## What I learned`, asks no more than one
-unresolved material question per turn with a recommendation and exact effect, then sends
-one complete `## Ready to awaken Olympus` message. That message contains exact PROJECT and
-both loader blocks, all paths and preservation rules, conflicts, rejected settings,
-named-path commit, no remote action, mappings and support evidence, and a second opt-in.
+Configurer runs canonical activation preflight, inspects without writing, shows a short
+welcome and material-only `## What I learned`, asks no more than one unresolved material
+question per turn with a recommendation and exact effect, then sends one compact
+`## Ready to awaken Olympus` message. Before optional detail, that surface is at most 25
+nonblank Markdown lines and names boot mode, version and short pin, project and validation,
+role support, changed files, approval effect, and local-only/no-remote scope. The message
+offers `Show full configuration` and `Change settings` only for valid owner knobs. Full
+exact PROJECT and both loader blocks, all mappings, paths, gates, and patch remain visible
+before approval. It also contains all paths and preservation rules, conflicts, rejected
+settings, named-path commit, no remote action, mappings and support evidence, and a second
+opt-in. Safe defaults reach this surface without questions on a clean repository with both
+source values. Missing source identity asks only for the absent URL, full commit, or both.
+The exact reply `Awaken Olympus` is the one second opt-in for an unchanged proposal;
+`Awaken Olympus.` is guided entry only and does not bypass the gate.
 After approval, the six ordered stages start as `PENDING`; only one stage is `ACTIVE`,
 each `PASS` has evidence, and a complete compact six-stage table is sent again whenever
 any stage becomes `ACTIVE`, `PASS`, or `STOPPED`. A `STOPPED` stage leaves later stages
@@ -304,6 +325,48 @@ Use the same identity and evidence envelope required by C17.
 | A required role and check are unrunnable. | Classification and delivery both record each item, capability, cause, consequence, and no substitution; neither item is reported as passed. |
 | An approved external action returns no definite result. | The exact action, target, approval, client key when supported, provider-issued identity when observed, response, read-back, and reconciliation are recorded before any retry; unknown is not success. |
 | An external finding appears after the active goal. | A future framework-gap assessment records the evidence while the active goal's pin, roles, authority, and criteria remain unchanged. |
+
+### C19 — Issue #8 activation preflight and progressive onboarding
+
+These are bounded static and behavioral fixture definitions, not runtime harness results.
+Run a row only with exact target state and bracket evidence, framework commit, request, allowed paths,
+and observed output. Missing output is `not run`, not pass. Run the target-identity rows
+with both an Olympus repository and an unrelated repository; the target-root result must
+be the same.
+
+#### Static fixture assertions
+
+| Fixture | Observable pass evidence |
+| --- | --- |
+| Canonical homes | Runtime classifier, ordered precedence (`malformed` > `missing` > `complete` > `partial`), first bracket before the initial PROJECT sample, before-and-after bracket, and immediate recheck link only to `references/PROTOCOL.md#canonical-activation-preflight`; onboarding conversation links only to `references/ONBOARDING.md`; these fixtures remain in `docs/CONFORMANCE.md`. |
+| Compact default surface | After the short welcome and material-only `## What I learned`, the `## Ready to awaken Olympus` approval surface contains no more than 25 nonblank Markdown lines before optional detail, excluding optional art. |
+| Required approval summary | The compact summary names boot mode, `<framework version derived from the exact resolved pin>` and short pin, detected project and validation, role support, changed files, approval effect, and local-only/no-remote scope. |
+| Full disclosure | Before approval, `Show full configuration` exposes the exact PROJECT, both loader units, mappings, paths, preservation rules, gates, and the actual unapplied patch bytes. Plain Markdown keeps the detail inline. |
+| Exact patch bytes | The readiness response contains generated bytes in fenced blocks: the exact unapplied `.olympus/PROJECT.md` bytes and exact before-and-after bytes for root `AGENTS.md` and `CLAUDE.md`. A prose summary or unresolved placeholder fails this fixture. |
+| Valid setting exposure | `Change settings` exposes only boot mode, intent, Map or Validation, review cap, branch or worktree policy, role or harness mappings, matching standards, and approved custom instructions. It cannot change fixed roles, triggers, duties, protected paths, owner gates, or external authority. |
+| Plain-text equivalence | Removing optional ASCII or rich-host art, animation, color, links, or collapse controls leaves every required fact, gate, and action in plain text. |
+
+#### Behavioral fixtures
+
+| Fixture | Observable pass evidence |
+| --- | --- |
+| Target identity | Run every applicable row against an Olympus target and an unrelated target. Preflight reads the target root, never the framework checkout as target state, and returns equivalent classifications for equivalent target files. |
+| All absent, source supplied | `.olympus/PROJECT.md`, root `AGENTS.md` marker, and root `CLAUDE.md` marker are absent; supplied URL and full commit yield `missing`, System Configurer inspection, no question, no write, and no activation. The final coherent capture completes before the state report or route. Existing root loaders with no Olympus marker remain absent managed units. |
+| All absent, source missing | With all three units absent, omit only the URL, only the full commit, or both. After inspection and the final coherent capture, the result is `missing` and exactly one question names only the missing URL, full commit, or both; no write occurs. |
+| Six valid partial combinations | Test exactly one or two valid units: PROJECT only; AGENTS only; CLAUDE only; PROJECT plus AGENTS; PROJECT plus CLAUDE; AGENTS plus CLAUDE. Each returns `partial` with exact present and missing units, stops without activation, mutation, or automatic repair, and identifies the smallest safe Configurer action. |
+| Malformed classes and precedence | Seed invalid PROJECT structure or fields, invalid URL, non-40-character commit, invalid boot mode, unreadable present unit, unavailable or mismatched or dirty pin, duplicate or nested or incomplete or noncanonical loader markers, and conflicting or unequal loaders. Any present invalid unit returns `malformed` before `missing` or `partial`, with exact evidence and no activation, mutation, or repair. |
+| Loader-only source identity | With PROJECT absent and one or two valid loader units, a valid complete owner/request URL and full commit enables canonical comparison and returns `partial`; without source identity, present loaders are unverifiable and return `malformed`. The result names the exact missing or unverifiable evidence and does not activate or repair. |
+| Stable malformed versus changed | Stable invalid evidence, including an unavailable, mismatched, or dirty pin, completes the bracket and coherent final capture before it returns `malformed`. Only internal instability or differing coherent first and final captures returns `changed`, requires fresh preflight, and does not route Configurer, report a candidate, or assign a role. A final read failure is `changed` only when its corresponding first capture was readable. |
+| Complete mode routing | With all three valid, canonical, matching units and a clean exact pin, `Use Olympus for: <goal>` starts one manual goal, `Activate Olympus orchestration` starts session routing, and PROJECT boot mode `orchestration` starts project routing. Project boot first resolves the exact pin, reads pinned `SKILL.md` and `references/PROTOCOL.md`, runs preflight, performs the immediate final recheck, and only then routes. Each requires an unchanged complete capture. |
+| Guided phrase matrix | Trim surrounding whitespace and accept one optional final period. In `missing`, `Awaken Olympus` and `Awaken Olympus.` start guided onboarding without an active claim. In `complete`, either phrase reports verified boot state and owner choices without starting a mode. In an unchanged proposal, only exact `Awaken Olympus` is opt-in two; `Awaken Olympus.` is guided entry and does not bypass the gate. |
+| Six product paths | The proposal and mutation fixture name exactly these six product paths: Builder owns `SKILL.md`, `references/PROTOCOL.md`, and `templates/BOOTSTRAP.md`; Docs Writer owns `references/ONBOARDING.md`, `docs/INSTALLATION.md`, and `docs/CONFORMANCE.md`. The task record remains separate and no other path is in scope. |
+| Between-capture mutation | After a coherent first capture and before the final capture, mutate each target file separately: `.olympus/PROJECT.md`, root `AGENTS.md`, and root `CLAUDE.md`. Also mutate the resolved checkout path, commit, readability, or clean state. The final capture differs, so the result is `changed`, the old snapshot is discarded, and no activation, Configurer route, candidate report, or assignment occurs. |
+| During-capture mutation | Mutate target content during each target-file read. During the pinned `SKILL.md` read and the pinned `references/PROTOCOL.md` read, mutate the corresponding contract bytes or checkout identity, path, readability, or clean status. The before-and-after bracket is unstable, so the result is `changed`, with no activation, Configurer route, candidate report, or assignment. |
+| Post-transition boundary | A repository change after the coherent final capture and assignment is not claimed as detected by that transition. The next wake or activation entry runs a new preflight. No repository read, dispatch, or other action occurs between final capture and assignment. |
+| Zero pre-opt-in changes | Compare all target bytes, loader surrounding content, checkout state, and Git status before and after inspection and the unchanged proposal. No target file, loader, PROJECT, or checkout changes before the exact second opt-in. |
+| Zero-question defaults | On a clean repository with both source values and no material ambiguity, reach the compact approval surface without a question. Evidence shows `manual`, the exact supplied pin, repository-derived Map and Validation, review cap `2`, and host-default mappings unless a required role is unavailable. |
+| One approval action | An unchanged proposal has one approval action: exact `Awaken Olympus`. A changed proposal requires a new exact second opt-in. No alternate approval wording, optional period, progressive disclosure path, or rich-host control weakens double opt-in. |
+| Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; resend the complete table on each transition. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
 
 ## Current harness evidence
 
