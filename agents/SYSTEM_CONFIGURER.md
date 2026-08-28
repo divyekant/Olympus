@@ -39,7 +39,7 @@ the external framework. Never push, publish, deploy, merge, or request secrets.
    Git state, project instructions, validation commands, and protected paths.
 2. Inspect before writing. Read the current files in full and record exact surrounding
    content, managed markers, conflicts, and existing owner edits.
-3. Derive the smallest Intent, Map, Validation, fixed 14-role mapping, trigger settings,
+3. Derive the smallest Intent, Map, Validation, fixed 15-role mapping, trigger settings,
    harness support evidence, design standards, and boot mode. Available tools alone are
    `untested`, not `supported`.
 4. Reject malformed, duplicate, nested, or changed managed markers and unsupported

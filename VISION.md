@@ -32,14 +32,17 @@ The owner approves one complete effective configuration and the proposed install
 - session-wide orchestration;
 - project-default orchestration;
 - multiple non-overlapping goals with worktrees when concurrent;
-- conditional specification, claims, planning, documentation, design, decision, and
+- conditional specification, claims, planning, documentation, design, release, decision, and
   liaison contexts;
+- owner-selected narrow workflows within fixed triggers, review gates, and owner gates;
 - bounded discovery and build contexts, plus fresh review;
 - bounded repair and evidence-backed completion.
 
 The owner can adjust supported knobs inside fixed slots. The owner cannot change the
-fourteen fixed role duties, hub communication, graph ownership, triggers, or protected
-rules. The [runtime protocol](references/PROTOCOL.md) is the canonical catalog and graph.
+fifteen fixed role duties, hub communication, graph ownership, triggers, or protected
+rules. The owner-selected workflow is an ordered allowlist, not a new graph. The
+[runtime protocol](references/PROTOCOL.md) is the canonical catalog, graph, release
+boundary, and workflow contract.
 
 ## Product principles
 
@@ -78,9 +81,12 @@ An owner completes onboarding, starts a real goal, receives a verified result, a
 
 Olympus can dogfood after one target harness passes the simple contract. It must test each
 invoked role through the harness, test Codex and Claude, and label unsupported modes
-honestly. The 14-role catalog began dogfood in the controlled Issue #750 A/B comparison;
-not every conditional role has evidence. Experimental version `0.3.0` strengthens role
-craft and shared state after the Release Agent specification failed to converge. It exists
-for larger tests, not to claim production readiness.
+honestly. The original 14-role catalog began dogfood in the controlled Issue #750 A/B comparison;
+not every conditional role has evidence. The earlier experimental version `0.3.0` strengthened
+role craft and shared state after the Release Agent specification failed to converge. It exists
+for larger tests, not to claim production readiness. The current private experimental `0.4.0`
+scope has fifteen roles, including a provider-neutral Release Agent, and adds owner-selected
+workflow boundaries. Static contract evidence does not prove live provider support, release
+execution, production readiness, or general harness support.
 
 The result must reduce owner correction or elapsed delivery time without reducing correctness. If its administration costs more than the change, the framework has failed its purpose.

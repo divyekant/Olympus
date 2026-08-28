@@ -23,7 +23,7 @@ The FPLGuru pattern at `d77b93ba` supplied separate mutation and review contexts
 loop owner, and one canonical charter copy. The later frozen FPLGuru role-charter source
 from PR #894 at `fa57be9b5e933dacdbe00066b48a6c07ecad4141` supplied detailed role methods,
 evidence packets, readiness checks, and escalation boundaries. Olympus keeps those generic
-craft patterns for the fixed 14-role catalog. It does not copy project-specific roles,
+craft patterns for the fixed 15-role catalog. It does not copy project-specific roles,
 review history, service delivery paths, model choices, provider commands, or unbounded
 review pressure.
 
@@ -49,9 +49,9 @@ requirements.
 
 ## Historical charter sources for fixed roles
 
-Historical charter sources informed all thirteen worker roles. They are design provenance
-only. They are not loaded or invoked at runtime. The table names the main retained craft by
-role family.
+Historical charter sources informed the original thirteen worker roles. They are design
+provenance only. They are not loaded or invoked at runtime. The table names the main retained
+craft by role family.
 
 | Historical source | Retained generic behavior | Excluded behavior |
 | --- | --- | --- |
@@ -66,10 +66,12 @@ role family.
 | Explorer, Spec Writer, and Builder charters | Use bounded questions, evidence registers, traceable requirements, red-first checks, minimal mutation, and truthful skipped work. | Product-specific commands, self-review, and scope expansion. |
 | General Reviewer charter | Freeze the review unit, test acceptance evidence independently, classify findings, and invalidate stale passes. | Implementation, repair authority, and approval of external actions. |
 
-The source charters remain historical inputs. All thirteen worker charters retain only
-generic behavior that fits their fixed Olympus jurisdiction. Issue #750 began catalog
-dogfood, but not every conditional role ran. The `v0.3.0` charter upgrade has static and
-independent review evidence; a new live target-repository run remains pending.
+The source charters remain historical inputs. The original thirteen worker charters retain
+only generic behavior that fits their fixed Olympus jurisdiction. The current set has fourteen
+worker charters; the provider-neutral [Release Agent charter](../agents/RELEASE_AGENT.md)
+uses the current shared protocol and adds no provider-specific commands or authority. Issue
+#750 began catalog dogfood, but not every conditional role ran. The `v0.3.0` charter upgrade
+has static and independent review evidence; a new live target-repository run remains pending.
 
 ## Deliberate exclusions
 

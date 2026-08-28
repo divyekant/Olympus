@@ -1,5 +1,37 @@
 # Changelog
 
+## Unreleased
+
+## 0.4.0 - 2026-08-28
+
+### Added
+
+- A provider-neutral Release Agent and 15-role Pantheon entry with source-only preparation,
+  immutable execution handoffs, exact owner approval, bounded duplicate control, and truthful
+  per-action release results.
+- A canonical release boundary with inert request bytes, ASCII owner rendering, phased
+  reconciliation, retry rules, and complete blocked-recovery records.
+- Owner-selected custom workflow declarations with five fixed request boundaries, ordered role
+  allowlists, trigger closure, and non-bypassable review, support, owner, and sole-hub gates.
+- V1–V12 conformance assertions and fixtures for the role catalog, charter shape, links,
+  state-aware claims, release contract, custom workflow, recovery, and bounded evidence.
+
+### Changed
+
+- Current documentation now identifies 15 roles and 14 worker charters. The canonical homes
+  are the [release boundary](references/PROTOCOL.md#release-boundary),
+  [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), and
+  [task release records](templates/TASK.md#release-boundary-records).
+- The change adds no runtime, service, scheduler, dependency, provider client, or external
+  action.
+
+### Evidence and limits
+
+- The contracts and fixtures are static Markdown evidence. They do not prove live provider
+  support, release execution, production readiness, or general harness support.
+- This private experimental release makes no claim of public visibility or completed release
+  execution.
+
 ## 0.3.1 - 2026-08-28
 
 ### Added

@@ -39,8 +39,9 @@ invoked role before dispatch.
 | 10 | Docs Writer | `<false tracked docs or sync contract>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 11 | Reviewer | `<every project or configuration mutation>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 12 | Design Reviewer | `<material user-facing change>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
-| 13 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 14 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 13 | Release Agent | `<owner-requested release preparation, reconciliation, or external action>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 14 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 15 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 
 Missing required mapping blocks dispatch. Use `supported`, `unsupported`, or `untested`.
 
@@ -63,6 +64,259 @@ replace them with role-specific labels.
 | skipped/unrunnable delivery | `<role/check; final reason; result omitted or blocked; user-visible consequence>` |
 | escaped external finding | `<finding and evidence; future framework-gap assessment; active-goal rules unchanged>` |
 | uncertain external action | `<exact action/target; approval; client key when supported; observed provider id when available; response; read-back and reconciliation; retry decision>` |
+
+## Release boundary records
+
+Use the [canonical release boundary](../references/PROTOCOL.md#release-boundary). Release
+records are per action and do not change goal state. Preparation and execution are separate
+handoffs. The Orchestrator owns approval, consumption, dispatch, aggregation, and this record.
+
+### Preparation handoff
+
+Record only source fields in this exact order. Do not reconstruct or accept a canonical block,
+digest, approval, consumption record, or execution attempt in this handoff.
+
+| Field | Required record |
+| --- | --- |
+| `goal-and-packet-identity` | <goal identifier and packet identity> |
+| `reviewed-commit-and-review-evidence` | <full reviewed commit and complete review evidence> |
+| `final-checks-and-current-git-state` | <final checks and current Git state> |
+| `action-kind` | <push, tag-creation, pull-request-creation, merge, deploy, publish, or release> |
+| `provider` | <provider identity> |
+| `account-or-tenant` | <account or tenant> |
+| `repository-or-service` | <repository or service> |
+| `target` | <exact remote target> |
+| `artifact-digest` | <exact digest bytes; non-empty, `~`, or `-` as source semantics permit> |
+| `remote-object-identity` | <mandatory non-empty remote object identity> |
+| `provider-request-bytes` | <exact provider request bytes; non-empty, `~`, or `-` as source semantics permit> |
+| `provider-options-bytes` | <complete non-empty material options and defaults> |
+| `concurrency-control-bytes` | <control inputs and capability evidence; non-empty, `~`, or `-` as source semantics permit> |
+| `desired-post-state-bytes` | <exact non-empty desired post-state bytes> |
+| `expires-at-source-value` | <expiry source value> |
+| `read-back-method` | <authoritative read-back method> |
+| `duplicate-materiality` | <whether concurrent duplication is material> |
+| `residual-risk-evidence` | <remaining irreversible risk evidence> |
+
+### Execution handoff
+
+Record an execution handoff only after exact owner approval and verified one-use consumption.
+Copy the immutable approved block and digest without reconstruction. The handoff never
+reconstructs canonical bytes from source fields and never replays an execution handoff. Missing, stale,
+changed, expired, or mismatched content blocks submission. Record these immutable fields in
+this exact order:
+
+| Field | Required record |
+| --- | --- |
+| `canonical-release-request` | <exact approved canonical request bytes> |
+| `canonical-release-digest` | <lowercase SHA-256 of complete canonical bytes> |
+| `reviewed-commit-and-review-evidence` | <exact reviewed commit and review evidence> |
+| `action-kind` | <approved distinct action kind> |
+| `target` | <approved exact target> |
+| `provider-capabilities` | <authenticated provider capability evidence> |
+| `pre-submission-read-back` | <current authoritative pre-submission state> |
+| `owner-approval-record` | <owner, exact response or identity, digest, action, target, time, one-use scope> |
+| `clock-evidence` | <authenticated first-clock source, raw output, parsed first sample, and authenticated second-clock source and requirement for the immediate pre-submission sample> |
+| `verified-consumption-record` | <unconsumed check, digest, approval identity, attempt identity, and consumption time> |
+| `execution-attempt-identity` | <unique attempt identity> |
+| `duplicate-control-decision` | <conditional-write or idempotency support and race decision> |
+| `action-ledger-state` | <approval and attempt ledger state> |
+| `required-post-state-read-back` | <required post-submission state evidence> |
+
+### Canonical request and owner rendering
+
+Hash and present the exact 16-line canonical block, including both markers and exactly one
+final LF. Every value after `schema: MQ` is exact source bytes encoded as unpadded RFC 4648
+base64url. Only `artifact-digest`, `provider-request-bytes`, and `concurrency-control-bytes`
+may use `-` or semantically valid `~`; every other field, including the mandatory
+`remote-object-identity`, is non-empty.
+
+`remote-object-identity` is mandatory and non-empty. `artifact-digest`,
+`provider-request-bytes`, and `concurrency-control-bytes` are each a non-empty encoded value,
+`~` for a present empty byte string where empty is semantically valid, or `-` for absence. No
+other canonical field permits either sentinel. Keep the full reviewed commit, remote object
+identity, complete provider-options bytes with every material option and default, desired
+post-state, and UTC expiry in the request identity.
+
+```text
+-----BEGIN OLYMPUS RELEASE REQUEST-----
+schema: MQ
+action-kind: <value>
+provider: <value>
+account-or-tenant: <value>
+repository-or-service: <value>
+target: <value>
+reviewed-commit: <value>
+artifact-digest: <value>
+remote-object-identity: <value>
+provider-request-bytes: <value>
+provider-options-bytes: <value>
+concurrency-control-bytes: <value>
+desired-post-state-bytes: <value>
+expires-at: <value>
+-----END OLYMPUS RELEASE REQUEST-----
+```
+
+The bytes are ASCII UTF-8 with LF endings, no byte-order mark, no CR, no blank line, no trailing
+space, extra bytes, duplicate or reordered fields, missing or extra canonical lines, multiple
+markers, padding, or invalid base64url. The lowercase SHA-256 covers the complete block bytes.
+Reject invalid alphabet, a disallowed sentinel, and any changed source byte. Identical blocks
+with `~` and `-` in the same optional field have distinct bytes and distinct digests. Arbitrary
+source bytes, including invalid UTF-8 and non-text bytes, are encoded as bytes.
+
+Present the exact block and digest adjacent to this 14-line ASCII hexadecimal rendering:
+
+```text
+schema: hex:31
+action-kind: hex:<lowercase hexadecimal>
+provider: hex:<lowercase hexadecimal>
+account-or-tenant: hex:<lowercase hexadecimal>
+repository-or-service: hex:<lowercase hexadecimal>
+target: hex:<lowercase hexadecimal>
+reviewed-commit: hex:<lowercase hexadecimal>
+artifact-digest: hex:<lowercase hexadecimal>
+remote-object-identity: hex:<lowercase hexadecimal>
+provider-request-bytes: hex:<lowercase hexadecimal>
+provider-options-bytes: hex:<lowercase hexadecimal>
+concurrency-control-bytes: hex:<lowercase hexadecimal>
+desired-post-state-bytes: hex:<lowercase hexadecimal>
+expires-at: hex:<lowercase hexadecimal>
+```
+
+Render `~` as `hex:` and `-` as `absent`. Use two lowercase hex digits per source byte.
+Never emit raw decoded text. Reject unsafe bytes, uppercase or odd hex, invalid `absent`,
+reordered, duplicate, missing, or extra rendering lines, extra space, missing or extra final
+LF, or any rendering mismatch. Reject CR and trailing space. The rendering cannot emit raw C0
+or C1 controls, DEL, NUL, bidirectional-control UTF-8, newlines, marker text, invalid UTF-8,
+or other non-text bytes.
+
+### Approval, phase, and result records
+
+One owner approval covers one canonical digest, one action kind, and one target. Approval is
+valid only when the first authenticated UTC sample satisfies `observed < expires-at`.
+Equality is expired. Record the first sample before consumption and, after final read-back and
+all other dispatch gates pass, obtain and record the authenticated second UTC sample immediately
+before the one provider action submission. If either clock fails or expiry occurs after
+consumption, block and keep the approval consumed. A valid time one second before expiry is
+allowed; equality and any later time are expired. An invalid or failed first clock blocks
+consumption. An invalid or failed second clock blocks submission. A consumed approval or a
+failed consumption record blocks dispatch. Exact approval is required; bundled, missing,
+changed digest, changed action, or changed target approval is not exact. The result record
+includes the second sample's authenticated source, raw output, and parsed time.
+
+| Field | Required record |
+| --- | --- |
+| `phase` | <pre-dispatch, dispatch/final-readback, or post-submission> |
+| `last-verified-state` | <exact provider and local state before this result> |
+| `duplicate-control-decision` | <prevention, detection, containment, provider control, or block> |
+| `action-ledger-state` | <unsubmitted, submitted, ambiguous, or reconciled state with attempt identity> |
+| `provider-action-submission-count` | <zero or one; read-only evidence calls do not count> |
+| `result` | <blocked, reconciled, prepared, or released> |
+| `uncertainty` | <exact unknown or none> |
+| `irreversible-residual-risk` | <owner-retained risk> |
+| `recovery-owner` | <owner or named recovery owner> |
+| `closure-evidence` | <exact evidence needed to close the block> |
+| `safe-retry-condition` | <new approval, new attempt, absence or safe idempotency evidence> |
+
+Apply the phase rows in strict first-match order. An evidence defect overrides an exact-state
+claim in every phase:
+
+| Phase | Order | Condition | Result |
+| --- | --- | --- | --- |
+| `pre-dispatch` | 1 | Any preparation or required read-back evidence defect. | `blocked` |
+| `pre-dispatch` | 2 | Authoritative read-back proves the exact desired state. | `reconciled` |
+| `pre-dispatch` | 3 | Authoritative read-back proves target identity absent and all preparation checks pass. | `prepared` |
+| `pre-dispatch` | 4 | Target identity exists with any non-exact state, or no row above matches. | `blocked` |
+| `dispatch/final-readback` | 1 | Any request, approval, clock, consumption, handoff, ledger, capability, or final-read-back evidence defect. | `blocked` |
+| `dispatch/final-readback` | 2 | Authoritative final pre-submission read-back proves the exact desired state. | `reconciled`; approval stays consumed; submit nothing. |
+| `dispatch/final-readback` | 3 | Authoritative read-back proves absence, required concurrency controls are ready, and all checks pass. | Make one provider action submission and enter `post-submission`; no terminal release state yet. |
+| `dispatch/final-readback` | 4 | Target identity exists with non-exact state, or no row above matches. | `blocked` |
+| `post-submission` | 1 | Any required response or post-state evidence defect. | `blocked`, even if another source claims exact state. |
+| `post-submission` | 2 | Provider proves this attempt created the new action and exact read-back succeeds. | `released` |
+| `post-submission` | 3 | Provider returns a conditional or precondition conflict that proves a concurrent creator won, and exact read-back succeeds. | `reconciled` |
+| `post-submission` | 4 | Submission outcome is ambiguous and exact read-back succeeds. | `reconciled`; origin stays uncertain. |
+| `post-submission` | 5 | Ordinary rejection, including rejection followed by exact state without provider proof of a winning conditional conflict. | `blocked` |
+| `post-submission` | 6 | Conditional conflict with mismatched state, ambiguous mismatch, definite mismatch, or no row above matches. | `blocked` |
+
+Definite created-action evidence plus exact read-back is the only path to `released`. Ordinary
+rejection never reconciles. A conditional conflict with mismatch, an ambiguous mismatch, or
+unreadable evidence is `blocked`.
+
+### Duplicate and recovery record
+
+Authenticated read-only clock, capability, pre-submission, final, and post-submission calls
+are evidence calls. They are not provider action submissions and do not consume the one
+submission allowance. A submitted or ambiguous ledger state blocks a second submission from
+the handoff. When concurrent duplication is material, absence of a provider conditional-write
+or idempotency primitive blocks submission. Every submitted or ambiguous attempt remains
+consumed. A retry needs new exact approval, a new attempt, and prior absence or safe
+idempotency evidence.
+
+An own second provider action submission is blocked. A `submitted` or `ambiguous` ledger state
+is blocked before any retry. A retry with an old approval is invalid; a retry with new exact
+approval still needs a new attempt and prior absence or safe-idempotency evidence.
+
+Without that control, a material concurrent race blocks before submission. Unreadable,
+conflicting, or mismatched evidence is also `blocked` by phase precedence.
+
+Every `blocked` result records cause, phase, last verified state, recovery owner, closure
+evidence, safe retry condition, uncertainty, and irreversible residual risk. There is no
+automatic rollback.
+Compensation is a new external action with a new preparation handoff, canonical request,
+approval, consumption, and execution handoff. The owner retains irreversible residual risk.
+
+## Custom workflow closure
+
+An owner may provide at most one exact declaration of each kind:
+
+```text
+Custom workflow: <canonical role name>, ...
+Request boundary: review-only|diagnose-only|audit-only|spec-only|mutation
+```
+
+Role names are unique, canonical R1 names in fixed order, and Orchestrator is required. No
+custom declaration selects the default graph. Duplicate, conflicting, malformed, or ambiguous
+declarations are `invalid`, dispatch no worker, and require a corrected owner request.
+
+Zero custom declarations and zero boundary declarations use the default graph and boundary.
+Zero custom workflow declarations with one valid boundary use the default graph constrained by
+that boundary. One valid custom workflow declaration with zero boundary declarations uses the
+selected allowlist under the request's default boundary. One valid declaration of each kind
+uses the owner selection. Two workflow lines, two boundary lines, an unknown boundary, duplicate,
+reordered, malformed, conflicting, or ambiguous role declaration is `invalid`. A selected but
+untriggered role does not run. A missing paired verifier or reviewer is invalid. A later trigger
+is handled only as `pending-expansion`.
+
+| Field | Required record |
+| --- | --- |
+| `declaration-bytes` | <exact custom workflow and boundary declaration bytes> |
+| `selected-roles` | <unique R1-ordered role allowlist> |
+| `boundary` | <one of the five exhaustive boundary values> |
+| `initially-triggered-roles` | <fixed-trigger results before selection> |
+| `ordered-required-handoffs` | <required packets and receiving roles in order> |
+| `excluded-roles` | <roles excluded by boundary or selection, with reason> |
+| `support-evidence` | <mapping, freshness, tools, status, and evidence for every invoked role> |
+| `completion-evidence` | <terminal artifact and fixed checks> |
+| `later-triggers` | <new trigger and evidence, or none> |
+| `expansion-decision` | <pending-expansion, exact owner-approved revision, rejected, or cancelled> |
+| `invalid-or-blocked-outcome` | <cause, no-dispatch or stop evidence, and next action> |
+
+The five request boundaries are exhaustive. Incompatible roles make a custom selection
+`invalid`; default routing truncates those roles before trigger evaluation:
+
+| Boundary | Allowed effects | Terminal artifact | Required roles and checks | Incompatible roles |
+| --- | --- | --- | --- | --- |
+| `review-only` | Read frozen artifacts and evidence; no mutation, plan, release preparation, or external action | Complete review verdict or finding set, including empty | Applicable Claims Reviewer, Spec Reviewer, Reviewer, or Design Reviewer; frozen identity and read-only checks | System Configurer, Spec Writer, Plan Writer, Plan Verifier, Builder, Docs Writer, Release Agent |
+| `diagnose-only` | Reproduce, trace, and explain; no proposal, plan, mutation, review verdict, advice, or external action | Cause, sink, expected behavior, smallest test boundary, evidence, and uncertainty | Explorer when repository evidence is material; read-only reproduction and trace checks | System Configurer, Spec Writer, Claims Reviewer, Spec Reviewer, Plan Writer, Plan Verifier, Builder, Docs Writer, Reviewer, Design Reviewer, Decision Council, Release Agent |
+| `audit-only` | Enumerate and assess the stated population read-only; no proposal, plan, mutation, advice, or external action | Complete scoped findings, including explicit empty set and limits | Explorer; population or absence probes and exact source identity | System Configurer, Spec Writer, Claims Reviewer, Spec Reviewer, Plan Writer, Plan Verifier, Builder, Docs Writer, Reviewer, Design Reviewer, Decision Council, Release Agent |
+| `spec-only` | Explore when blocked, write and review the specification; no plan, mutation, delivery, or external action | Accepted specification body and hash, or blocked specification | Spec Writer, fresh Claims Reviewer, fresh Spec Reviewer; intake, bounded review, and acceptance checks | System Configurer, Plan Writer, Plan Verifier, Builder, Docs Writer, Reviewer, Design Reviewer, Release Agent |
+| `mutation` | Perform the approved local goal; release execution remains a separately owner-approved stage | Reviewed local mutation or commit, plus any separately authorized per-action release result | Every fixed trigger; accepted artifacts, implementation checks, fresh Reviewer, conditional Docs Writer and Design Reviewer, final Git checks | none by boundary; untriggered roles still do not run |
+
+Selection is an allowlist, not an invocation list or graph. Invoke a selected role only when
+its fixed trigger holds. A valid selection includes every initially triggered role and paired
+verifier or reviewer. A later unselected trigger records `pending-expansion` and stops before
+handoff. The owner must approve one exact revised selection. Rejection makes the goal
+`blocked`; only explicit owner cancellation makes it `cancelled`. No selection bypasses
+support, review, Configurer, owner, protected-path, bounded-loop, or sole-hub gates.
 
 Acceptance criteria:
 
@@ -290,7 +544,7 @@ Set frontmatter `status` to `complete`, `blocked`, or `cancelled`.
 | Explorer | `<used or skipped with reason>` |
 | Invoked roles and support evidence | `<predicted/actual mapping summary>` |
 | Specification and plan rounds | `<counts and verdicts>` |
-| Builder, Docs Writer, Reviewer, and Design Reviewer | `<counts and verdicts>` |
+| Builder, Docs Writer, Reviewer, Design Reviewer, and Release Agent | `<counts and verdicts>` |
 | Configuration review | `<pass, blocked, or not used>` |
 | Council and Liaison | `<results or not used>` |
 | Review aggregation | `<pass only when every invoked reviewer passes>` |

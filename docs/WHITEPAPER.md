@@ -8,7 +8,7 @@ edit it, and judge its own work. Context fills with old assumptions and self-rev
 inherits the Builder's blind spots.
 
 Olympus keeps one small Orchestrator context and sends bounded work to a fixed
-conditional catalog of fourteen roles. Git stores project configuration and task records.
+conditional catalog of fifteen roles. Git stores project configuration and task records.
 Codex or Claude supplies the agents and tools. Olympus supplies no runtime. Its
 success criterion is product delivery: administration that costs more than the change is
 a failure.
@@ -35,6 +35,7 @@ flowchart TD
     O --> D[Docs Writer<br/>conditional after builder]
     O --> R[Fresh Reviewer<br/>every mutation]
     O --> DR[Design Reviewer<br/>conditional after mutation]
+    O --> RA[Release Agent<br/>release boundary]
     O --> DC[Decision Council<br/>advisory]
     O --> L[Liaison<br/>status]
     C --> O
@@ -47,6 +48,7 @@ flowchart TD
     B --> O
     D --> O
     DR --> O
+    RA --> O
     DC --> O
     L --> O
     R -->|review packet| O
@@ -145,7 +147,9 @@ sequenceDiagram
     participant D as Docs Writer
     participant R as Reviewer
     participant DR as Design Reviewer
+    participant RA as Release Agent
     O->>O: Record goal, criteria, scope, and isolation
+    O->>O: Validate optional role allowlist and request boundary
     opt Material repository question
         O->>E: One bounded question
         E-->>O: Evidence and uncertainty
@@ -198,7 +202,12 @@ sequenceDiagram
         end
     end
     alt Every invoked review passes
-        O->>O: Final verification and completion
+        O->>O: Final verification
+        opt Owner requests release preparation, reconciliation, or one external action
+            O->>RA: Source-only preparation or immutable execution handoff
+            RA-->>O: Canonical request, digest, rendering, and per-action result
+        end
+        O->>O: Completion
     else Repair below cap
         O->>B: Aggregated findings and current task
     else Blocked
@@ -210,6 +219,23 @@ The task record contains outcomes, predicted and actual role population, support
 and uncertainty, not whole conversations. Activation modes enter this same flow; questions
 do not create goals. Decision Council can advise on one unresolved trade-off, and Liaison
 can answer a human status request, but neither changes the graph or grants authority.
+
+The owner may provide one ordered role allowlist and one request boundary. This selection is
+not a new graph or an invocation list. Fixed triggers, paired verification, fresh review,
+owner approval, support evidence, protected paths, bounded loops, and sole-hub routing remain
+mandatory. Invalid or incompatible declarations dispatch no worker, and a later unselected
+trigger stops as `pending-expansion`. The canonical rules are in the [owner-selected
+workflow](../references/PROTOCOL.md#owner-selected-workflow) and [task release
+records](../templates/TASK.md#release-boundary-records).
+
+The [Release Agent](../agents/RELEASE_AGENT.md) owns only the provider-neutral release
+boundary. Preparation receives source fields and returns an exact inert request, digest,
+ASCII rendering, and pre-dispatch result. After separate owner approval and verified
+consumption, the Orchestrator sends an immutable execution handoff. The Release Agent has no
+file or standing external authority and makes at most one provider action submission for that
+handoff; required read-only clock, capability, and read-back calls do not consume it. These
+are Markdown contracts and static fixtures. They do not prove live provider support, release
+execution, production readiness, or general harness support.
 
 ## Why no runtime graph framework
 

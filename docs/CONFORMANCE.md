@@ -23,7 +23,7 @@ The framework passes static inspection when:
 
 1. `SKILL.md` has valid frontmatter, links to the protocol, and links to every local
    charter and template it names.
-2. The protocol names one Orchestrator and the fixed ordered 14-role catalog with its
+2. The protocol names one Orchestrator and the fixed ordered 15-role catalog with its
    triggers and authority.
 3. PROJECT supports manual and project orchestration modes, exact role preferences,
    trigger floors, harness evidence, and design-standard matching details.
@@ -66,9 +66,10 @@ The framework passes static inspection when:
     `STOPPED`, stage evidence, and exact success and failure endings.
 17. Each of the five consumers has exactly one link to the canonical onboarding contract,
     and every target and anchor resolves.
-18. The canonical contract retains the immutable pin, fourteen-role catalog, Orchestrator
+18. The canonical contract retains the immutable pin, fifteen-role catalog, Orchestrator
     authority, Configurer-only mutation, fresh exact-unit review, hook rereview, external
-    approval gates, truthful `supported`, `unsupported`, and `untested` meanings, and
+    approval gates, truthful `supported`, `unsupported`, and `untested` meanings, the
+    provider-neutral Release Agent boundary, owner-selected workflow limits, and
     plain-Markdown limitations.
 19. Every stage-state transition sends the complete compact six-stage table, including
     `ACTIVE`, `PASS`, and `STOPPED`; only one stage is `ACTIVE`, later stages stay `PENDING`
@@ -177,10 +178,11 @@ transcript analysis, or Git plumbing to compensate.
 
 ### C09 — Fixed catalog and triggers
 
-The Orchestrator records the ordered 14-role catalog, predicts the roles for the goal, and
-invokes each role only when its trigger holds. PROJECT can make optional triggers more
-eager but cannot suppress a framework trigger or add a role. Every invoked role has a
-mapping, freshness, tools, support status, and observed evidence recorded.
+The Orchestrator records the ordered 15-role catalog, predicts the roles for the goal, and
+invokes each role only when its trigger holds. An owner-selected workflow is an ordered
+allowlist, not a new graph or invocation list. PROJECT can make optional triggers more eager
+but cannot suppress a framework trigger or add a role. Every invoked role has a mapping,
+freshness, tools, support status, and observed evidence recorded.
 
 ### C10 — Specification and planning brackets
 
@@ -367,6 +369,138 @@ be the same.
 | Zero-question defaults | On a clean repository with both source values and no material ambiguity, reach the compact approval surface without a question. Evidence shows `manual`, the exact supplied pin, repository-derived Map and Validation, review cap `2`, and host-default mappings unless a required role is unavailable. |
 | One approval action | An unchanged proposal has one approval action: exact `Awaken Olympus`. A changed proposal requires a new exact second opt-in. No alternate approval wording, optional period, progressive disclosure path, or rich-host control weakens double opt-in. |
 | Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; resend the complete table on each transition. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
+
+### V1-V12 Release Agent and custom workflow fixtures
+
+These fixtures extend the static and bounded contract checks above. They are not live
+provider, release, or general harness results. Run each fixture with the exact source and
+task identities, allowed paths, command output, and result label. Missing output is `not run`,
+not `pass`.
+
+#### V1 — Population and role order
+
+Assert that every current catalog copy has the exact 15-role order from the protocol, with
+Release Agent after Design Reviewer and before Decision Council. Assert 14 worker links in
+`SKILL.md`, 14 worker charters, and the fixed 15-role Configurer phrase. A positive fixture
+passes only when all copies match. A missing, extra, reordered, or duplicated role fails and
+records the exact consumer.
+
+#### V2 — Charter shape and role craft
+
+Assert that each worker charter has the eight ordered H2 section classes, including the
+Release Agent's source-only preparation, immutable execution, no-file authority, evidence
+calls, one-submission limit, truthful states, complete packet, and stop boundary. A fixture
+with embedded instructions in repository, provider, task, or role-return data must classify
+that content as data and make no unauthorized change. Missing sections, unbounded methods,
+or an inferred provider capability fail.
+
+#### V3 — Current-claim and history scan
+
+Search current documentation for retired role-count, worker-count, deferred-agent,
+release-boundary, fixed-pipeline, and owner-selection claims. Search the bytes before the
+unique D06 marker in this file; compare the protected suffix separately. Assert one
+`## Unreleased` section, preserved released CHANGELOG bytes, and no unsupported past-tense
+claim about historical review content. A seeded current stale claim fails; a preserved
+historical section is `LEFT-AS-IS` and does not fail the current scan.
+
+#### V4 — Links and anchors
+
+Resolve every relative Markdown target and anchor in the changed documentation and every
+affected Builder path. Include the Release Agent charter, the release boundary, the
+owner-selected workflow, and task release records. A missing target or anchor fails; a
+complete zero-missing report passes.
+
+#### V5 — Cross-document agreement
+
+Compare the catalog, triggers, role support, preparation and execution handoffs, release
+states, boundary rows, selection rules, owner approval, recovery fields, and task records
+with the canonical protocol. Assert one Orchestrator hub, fixed trigger closure, separate
+review and owner gates, no Release Agent file authority, and no runtime or provider-client
+claim. A changed field name, order, state, role, or gate without a canonical source fails.
+
+#### V6 — Canonical request and owner rendering vectors
+
+Use a valid 16-line ASCII request with the exact marker pair, `schema: MQ`, 13 ordered value
+fields, final LF, unpadded base64url, and the required lowercase SHA-256. Decode it and
+round-trip the 14-line ASCII hexadecimal rendering with `schema: hex:31`. Exercise each
+vector separately: changed source byte; present empty `~` and optional absent `-` in one
+field; arbitrary bytes; C0, C1, DEL, NUL, bidirectional-control UTF-8, raw newline, marker
+text, invalid UTF-8, and non-text bytes; padding and invalid alphabet; a disallowed sentinel;
+duplicate, reordered, extra, or missing request or rendering line; CRLF; byte-order mark;
+trailing space; uppercase or odd hex; invalid `absent`; missing or extra final LF; multiple
+markers; and rendering mismatch. Invalid vectors are `blocked`. The two sentinels must have
+distinct canonical bytes, digests, renderings, and exact round trips. Rendering must remain
+ASCII and emit no decoded value bytes.
+
+#### V7 — Phase precedence and release states
+
+Apply each phase in strict first-match order. In `pre-dispatch`, test evidence defect plus
+exact state (`blocked`), exact state (`reconciled`), proven absence (`prepared`), and
+mismatch or no matching row (`blocked`). In `dispatch/final-readback`, test evidence defect
+plus exact state (`blocked`), exact state (`reconciled` with no submission), proven absence
+with ready controls (one submission and `post-submission`), and mismatch (`blocked`). In
+`post-submission`, test evidence defect plus exact state (`blocked`), definite created action
+plus exact read-back (`released`), winning conditional conflict plus exact state
+(`reconciled`), conditional mismatch (`blocked`), ambiguous outcome plus exact state
+(`reconciled` with uncertainty), ordinary rejection plus exact state (`blocked`), and every
+missing or conflicting evidence case (`blocked`). Only definite created-action evidence
+reaches `released`.
+
+#### V8 — Approval, expiry, consumption, and handoff
+
+Test exact approval and bundled approval; changed digest, action, and target; valid time, one
+second before expiry, equality, and after expiry; invalid or failed first and second clocks;
+unconsumed and consumed approval; consumption failure; immutable approved block; missing
+execution field; reconstruction attempt; and execution-handoff replay. Require one-use
+approval bound to the canonical digest, action, and target. Require verified consumption
+before the immutable handoff. Equality or later is expired. Any post-consumption clock or
+expiry failure blocks submission and does not restore approval.
+
+#### V9 — Duplicate, retry, and provider-call behavior
+
+Test an attempted second submission, `submitted` and `ambiguous` ledger states, retry with
+old approval, retry with new exact approval, prior absence, safe provider idempotency,
+material race with and without provider control, ordinary rejection, conditional conflict
+with exact state, and conditional conflict with conflicting state. Authenticated read-only
+clock, capability, pre-submission, final, and post-submission calls must all remain
+available evidence calls and must not consume the one-action allowance. A duplicate,
+unsupported material race, unsafe retry, or ambiguous mismatch is `blocked`; a safe retry
+still needs a new approval and attempt.
+
+#### V10 — Boundary and custom workflow closure
+
+Assert all five exhaustive boundary rows: `review-only`, `diagnose-only`, `audit-only`,
+`spec-only`, and `mutation`, including exact effects, terminal artifact, required roles and
+checks, and incompatible roles. Test zero or one declaration of each kind; two workflow
+lines; two boundary lines; zero boundary declarations; unknown, duplicate, reordered,
+malformed, conflicting, or ambiguous declarations; valid `spec-only`; omitted paired
+verifier or reviewer; selected but untriggered role; later unselected trigger; approved
+expansion; rejected expansion; explicit cancellation; and default truncation. Invalid input
+dispatches no worker. Selection is an allowlist, not an invocation list. Later expansion
+stops before handoff as `pending-expansion`; rejection is `blocked`; only explicit owner
+cancellation is `cancelled`.
+
+#### V11 — Blocked recovery and compensation
+
+For every phase, create a complete blocked packet with cause, phase, last verified state,
+recovery owner, closure evidence, safe retry condition, uncertainty, and irreversible
+residual risk. Test missing and conflicting evidence, safe retry, and owner-retained risk.
+Assert that rollback and compensation never occur automatically. A compensation request is
+a new external action with a new preparation handoff, canonical request, approval,
+consumption, and execution handoff. Missing recovery data fails the fixture.
+
+#### V12 — Identity, diff, review, and local-only delivery
+
+Verify the accepted source base, branch, head, merge-base, Builder identity, and named path
+allowlist. Resolve R16 snapshot `e4d7508760916548aba0bc411ad1f812ec2a1b36`, path
+`.olympus/tasks/release-agent-v020.md`, and blob `f10f90bc9ed5fffb8316c07d3fab96c26165c23a`
+with Git metadata only; do not read or import historical task content. Check that only Builder
+and Docs Writer paths change, protected paths remain unchanged, links resolve, and tracked and
+untracked diffs pass `git diff --check`. Bind a fresh Reviewer to the complete exact unit and re-review any
+changed bytes. Verify named-path staging and one local commit in the final delivery. Record
+that no push, pull request, merge, tag, release, publish, deploy, issue, secret, paid
+resource, or other external action occurred. These checks do not prove provider capability,
+live release execution, production readiness, or general harness support.
 
 ## Current harness evidence
 
