@@ -28,7 +28,7 @@ invoked role before dispatch.
 | # | Role | Trigger result | Predicted | Actual | Harness mapping, freshness, tools, support, and evidence |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Orchestrator | every routed request | `<yes>` | `<yes>` | `<mapping and evidence>` |
-| 2 | System Configurer | `<owner config request and double opt-in>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 2 | System Configurer | `<owner config request and double-opt-in flow>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 3 | Explorer | `<material question or explicit audit>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 4 | Spec Writer | `<substantial or other trigger>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 5 | Claims Reviewer | `<every Spec Writer result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
@@ -43,6 +43,26 @@ invoked role before dispatch.
 | 14 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 
 Missing required mapping blocks dispatch. Use `supported`, `unsupported`, or `untested`.
+
+## Shared state checkpoints
+
+Record the fields below at the named transition. Apply the meanings in the [shared state
+and evidence rules](../references/PROTOCOL.md#shared-state-and-evidence-rules); do not
+replace them with role-specific labels.
+
+| Checkpoint | Required record |
+| --- | --- |
+| request boundary | `<review-only, diagnose-only, audit-only, spec-only, or mutation; terminal boundary and truncated stages>` |
+| frozen review unit | `<spec body id/hash, plan id/hash, or mutation task/base/branch/worktree/base/head/merge-base/paths/diff digest, as applicable>` |
+| transition evidence | `<role identity; packet identity; Git state; required checks; evidence verified by Orchestrator>` |
+| halted outcome | `<attempt id; operational/runtime cause; partial-output disposition; last verified state; recovery owner; safe retry; completed review rounds consumed: 0>` |
+| pending outcome | `<every applicable cause; owner; closure evidence; safe retry; consequence; all required causes cleared: yes/no>` |
+| dispute round | `<unchanged unit; evidence; fresh reviewer; withdraw/maintain result; owner/escalation if maintained>` |
+| re-plan | `<hidden complexity or new trigger; affected steps; new evidence; attempt 1; second same-node stall escalation>` |
+| skipped/unrunnable classification | `<role/check; reason; required capability; consequence; no substitution>` |
+| skipped/unrunnable delivery | `<role/check; final reason; result omitted or blocked; user-visible consequence>` |
+| escaped external finding | `<finding and evidence; future framework-gap assessment; active-goal rules unchanged>` |
+| uncertain external action | `<exact action/target; approval; client key when supported; observed provider id when available; response; read-back and reconciliation; retry decision>` |
 
 Acceptance criteria:
 
@@ -110,14 +130,27 @@ review history, round records, or defensive annotations in the body.
 | `<n>` | `<identifier>` | `<lowercase SHA-256>` | `<current and persisted, or exact defect>` | `<matching identifier/recomputed hash and required sections, or defect>` | `<matching identifier/recomputed hash and required sections, or defect>` | `<healthy, intake-invalid, formal-review, or blocked; evidence>` |
 
 `intake-invalid` is preserved here as a pre-review result and consumes no round. Start and
-count a formal round only after both fresh reviewers acknowledge the same immutable healthy
-packet. Each reviewer stops after acknowledgement. Record the `formal-review` authorization
-for that exact identifier and hash before either reviewer starts formal work. Correct and
-persist the handoff before a new intake attempt.
+reserve a formal round only after both fresh reviewers acknowledge the same immutable
+healthy packet. Each reviewer stops after acknowledgement. Record the `formal-review`
+authorization, candidate round number, and unique attempt identifier for that exact packet
+before either reviewer starts formal work. Consume the round only after both complete
+reviewer packets return. Correct and persist an invalid handoff before a new intake attempt.
+
+### Formal review attempts
+
+Record every authorized attempt. A halted attempt remains visible, uses a new identifier
+on retry, and consumes no completed formal round. Preserve provisional findings for the
+next complete bracket. Permit one automatic retry for the same packet; a second halt
+escalates or blocks.
+
+| Attempt identifier | Candidate round | Packet identifier and hash | Claims completion or halted state | Spec completion or halted state | Provisional finding IDs | Operational outcome and recovery | Completed round consumed |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `<identifier>` | `<n>` | `<identifier and hash>` | `<complete or halted>` | `<complete or halted>` | `<IDs or none; next-attempt disposition>` | `<none, or cause, partial-output disposition, owner, and safe retry>` | `<yes/no>` |
 
 ### Formal specification review
 
-Formal verdicts are `pass`, `repair`, or `blocked`. This table is a compact round summary.
+Formal verdicts are `pass`, `repair`, or `blocked`. This table contains completed reviewer
+brackets only and is the compact round summary.
 Each reviewer returns its complete
 jurisdictional finding set in one pass. The Orchestrator merges both sets and freezes the
 finding ledger for the round. At the configured cap, open findings block the goal. The
@@ -147,7 +180,7 @@ self-referential line citations.
 
 | Field | Value |
 | --- | --- |
-| current formal round | `<0-10>` |
+| current completed formal round | `<0-10>` |
 | complete Claims set returned | `<yes/no; count>` |
 | complete Spec set returned | `<yes/no; count>` |
 | merged ledger frozen | `<yes/no; round>` |
@@ -156,11 +189,12 @@ self-referential line citations.
 | framework-review failure | `<yes/no; new missed P0/P1 IDs>` |
 | next action | `<repair, compact complete restatement, accepted, or blocked>` |
 
-Specification round cap: `10` formal rounds (default 10; expected closure is 2-3 rounds).
+Specification round cap: `10` completed formal rounds (default 10; expected closure is 2-3
+rounds).
 The current specification body cap is 300 lines and 48,000 bytes. Record both sizes in each
 round summary. If round 3 does not reduce open P0-P2 findings, or body size grows without
 reducing them, the next Writer result must be a compact complete restatement, not an additive
-patch. This does not reset the round count. At round 10, remaining P0-P2 findings block
+patch. This does not reset the round count. At completed round 10, remaining P0-P2 findings block
 implementation. An oversized Writer result is incomplete and does not enter reviewer intake.
 
 ## Plan rounds
@@ -169,15 +203,25 @@ Use this bracket only when the accepted contract has dependent steps, cross-laye
 interface sequencing, or an explicit plan need. Plan Writer receives the accepted contract
 or specification verbatim. Plan Verifier receives that contract plus the whole plan.
 
-| Round | Plan Writer context | Fresh Plan Verifier context | Verdict | Accepted plan or findings/evidence | Uncertainty |
-| --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<fresh context>` | `<verdict>` | `<accepted plan or findings and exact evidence>` | `<none or limit>` |
+| Round | Plan packet identifier and hash | Plan Writer context | Fresh Plan Verifier context | Verdict | Accepted plan or findings/evidence | Uncertainty |
+| --- | --- | --- | --- | --- | --- | --- |
+| `<n>` | `<identifier and lowercase SHA-256>` | `<separate context>` | `<fresh context>` | `<verdict>` | `<accepted plan or findings and exact evidence>` | `<none or limit>` |
 
 Plan round cap: `<1, 2, or 3; default 2>`.
 
 Accepted plan:
 
-- `<verbatim accepted plan, or not required>`
+| Field | Value |
+| --- | --- |
+| status | `<accepted, incomplete, or not required>` |
+| packet identifier | `<identifier or not required>` |
+| content hash | `<lowercase SHA-256 of the exact plan body or not required>` |
+
+<!-- PLAN-BODY:BEGIN -->
+
+`<complete accepted plan body only, persisted verbatim before verification, or not required>`
+
+<!-- PLAN-BODY:END -->
 
 ## Builder and review rounds
 
@@ -228,10 +272,10 @@ standards or matching evidence produce `blocked`, not `not used`.
 
 Record these results only when used. Council advice is not a gate. Liaison is read-only.
 
-| Role | Context | Question | Result and evidence | Uncertainty |
+| Role | Invocation identity, source revision, and freshness | Question | Result and evidence | Uncertainty |
 | --- | --- | --- | --- | --- |
-| Decision Council | `<read-only context>` | `<one balanced question>` | `<recommendation or not used>` | `<limit>` |
-| Liaison | `<read-only context>` | `<human question>` | `<answer or not used>` | `<limit>` |
+| Decision Council | `<packet id; revision; fresh or degraded context>` | `<one balanced question>` | `<recommendation or not used>` | `<limit>` |
+| Liaison | `<packet id; revision; read-only context>` | `<human question>` | `<answer or not used>` | `<limit>` |
 
 ## Outcome
 
