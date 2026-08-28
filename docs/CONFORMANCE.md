@@ -28,9 +28,15 @@ The framework passes static inspection when:
 4. The skill supports manual, session, and project activation.
 5. Every Spec Writer result has lossless source-to-validation traceability, fixed-control
    closure, exact path ownership, exact counts and phrases, a completeness statement,
-   packet identifier, source commit, and content hash.
-6. The complete Writer result and current task metadata are persisted before fresh Claims
-   Reviewer and Spec Reviewer intake over the same immutable packet and hash.
+   packet identifier, source commit, content hash, requirements, invariants, acceptance
+   criteria, red paths, and validation obligations. Repository evidence uses stable paths,
+   symbols, or headings; the specification does not require self-referential `file:line`
+   citations. Spec Writer records validation obligations only; executable implementation
+   validation runs after acceptance during build and general review. Claims Reviewer may
+   run read-only probes for present repository facts.
+6. The complete current Writer result and current task metadata are persisted before fresh
+   Claims Reviewer and Spec Reviewer intake over the same immutable packet and hash. Only the
+   current specification body is stored between its markers.
 7. Missing content, stale metadata, or identifier or hash mismatch produces
    `intake-invalid`; it is preserved as evidence and consumes no formal round.
 8. Every Plan Writer result receives fresh Plan Verifier checks, when the plan trigger
@@ -63,6 +69,28 @@ The framework passes static inspection when:
 19. Every stage-state transition sends the complete compact six-stage table, including
     `ACTIVE`, `PASS`, and `STOPPED`; only one stage is `ACTIVE`, later stages stay `PENDING`
     after a stop, and no stage is `PASS` before its evidence exists.
+20. The specification body contains only the current body. Task metadata, packet identifiers,
+    hashes, verdict counts, findings, convergence state, and body size remain outside the
+    hashed body. Earlier bodies, body diffs, reviewer transcripts, review history, round
+    records, and defensive annotations are not embedded in it.
+21. One compact Orchestrator-owned finding ledger records stable ID, reviewer jurisdiction,
+    severity, concise finding, minimum reproducing evidence, closure condition, state,
+    first-seen round, last-checked round, and `introduced` or `missed` classification for
+    findings first reported after round 1. Claims Reviewer and Spec Reviewer each return a
+    complete jurisdictional set every round. The Orchestrator merges and freezes the ledger.
+22. Claims Reviewer owns only facts, evidence, citations, counts, hashes, and uncertainty,
+    and excludes design completeness, coherence, authorization, mechanism quality, and
+    acceptance-test structure. Spec Reviewer owns only completeness, coherence, authority
+    boundaries, failure paths, joint satisfiability, and acceptance-testability, and does
+    not re-probe factual claims, counts, citations, or hashes after shared intake. The fixed
+    checklist comes from the immutable framework commit; freshness changes context only.
+23. The specification cap is 10 formal rounds (default 10; expected closure is 2-3 rounds),
+    other bracket caps remain unchanged, each round records open P0-P2 and body line/byte
+    counts, the body is at most 300 lines and 48,000 bytes, and round 3 stagnation or growth
+    triggers a compact complete restatement. An oversized result cannot enter intake. At
+    round 10, remaining P0-P2 findings block implementation.
+24. After acceptance, the general Reviewer owns whether implementation evidence satisfies the
+    accepted criteria. Specification reviewers do not replace that implementation review.
 
 ## Behavioral smoke tests
 
@@ -199,6 +227,27 @@ support gates; a non-named path, remote action, evidence-free `PASS`, two active
 an extra stage state, a missing complete transition table, or text after either exact
 final line.
 
+### C16 — Specification convergence and compact state
+
+The task record stores one current specification body only. Its metadata stays outside the
+body hash. A compact round summary records packet identifier, hash, each complete reviewer
+finding count, aggregate state, open P0-P2 count, and current body line and byte counts. One
+Orchestrator-owned finding ledger stores stable IDs, jurisdiction, severity, concise finding,
+minimum evidence, closure condition, state, first-seen and last-checked rounds, and
+`introduced` or `missed` for findings first reported after round 1. Claims Reviewer returns
+all facts-and-evidence findings in one pass and does not assess design or acceptance
+structure. Spec Reviewer returns all
+completeness-and-coherence findings in one pass and does not re-probe facts, counts,
+citations, or hashes after shared intake. The Orchestrator merges and freezes both sets.
+
+If a repair causes a later finding, classify it `introduced`; otherwise classify it `missed`.
+A new missed P0/P1 is a framework-review failure. If round 3 does not reduce open P0-P2
+findings, or body size grows without reducing them, the next Writer result is a compact
+complete restatement, not an additive patch. The specification cap is default 10 formal
+rounds, with expected closure in 2-3 rounds. At round 10, any remaining P0-P2 finding blocks
+implementation. The later general Reviewer checks implementation evidence only after
+acceptance.
+
 ## Current harness evidence
 
 Results apply only to the framework commit named in each run. They are scenario-specific;
@@ -213,6 +262,7 @@ they do not establish general harness reliability.
 | Unrelated-project mutation | Codex | `e6a70e777213afb0935ac9c572e558d600624bb1` | `pass` |
 | Second-harness trial | Claude | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `unsupported` |
 | Fixed conditional 14-role catalog | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `partial` |
+| Release Agent specification convergence | Codex | `103559b2ae57e5684035820e084c8617129a6cb1` | `fail` |
 
 At framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`, Codex passed manual mutation;
 session activation, deactivation, and question routing; project activation; repair-cap and
@@ -302,3 +352,17 @@ combined-test problem before final implementation.
 The correctness outcome was a tie. Normal Codex was leaner. Olympus produced stronger
 evidence and review separation. This result supports experimental version `0.1.0` and
 larger tests. It does not prove that Olympus produces better final code.
+
+### D06 — Release Agent specification convergence failure
+
+| Measure | Result |
+| --- | --- |
+| framework | Olympus v0.2.0 at `103559b2ae57e5684035820e084c8617129a6cb1` |
+| formal specification rounds | ten (10) |
+| implementation | never started |
+| final packet | final packet still had one P1 |
+| current specification body | 120,263 bytes |
+| task record | 143,409 bytes |
+
+This scenario demonstrates the specification convergence failure only. It does not establish
+general harness quality.

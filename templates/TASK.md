@@ -50,7 +50,7 @@ Acceptance criteria:
 
 Accepted contract or specification after formal review:
 
-- `<verbatim accepted contract or specification, or not required>`
+- `current specification body in the section below` (or `not required`)
 
 Non-goals:
 
@@ -80,9 +80,14 @@ Delete this section when no owner decision was needed after activation.
 ## Specification rounds
 
 Use this bracket only for substantial, ambiguous, architectural, or cross-layer goals.
-Persist the complete Writer result and update task metadata before reviewer dispatch.
+Persist the complete current Writer result and update task metadata before reviewer dispatch.
+The body between the markers is the only specification body in this record. It must contain
+requirements, invariants, acceptance criteria, red paths, and validation obligations. Keep
+metadata, packet identifiers, hashes, verdict counts, findings, convergence state, and body
+size outside the hashed body. Never put earlier bodies, body diffs, reviewer transcripts,
+review history, round records, or defensive annotations in the body.
 
-### Persisted Writer result
+### Current specification body
 
 | Field | Value |
 | --- | --- |
@@ -94,15 +99,15 @@ Persist the complete Writer result and update task metadata before reviewer disp
 
 <!-- SPECIFICATION-BODY:BEGIN -->
 
-`<complete Spec Writer body, persisted verbatim before reviewer dispatch>`
+`<complete current specification body only, persisted verbatim before reviewer dispatch>`
 
 <!-- SPECIFICATION-BODY:END -->
 
 ### Specification intake
 
-| Attempt | Writer result and metadata | Packet identifier | Content hash | Claims acknowledgement | Spec acknowledgement | Handoff state and evidence |
+| Attempt | Packet identifier | Content hash | Metadata state | Claims acknowledgement | Spec acknowledgement | Handoff state and evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<persisted and current, or exact defect>` | `<identifier>` | `<lowercase SHA-256>` | `<matching identifier/recomputed hash and required sections, or defect>` | `<matching identifier/recomputed hash and required sections, or defect>` | `<healthy, intake-invalid, formal-review, or blocked; evidence>` |
+| `<n>` | `<identifier>` | `<lowercase SHA-256>` | `<current and persisted, or exact defect>` | `<matching identifier/recomputed hash and required sections, or defect>` | `<matching identifier/recomputed hash and required sections, or defect>` | `<healthy, intake-invalid, formal-review, or blocked; evidence>` |
 
 `intake-invalid` is preserved here as a pre-review result and consumes no round. Start and
 count a formal round only after both fresh reviewers acknowledge the same immutable healthy
@@ -112,15 +117,51 @@ persist the handoff before a new intake attempt.
 
 ### Formal specification review
 
-Formal verdicts are `pass`, `repair`, or `blocked`. At the configured cap, open findings
-block the goal. The numeric cap applies independently to specification, plan, configuration,
-and implementation brackets.
+Formal verdicts are `pass`, `repair`, or `blocked`. This table is a compact round summary.
+Each reviewer returns its complete
+jurisdictional finding set in one pass. The Orchestrator merges both sets and freezes the
+finding ledger for the round. At the configured cap, open findings block the goal. The
+numeric cap applies independently to specification, plan, configuration, and implementation
+brackets.
 
-| Round | Packet identifier and hash | Spec Writer context | Fresh Claims Reviewer final | Fresh Spec Reviewer final | Aggregated verdict | Accepted specification or findings/evidence | Uncertainty |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<identifier and hash>` | `<separate context>` | `<self-contained verdict, evidence, skipped checks, uncertainty, repair>` | `<self-contained verdict, criterion/red-path results, evidence, skipped checks, uncertainty, repair>` | `<verdict>` | `<accepted specification or findings and exact evidence>` | `<none or limit>` |
+| Round | Packet identifier and hash | Writer result | Claims verdict and finding count | Spec verdict and finding count | Open P0-P2 | Body lines | Body bytes | Merged finding IDs | Aggregated state | Restatement |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `<n>` | `<identifier and hash>` | `<current body persisted; separate context; no body copy>` | `<pass/repair/blocked; count>` | `<pass/repair/blocked; count>` | `<count>` | `<count>` | `<count>` | `<ledger IDs or none>` | `<pass/repair/blocked>` | `<yes/no; reason>` |
 
-Specification round cap: `<1, 2, or 3; default 2>`.
+### Finding ledger (Orchestrator-owned)
+
+Keep one compact ledger for the whole specification bracket. Keep findings here, not in the
+specification body. The Orchestrator assigns stable IDs, merges both complete reviewer sets,
+freezes the rows for each round, routes repairs, and owns state.
+
+| ID | Jurisdiction | Severity | Finding | Minimum evidence and closure condition | State | First seen | Last checked | Later classification |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `<F-001>` | `<Claims or Spec>` | `<P0/P1/P2/P3>` | `<short finding>` | `<evidence; exact condition that closes it>` | `<open/repaired/accepted/non-blocking>` | `<round>` | `<round>` | `<introduced/missed, or not applicable>` |
+
+P0 and P1 remain open until repaired. P2 remains open until repaired or explicitly accepted
+by the owner when the acceptance is within owner authority. P3 is non-blocking. Review
+findings can cite the current snapshot by `file:line`; the specification body does not need
+self-referential line citations.
+
+### Convergence state
+
+| Field | Value |
+| --- | --- |
+| current formal round | `<0-10>` |
+| complete Claims set returned | `<yes/no; count>` |
+| complete Spec set returned | `<yes/no; count>` |
+| merged ledger frozen | `<yes/no; round>` |
+| open P0-P2 count | `<count>` |
+| new findings after round 1 | `<introduced/missed IDs, or none>` |
+| framework-review failure | `<yes/no; new missed P0/P1 IDs>` |
+| next action | `<repair, compact complete restatement, accepted, or blocked>` |
+
+Specification round cap: `10` formal rounds (default 10; expected closure is 2-3 rounds).
+The current specification body cap is 300 lines and 48,000 bytes. Record both sizes in each
+round summary. If round 3 does not reduce open P0-P2 findings, or body size grows without
+reducing them, the next Writer result must be a compact complete restatement, not an additive
+patch. This does not reset the round count. At round 10, remaining P0-P2 findings block
+implementation. An oversized Writer result is incomplete and does not enter reviewer intake.
 
 ## Plan rounds
 

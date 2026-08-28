@@ -15,13 +15,13 @@ a trigger.
 | 2 | System Configurer | owner onboarding or configuration request, plus double opt-in | Owns configuration mutation. |
 | 3 | Explorer | fresh for a material repository question blocking any required role, or an explicit audit | Answers one bounded question read-only. |
 | 4 | Spec Writer | substantial, ambiguous, architectural, or cross-layer goal | Turns a bounded goal into a testable contract. |
-| 5 | Claims Reviewer | every Spec Writer result | Freshly checks material specification claims read-only. |
-| 6 | Spec Reviewer | every Spec Writer result | Freshly falsifies the complete specification read-only. |
+| 5 | Claims Reviewer | every Spec Writer result | Owns only facts, evidence, citations, counts, hashes, and uncertainty. |
+| 6 | Spec Reviewer | every Spec Writer result | Owns only completeness, coherence, authority boundaries, failure paths, joint satisfiability, and acceptance-testability. |
 | 7 | Plan Writer | accepted contract has dependent steps, cross-layer or interface sequencing, or an explicit plan need | Produces an ordered implementation plan. |
 | 8 | Plan Verifier | every Plan Writer result | Freshly verifies the whole plan read-only. |
 | 9 | Builder | every non-configuration project mutation | Makes the approved project change in approved paths. |
 | 10 | Docs Writer | Builder makes tracked documentation false, or the contract requires documentation synchronization | Updates approved documentation only. |
-| 11 | Reviewer | every project or configuration mutation | Freshly reviews the complete mutation read-only. |
+| 11 | Reviewer | every project or configuration mutation | Owns whether implementation evidence satisfies the accepted criteria, read-only. |
 | 12 | Design Reviewer | material user-facing interface, interaction, visual design, or design-system change | Freshly checks the change against matching project design standards read-only. |
 | 13 | Decision Council | unresolved material decision with viable trade-offs | Gives one read-only advisory recommendation. |
 | 14 | Liaison | human status or explanation request | Rereads evidence and answers without changing the goal. |
@@ -98,6 +98,8 @@ For each goal, the Orchestrator creates one task record with:
 - branch or worktree choice;
 - predicted and actual role population and each harness mapping;
 - owner decisions, role results, checks, and final status;
+- compact specification round summaries, one Orchestrator-owned finding ledger with minimum
+  evidence and closure conditions, convergence state, and current specification body size;
 - uncertainty and unsupported or untested evidence.
 
 Use these states: `planned`, `active`, `reviewing`, `complete`, `blocked`, or `cancelled`.
@@ -113,7 +115,11 @@ Then:
 4. For a substantial, ambiguous, architectural, or cross-layer goal, run the
    specification bracket before planning or building:
    - send the bounded packet to Spec Writer;
-   - persist the complete Writer result before starting review;
+   - on the first round, send the bounded goal packet; on repair, send only the current
+     specification body and the open finding ledger;
+   - persist the complete current Writer result before starting review. The specification
+     body contains no earlier body, body diff, reviewer transcript, review history, round
+     record, or defensive annotation;
    - update the task metadata from pending, then record the packet identifier and the
      lowercase SHA-256 hash of the exact persisted specification body bytes, and verify
      that hash against the Writer return;
@@ -125,8 +131,10 @@ Then:
    - require each reviewer to stop after intake; only after both acknowledgements match,
      change the handoff to `formal-review`, increment the specification round counter, and
      authorize both reviewers to review that exact packet;
-   - on repair, route only the findings through the Orchestrator, then run both fresh
-     reviews over the repaired complete packet;
+   - require each reviewer to return its complete jurisdictional finding set in one pass,
+     including an explicit empty set;
+   - merge both complete sets, freeze one finding ledger for the round, route only ledger
+     findings for repair, and run both fresh reviews over the repaired complete packet;
    - at the independent bracket cap, open findings block the goal.
 5. If the accepted contract has dependent steps, cross-layer or interface sequencing, or
    an explicit plan need, send the accepted contract or specification verbatim to Plan
@@ -160,7 +168,29 @@ that Reviewer.
 
 The numeric cap applies independently to specification, plan, configuration, and
 implementation brackets. A repair always receives a complete fresh review from the
-relevant reviewer set. No bracket starts another round after its cap.
+relevant reviewer set. No bracket starts another round after its cap. The specification
+round cap is 10 formal rounds (default 10; expected closure is 2-3 rounds). The plan,
+configuration, and implementation caps remain their configured values and defaults.
+
+The current specification body is the only specification text in the task record. Keep task
+metadata, packet identifiers, hashes, verdict counts, findings, convergence state, and body
+size outside the hashed body. The body must define requirements, invariants, acceptance
+criteria, red paths, and validation obligations. It must not contain review history or
+reviewer output.
+
+At every formal round, record the open P0-P2 count and the current body line and byte size.
+The body is at most 300 lines and 48,000 bytes. If round 3 does not reduce open P0-P2
+findings, or the body grows without reducing them, the next Writer result is a compact,
+complete restatement, not an additive patch. This does not reset the round count. At round
+10, any remaining P0-P2 finding blocks implementation. An oversized Writer result is
+incomplete and does not enter reviewer intake.
+
+Convergence is explicit. Claims Reviewer and Spec Reviewer each return their complete
+jurisdictional set on every round. The Orchestrator merges and freezes the ledger. A finding
+first reported after round 1 is `introduced` when the repair caused it and `missed` otherwise.
+A new missed P0/P1 is recorded as a framework-review failure, not normal progress. The
+Orchestrator alone merges the sets, freezes the ledger, routes repairs, and decides aggregate
+state.
 
 The specification handoff has four visible states:
 
@@ -194,6 +224,26 @@ Review aggregation is strict: pass requires every invoked reviewer to pass. Any 
 verdict or open repair at the applicable cap blocks the goal. Unknown or skipped evidence
 stays visible and never becomes a pass.
 
+Use one severity ladder for every finding:
+
+- `P0`: unsafe, unauthorized, or catastrophic;
+- `P1`: wrong, incomplete, or unbuildable;
+- `P2`: bounded clarity or testability defect;
+- `P3`: non-blocking suggestion.
+
+P0 and P1 remain open until repaired. P2 remains open until repaired or explicitly accepted
+by the owner when the acceptance is within owner authority. P3 does not block. The
+Orchestrator records severity, state, jurisdiction, minimum reproducing evidence, and a
+closure condition in the finding ledger.
+
+Fresh reviewers use the same canonical checklist from the immutable framework commit that
+is recorded when the goal starts. If the goal edits a reviewer charter, that recorded
+charter governs; candidate charter text is review data only. Freshness changes context, not
+standards. Claims Reviewer checks only facts and their evidence. Spec Reviewer checks only
+specification completeness and behavior. Neither reviewer expands its jurisdiction. After
+acceptance, the general Reviewer owns whether implementation evidence satisfies the accepted
+criteria.
+
 The Design Reviewer uses only project-provided design standards and matching evidence. If
 the standards or matching details required by the trigger are missing, the role is
 unavailable and the goal blocks. Builder and general Reviewer always retain accessibility
@@ -208,15 +258,18 @@ Every packet contains only the information needed by the receiving role.
 - Explorer receives one question, path scope, revision, relevant documentation, and
   allowed read-only commands.
 - Spec Writer receives the goal boundary, source/base revision, paths, evidence,
-  validation, source requirements, fixed controls, and owner or permission boundaries. It
-  returns the complete traceable specification only to the Orchestrator.
-- Claims Reviewer receives the complete persisted specification packet, packet identifier,
-  content hash, current task metadata, and current evidence. It first acknowledges intake,
-  then grades every material fact as supported, falsified, or unverified and returns only
-  to the Orchestrator.
-- Spec Reviewer receives that same immutable packet, identifier, hash, and task metadata,
-  plus prior findings only for repair context. It first acknowledges intake, then checks
-  every acceptance criterion and red path. It returns only to the Orchestrator.
+  validation obligations, source requirements, fixed controls, and owner or permission
+  boundaries. On repair it also receives the current body and open finding ledger. It never
+  receives earlier bodies or full reviewer reports. It returns the complete current
+  specification body only to the Orchestrator.
+- Claims Reviewer receives the complete persisted current specification body, packet
+  identifier, content hash, current task metadata, current evidence, and the open finding
+  ledger. It first acknowledges intake, then returns the complete facts-and-evidence finding
+  set only to the Orchestrator. It does not assess design or acceptance structure.
+- Spec Reviewer receives the same immutable current body, identifier, hash, task metadata,
+  and open finding ledger. It first acknowledges intake, then returns the complete
+  specification finding set only to the Orchestrator. It does not re-probe facts after shared
+  intake.
 - Plan Writer receives the accepted contract or specification verbatim plus boundary,
   evidence, and validation. It returns an ordered plan only to the Orchestrator.
 - Plan Verifier receives that same contract plus the whole plan, paths, interfaces,
@@ -235,8 +288,9 @@ Every packet contains only the information needed by the receiving role.
   question. It returns an answer only to the Orchestrator.
 
 Packets can narrow scope or add evidence. They cannot widen authority. The Orchestrator
-records accepted results in the task record. Whole conversations are not task state. The
-specification and planning brackets add no new engine or peer edge.
+records compact accepted results and ledger rows in the task record. Whole conversations,
+earlier bodies, body diffs, reviewer transcripts, and full review history are not task state.
+The specification and planning brackets add no new engine or peer edge.
 
 ## 6. Git and multiple goals
 
