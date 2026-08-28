@@ -1,7 +1,7 @@
 # Olympus
 
 Olympus is an opinionated, Markdown-only build system for reliable agent-led software
-development. Version `0.3.0` is experimental.
+development. Version `0.3.1` is experimental.
 
 It gives a coding agent one fixed orchestration graph, fourteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
@@ -41,7 +41,13 @@ Approved onboarding creates one local Git commit with only PROJECT and both load
 Remote persistence still needs fresh owner approval.
 
 The [guided onboarding contract](references/ONBOARDING.md) defines the inspect-first
-conversation, complete proposal, second opt-in, six local stages, and truthful reports.
+conversation, compact proposal, full exact detail before approval, second opt-in, six local
+stages, and truthful reports. Plain text retains all required meaning.
+
+Every wake and activation request first runs the [canonical activation preflight](references/PROTOCOL.md#canonical-activation-preflight)
+against the target repository. Missing state enters guided onboarding; partial, malformed,
+or changed state stops; complete state permits the requested activation route only after an
+unchanged immediate recheck.
 
 The target repository receives:
 
@@ -59,10 +65,11 @@ The framework stays outside the target repository and is resolved at the exact c
 - One goal: `Use Olympus for: <goal>`
 - This session: `Activate Olympus orchestration`
 - Every session: choose `boot mode: orchestration` during onboarding
+- Guided entry: `Awaken Olympus` opens onboarding or reports readiness; it never activates a session.
 - Stop session routing: `Deactivate Olympus orchestration`
 
-Project boot is routing authority, not a background process. Questions do not create goals.
-Project-changing requests do.
+Each entry runs the canonical preflight before routing. Project boot is routing authority, not
+a background process. Questions do not create goals. Project-changing requests do.
 
 ## Read next
 
@@ -77,15 +84,18 @@ Project-changing requests do.
 
 ## Version status
 
-Olympus `0.3.0` strengthens all existing role charters and the state shared across
-specification, planning, mutation, and external-action boundaries. Review units now carry
-exact identities. Formal specification rounds count only after both reviewer packets
-complete. Halted attempts preserve provisional findings and allow one fresh retry.
+Olympus `0.3.1` adds a canonical read-only activation preflight for manual, session,
+project-boot, and guided wake entries. It checks target onboarding state before routing or an
+active-state claim and requires an unchanged immediate recheck. Guided onboarding shows a
+compact material summary, then the exact configuration and patch detail in plain Markdown
+before the exact `Awaken Olympus` second opt-in.
 
-The fixed catalog still has fourteen roles. This release adds no runtime or Release Agent.
-The role and state contracts passed static and independent review, but have not completed a
-new live target-repository run. The owner will run that manual validation next. Lower-model
-equivalence is also untested. See
+The focused C19 dogfood fixture run passed 142/142 rows across Olympus and unrelated targets. This is
+bounded Markdown-contract evidence, not a live harness or production-readiness result.
+Double opt-in, fresh exact-unit review, owner gates, and the local-only boundary remain
+unchanged. The fixed catalog still has fourteen roles. This release adds no runtime,
+dependency, or Release Agent. Lower-model equivalence and general harness support remain
+untested. See
 [current harness evidence](docs/CONFORMANCE.md#current-harness-evidence) for exact limits.
 
 Olympus remains a private experimental `0.x` project. Existing dogfood shows mixed results
