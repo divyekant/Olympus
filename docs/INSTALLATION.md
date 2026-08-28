@@ -3,9 +3,19 @@
 Give this guide to a Codex or Claude session in the target repository. Installation adds
 Markdown configuration and loader blocks only. Use the [guided onboarding contract](../references/ONBOARDING.md)
 for the complete owner conversation, exact proposal, stage evidence, and reports. The
+[canonical activation preflight](../references/PROTOCOL.md#canonical-activation-preflight)
+owns wake and activation classification, target identity captures, and the immediate recheck. The
 [System Configurer charter](../agents/SYSTEM_CONFIGURER.md), [PROJECT template](../templates/PROJECT.md),
 and [BOOTSTRAP template](../templates/BOOTSTRAP.md) retain the role, project, and loader
 contracts.
+
+The preflight opens each before-and-after consistency bracket before the initial PROJECT
+sample; it does not use atomic filesystem snapshots. All target, checkout, pinned-contract,
+canonical-loader, and checkout-status reads stay inside each bracket. The protocol classifies
+unstable brackets or differing coherent captures as `changed`; stable invalid, unreadable,
+mismatched, or dirty evidence is `malformed` only after the bracket and coherent final
+capture complete. Only internal instability or differing coherent captures is `changed`. A
+changed result does not route Configurer or report a candidate state.
 
 ## Owner instruction
 
@@ -16,7 +26,8 @@ Onboard this Git repository with Olympus from <repository-url> at exact commit
 <full-commit>. Read docs/INSTALLATION.md from that version. Inspect and propose the
 complete project configuration and file changes. Do not write until I approve that
 proposal. Preserve existing project instructions. Do not start another orchestration
-flow for this request.
+flow for this request. For an unchanged proposal, reply exactly `Awaken Olympus` for the
+second opt-in.
 ```
 
 Use a full commit, not a branch, tag, `main`, or `latest`.
@@ -26,7 +37,8 @@ Use a full commit, not a branch, tag, `main`, or `latest`.
 - The target is a Git repository with a committed base and no staged owner changes.
 - Existing `AGENTS.md`, `CLAUDE.md`, and `.olympus/PROJECT.md` paths are clean relative
   to `HEAD`; absent paths are allowed and unrelated unstaged paths can remain.
-- The owner supplied a framework repository URL and full commit.
+- The request supplies a framework repository URL and full commit, or identifies the
+  missing source value that the guided flow must request.
 - The agent can read both repositories and run Git.
 - The harness has a role-specific mapping for every role the goal invokes, including a
   separate Builder and fresh Reviewer for mutation goals.
@@ -35,29 +47,39 @@ Use a full commit, not a branch, tag, `main`, or `latest`.
 
 ## Onboarding
 
-The owner request is opt-in one. Follow the guided onboarding contract after inspection:
+The owner request is opt-in one. Follow this order and the guided onboarding contract:
 
-1. Resolve the exact URL and full commit in a clean checkout or cache. Stop if it is
-   unavailable, unreadable, mismatched, or dirty.
-2. Inspect the target and show the concise, exact `## What I learned` summary. Do not
-   ask a question before inspection.
-3. Ask at most one unresolved material question per turn. Each question has a
-   `Recommendation:` and a short exact `Effect:`. Apply documented defaults when they
-   decide the choice.
-4. When no material question remains, send one `## Ready to awaken Olympus` message with
-   the complete exact PROJECT, both loader blocks, paths, preservation rule, conflicts,
-   rejected settings, named-path commit, stages, mappings, evidence, and no remote action.
-5. Wait for explicit approval of that complete current proposal. This is opt-in two.
-6. Run the six stages in the canonical contract. Do not write before opt-in two. Stop on
+1. Start the [canonical activation preflight](../references/PROTOCOL.md#canonical-activation-preflight)
+   before the initial PROJECT sample. Resolve and record the exact URL and full commit
+   inside its open bracket, complete the coherent final capture, then classify stable
+   unavailable, unreadable, mismatched, or dirty pin evidence as `malformed` and stop.
+   Reserve `changed` for bracket instability or differing coherent captures; run a fresh
+   preflight when that occurs.
+2. Inspect and show the concise, material-only
+   `## What I learned` summary. Do not ask before inspection.
+3. Use documented safe defaults when they decide the choice. Ask at most one unresolved
+   material question per turn, with `Recommendation:` and exact `Effect:`. If the URL or
+   full commit is missing, ask only for the missing source value or values.
+4. When no material question remains, send one compact `## Ready to awaken Olympus`
+   summary. It names boot mode, version and short pin, project and validation, role
+   support, changed files, approval effect, and the local-only/no-remote boundary.
+5. Offer `Show full configuration` for the exact PROJECT, loaders, mappings, paths, gates,
+   and patch. Offer `Change settings` only for real owner-configurable settings.
+6. Reply exactly `Awaken Olympus` to approve that unchanged complete proposal. This is
+   opt-in two. A changed proposal needs a new exact second opt-in.
+7. Run the six stages in the canonical contract. Do not write before opt-in two. Stop on
    a changed path, unsupported mapping, failed evidence, review repair, or blocked gate.
 
 ## Defaults
 
-If the repository does not decide, use `manual` boot, review cap `2`, a current
-checkout/branch for clean sequential work, and a worktree for concurrent or unrelated
-dirty work. Commit or explicitly include relevant dirty work. Require fresh approval for
-major or external actions. Use host-default models and tools. Tools alone are `untested`;
-record `supported` only after the required mapping and behavior pass at the pinned commit.
+If the repository does not decide, use `manual` boot, the exact owner-supplied pin,
+repository-derived Map and Validation, review cap `2`, a current checkout/branch for
+clean sequential work, and a worktree for concurrent or unrelated dirty work. Commit or
+explicitly include relevant dirty work. Require fresh approval for major or external
+actions. Use existing host-default models and tools unless a required role is unavailable.
+Tools alone are `untested`; record `supported` only after the required mapping and behavior
+pass at the pinned commit. A clean repository with both source values reaches the approval
+surface without a question.
 
 ## Persist locally
 
@@ -81,6 +103,27 @@ Do not reset, stash, bypass hooks, change Git identity, or include unrelated fil
 the commit fails, report the Git error and current state. A push, pull request, merge,
 release, or other remote action needs fresh owner approval.
 
+## Wake and activation preflight
+
+Before `Use Olympus for: <goal>`, `Activate Olympus orchestration`, project boot, or a
+guided wake, run the read-only [canonical activation preflight](../references/PROTOCOL.md#canonical-activation-preflight)
+against the target repository root. It owns the ordered state classifier and the immediate
+final recheck; this guide does not duplicate those rules. No goal, session route, project
+route, or active claim starts before an unchanged complete state authorizes it. Missing state
+enters guided onboarding. Partial or malformed state stops with exact evidence. The first
+and final captures must each be coherent; the final capture and assignment are one transition
+with no repository read, dispatch, or other action between them. A repository change after
+that transition is next-entry state.
+
+Project boot order is exact pin resolution, pinned `SKILL.md` and `references/PROTOCOL.md`
+reads, preflight, immediate final recheck, then route. Boot mode never routes first.
+
+`Awaken Olympus` and `Awaken Olympus.` are guided entries, never a session-activation alias.
+Missing state starts inspection; complete state reports verified readiness and owner choices;
+an unchanged proposal accepts only the exact no-period phrase as opt-in two. See the
+[focused Issue #8 fixtures](CONFORMANCE.md#c19--issue-8-activation-preflight-and-progressive-onboarding) for
+bounded static and behavioral coverage. These fixtures are not runtime harness results.
+
 ## Activation
 
 Manual goal:
@@ -89,11 +132,15 @@ Manual goal:
 Use Olympus for: <goal>
 ```
 
+The preflight must return an unchanged complete state before this starts one goal.
+
 Session orchestration:
 
 ```text
 Activate Olympus orchestration
 ```
+
+The preflight must return an unchanged complete state before this starts session routing.
 
 Later project-changing requests become goals until session end or:
 
@@ -102,7 +149,8 @@ Deactivate Olympus orchestration
 ```
 
 Project orchestration sets PROJECT boot mode to `orchestration` through an approved
-Configurer change. Questions do not create goals.
+Configurer change. The preflight must return an unchanged complete state before each
+session starts project routing. Questions do not create goals.
 
 ## Update or remove
 

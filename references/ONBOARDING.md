@@ -5,11 +5,39 @@ a mythic shell with a practical core. The shell names the journey. The core keep
 value, gate, path, and result exact. It adds no runtime, terminal interface, package,
 service, installer, dependency, or user interface.
 
+## Welcome
+
+Welcome. I will inspect the target and the exact framework pin, show a compact proposal,
+and wait for approval before any write. Optional art is decorative and carries no meaning.
+
 ## Fixed controls
 
 Keep the framework URL and full immutable commit supplied by the owner. Resolve that
 exact pin in a clean checkout or cache. A pin identifies content; it does not authenticate
 the source. Do not read a newer source working tree.
+
+Every wake or activation request first follows the [canonical activation preflight](PROTOCOL.md#canonical-activation-preflight)
+against the target root, whether the target is Olympus or an unrelated repository. Missing
+state routes to this guided flow. Partial or malformed state stops. Only an unchanged
+complete state can activate. `Awaken Olympus` and `Awaken Olympus.` are guided entries;
+in complete state they report verified readiness and the two canonical owner actions
+without starting a mode. Only the exact no-period phrase approves an unchanged proposal.
+
+Each preflight capture begins its before-and-after consistency bracket before the initial
+PROJECT sample; it is not an atomic filesystem snapshot. Keep all target, checkout,
+pinned-contract, canonical-loader, and checkout-status reads inside the bracket. An
+unstable bracket or a difference between coherent captures is `changed` and requires fresh
+preflight; stable invalid, unreadable, mismatched, or dirty evidence is `malformed` only
+after the bracket and coherent final capture complete. Only internal instability or
+differing coherent captures is `changed`. The final coherent capture and assignment form
+one transition with no read, dispatch, or other action between them. A later repository change is next-entry
+state, not a claim that this transition detected it. Project boot resolves the exact pin,
+reads pinned `SKILL.md` and `references/PROTOCOL.md`, runs preflight and its final recheck,
+then routes; boot mode never routes first.
+
+A present loader needs a canonical comparison against valid PROJECT data or a complete
+owner/request URL and full commit. Without source identity, the loader is unverifiable and
+the state is `malformed`.
 
 Keep the fixed ordered Pantheon: Orchestrator, System Configurer, Explorer, Spec Writer,
 Claims Reviewer, Spec Reviewer, Plan Writer, Plan Verifier, Builder, Docs Writer,
@@ -26,7 +54,7 @@ merge, deploy, publish, release, secret, destructive, paid, or hard-to-reverse a
 ## Inspect first
 
 The Configurer performs read-only inspection before it asks a question or proposes a
-write. Inspect:
+write. Follow the canonical preflight above and inspect:
 
 - the owner-supplied URL and full commit, resolved cleanly and exactly;
 - repository root, branch or worktree, staged and unstaged Git state, and relevant
@@ -38,27 +66,29 @@ write. Inspect:
 - role preferences, role-specific harness mappings, freshness, tools, support evidence,
   conflicts, stale evidence, and material unknowns.
 
-Do not write during inspection. Stop if the exact pin is unavailable, unreadable,
-mismatched, or dirty. After inspection, show only configuration-relevant facts. Do not
-dump raw discovery output. Use this exact heading and compact shape:
+Do not write during inspection. Complete the bracket and coherent final capture before
+classifying stable unavailable, unreadable, mismatched, or dirty pin evidence as `malformed`
+and stopping. Reserve `changed` for bracket instability or differing coherent captures.
+After inspection, show only material configuration facts. Do not dump raw discovery output.
+Use this compact shape:
 
 ## What I learned
 
-- Identity and intent: `<observed repository and owner-direction facts>`.
-- Map and validation: `<observed paths, commands, evidence, and freshness limits>`.
-- Loaders, PROJECT, Git, and protected paths: `<exact current state>`.
-- Role support: `<mapping, freshness, tools, support state, evidence, and limit>`.
-- Defaults: `<default used or why an owner choice is still required>`.
-- Conflicts and material unknowns: `<none or exact items>`.
+- Target and intent: `<repository identity and owner direction>`.
+- Framework and validation: `<version derived from the exact resolved pin> @ <short pin>`; `<exact URL, full-pin, and validation evidence>`.
+- Project state: `<project type, derived map and validation, Git, loaders, PROJECT, and protected paths>`.
+- Role support: `<required mappings, freshness, tools, status, evidence, and limits>`.
+- Defaults and conflicts: `<safe defaults used; none or exact unresolved items>`.
 
 ## Ask one material question
 
-Ask only an unresolved material question about intent, boot mode, or authority. Ask at
-most one question in a turn. Do not ask for a resolved fact or a choice decided by a
-documented default. Include a recommendation and one short, exact effect:
+If the framework URL or full commit is missing, ask one blocking question naming only the
+missing value or values. Otherwise ask only one unresolved material question about intent,
+boot mode, or authority. Ask after inspection, at most one question in a turn. Do not ask
+for a resolved fact or a documented default. Include a recommendation and exact effect:
 
 ```text
-Question: <one unresolved intent, boot-mode, or authority question>
+Question: <one missing URL, full commit, or unresolved intent, boot-mode, or authority question>
 Recommendation: <recommended answer>
 Effect: <one short statement naming the exact field, value, path, or authority result>
 ```
@@ -66,13 +96,36 @@ Effect: <one short statement naming the exact field, value, path, or authority r
 If the owner changes an answer, regenerate the complete proposal. An earlier approval
 does not apply to a changed proposal.
 
+Use these safe defaults when the repository does not decide: `manual` boot mode, the
+owner-supplied exact pin, repository-derived Map and Validation, review cap `2`, and
+existing host-default model mappings unless a required role is unavailable. A clean
+repository with both source values reaches the approval surface without a question.
+
 ## Ready to awaken Olympus
 
 When no material question remains, send one message headed exactly `## Ready to awaken Olympus`.
-The same message must contain the complete effective configuration, both exact
-loader units, every path, all gates, current mappings, and the second opt-in request.
-Replace every placeholder below with the inspected value before sending. Do not defer,
-summarize, or split any item.
+The compact approval surface comes first and must fit within 25 nonblank Markdown lines,
+excluding optional art:
+
+- Boot mode: `<manual or orchestration>`.
+- Framework: `<version derived from the exact resolved pin> @ <short pin>`; `<full commit and clean exact-pin evidence>`.
+- Project and validation: `<detected project type>`; `<repository-derived map and validation>`.
+- Role support: `<required mappings, freshness, tools, status, and evidence>`.
+- Changed files: `.olympus/PROJECT.md`, `AGENTS.md`, and `CLAUDE.md` only.
+- Approval effect: authorizes the unchanged six-stage configuration flow; no write occurs before this reply.
+- Boundary: local-only; no push, pull request, merge, deploy, publish, release, secret, paid, destructive, or hard-to-reverse action.
+- `Show full configuration`: inspect the exact PROJECT, loaders, mappings, paths, gates, and patch below; it does not change the proposal.
+- `Change settings`: expose only boot mode, intent, map or validation, review cap, branch or worktree policy, role or harness mappings, matching standards, and approved custom instructions; regenerate the proposal after any change.
+
+Reply exactly `Awaken Olympus` to approve this unchanged proposal as opt-in two. Do not
+write before that reply. A changed proposal needs a new exact second opt-in.
+
+## Full configuration before approval
+
+`Show full configuration` means inspect the complete detail below. Plain Markdown keeps it
+inline; a rich host may collapse it. Replace every placeholder with inspected values.
+The detail remains complete and exact before approval. It includes the PROJECT, both
+loader units, mappings, paths, preservation rules, gates, and patch.
 
 ### Complete exact `.olympus/PROJECT.md`
 
@@ -221,15 +274,28 @@ preserved byte-for-byte. The two managed units are proposed together:
 <!-- OLYMPUS:BEGIN -->
 ## Olympus loader
 
-1. Read `.olympus/PROJECT.md`.
-2. In `manual` boot mode, load Olympus only for `Use Olympus for: <goal>` or
-   `Activate Olympus orchestration`.
-3. In `orchestration` boot mode, route project-changing requests through Olympus.
-   Questions do not create goals.
-4. Resolve the exact framework repository URL and full commit recorded in PROJECT in a
-   clean checkout or cache. Do not read a newer source working tree.
-5. Stop if the exact commit is unavailable or the resolved checkout is mismatched or dirty.
-6. Read `SKILL.md` and `references/PROTOCOL.md` from that framework version.
+1. Begin the first consistency bracket before the initial PROJECT sample.
+2. Inside that open bracket, sample identities for `.olympus/PROJECT.md`, root `AGENTS.md`,
+   and root `CLAUDE.md`. Read PROJECT or use a complete owner/request URL and full commit.
+   Resolve the exact framework repository URL and full commit in a clean checkout or cache.
+   Sample the resolved checkout path, commit, readability, and clean status. Read
+   `SKILL.md` and `references/PROTOCOL.md` as pinned contracts from that framework
+   version, then read both managed units, canonical loader bytes, and checkout evidence.
+   Repeat the exact target and checkout samples. Record invalid pin evidence for unavailable,
+   mismatched, or dirty pins and complete the bracket before classification.
+3. Close the bracket only when all before and after samples match. An unstable capture
+   returns `changed` and requires fresh preflight. Only a coherent first capture may
+   classify. Stable invalid pin evidence is classified as `malformed` only after the
+   coherent final capture.
+4. Run the canonical activation preflight from the pinned protocol against the target
+   repository root using the coherent first capture.
+5. Run the immediate final recheck from that preflight. Perform the coherent final capture
+   under the same bracket rules and bind its result.
+6. Only after the final capture returns an unchanged `complete` state, route the requested
+   entry: in `manual` boot mode, load Olympus only for `Use Olympus for: <goal>` or
+   `Activate Olympus orchestration`; in `orchestration` boot mode, route project-changing
+   requests through Olympus. Questions do not create goals. `missing`, `partial`,
+   `malformed`, or `changed` results stop without activation.
 7. Load only the charter required for the next role.
 8. Before dispatch, confirm a role-specific harness mapping, freshness, tools, support
    status, and evidence for every invoked role. Missing mapping blocks the goal.
@@ -249,15 +315,28 @@ pair are not. Reject malformed, duplicate, nested, or incomplete markers.
 <!-- OLYMPUS:BEGIN -->
 ## Olympus loader
 
-1. Read `.olympus/PROJECT.md`.
-2. In `manual` boot mode, load Olympus only for `Use Olympus for: <goal>` or
-   `Activate Olympus orchestration`.
-3. In `orchestration` boot mode, route project-changing requests through Olympus.
-   Questions do not create goals.
-4. Resolve the exact framework repository URL and full commit recorded in PROJECT in a
-   clean checkout or cache. Do not read a newer source working tree.
-5. Stop if the exact commit is unavailable or the resolved checkout is mismatched or dirty.
-6. Read `SKILL.md` and `references/PROTOCOL.md` from that framework version.
+1. Begin the first consistency bracket before the initial PROJECT sample.
+2. Inside that open bracket, sample identities for `.olympus/PROJECT.md`, root `AGENTS.md`,
+   and root `CLAUDE.md`. Read PROJECT or use a complete owner/request URL and full commit.
+   Resolve the exact framework repository URL and full commit in a clean checkout or cache.
+   Sample the resolved checkout path, commit, readability, and clean status. Read
+   `SKILL.md` and `references/PROTOCOL.md` as pinned contracts from that framework
+   version, then read both managed units, canonical loader bytes, and checkout evidence.
+   Repeat the exact target and checkout samples. Record invalid pin evidence for unavailable,
+   mismatched, or dirty pins and complete the bracket before classification.
+3. Close the bracket only when all before and after samples match. An unstable capture
+   returns `changed` and requires fresh preflight. Only a coherent first capture may
+   classify. Stable invalid pin evidence is classified as `malformed` only after the
+   coherent final capture.
+4. Run the canonical activation preflight from the pinned protocol against the target
+   repository root using the coherent first capture.
+5. Run the immediate final recheck from that preflight. Perform the coherent final capture
+   under the same bracket rules and bind its result.
+6. Only after the final capture returns an unchanged `complete` state, route the requested
+   entry: in `manual` boot mode, load Olympus only for `Use Olympus for: <goal>` or
+   `Activate Olympus orchestration`; in `orchestration` boot mode, route project-changing
+   requests through Olympus. Questions do not create goals. `missing`, `partial`,
+   `malformed`, or `changed` results stop without activation.
 7. Load only the charter required for the next role.
 8. Before dispatch, confirm a role-specific harness mapping, freshness, tools, support
    status, and evidence for every invoked role. Missing mapping blocks the goal.
@@ -284,6 +363,35 @@ The same readiness message lists:
   publish, release, change secrets, or perform a destructive, paid, or hard-to-reverse
   action.
 
+### Exact patch
+
+The readiness response must include the actual unapplied patch bytes for all three target
+files. Prose about the operation is not sufficient. Replace every placeholder in the
+following required fenced blocks with generated bytes before approval. A remaining
+placeholder makes the proposal incomplete.
+
+#### `.olympus/PROJECT.md` exact unapplied bytes
+
+```markdown
+<actual generated bytes for .olympus/PROJECT.md>
+```
+
+#### `AGENTS.md` exact before-and-after bytes
+
+```diff
+<actual exact before and after bytes for root AGENTS.md, including preserved surrounding content>
+```
+
+#### `CLAUDE.md` exact before-and-after bytes
+
+```diff
+<actual exact before and after bytes for root CLAUDE.md, including preserved surrounding content>
+```
+
+These bytes create or update `.olympus/PROJECT.md` and insert identical loader units in
+root `AGENTS.md` and `CLAUDE.md`. They preserve content outside each marker pair, change
+no other path, and remain unapplied until the exact second opt-in.
+
 Before dispatch, record the current mapping, freshness, tools, support status, observed
 evidence, and limit for every required role. For this configuration flow, include at
 least these exact rows in the readiness message:
@@ -293,10 +401,10 @@ least these exact rows in the readiness message:
 | System Configurer | `<explicit mapping; inspection context>` | `<tools>` | `untested`, `supported`, or `unsupported` | `<exact-pin evidence or limit>` |
 | Reviewer | `<explicit fresh mapping for exact uncommitted unit>` | `<read-only tools>` | `untested`, `supported`, or `unsupported` | `<exact-unit evidence or limit>` |
 
-The owner request is opt-in one. The owner must explicitly approve this complete,
-current proposal as opt-in two. State: `Approve this complete proposal and exact patch
-for the second opt-in.` Do not write before that approval. A changed proposal requires a
-new second opt-in.
+The owner request is opt-in one. The owner must reply exactly `Awaken Olympus` to approve
+this unchanged complete proposal as opt-in two. `Awaken Olympus.` is guided entry only and
+does not approve the patch. Do not write before the exact reply. A changed proposal
+requires a new exact second opt-in.
 
 ## Six stages
 

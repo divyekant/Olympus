@@ -13,9 +13,11 @@ only the charter needed for the next role.
 
 ## Activation
 
-- `Use Olympus for: <goal>` runs one goal.
-- `Activate Olympus orchestration` routes later project-changing requests in the current session.
-- PROJECT boot mode `orchestration` routes project-changing requests in every session.
+- Every manual-goal, session, project-boot, or guided wake entry first runs the [canonical activation preflight](references/PROTOCOL.md#canonical-activation-preflight) and its immediate final recheck against the target repository root. No entry creates a goal, routes later requests, or reports Olympus as active before an unchanged complete result authorizes it.
+- `Use Olympus for: <goal>` runs one goal only after an unchanged complete preflight state.
+- `Activate Olympus orchestration` routes later project-changing requests in the current session only after an unchanged complete preflight state.
+- PROJECT boot mode `orchestration` routes project-changing requests in every session only after an unchanged complete preflight state.
+- `Awaken Olympus` or `Awaken Olympus.` is the guided entry phrase. It is never a session-activation alias.
 - `Deactivate Olympus orchestration` stops new routing in the current session.
 - Questions do not create goals. An explicit read-only audit uses Explorer.
 

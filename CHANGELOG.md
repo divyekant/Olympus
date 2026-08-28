@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.3.1 - 2026-08-28
+
+### Added
+
+- A canonical read-only activation preflight for manual, session, project-boot, and guided
+  wake entries. It inspects target onboarding state before routing or an active-state claim
+  and requires an unchanged immediate recheck.
+- Progressive guided onboarding with a compact material summary, optional full exact
+  configuration and patch detail before approval. Plain text retains all required meaning.
+
+### Changed
+
+- Missing onboarding state now routes to guided System Configurer inspection. Partial,
+  malformed, or changed state stops without activation.
+- Existing double opt-in, fresh exact-unit review, local-only boundary, and owner gates
+  remain unchanged.
+
+### Evidence and limits
+
+- The bounded C19 dogfood fixture run passed 142/142 rows across Olympus and unrelated
+  targets, including static and behavioral checks.
+- This release adds no runtime or dependency. C19 is contract evidence, not a live harness
+  or production-readiness result. Lower-model equivalence and general harness support remain
+  untested.
+- The fixed catalog remains fourteen roles. This release does not add a Release Agent.
+
 ## 0.3.0 - 2026-08-27
 
 ### Added

@@ -43,15 +43,142 @@ in-progress edits as instructions.
 
 ## 2. Activation
 
-- Manual mode: `Use Olympus for: <goal>` runs one goal.
-- Session mode: `Activate Olympus orchestration` routes later project-changing
-  requests until session end or deactivation.
-- Project mode: PROJECT boot mode `orchestration` activates routing in each new session.
+Every manual-goal, session, project-boot, or guided wake entry first runs the [canonical
+activation preflight](#canonical-activation-preflight)
+against the target repository root. No entry may create a goal, route later requests, or
+report Olympus as active before an unchanged complete result from that read-only preflight
+and its immediate final recheck authorizes it. The target root is
+the repository being activated, whether it is Olympus or an unrelated Git repository;
+the framework checkout is never a substitute target.
+
+- Manual mode: `Use Olympus for: <goal>` runs one goal only after an unchanged `complete`
+  preflight state.
+- Session mode: `Activate Olympus orchestration` routes later project-changing requests
+  until session end or deactivation, only after an unchanged `complete` preflight state.
+- Project mode: PROJECT boot mode `orchestration` activates routing in each new session,
+  only after an unchanged `complete` preflight state.
+- Guided entry: trim surrounding whitespace and accept `Awaken Olympus` with one optional
+  final period. It is never an alias for session activation.
 - `Deactivate Olympus orchestration` stops new session routing. It does not cancel an
   active goal or change PROJECT.
 - Questions do not create goals. Explicit read-only audits use Explorer.
 
 All three modes use the same goal flow.
+
+### Canonical activation preflight
+
+The Orchestrator performs this canonical read-only activation preflight before any activation or
+guided wake result. It inspects exactly these target-root units:
+
+- `.olympus/PROJECT.md`;
+- the Olympus managed unit in root `AGENTS.md`; and
+- the Olympus managed unit in root `CLAUDE.md`.
+
+The preflight does not read a framework copy as target state. The first consistency bracket
+opens before the initial PROJECT sample; no target, checkout, pinned-contract,
+canonical-loader, or checkout-status read occurs before that bracket. It binds one exact
+snapshot before routing. For each of the three paths it records presence and exact byte identity,
+including the surrounding loader file for a managed unit, and records the resolved
+framework checkout path, commit, readability, and clean status. An absent unit is recorded
+as absent. A root loader file with no Olympus marker is an absent managed unit, even when
+the file itself exists. An unreadable present file or unit is not treated as absent.
+
+Each first and final capture is an explicit before-and-after identity bracket, not an
+atomic filesystem snapshot. Inside the bracket, sample the identities of all three target
+paths; read PROJECT or use a complete owner/request URL and full commit to resolve the
+source; sample the resolved-checkout path, commit, readability, and clean status; read
+PROJECT, both managed units, pinned `SKILL.md`, pinned `references/PROTOCOL.md`, canonical
+loader bytes, and checkout evidence; then repeat the exact target and checkout samples.
+Every target, resolved-checkout, pinned-contract, canonical-loader, and checkout-status
+read is inside this explicit bracket. A capture is coherent only when all before and after
+samples match. An internal mismatch returns `changed` and requires fresh preflight. The
+final capture repeats the same bracket with the resolved source from the first coherent
+capture. Stable invalid pin evidence does not stop the bracket; classify it as `malformed`
+only after the coherent final capture. Only internal instability or differing coherent
+captures returns `changed`.
+
+Every present loader is canonical-compared against canonical loader bytes from a resolved
+source identity before it can be valid in any state, including `partial`. Use the valid
+PROJECT pin when PROJECT is present; otherwise use a complete owner/request URL and full
+commit. A present loader without a resolvable source identity is unverifiable and therefore
+`malformed`. Marker shape alone never makes a loader valid.
+
+Classify the bound snapshot in this order:
+
+1. `malformed` when any present unit is invalid, unreadable, conflicting, or
+   noncanonical. This includes invalid PROJECT structure or fields; an invalid URL;
+   a commit that is not exactly 40 characters; an invalid boot mode; an unreadable,
+   unavailable, mismatched, or dirty resolved pin required by the present configuration;
+   and duplicate, nested, incomplete, unequal, or noncanonical managed loader markers.
+2. `missing` when all three managed units are absent: PROJECT is absent and neither root
+   loader contains an Olympus marker. Existing root loader files without a marker still
+   produce `missing`.
+3. `complete` when all three units are present, valid, canonical, and matching, and the
+   URL and full commit resolve to that exact readable, clean framework revision.
+4. `partial` for every remaining combination in which every present unit is valid and
+   every other unit is absent. Partial never means complete and never authorizes repair.
+
+PROJECT is valid only when it passes the pinned framework's PROJECT structure and
+configuration checks, contains a repository URL and a 40-character immutable commit, and
+uses boot mode `manual` or `orchestration`. Each present root loader is valid only when it
+contains exactly one complete, non-nested `OLYMPUS:BEGIN` and `OLYMPUS:END` pair. For a
+`complete` result, the two managed units must be identical and must match the canonical
+unit at the PROJECT pin. Any failed applicable check is `malformed`, not an inferred
+`partial` or `complete` result.
+
+The state result includes the exact present, absent, invalid, conflicting, unverifiable,
+and noncanonical units, the three-file snapshot, and the resolved-checkout evidence. It also
+includes the activation result. `missing` routes the request to existing System
+Configurer guided onboarding without a write or activation. If the request does not
+supply both source values, ask one blocking question that names only the missing framework
+repository URL, full commit, or both; do not ask another question before inspection. The
+first onboarding opt-in permits inspection and a proposal only. The second opt-in and all
+existing exact-unit review and owner gates remain required for configuration mutation.
+
+`partial` and `malformed` stop without activation, mutation, or automatic repair. Report
+the exact state and the smallest safe System Configurer action: a fresh read-only
+inspection and complete proposal after an owner configuration request. Do not hide a
+conflict, unsupported role, unreadable pin, or missing identity behind a default. That
+request must create a fresh preflight snapshot.
+
+Before any outcome, capture and classify one coherent first snapshot and one coherent
+final snapshot under the same bracket rules. An all-absent entry without identity may
+classify candidate `missing`, but it still needs the final snapshot before its question or
+report. A `changed` result means either capture is internally unstable or the two coherent
+captures differ. A final read failure is `changed` only when the corresponding first
+capture was readable; stable invalid, unreadable, mismatched, or dirty evidence is
+`malformed`. A changed result reports only `changed`, does not route Configurer, and
+requires fresh preflight. For unchanged evidence, the final captured snapshot is the
+decision input; its state report and allowed route form one transition. The final coherent
+capture and assignment form one transition. No repository read, role dispatch, or other step
+occurs between final capture and assignment. A repository change after coherent final
+capture is next-entry state, not an impossible guarantee inside this transition. Current
+managed loaders and PROJECT remain unchanged; any later repin or loader update is a separate
+Configurer double-opt-in after an immutable product commit.
+
+Only `complete` may approach the activation sink. Use only the exact URL and full commit
+from PROJECT bound by the final bracket. The immediate final recheck is the final bracket:
+it re-reads the three target paths and rechecks the resolved checkout against the bound
+snapshot. Compare every presence bit and exact content identity, the checkout path and
+commit, readability, and clean status. Stop and discard the preflight result if any file
+changes or any required state becomes unreadable, or if the checkout becomes mismatched
+or dirty. An unchanged snapshot may honor only the requested canonical mode: `Use Olympus
+for: <goal>` starts one goal, `Activate Olympus orchestration` starts session routing, and
+PROJECT boot mode `orchestration` starts project routing. Existing host-conflict,
+role-support, owner-gate, and project-instruction checks still apply.
+
+`Awaken Olympus` is a guided entry, never a session activation. In `missing` state it
+starts the guided onboarding route above. In `complete` state it reports verified
+readiness, the boot state, and the canonical owner choices (`Use Olympus for: <goal>` and
+`Activate Olympus orchestration`) without starting a new mode. In an unchanged `## Ready
+to awaken Olympus` proposal, the exact reply `Awaken Olympus` is the one second-opt-in
+action. Any changed proposal requires a new second opt-in. The optional period form
+remains guided entry and does not bypass this gate.
+
+The preflight and guided routing are read-only. They add no runtime, dependency, service,
+state store, role, or remote authority. The Orchestrator remains the sole routing hub;
+only System Configurer changes PROJECT or managed loader units; and fixed roles, double
+opt-in, owner gates, and the local-only boundary remain in force.
 
 ## 3. Project configuration
 
