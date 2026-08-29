@@ -160,7 +160,9 @@ default; project policy may permit the current checkout for simple sequential wo
 Relevant dirty work is committed or explicitly included before a current-checkout
 goal. Overlap is serialized. Unrelated owner work is not staged, reset, stashed, or
 overwritten. At `complete`, `blocked`, or `cancelled`, goal closure records the branch
-disposition and removes the worktree without deleting unmerged work.
+disposition, removes the worktree only after merge, safe handoff, or explicit owner
+abandonment, and otherwise retains it with its path and reason recorded. Unmerged work
+is never deleted.
 
 ### C06 — Owner escalation
 
@@ -170,7 +172,8 @@ and remote, destructive, secret, publish, merge, or deploy actions stop for fres
 ### C07 — Configuration and evolution
 
 A configuration, custom instruction, or distilled evolution starts from an owner request.
-Configurer shows the complete effective result and waits for a second owner approval. It
+Configurer generates the complete effective result, presents the compact approval
+surface with the complete detail available on request, and waits for a second owner approval. It
 applies the exact approved unit without a commit, receives a fresh Reviewer pass, and only
 then stages and commits. Hook-changed content receives a fresh committed-content review.
 It cannot change fixed roles or an active goal.

@@ -44,8 +44,9 @@
   the gated proposal.
 - Affirmative approval: an unchanged proposal accepts `Awaken Olympus` in any accepted
   form or a clear, unconditional affirmative reply.
-- Worktree-per-goal default with a goal-closure step that records the branch
-  disposition and removes the worktree without deleting unmerged work.
+- Worktree-per-goal default with a goal-closure step: record the branch disposition,
+  remove the worktree only after merge, safe handoff, or explicit owner abandonment,
+  and otherwise retain it with its path and reason recorded.
 - Optional canonical ASCII art for the onboarding proposal and success report. Art is
   decorative, carries no meaning, and does not count toward the approval-surface cap.
 - One inspection rule for deriving Map and Validation: code first, Git history next,

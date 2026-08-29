@@ -159,8 +159,9 @@ session starts project routing. Questions do not create goals.
 
 ## Update or remove
 
-Use the System Configurer. It must show the complete effective configuration and exact
-affected loader changes, then wait for owner approval. Updates affect new goals only.
+Use the System Configurer. It generates the complete effective configuration and exact
+affected loader changes, presents the compact approval surface with the detail
+available on request, and waits for owner approval. Updates affect new goals only.
 For removal, preserve task history unless the owner explicitly approves deletion, and
 report every removed path and whether Git can recover it.
 

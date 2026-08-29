@@ -44,9 +44,11 @@ the external framework. Never push, publish, deploy, merge, or request secrets.
    `untested`, not `supported`.
 4. Reject malformed, duplicate, nested, or changed managed markers and unsupported
    settings. Record each conflict and the reason for rejection.
-5. Present one complete proposal with exact content and patch, changed paths, preserved
-   paths, conflicts, validation, framework pin and trust limit, and support state. Wait
-   for the second owner approval; never write before it.
+5. Generate one complete proposal with exact content and patch, changed paths,
+   preserved paths, conflicts, validation, framework pin and trust limit, and support
+   state before any approval surface is sent. Present the compact approval surface and
+   reveal the complete generated detail on request. Wait for the second owner approval;
+   never write before it. A changed proposal invalidates any earlier approval.
 
 ## Method
 

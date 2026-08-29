@@ -168,7 +168,10 @@ commands and evidence sources. Map and Validation are hints until checked agains
 code. Missing or stale documentation is a project risk, not a reason to invent facts.
 
 Configuration uses double opt-in: the owner requests configuration, then approves the
-complete effective configuration and exact loader changes. The Configurer applies only
+complete effective configuration and exact loader changes. The Configurer generates the
+complete proposal before the approval surface is sent; the owner approves from the
+compact surface, with the exact generated detail available on request. A changed
+proposal invalidates any earlier approval. The Configurer applies only
 that proposal without a commit. A fresh Reviewer reviews the exact uncommitted
 `PROJECT.md` plus managed-loader unit. Only a passing review permits named-path staging
 and the local commit. If a hook changes reviewed content, run a fresh review of the
@@ -264,8 +267,9 @@ Then:
     artifacts, and Git evidence, answers first, cites evidence, and routes action requests
     back to the Orchestrator.
 14. When the goal reaches `complete`, `blocked`, or `cancelled`, run goal closure under
-    [section 6](#6-git-and-multiple-goals): record the branch disposition and remove the
-    goal's worktree without deleting unmerged work.
+    [section 6](#6-git-and-multiple-goals): record the branch disposition, remove the
+    worktree only after merge, safe handoff, or explicit owner abandonment, and
+    otherwise retain it with its path and reason recorded.
 
 The Builder-to-Docs Writer step is conditional. The Docs Writer step precedes the fresh
 general Reviewer whenever it runs. The Design Reviewer is conditional and does not replace
@@ -575,11 +579,12 @@ Each active goal has its own task record. Compare paths and shared interfaces be
 running goals together. Serialize overlapping work. Worktrees isolate files and indexes;
 they do not prevent semantic conflicts.
 
-When a goal reaches `complete`, `blocked`, or `cancelled`, run goal closure: record the
-goal branch and its disposition — merged, handed to the owner for review, or retained
-with a reason — then remove the goal's worktree. Remove a worktree only when its work
-is merged, handed off, or explicitly abandoned by the owner; never delete unmerged
-commits or branches. A retained worktree is named in the task record.
+When a goal reaches `complete`, `blocked`, or `cancelled`, run goal closure. Record the
+goal branch and its disposition: merged, safely handed off to the owner, explicitly
+abandoned by the owner, or retained. Remove the worktree only after merge, safe
+handoff, or explicit owner abandonment. Otherwise retain the worktree and record its
+path and reason — a blocked goal can hold uncommitted repair work, so unconditional
+removal is unsafe. Never delete unmerged commits or branches.
 
 Stage named paths only. Preserve unrelated owner work. Do not reset, stash, amend, or
 delete work to recover from a failed Olympus step. Record the current state and stop

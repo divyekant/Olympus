@@ -40,8 +40,11 @@ protocol sections.
 
 ## Install
 
-Give an authorized agent `https://github.com/divyekant/Olympus` and an immutable commit,
-then ask it to follow [the installation guide](docs/INSTALLATION.md).
+Give an authorized agent `https://github.com/divyekant/Olympus` and ask it to follow
+[the installation guide](docs/INSTALLATION.md). The ref defaults to `main`; name a
+branch, tag, or commit to pin a different version. Onboarding resolves the ref once to
+a full immutable commit that PROJECT records. Append the exact sentence
+`Defaults pre-approved.` for one-step onboarding on a clean repository.
 
 Approved onboarding creates one local Git commit with only PROJECT and both loader files.
 Remote persistence still needs fresh owner approval.
