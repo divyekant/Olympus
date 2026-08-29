@@ -48,8 +48,9 @@ The framework passes static inspection when:
    and Design Reviewer triggers are conditional and cannot replace that review.
 10. Configuration uses double opt-in, applies the exact approved unit uncommitted, reviews
    it fresh, and commits only after a pass; hook changes receive a fresh rereview.
-11. Explorer, Council, Liaison, and worktree use are conditional; every invoked role has
-   role-specific harness mapping and support evidence.
+11. Explorer, Council, and Liaison are conditional; each goal defaults to one isolated
+   worktree with closure at goal end; every invoked role has role-specific harness
+   mapping and support evidence.
 12. The runtime contains no manifest, transcript-provenance, custom Git-transaction, or
     exhaustive recovery requirement.
 13. All internal Markdown links resolve.
@@ -152,12 +153,14 @@ criterion. Final verification and the task outcome match actual Git state.
 A Reviewer finding returns to Builder. A fresh Reviewer checks the complete repaired change.
 Open findings at the configured cap stop as `blocked`.
 
-### C05 — Git isolation
+### C05 — Git isolation and closure
 
-A clean sequential goal can use the current checkout or a branch. Concurrent work or
-unrelated dirty state uses a worktree. Relevant dirty work is committed or explicitly
-included before isolation. Overlap is serialized. Unrelated owner work is not staged,
-reset, stashed, or overwritten.
+Each goal runs in its own worktree from the committed working-directory HEAD by
+default; project policy may permit the current checkout for simple sequential work.
+Relevant dirty work is committed or explicitly included before a current-checkout
+goal. Overlap is serialized. Unrelated owner work is not staged, reset, stashed, or
+overwritten. At `complete`, `blocked`, or `cancelled`, goal closure records the branch
+disposition and removes the worktree without deleting unmerged work.
 
 ### C06 — Owner escalation
 
@@ -247,9 +250,13 @@ only for valid owner knobs. On request, the details reveal the exact generated P
 bytes, both loader diffs, mappings and support evidence, paths and preservation rules,
 conflicts, rejected settings, the named-path commit plan, and the no-remote statement —
 all generated before the surface was sent. Safe defaults reach this surface without
-questions on a clean repository with both source values. Missing source identity asks
-only for the absent URL, full commit, or both. The reply `Awaken Olympus`, with or
-without a final period, is the one second opt-in for an unchanged proposal.
+questions on a clean repository with a framework URL; a missing ref defaults to `main`
+and resolves to a recorded full commit. A missing URL asks only for the URL. An
+unchanged proposal is approved by `Awaken Olympus` in any accepted form or by a clear,
+unconditional affirmative; a question, conditional reply, or settings change is not
+approval. A request carrying exactly `Defaults pre-approved.` skips the gate only for
+a pure-defaults, conflict-free proposal, whose card is delivered as a receipt in the
+success report.
 After approval, the six ordered stages start as `PENDING`; only one stage is `ACTIVE`,
 each `PASS` has evidence, and the complete six-stage table is sent once in the final
 report or on owner request. A `STOPPED` stage leaves later stages
@@ -353,11 +360,11 @@ be the same.
 | Fixture | Observable pass evidence |
 | --- | --- |
 | Target identity | Run every applicable row against an Olympus target and an unrelated target. Preflight reads the target root, never the framework checkout as target state, and returns equivalent classifications for equivalent target files. |
-| All absent, source supplied | `.olympus/PROJECT.md`, root `AGENTS.md` marker, and root `CLAUDE.md` marker are absent; supplied URL and full commit yield `missing`, System Configurer inspection, no question, no write, and no activation. Existing root loaders with no Olympus marker remain absent managed units. |
-| All absent, source missing | With all three units absent, omit only the URL, only the full commit, or both. After inspection, the result is `missing` and exactly one question names only the missing URL, full commit, or both; no write occurs. |
+| All absent, source supplied | `.olympus/PROJECT.md`, root `AGENTS.md` marker, and root `CLAUDE.md` marker are absent; a supplied URL, with any ref or the `main` default, yields `missing`, System Configurer inspection, no question, no write, and no activation. Existing root loaders with no Olympus marker remain absent managed units. |
+| All absent, source missing | With all three units absent, omit the framework URL. After inspection, the result is `missing` and exactly one question names only the missing URL; a missing ref defaults to `main` and asks nothing. No write occurs. |
 | Six valid partial combinations | Test exactly one or two valid units: PROJECT only; AGENTS only; CLAUDE only; PROJECT plus AGENTS; PROJECT plus CLAUDE; AGENTS plus CLAUDE. Each returns `partial` with exact present and missing units, stops without activation, mutation, or automatic repair, and identifies the smallest safe Configurer action. |
 | Malformed classes and precedence | Seed invalid PROJECT structure or fields, invalid URL, non-40-character commit, invalid boot mode, unreadable present unit, unavailable or mismatched or dirty pin, duplicate or nested or incomplete or noncanonical loader markers, and conflicting or unequal loaders. Any present invalid unit returns `malformed` before `missing` or `partial`, with exact evidence and no activation, mutation, or repair. |
-| Loader-only source identity | With PROJECT absent and one or two valid loader units, a valid complete owner/request URL and full commit enables canonical comparison and returns `partial`; without source identity, present loaders are unverifiable and return `malformed`. The result names the exact missing or unverifiable evidence and does not activate or repair. |
+| Loader-only source identity | With PROJECT absent and one or two valid loader units, an owner/request URL with its resolved ref enables canonical comparison and returns `partial`; without source identity, present loaders are unverifiable and return `malformed`. The result names the exact missing or unverifiable evidence and does not activate or repair. |
 | Malformed versus changed | Stable invalid evidence, including an unavailable, mismatched, or dirty pin, returns `malformed` with exact evidence. Only a difference between the first read and the final recheck returns `changed`; a changed result requires a fresh preflight and does not route Configurer, report a candidate, or activate. |
 | Complete mode routing | With all three valid, canonical, matching units and a clean exact pin, `Use Olympus for: <goal>` starts one manual goal, `Activate Olympus orchestration` starts session routing, and PROJECT boot mode `orchestration` starts project routing. Project boot first resolves the exact pin, reads pinned `SKILL.md` and `references/PROTOCOL.md`, runs preflight, performs the immediate final recheck, and only then routes. Each requires an unchanged complete capture. |
 | Guided phrase matrix | Trim surrounding whitespace and accept one optional final period; both forms carry the same meaning. In `missing`, the phrase starts guided onboarding without an active claim. In `complete`, the phrase reports verified boot state and owner choices without starting a mode. In an unchanged proposal, the phrase is opt-in two. The phrase is never a session-activation alias. |
@@ -365,8 +372,9 @@ be the same.
 | Mutation before the recheck | After the first read and before the final recheck, mutate each target file separately: `.olympus/PROJECT.md`, root `AGENTS.md`, and root `CLAUDE.md`. Also mutate the resolved checkout path, commit, readability, or clean state. The recheck differs, so the result is `changed`, the old result is discarded, and no activation, Configurer route, or candidate report occurs. |
 | Mutation after the recheck | A repository change after the final recheck is not claimed as detected by that entry. The next wake or activation entry runs a new preflight. |
 | Zero pre-opt-in changes | Compare all target bytes, loader surrounding content, checkout state, and Git status before and after inspection and the unchanged proposal. No target file, loader, PROJECT, or checkout changes before the exact second opt-in. |
-| Zero-question defaults | On a clean repository with both source values and no material ambiguity, reach the compact approval surface without a question. Evidence shows `manual`, the exact supplied pin, repository-derived Map and Validation, review cap `2`, and host-default mappings unless a required role is unavailable. |
-| One approval action | An unchanged proposal has one approval action: `Awaken Olympus`, with or without a final period. A changed proposal requires a new second opt-in. No alternate approval wording, progressive disclosure path, or rich-host control weakens double opt-in. |
+| Zero-question defaults | On a clean repository with a framework URL and no material ambiguity, reach the compact approval surface without a question. Evidence shows `manual`, ref `main` resolved to a recorded full commit, repository-derived Map and Validation, review cap `2`, one worktree per goal, and host-default mappings unless a required role is unavailable. |
+| Approval forms | An unchanged proposal is approved by `Awaken Olympus` (case-insensitive, optional final period) or a clear, unconditional affirmative reply. A question, a conditional reply, or a settings change never approves. A changed proposal requires a new second opt-in. Progressive disclosure and rich-host controls do not weaken double opt-in. |
+| Express pre-approval | A request containing exactly `Defaults pre-approved.` onboards a clean default-only repository in one step, with the card delivered as a receipt in the success report. Seed a conflict, an existing loader or PROJECT, a rejected setting, or a material question: the flow must stop and use the normal gated proposal instead. |
 | Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; send the complete table once in the final report and on owner request. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
 
 ### V1-V12 Release Agent and custom workflow fixtures

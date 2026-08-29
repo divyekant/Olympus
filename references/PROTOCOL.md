@@ -74,7 +74,8 @@ The preflight is read-only. It inspects exactly three target-root units:
 - the Olympus managed unit in root `CLAUDE.md`.
 
 Record presence and content for each unit, then resolve the framework source: the pin in
-a valid PROJECT, or otherwise a complete owner-supplied URL and full commit. Resolve that
+a valid PROJECT, or otherwise the owner-supplied URL and ref, default `main`, resolved
+to a full commit. Resolve that
 exact commit in a clean checkout or cache and record its path, commit, readability, and
 clean status. A root loader file with no Olympus marker is an absent managed unit. An
 unreadable present file or unit is not absent.
@@ -104,10 +105,11 @@ Classify in this order:
 Route by state:
 
 - `missing` routes the request to System Configurer guided onboarding without a write or
-  activation. If the request does not supply both source values, ask one blocking
-  question that names only the missing framework repository URL, full commit, or both.
+  activation. If the request does not supply the framework repository URL, ask one
+  blocking question that names only the missing URL; a missing ref defaults to `main`.
   The first onboarding opt-in permits inspection and a proposal only; the second opt-in
-  and the exact-unit review gates remain required for configuration mutation.
+  and the exact-unit review gates remain required for configuration mutation, unless the
+  request itself carries the express pre-approval defined in the onboarding contract.
 - `partial` and `malformed` stop without activation, mutation, or automatic repair.
   Report the exact state and the smallest safe System Configurer action: a fresh
   read-only inspection and complete proposal after an owner configuration request. Do
@@ -119,13 +121,16 @@ resolved checkout state. If anything differs from the first read, the result is
 `changed`: discard the preflight result and run a fresh preflight before any activation.
 A repository change after the recheck is next-entry state.
 
-`Awaken Olympus` is a guided entry, never a session activation. Trim surrounding
-whitespace and accept one optional final period; both forms carry the same meaning. In
-`missing` state the phrase starts the guided onboarding route above. In `complete` state
-it reports verified readiness, the boot state, and the canonical owner choices
-(`Use Olympus for: <goal>` and `Activate Olympus orchestration`) without starting a new
-mode. In an unchanged `## Ready to awaken Olympus` proposal, the phrase is the one
-second-opt-in action. Any changed proposal requires a new second opt-in.
+`Awaken Olympus` is a guided entry, never a session activation. Match it
+case-insensitively, trim surrounding whitespace, and accept one optional final period;
+all forms carry the same meaning. In `missing` state the phrase starts the guided
+onboarding route above. In `complete` state it reports verified readiness, the boot
+state, and the canonical owner choices (`Use Olympus for: <goal>` and
+`Activate Olympus orchestration`) without starting a new mode. In reply to an unchanged
+`## Ready to awaken Olympus` proposal, the phrase or any clear, unconditional
+affirmative (for example `yes`, `approve`, `go ahead`) is the second opt-in. A question,
+a conditional reply, or a settings change is not approval. Any changed proposal
+requires a new second opt-in.
 
 The preflight and guided routing add no runtime, dependency, service, state store, role,
 or remote authority. The Orchestrator remains the sole routing hub; only System
@@ -138,9 +143,11 @@ PROJECT stores the framework repository URL, full immutable commit, boot mode, p
 Intent, Map, Validation, boundaries, exact role preferences, harness evidence, and
 approved custom instructions.
 
-Initial onboarding starts from the URL and commit in the owner's request. Later sessions
-read the pin from PROJECT. Load only that version. A source pin identifies content; it
-does not authenticate the source.
+Initial onboarding starts from the URL in the owner's request plus an optional ref: a
+branch, tag, or commit. The ref defaults to `main`. Onboarding resolves the ref once to
+a full immutable commit, and PROJECT records that resolved commit as the pin. Later
+sessions read the pin from PROJECT. Load only that version; upgrading is an explicit
+Configurer repin. A source pin identifies content; it does not authenticate the source.
 
 Native host and project instructions still apply. Inside Olympus, use this order:
 
@@ -256,6 +263,9 @@ Then:
 13. For a human status or explanation request, Liaison rereads the current task record,
     artifacts, and Git evidence, answers first, cites evidence, and routes action requests
     back to the Orchestrator.
+14. When the goal reaches `complete`, `blocked`, or `cancelled`, run goal closure under
+    [section 6](#6-git-and-multiple-goals): record the branch disposition and remove the
+    goal's worktree without deleting unmerged work.
 
 The Builder-to-Docs Writer step is conditional. The Docs Writer step precedes the fresh
 general Reviewer whenever it runs. The Design Reviewer is conditional and does not replace
@@ -553,15 +563,23 @@ The specification and planning brackets add no new engine or peer edge.
 
 ## 6. Git and multiple goals
 
-Use a clean current checkout or branch for one sequential goal when project policy
-permits it. Use a worktree for concurrent work or when the current checkout contains
-unrelated dirty state. A worktree starts from committed content. If dirty work is
-relevant, the owner must first commit it or explicitly include it in the goal's
-current-checkout scope. Never pretend uncommitted work followed a new worktree.
+By default, each goal runs in its own worktree created from the committed HEAD of the
+working directory. The working checkout — production, a pull-request checkout, or any
+branch — supplies the base commit and is not edited by the goal. Project policy may
+permit a clean current checkout or branch for a simple sequential goal. A worktree
+starts from committed content. If dirty work is relevant, the owner must first commit
+it or explicitly include it in a current-checkout goal. Never pretend uncommitted work
+followed a new worktree.
 
 Each active goal has its own task record. Compare paths and shared interfaces before
 running goals together. Serialize overlapping work. Worktrees isolate files and indexes;
 they do not prevent semantic conflicts.
+
+When a goal reaches `complete`, `blocked`, or `cancelled`, run goal closure: record the
+goal branch and its disposition — merged, handed to the owner for review, or retained
+with a reason — then remove the goal's worktree. Remove a worktree only when its work
+is merged, handed off, or explicitly abandoned by the owner; never delete unmerged
+commits or branches. A retained worktree is named in the task record.
 
 Stage named paths only. Preserve unrelated owner work. Do not reset, stash, amend, or
 delete work to recover from a failed Olympus step. Record the current state and stop

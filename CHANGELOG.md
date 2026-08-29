@@ -37,6 +37,15 @@
 
 ### Added
 
+- Ref-based install: the owner supplies a URL and an optional branch, tag, or commit;
+  the ref defaults to `main` and is resolved once to the full commit PROJECT records.
+- Express onboarding: the exact request sentence `Defaults pre-approved.` onboards a
+  clean default-only repository in one step; any conflict or deviation falls back to
+  the gated proposal.
+- Affirmative approval: an unchanged proposal accepts `Awaken Olympus` in any accepted
+  form or a clear, unconditional affirmative reply.
+- Worktree-per-goal default with a goal-closure step that records the branch
+  disposition and removes the worktree without deleting unmerged work.
 - Optional canonical ASCII art for the onboarding proposal and success report. Art is
   decorative, carries no meaning, and does not count toward the approval-surface cap.
 - One inspection rule for deriving Map and Validation: code first, Git history next,

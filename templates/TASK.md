@@ -301,6 +301,7 @@ Set frontmatter `status` to `complete`, `blocked`, or `cancelled`.
 | final verification | `<commands and results>` |
 | changed paths | `<paths>` |
 | local commit | `<commit or none>` |
+| goal closure | `<branch and disposition: merged, handed off, or retained with reason; worktree removed or retained>` |
 | external action | `<none, pending approval, or approved action>` |
 | Explorer | `<used or skipped with reason>` |
 | Invoked roles and support evidence | `<predicted/actual mapping summary>` |

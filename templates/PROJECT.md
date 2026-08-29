@@ -23,7 +23,8 @@ double opt-in.
 | Field | Value |
 | --- | --- |
 | repository URL | `<canonical URL, or a local path for a private framework copy>` |
-| full immutable commit | `<full commit>` |
+| requested ref | `<branch, tag, or commit from the owner request; default main>` |
+| full immutable commit | `<the resolved full commit; the pin sessions load>` |
 
 The pin identifies framework content. It does not authenticate the source or grant remote
 authority.
@@ -54,7 +55,7 @@ Map and Validation are hints. Check them against current code for each goal.
 | --- | --- |
 | protected paths | `.olympus/`; managed blocks in `AGENTS.md` and `CLAUDE.md`; `<other>` |
 | allowed project areas | `<paths or all except protected paths>` |
-| branch/worktree policy | `<current checkout or branch for clean sequential work; worktree for concurrent work or unrelated dirty state; commit or explicitly include relevant dirty work>` |
+| branch/worktree policy | `<one worktree per goal with closure at goal end (default); current checkout or branch when the owner permits it for simple sequential work; commit or explicitly include relevant dirty work>` |
 | review round cap | `2` (`1`, `2`, or `3`) |
 | local commit policy | `<project convention>` |
 

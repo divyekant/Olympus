@@ -8,9 +8,11 @@ terminal interface, package, service, installer, dependency, or user interface.
 
 ## Fixed controls
 
-- Keep the framework URL and full immutable commit supplied by the owner. Resolve that
-  exact pin in a clean checkout or cache. A pin identifies content; it does not
-  authenticate the source. Do not read a newer source working tree.
+- Take the framework URL from the owner's request, plus an optional ref: a branch, tag,
+  or commit. The ref defaults to `main`. Resolve the ref once to a full immutable
+  commit in a clean checkout or cache; that resolved commit is the pin PROJECT records.
+  A pin identifies content; it does not authenticate the source. Do not read a newer
+  source working tree.
 - Every wake or activation request first follows the
   [canonical activation preflight](PROTOCOL.md#canonical-activation-preflight) against
   the target root. `missing` state routes to this guided flow. `partial`, `malformed`,
@@ -26,10 +28,11 @@ terminal interface, package, service, installer, dependency, or user interface.
   fresh owner approval for push, pull request, merge, deploy, publish, release, secret,
   destructive, paid, or hard-to-reverse actions.
 
-## The wake phrase
+## The wake phrase and approval
 
-`Awaken Olympus` is the guided entry phrase. Trim surrounding whitespace and accept one
-optional final period; both forms carry the same meaning. Context decides the effect:
+`Awaken Olympus` is the guided entry phrase. Match it case-insensitively, trim
+surrounding whitespace, and accept one optional final period; all forms carry the same
+meaning. Context decides the effect:
 
 - `missing` state: start this guided flow with a read-only inspection.
 - an unchanged `## Ready to awaken Olympus` proposal: approve it as opt-in two.
@@ -37,14 +40,30 @@ optional final period; both forms carry the same meaning. Context decides the ef
   (`Use Olympus for: <goal>` and `Activate Olympus orchestration`) without starting a
   mode.
 
-Any changed proposal requires a new second opt-in. The phrase is never a session
-activation alias.
+In reply to an unchanged proposal, any clear, unconditional affirmative also approves:
+for example `yes`, `approve`, or `go ahead`. A question, a conditional reply, or a
+settings change is not approval. Any changed proposal requires a new second opt-in. The
+phrase is never a session activation alias.
+
+## Express onboarding
+
+The owner can give the second opt-in inside the install request by including the exact
+sentence `Defaults pre-approved.` That sentence pre-approves one proposal that uses
+only the documented safe defaults and changes only the three named paths. Inspection
+still runs first and nothing else changes: the six stages, the fresh exact-unit review,
+and the local-only boundary all remain. On success, send the same compact card inside
+the success report as a receipt instead of a gate.
+
+Express pre-approval does not cover deviations. If inspection finds a conflict, an
+existing loader or PROJECT, a rejected setting, dirty affected paths, or any unresolved
+material question, stop and use the normal gated proposal; the pre-approval sentence
+does not answer it.
 
 ## Inspect first
 
 The Configurer inspects read-only before it asks a question or proposes a write:
 
-- the owner-supplied URL and full commit, resolved cleanly and exactly;
+- the owner-supplied URL and ref, default `main`, resolved cleanly to a full commit;
 - repository root, branch or worktree, and staged and unstaged Git state;
 - root `AGENTS.md`, `CLAUDE.md`, `.olympus/PROJECT.md`, loader markers, and surrounding
   content;
@@ -58,23 +77,23 @@ Keep the working detail; the owner sees only what changes their decision.
 
 ## Ask one material question
 
-If the framework URL or full commit is missing, ask one blocking question that names
-only the missing value or values. Otherwise ask at most one unresolved material question
-per turn, only about intent, boot mode, or authority. Do not ask for a resolved fact or
-a documented default. Include a recommendation and exact effect:
+If the framework URL is missing, ask one blocking question that names only the missing
+URL; a missing ref defaults to `main`. Otherwise ask at most one unresolved material
+question per turn, only about intent, boot mode, or authority. Do not ask for a
+resolved fact or a documented default. Include a recommendation and exact effect:
 
 ```text
-Question: <one missing URL, full commit, or unresolved intent, boot-mode, or authority question>
+Question: <the missing URL, or one unresolved intent, boot-mode, or authority question>
 Recommendation: <recommended answer>
 Effect: <one short statement naming the exact field, value, path, or authority result>
 ```
 
-Safe defaults when the repository does not decide: `manual` boot mode, the
-owner-supplied exact pin, repository-derived Map and Validation, review cap `2`, and
-host-default role mappings with status `untested` unless a required role is unavailable.
-A clean repository with both source values reaches the approval surface without a
-question. If the owner changes an answer, regenerate the complete proposal; an earlier
-approval does not apply to a changed proposal.
+Safe defaults when the repository does not decide: `manual` boot mode, ref `main`
+resolved to a full commit, repository-derived Map and Validation, review cap `2`, one
+worktree per goal, and host-default role mappings with status `untested` unless a
+required role is unavailable. A clean repository with a framework URL reaches the
+approval surface without a question. If the owner changes an answer, regenerate the
+complete proposal; an earlier approval does not apply to a changed proposal.
 
 ## Ready to awaken Olympus
 
