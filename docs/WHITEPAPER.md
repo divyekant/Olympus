@@ -281,7 +281,8 @@ at a cap produce `blocked`, not another automatic loop.
 
 ### Partial installation
 
-The Configurer shows the complete configuration and changed files, waits for approval,
+The Configurer generates the complete configuration and changed files, presents the
+compact approval surface with the exact detail available on request, waits for approval,
 rechecks affected paths, applies the exact unit uncommitted, pauses for a fresh Reviewer,
 then stages named files after a pass and uses normal Git. A conflict stops the install.
 The framework does not promise a database transaction. See the [installation

@@ -470,7 +470,10 @@ Approval is single-use: one `prepared` result plus its approval authorizes at mo
 provider action submission, ever. An approval lapses when its goal reaches `complete`,
 `blocked`, or `cancelled`; a later action needs a new owner approval.
 
-**Execution.** Immediately before submission, Release Agent reads the provider state
+**Execution.** The Orchestrator sends the current goal state in both handoffs.
+Immediately before submission, Release Agent confirms the goal is active — not
+`complete`, `blocked`, or `cancelled` — and treats a lapsed approval as `blocked`. It
+then reads the provider state
 again. If the exact desired state already exists, it returns `reconciled` and submits
 nothing; the approval stays consumed. Otherwise it makes one provider action submission.
 When concurrent duplication is material, it uses a provider conditional-write or

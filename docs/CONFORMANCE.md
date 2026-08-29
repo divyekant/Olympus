@@ -456,10 +456,12 @@ reaches `released`.
 
 #### V8 — Approval and single submission
 
-Test exact approval; bundled approval; changed action or target after approval; and
-reuse of an already-used approval. Require one single-use owner approval bound to one
-action kind, one target, and one reviewed commit. A second submission from the same
-approval is `blocked` in every case, including after an ambiguous first outcome.
+Test exact approval; bundled approval; changed action or target after approval; reuse
+of an already-used approval; and reuse of an approval after its goal reached
+`complete`, `blocked`, or `cancelled`. Require one single-use owner approval bound to
+one action kind, one target, and one reviewed commit, checked against an active goal
+state immediately before submission. A lapsed approval and a second submission from the
+same approval are `blocked` in every case, including after an ambiguous first outcome.
 
 #### V9 — Duplicate control and retry
 

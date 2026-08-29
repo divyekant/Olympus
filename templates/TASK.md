@@ -79,6 +79,7 @@ are per action and do not change goal state. Record one table per action:
 | `reviewed commit` | `<full reviewed commit and review evidence>` |
 | `desired post-state` | `<exact desired state>` |
 | `owner approval` | `<owner identity; exact approved action and target; approval time; single-use>` |
+| `goal state at dispatch` | `<active state confirmed immediately before execution; a terminal goal lapses the approval>` |
 | `pre-submission read-back` | `<authoritative provider state before submission>` |
 | `duplicate control` | `<provider conditional-write or idempotency primitive, or blocked when material and unavailable>` |
 | `submission count` | `<zero or one; read-only evidence calls do not count>` |

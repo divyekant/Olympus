@@ -24,7 +24,7 @@ Give project owners a ready-to-use build system. Do not require them to design, 
 
 ## End state
 
-An owner points Codex or Claude at one installation guide and one exact Olympus commit. A System Configurer inspects the Git repository, derives the smallest useful configuration, and asks only questions that change owner intent or authority.
+An owner points Codex or Claude at one installation guide and one Olympus repository URL, with an optional ref that defaults to `main` and resolves once to a recorded immutable commit. A System Configurer inspects the Git repository, derives the smallest useful configuration, and asks only questions that change owner intent or authority.
 
 The owner approves one complete effective configuration and the proposed installation changes. The project then supports:
 
