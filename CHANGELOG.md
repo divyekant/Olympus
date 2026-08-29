@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.5.0 - 2026-08-28
+
+The compact-onboarding and protocol-diet release. A complexity-resilience audit removed
+about 670 net lines of ceremony while every owner-authority, review, and data-loss
+control survived five review rounds. Claude passed guided onboarding for the first time.
+
 ### Removed
 
 - The canonical release-request byte format, base64url encoding, hexadecimal owner
@@ -54,6 +60,19 @@
   planning prose last.
 - D08 dogfood evidence: Claude passed guided onboarding on a fresh repository, and the
   fresh-review gate caught a real template defect on the first run.
+- Release approvals lapse when their goal reaches a terminal state; the Release Agent
+  receives and checks the current goal state in both handoffs.
+
+### Evidence and limits
+
+- D08 covers three Claude guided-onboarding runs: one designed stop at the fresh-review
+  gate, one gated pass, and one express pass with branch-ref resolution. It covers the
+  onboarding scenario only; the D03 `unsupported` result for a Claude mutation goal
+  stands until a new trial.
+- The dieted release boundary, specification bracket, and worktree closure have static
+  review evidence from five review rounds and no live goal yet.
+- No CI is configured. Verification is scripted link and vocabulary checks plus two
+  owner reviews, two independent reviews, and one exact-head verification.
 
 ## 0.4.0 - 2026-08-28
 

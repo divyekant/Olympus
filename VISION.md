@@ -85,9 +85,11 @@ invoked role through the harness, test Codex and Claude, and label unsupported m
 honestly. The original 14-role catalog began dogfood in the controlled Issue #750 A/B comparison;
 not every conditional role has evidence. The earlier experimental version `0.3.0` strengthened
 role craft and shared state after the Release Agent specification failed to converge. It exists
-for larger tests, not to claim production readiness. The current private experimental `0.4.0`
-scope has fifteen roles, including a provider-neutral Release Agent, and adds owner-selected
-workflow boundaries. Static contract evidence does not prove live provider support, release
+for larger tests, not to claim production readiness. The current private experimental `0.5.0`
+scope has fifteen roles, including a provider-neutral Release Agent, owner-selected
+workflow boundaries, compact guided onboarding with an express one-step path, and
+worktree-per-goal isolation with closure. Claude has passed the guided onboarding
+scenario only. Static contract evidence does not prove live provider support, release
 execution, production readiness, or general harness support.
 
 The result must reduce owner correction or elapsed delivery time without reducing correctness. If its administration costs more than the change, the framework has failed its purpose.
