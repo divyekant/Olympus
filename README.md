@@ -1,9 +1,9 @@
 # Olympus
 
 Olympus is an opinionated, Markdown-only build system for reliable agent-led software
-development. Version `0.3.1` is experimental.
+development. Version `0.4.0` is a private experimental feature release.
 
-It gives a coding agent one fixed orchestration graph, fourteen conditional roles, bounded
+It gives a coding agent one fixed orchestration graph, fifteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
 no runtime, service, database, package, or scheduler.
 
@@ -22,6 +22,8 @@ Long agent sessions lose scope on large codebases. They can mix discovery, imple
 - Docs Writers synchronize approved documentation when the contract requires it.
 - Fresh Reviewers verify each mutation and return `pass`, `repair`, or `blocked`.
 - Design Reviewers check material user-facing changes against project-provided standards.
+- The Release Agent prepares or reconciles one owner-requested release action. Execution
+  needs separate owner approval; the role has no file or standing external authority.
 - Decision Council gives read-only advice for unresolved material trade-offs.
 - Liaisons answer human status and explanation requests from current evidence.
 - Clean sequential goals can use branches. Concurrent goals use Git worktrees when their scopes do not overlap.
@@ -30,7 +32,11 @@ The [runtime protocol](references/PROTOCOL.md) defines the fixed order, triggers
 and authority. Project owners can configure role preferences, tools, models, review rounds,
 project instructions, activation mode, and matching standards. They cannot change role
 duties, suppress triggers, enable peer communication, change graph ownership, or bypass
-protected rules.
+protected rules. An owner may provide one ordered role allowlist and one request boundary;
+fixed triggers, paired checks, owner gates, and sole-hub routing remain mandatory. The
+[release boundary](references/PROTOCOL.md#release-boundary) and
+[owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow) are canonical
+protocol sections.
 
 ## Install
 
@@ -84,17 +90,16 @@ a background process. Questions do not create goals. Project-changing requests d
 
 ## Version status
 
-Olympus `0.3.1` adds a canonical read-only activation preflight for manual, session,
-project-boot, and guided wake entries. It checks target onboarding state before routing or an
-active-state claim and requires an unchanged immediate recheck. Guided onboarding shows a
-compact material summary, then the exact configuration and patch detail in plain Markdown
-before the exact `Awaken Olympus` second opt-in.
+Olympus `0.4.0` adds a provider-neutral Release Agent and owner-selected custom workflow
+boundaries within the fixed graph. The Release Agent prepares or reconciles one owner-requested
+release action; execution needs separate owner approval, and the role has no standing file or
+external authority.
 
-The focused C19 dogfood fixture run passed 142/142 rows across Olympus and unrelated targets. This is
-bounded Markdown-contract evidence, not a live harness or production-readiness result.
-Double opt-in, fresh exact-unit review, owner gates, and the local-only boundary remain
-unchanged. The fixed catalog still has fourteen roles. This release adds no runtime,
-dependency, or Release Agent. Lower-model equivalence and general harness support remain
+The release boundary and custom workflow are static Markdown contracts. The V1–V12 fixtures
+provide bounded checks, not live provider or release results. The focused C19 dogfood fixture
+run passed 142/142 rows across Olympus and unrelated targets, but this remains bounded
+Markdown-contract evidence. These results do not prove live provider support, release
+execution, production readiness, or general harness support. Lower-model equivalence remains
 untested. See
 [current harness evidence](docs/CONFORMANCE.md#current-harness-evidence) for exact limits.
 

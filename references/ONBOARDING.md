@@ -41,9 +41,9 @@ the state is `malformed`.
 
 Keep the fixed ordered Pantheon: Orchestrator, System Configurer, Explorer, Spec Writer,
 Claims Reviewer, Spec Reviewer, Plan Writer, Plan Verifier, Builder, Docs Writer,
-Reviewer, Design Reviewer, Decision Council, and Liaison. Keep their protocol triggers,
-duties, and conditional use. The Orchestrator alone routes goals, owns records and gates,
-and communicates with roles. Roles return only to the Orchestrator.
+Reviewer, Design Reviewer, Release Agent, Decision Council, and Liaison. Keep their
+protocol triggers, duties, and conditional use. The Orchestrator alone routes goals, owns
+records and gates, and communicates with roles. Roles return only to the Orchestrator.
 
 Only the System Configurer changes `.olympus/PROJECT.md` and the managed Olympus blocks
 in root `AGENTS.md` and `CLAUDE.md`. Preserve all other content and paths. Keep the
@@ -214,6 +214,7 @@ that a goal can invoke. A tool's availability alone is `untested`.
 | `<harness>` | Docs Writer | `<status>` | `<mapping>` | `<tools>` | `<evidence or limit>` |
 | `<harness>` | Reviewer | `<status>` | `<mapping and fresh context>` | `<tools>` | `<evidence or limit>` |
 | `<harness>` | Design Reviewer | `<status>` | `<mapping and fresh context>` | `<tools>` | `<evidence or limit>` |
+| `<harness>` | Release Agent | `<status>` | `<mapping>` | `<tools>` | `<evidence or limit>` |
 | `<harness>` | Decision Council | `<status>` | `<mapping>` | `<tools>` | `<evidence or limit>` |
 | `<harness>` | Liaison | `<status>` | `<mapping>` | `<tools>` | `<evidence or limit>` |
 
@@ -250,8 +251,9 @@ role.
 | 10 | Docs Writer | Builder makes tracked docs false, or contract requires synchronization | `<when used>` | `<preference>` | `<tools>` | `<limit>` |
 | 11 | Reviewer | every project or configuration mutation; fresh and read-only | `<when used>` | `<preference>` | `<read-only tools>` | `<limit>` |
 | 12 | Design Reviewer | material user-facing interface, interaction, visual design, or design-system change; fresh and read-only | `<when used>` | `<preference>` | `<read-only tools>` | `<limit>` |
-| 13 | Decision Council | unresolved material decision with viable trade-offs; read-only advisory | `<when used>` | `<preference>` | `<read-only tools>` | `<limit>` |
-| 14 | Liaison | human status or explanation request; read-only and no gate | `<when used>` | `<preference>` | `<read-only tools>` | `<limit>` |
+| 13 | Release Agent | owner-requested release preparation, remote reconciliation, or one release-boundary external action; no standing authority | `<when used>` | `<preference>` | `<read-only provider evidence>` | `<limit>` |
+| 14 | Decision Council | unresolved material decision with viable trade-offs; read-only advisory | `<when used>` | `<preference>` | `<read-only tools>` | `<limit>` |
+| 15 | Liaison | human status or explanation request; read-only and no gate | `<when used>` | `<preference>` | `<read-only tools>` | `<limit>` |
 
 ## Approved custom instructions and evolutions
 
@@ -452,7 +454,7 @@ Keep only one `ACTIVE` stage. After a `STOPPED` stage, keep every later stage `P
 - `Apply approved configuration` changes only `.olympus/PROJECT.md` and the two managed
   blocks. It preserves surrounding content and does not commit.
 - `Validate configuration` checks the exact URL and full commit, PROJECT fields and
-  revision, boot mode, fourteen role rows and trigger floors, role mappings and support
+  revision, boot mode, fifteen role rows and trigger floors, role mappings and support
   evidence, loader equality and marker count, surrounding content, and named-path scope.
   Successful apply and validation at this exact pin are the observed Configurer support
   evidence; tools, a proposal, another role, or another commit are not evidence.

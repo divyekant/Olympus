@@ -37,6 +37,7 @@ handoffs, owner gates, states, activation rules, and Git workflow.
 - Docs Writer: [charter](agents/DOCS_WRITER.md)
 - Reviewer: [charter](agents/REVIEWER.md)
 - Design Reviewer: [charter](agents/DESIGN_REVIEWER.md)
+- Release Agent: [charter](agents/RELEASE_AGENT.md)
 - Decision Council: [charter](agents/DECISION_COUNCIL.md)
 - Liaison: [charter](agents/LIAISON.md)
 - Orchestrator: [task template](templates/TASK.md)
