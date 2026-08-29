@@ -291,7 +291,8 @@ guide](INSTALLATION.md) and [System Configurer charter](../agents/SYSTEM_CONFIGU
 
 Each goal runs in its own worktree from the committed working-directory HEAD by
 default, so unrelated owner work is never edited. Relevant dirty work must be committed
-or explicitly included before a current-checkout goal. Goal closure records the branch
+or explicitly included before a current-checkout goal, which project policy may permit
+for simple sequential work. Goal closure records the branch
 disposition and removes the worktree only after merge, safe handoff, or explicit owner
 abandonment. Overlapping goals are serialized because filesystem separation does not
 prevent design conflicts.

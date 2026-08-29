@@ -28,8 +28,9 @@
   not in every target repository. See [templates/BOOTSTRAP.md](templates/BOOTSTRAP.md).
 - `Awaken Olympus` accepts one optional final period with the same meaning in every
   state. The period no longer changes approval semantics.
-- The six onboarding stages report compactly: one complete table in the final report or
-  on owner request, not on every transition.
+- The six onboarding stages report compactly: the `Stages:` line in the success report,
+  the six-row table in the failure report and on owner request, not on every
+  transition.
 - The PROJECT template records role support and preferences sparsely: one default row
   plus exception rows, instead of two mandatory 15-row tables.
 - The onboarding contract references the PROJECT and bootstrap templates instead of

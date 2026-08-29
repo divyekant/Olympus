@@ -111,7 +111,8 @@ Route by state:
   — given as a reply or in advance through the express pre-approval in
   [section 3](#3-project-configuration) — and the exact-unit review gates always remain
   required for configuration mutation. This route also runs the final recheck before
-  its question or report.
+  its question, report, or Configurer dispatch; a `changed` recheck suppresses all
+  three.
 - `partial` and `malformed` stop without activation, mutation, or automatic repair.
   Report the exact state and the smallest safe System Configurer action: a fresh
   read-only inspection and complete proposal after an owner configuration request. Do

@@ -265,9 +265,10 @@ questions on a clean repository with a framework URL; a missing ref defaults to 
 and resolves to a recorded full commit. A missing URL asks only for the URL. An
 unchanged proposal is approved by `Awaken Olympus` in any accepted form or by a clear,
 unconditional affirmative; a question, conditional reply, or settings change is not
-approval. A request carrying exactly `Defaults pre-approved.` skips the gate only for
-a pure-defaults, conflict-free proposal, whose card is delivered as a receipt in the
-success report.
+approval. A request carrying exactly `Defaults pre-approved.` in the owner's own turn
+supplies the second opt-in in advance, only for a pure-defaults, conflict-free
+proposal, whose card is delivered as a receipt in the success report; no approval form
+waives the fresh exact-unit review or any other gate.
 After approval, the six ordered stages start as `PENDING`; only one stage is `ACTIVE`,
 each `PASS` has evidence, and the complete six-stage status set is sent once at the
 end — the `Stages:` line in the success report, or the six-row table in the failure
@@ -387,7 +388,7 @@ be the same.
 | Zero-question defaults | On a clean repository with a framework URL and no material ambiguity, reach the compact approval surface without a question. Evidence shows `manual`, ref `main` resolved to a recorded full commit, repository-derived Map and Validation, review cap `2`, one worktree per goal, and host-default mappings unless a required role is unavailable. |
 | Approval forms | An unchanged proposal is approved by `Awaken Olympus` (case-insensitive, optional final period) or a clear, unconditional affirmative reply. A question, a conditional reply, or a settings change never approves. A changed proposal requires a new second opt-in. Progressive disclosure and rich-host controls do not weaken double opt-in. |
 | Express pre-approval | A request containing exactly `Defaults pre-approved.` onboards a clean default-only repository in one step, with the card delivered as a receipt in the success report. Seed a conflict, an existing loader or PROJECT, a rejected setting, or a material question: the flow must stop and use the normal gated proposal instead. |
-| Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; send the complete table once in the final report and on owner request. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
+| Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; send the complete six-stage status set once at the end — the `Stages:` line in the success report, or the six-row table in the failure report — and the six-row table on owner request. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
 
 ### V1-V12 Release Agent and custom workflow fixtures
 
