@@ -13,7 +13,7 @@ double opt-in.
 | Field | Value |
 | --- | --- |
 | project name | `<name>` |
-| repository root | `<path or repository-relative description>` |
+| repository root | `<absolute path of the repository root>` |
 | configuration revision | `1` |
 | boot mode | `manual` or `orchestration` |
 | configured at | `<date>` |
@@ -22,7 +22,7 @@ double opt-in.
 
 | Field | Value |
 | --- | --- |
-| repository URL | `<canonical URL>` |
+| repository URL | `<canonical URL, or a local path for a private framework copy>` |
 | full immutable commit | `<full commit>` |
 
 The pin identifies framework content. It does not authenticate the source or grant remote
@@ -92,8 +92,8 @@ unavailable.
 ## Role preferences
 
 These settings select implementations inside fixed duties. They do not change the graph.
-The trigger floors live in the pinned [runtime protocol](../references/PROTOCOL.md) and
-are immutable. PROJECT can make an optional trigger more eager, add matching details, or
+The trigger floors live in the pinned framework's `references/PROTOCOL.md` and are
+immutable. PROJECT can make an optional trigger more eager, add matching details, or
 identify standards and tools. It cannot suppress a trigger or add a role.
 
 Default row: every role uses the host-default model, capability, and tools. Add one
