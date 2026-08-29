@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+### Changed
+
+- Guided onboarding is compact by default. The `## Ready to awaken Olympus` approval
+  surface is at most 12 nonblank Markdown lines. The complete proposal is still
+  generated before that surface; `Show details` reveals the exact PROJECT bytes, both
+  loader diffs, mappings, conflicts, and the commit plan on request.
+- The managed loader block shrinks to four steps. Detail lives at the pinned framework,
+  not in every target repository. See [templates/BOOTSTRAP.md](templates/BOOTSTRAP.md).
+- `Awaken Olympus` accepts one optional final period with the same meaning in every
+  state. The period no longer changes approval semantics.
+- The six onboarding stages report compactly: one complete table in the final report or
+  on owner request, not on every transition.
+- The PROJECT template records role support and preferences sparsely: one default row
+  plus exception rows, instead of two mandatory 15-row tables.
+- The onboarding contract references the PROJECT and bootstrap templates instead of
+  embedding full copies.
+
 ## 0.4.0 - 2026-08-28
 
 ### Added

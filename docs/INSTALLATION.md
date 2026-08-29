@@ -55,18 +55,20 @@ The owner request is opt-in one. Follow this order and the guided onboarding con
    unavailable, unreadable, mismatched, or dirty pin evidence as `malformed` and stop.
    Reserve `changed` for bracket instability or differing coherent captures; run a fresh
    preflight when that occurs.
-2. Inspect and show the concise, material-only
-   `## What I learned` summary. Do not ask before inspection.
+2. Inspect read-only. Do not ask before inspection and do not dump raw discovery
+   output.
 3. Use documented safe defaults when they decide the choice. Ask at most one unresolved
    material question per turn, with `Recommendation:` and exact `Effect:`. If the URL or
    full commit is missing, ask only for the missing source value or values.
-4. When no material question remains, send one compact `## Ready to awaken Olympus`
-   summary. It names boot mode, version and short pin, project and validation, role
-   support, changed files, approval effect, and the local-only/no-remote boundary.
-5. Offer `Show full configuration` for the exact PROJECT, loaders, mappings, paths, gates,
-   and patch. Offer `Change settings` only for real owner-configurable settings.
-6. Reply exactly `Awaken Olympus` to approve that unchanged complete proposal. This is
-   opt-in two. A changed proposal needs a new exact second opt-in.
+4. When no material question remains, generate the complete proposal, then send one
+   `## Ready to awaken Olympus` message with the compact approval surface of at most 12
+   nonblank Markdown lines. It names what was found, framework version and short pin,
+   boot mode, validation, changed files, and the local-only/no-remote boundary.
+5. Offer `Show details` for the exact PROJECT bytes, both loader diffs, mappings, paths,
+   gates, conflicts, and commit plan. Offer `Change settings` only for real
+   owner-configurable settings.
+6. Reply `Awaken Olympus` to approve that unchanged complete proposal. This is opt-in
+   two. A changed proposal needs a new second opt-in.
 7. Run the six stages in the canonical contract. Do not write before opt-in two. Stop on
    a changed path, unsupported mapping, failed evidence, review repair, or blocked gate.
 
@@ -118,9 +120,10 @@ that transition is next-entry state.
 Project boot order is exact pin resolution, pinned `SKILL.md` and `references/PROTOCOL.md`
 reads, preflight, immediate final recheck, then route. Boot mode never routes first.
 
-`Awaken Olympus` and `Awaken Olympus.` are guided entries, never a session-activation alias.
-Missing state starts inspection; complete state reports verified readiness and owner choices;
-an unchanged proposal accepts only the exact no-period phrase as opt-in two. See the
+`Awaken Olympus`, with or without a final period, is a guided entry, never a
+session-activation alias. Missing state starts inspection; complete state reports
+verified readiness and owner choices; an unchanged proposal accepts the phrase as opt-in
+two. See the
 [focused Issue #8 fixtures](CONFORMANCE.md#c19--issue-8-activation-preflight-and-progressive-onboarding) for
 bounded static and behavioral coverage. These fixtures are not runtime harness results.
 

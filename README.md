@@ -47,8 +47,9 @@ Approved onboarding creates one local Git commit with only PROJECT and both load
 Remote persistence still needs fresh owner approval.
 
 The [guided onboarding contract](references/ONBOARDING.md) defines the inspect-first
-conversation, compact proposal, full exact detail before approval, second opt-in, six local
-stages, and truthful reports. Plain text retains all required meaning.
+conversation, the compact proposal, full exact detail on request before approval, the
+second opt-in, six local stages, and truthful reports. Plain text retains all required
+meaning.
 
 Every wake and activation request first runs the [canonical activation preflight](references/PROTOCOL.md#canonical-activation-preflight)
 against the target repository. Missing state enters guided onboarding; partial, malformed,

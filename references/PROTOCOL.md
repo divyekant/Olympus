@@ -169,13 +169,13 @@ for: <goal>` starts one goal, `Activate Olympus orchestration` starts session ro
 PROJECT boot mode `orchestration` starts project routing. Existing host-conflict,
 role-support, owner-gate, and project-instruction checks still apply.
 
-`Awaken Olympus` is a guided entry, never a session activation. In `missing` state it
-starts the guided onboarding route above. In `complete` state it reports verified
-readiness, the boot state, and the canonical owner choices (`Use Olympus for: <goal>` and
-`Activate Olympus orchestration`) without starting a new mode. In an unchanged `## Ready
-to awaken Olympus` proposal, the exact reply `Awaken Olympus` is the one second-opt-in
-action. Any changed proposal requires a new second opt-in. The optional period form
-remains guided entry and does not bypass this gate.
+`Awaken Olympus` is a guided entry, never a session activation. Trim surrounding
+whitespace and accept one optional final period; both forms carry the same meaning. In
+`missing` state the phrase starts the guided onboarding route above. In `complete` state
+it reports verified readiness, the boot state, and the canonical owner choices
+(`Use Olympus for: <goal>` and `Activate Olympus orchestration`) without starting a new
+mode. In an unchanged `## Ready to awaken Olympus` proposal, the phrase is the one
+second-opt-in action. Any changed proposal requires a new second opt-in.
 
 The preflight and guided routing are read-only. They add no runtime, dependency, service,
 state store, role, or remote authority. The Orchestrator remains the sole routing hub;
