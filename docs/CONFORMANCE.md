@@ -518,6 +518,7 @@ they do not establish general harness reliability.
 | Fixed conditional 14-role catalog | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `partial` |
 | Release Agent specification convergence | Codex | `103559b2ae57e5684035820e084c8617129a6cb1` | `fail` |
 | Role craft and shared state static validation | Codex | `d894317851b5ceacc0337578b9d684729401e7b6` | `pass` |
+| Guided onboarding on a fresh repository (C15) | Claude | `e67ff0b826adb4b6b8077e7f190e07038f2f13da` | `pass` |
 
 At framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`, Codex passed manual mutation;
 session activation, deactivation, and question routing; project activation; repair-cap and
@@ -637,3 +638,29 @@ no P0-P2 issue in the final exact tree. The reviewed tree matched the committed 
 This is static and independent-review evidence only. No live target repository has run the
 new C17 or C18 fixtures. It does not prove lower-model equivalence, general harness support,
 quality superiority, or production readiness.
+
+### D08 — Claude guided-onboarding dogfood on a fresh repository
+
+Two runs onboarded a clean scratch Python repository (`tidejournal`, base `6c62565`) with
+a fresh Claude session per run and a scripted owner.
+
+Run 1 used framework `6feee26fa6899143702bfd20876496b35da3e70c`. The proposal surface was
+6 nonblank lines, asked no question, and wrote nothing before opt-in two. `Show details`
+returned the complete generated PROJECT bytes, both loader diffs, mappings, conflicts,
+and the commit plan. After approval, the fresh Reviewer returned `repair` on the exact
+uncommitted unit: the instantiated PROJECT carried a relative protocol link that cannot
+resolve in a target repository, plus two weak field values. The flow stopped at
+`Fresh review=STOPPED` with nothing staged and a complete failure report ending
+`Olympus stopped.` The template defect was fixed at
+`e67ff0b826adb4b6b8077e7f190e07038f2f13da` through the normal repository workflow.
+
+Run 2 used framework `e67ff0b826adb4b6b8077e7f190e07038f2f13da` from the same clean base.
+The proposal surface was 7 nonblank lines with no question. All six stages passed. The
+named-path commit `e544402a898781e2142302fb1296226b1b1fb7e7` changed exactly
+`.olympus/PROJECT.md`, `AGENTS.md`, and `CLAUDE.md`; owner content outside the markers
+was preserved byte for byte; both managed units were byte-identical; the final tree was
+clean. The report ended `Olympus is awake.`
+
+This evidence covers the guided onboarding scenario on Claude only. It does not
+establish Claude support for the wider role catalog, and the earlier D03 `unsupported`
+result for a mutation goal on an older framework commit stands until a new trial.
