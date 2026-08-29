@@ -75,7 +75,7 @@ flowchart LR
     Pack --> Flow[Fixed Markdown workflow]
     Flow --> Repo[Target Git repository]
     Repo --> Tasks[One task record per goal]
-    Repo --> Trees[Branch or worktree when useful]
+    Repo --> Trees[One worktree per goal]
 ```
 
 The framework does not call model APIs, schedule jobs, store conversations, or run a
@@ -85,7 +85,8 @@ The detailed framework stays outside the target repository at the pinned commit.
 
 ## Configuration boundary
 
-The owner supplies a framework repository URL and full commit. The Configurer inspects
+The owner supplies a framework repository URL and an optional ref; the ref defaults to
+`main` and is resolved once to the full commit PROJECT records. The Configurer inspects
 the target repository and derives a minimal configuration. It asks only questions that
 change intent, boot mode, boundaries, or authority.
 
@@ -157,25 +158,16 @@ sequenceDiagram
     opt Substantial, ambiguous, architectural, or cross-layer goal
         O->>S: Bounded goal packet
         S-->>O: Complete traceable specification, identifier, and hash
-        O->>O: Persist body, update metadata, verify hash
-        O->>CR: Same immutable packet and metadata
-        CR-->>O: Identifier and recomputed hash, or intake-invalid
-        O->>SR: Same immutable packet and metadata
-        SR-->>O: Identifier and recomputed hash, or intake-invalid
-        alt Both intake acknowledgements match
-            O->>O: Reserve candidate round and attempt ID
-            O->>CR: Review every material claim for that attempt
-            O->>SR: Review every criterion and red path for that attempt
-            CR-->>O: Complete claim packet or halted return
-            SR-->>O: Complete specification packet or halted return
-            alt Both complete packets return
-                O->>O: Count completed round and freeze finding ledger
-            else Attempt halted
-                O->>O: Preserve provisional findings; count zero rounds
-                O->>O: Retry once with fresh reviewers, then escalate
-            end
-        else Intake invalid
-            O->>O: Preserve evidence; consume zero rounds
+        O->>O: Persist body, verify hash
+        O->>CR: Same immutable packet, identifier, and hash
+        O->>SR: Same immutable packet, identifier, and hash
+        CR-->>O: Complete claim packet, hash-mismatch defect, or halted return
+        SR-->>O: Complete specification packet, hash-mismatch defect, or halted return
+        alt Both complete packets return
+            O->>O: Count completed round and freeze finding ledger
+        else Defect or halted attempt
+            O->>O: Preserve provisional findings; count zero rounds
+            O->>O: Correct the handoff or retry once, then escalate
         end
     end
     opt Plan trigger holds
@@ -204,8 +196,8 @@ sequenceDiagram
     alt Every invoked review passes
         O->>O: Final verification
         opt Owner requests release preparation, reconciliation, or one external action
-            O->>RA: Source-only preparation or immutable execution handoff
-            RA-->>O: Canonical request, digest, rendering, and per-action result
+            O->>RA: Preparation fields or approved action and evidence
+            RA-->>O: Per-action release result and read-back evidence
         end
         O->>O: Completion
     else Repair below cap
@@ -229,12 +221,12 @@ workflow](../references/PROTOCOL.md#owner-selected-workflow) and [task release
 records](../templates/TASK.md#release-boundary-records).
 
 The [Release Agent](../agents/RELEASE_AGENT.md) owns only the provider-neutral release
-boundary. Preparation receives source fields and returns an exact inert request, digest,
-ASCII rendering, and pre-dispatch result. After separate owner approval and verified
-consumption, the Orchestrator sends an immutable execution handoff. The Release Agent has no
-file or standing external authority and makes at most one provider action submission for that
-handoff; required read-only clock, capability, and read-back calls do not consume it. These
-are Markdown contracts and static fixtures. They do not prove live provider support, release
+boundary. Preparation validates the reviewed commit, action, target, and desired
+post-state, and reconciles current provider state read-only. One single-use owner
+approval covers one action kind and one target. The Release Agent has no file or
+standing external authority and makes at most one provider action submission per
+approval; read-only capability and read-back calls do not consume it. These are Markdown
+contracts and static fixtures. They do not prove live provider support, release
 execution, production readiness, or general harness support.
 
 ## Why no runtime graph framework
@@ -266,7 +258,7 @@ after real goals show that Markdown, native agents, and Git cannot provide the r
 ### Ceremony cost
 
 The main risk is that the framework becomes slower than the work. Configurer, Explorer,
-specification, planning, Docs Writer, Design Reviewer, Council, Liaison, and worktrees are
+specification, planning, Docs Writer, Design Reviewer, Council, and Liaison are
 conditional. Task records stay short. Dogfood measures setup, build, review, and
 finalization separately.
 
@@ -289,7 +281,8 @@ at a cap produce `blocked`, not another automatic loop.
 
 ### Partial installation
 
-The Configurer shows the complete configuration and changed files, waits for approval,
+The Configurer generates the complete configuration and changed files, presents the
+compact approval surface with the exact detail available on request, waits for approval,
 rechecks affected paths, applies the exact unit uncommitted, pauses for a fresh Reviewer,
 then stages named files after a pass and uses normal Git. A conflict stops the install.
 The framework does not promise a database transaction. See the [installation
@@ -297,9 +290,13 @@ guide](INSTALLATION.md) and [System Configurer charter](../agents/SYSTEM_CONFIGU
 
 ### Dirty or concurrent work
 
-Unrelated owner work is preserved and can be isolated with a worktree. Relevant dirty
-work must be committed or explicitly included before isolation. Overlapping goals are
-serialized because filesystem separation does not prevent design conflicts.
+Each goal runs in its own worktree from the committed working-directory HEAD by
+default, so unrelated owner work is never edited. Relevant dirty work must be committed
+or explicitly included before a current-checkout goal, which project policy may permit
+for simple sequential work. Goal closure records the branch
+disposition and removes the worktree only after merge, safe handoff, or explicit owner
+abandonment. Overlapping goals are serialized because filesystem separation does not
+prevent design conflicts.
 
 ### False durability
 

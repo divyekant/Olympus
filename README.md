@@ -26,7 +26,10 @@ Long agent sessions lose scope on large codebases. They can mix discovery, imple
   needs separate owner approval; the role has no file or standing external authority.
 - Decision Council gives read-only advice for unresolved material trade-offs.
 - Liaisons answer human status and explanation requests from current evidence.
-- Clean sequential goals can use branches. Concurrent goals use Git worktrees when their scopes do not overlap.
+- Each goal runs in its own worktree by default; goal closure records the branch
+  disposition and removes the worktree only after merge, safe handoff, or explicit
+  owner abandonment. Project policy may permit the current checkout for simple
+  sequential work.
 
 The [runtime protocol](references/PROTOCOL.md) defines the fixed order, triggers, packets,
 and authority. Project owners can configure role preferences, tools, models, review rounds,
@@ -40,15 +43,19 @@ protocol sections.
 
 ## Install
 
-Give an authorized agent `https://github.com/divyekant/Olympus` and an immutable commit,
-then ask it to follow [the installation guide](docs/INSTALLATION.md).
+Give an authorized agent `https://github.com/divyekant/Olympus` and ask it to follow
+[the installation guide](docs/INSTALLATION.md). The ref defaults to `main`; name a
+branch, tag, or commit to pin a different version. Onboarding resolves the ref once to
+a full immutable commit that PROJECT records. Append the exact sentence
+`Defaults pre-approved.` for one-step onboarding on a clean repository.
 
 Approved onboarding creates one local Git commit with only PROJECT and both loader files.
 Remote persistence still needs fresh owner approval.
 
 The [guided onboarding contract](references/ONBOARDING.md) defines the inspect-first
-conversation, compact proposal, full exact detail before approval, second opt-in, six local
-stages, and truthful reports. Plain text retains all required meaning.
+conversation, the compact proposal, full exact detail on request before approval, the
+second opt-in, six local stages, and truthful reports. Plain text retains all required
+meaning.
 
 Every wake and activation request first runs the [canonical activation preflight](references/PROTOCOL.md#canonical-activation-preflight)
 against the target repository. Missing state enters guided onboarding; partial, malformed,

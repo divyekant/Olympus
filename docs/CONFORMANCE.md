@@ -26,7 +26,9 @@ The framework passes static inspection when:
 2. The protocol names one Orchestrator and the fixed ordered 15-role catalog with its
    triggers and authority.
 3. PROJECT supports manual and project orchestration modes, exact role preferences,
-   trigger floors, harness evidence, and design-standard matching details.
+   harness evidence, and design-standard matching details. The contract requires a
+   framework URL plus an optional ref defaulting to `main`, resolved once to a full
+   commit, with PROJECT recording the resolved commit as the pin.
 4. The skill routes manual, session, project, and guided wake entries through the canonical
    activation preflight before any goal, routing, or active-state claim.
 5. Every Spec Writer result has lossless source-to-validation traceability, fixed-control
@@ -37,33 +39,39 @@ The framework passes static inspection when:
    citations. Spec Writer records validation obligations only; executable implementation
    validation runs after acceptance during build and general review. Claims Reviewer may
    run read-only probes for present repository facts.
-6. The complete current Writer result and current task metadata are persisted before fresh
-   Claims Reviewer and Spec Reviewer intake over the same immutable packet and hash. Only the
+6. The complete current Writer result is persisted before fresh Claims Reviewer and Spec
+   Reviewer review over the same immutable packet, identifier, and hash. Only the
    current specification body is stored between its markers.
-7. Missing content, stale metadata, or identifier or hash mismatch produces
-   `intake-invalid`; it is preserved as evidence and consumes no formal round.
+7. Missing content or an identifier or hash mismatch is a handoff defect; it is
+   preserved as evidence and consumes no review round.
 8. Every Plan Writer result receives fresh Plan Verifier checks, when the plan trigger
    holds.
 9. Every project or configuration mutation requires a fresh general Reviewer; Docs Writer
    and Design Reviewer triggers are conditional and cannot replace that review.
 10. Configuration uses double opt-in, applies the exact approved unit uncommitted, reviews
    it fresh, and commits only after a pass; hook changes receive a fresh rereview.
-11. Explorer, Council, Liaison, and worktree use are conditional; every invoked role has
-   role-specific harness mapping and support evidence.
+11. Explorer, Council, and Liaison are conditional; each goal defaults to one isolated
+   worktree with closure at goal end; every invoked role has role-specific harness
+   mapping and support evidence.
 12. The runtime contains no manifest, transcript-provenance, custom Git-transaction, or
     exhaustive recovery requirement.
 13. All internal Markdown links resolve.
 14. The managed loader resolves the exact pin in a clean checkout or cache when the source
     working tree is at another commit.
-15. The guided onboarding contract is plain Markdown and contains a short welcome,
-    inspect-first behavior, a concise material-only `## What I learned` summary, one-question
-    turns with `Recommendation:` and exact `Effect:`, and one compact `## Ready to awaken Olympus`
-    approval surface of no more than 25 nonblank Markdown lines before optional detail.
-16. The canonical contract contains the complete PROJECT and both managed loader units,
-    paths and preservation rules, conflicts and rejected settings, named-path commit,
-    no-remote statement, exact `Awaken Olympus` second opt-in for an unchanged proposal,
-    mapping and support gates, six ordered stages, only `PENDING`, `ACTIVE`, `PASS`, and
-    `STOPPED`, stage evidence, and exact success and failure endings.
+15. The guided onboarding contract is plain Markdown and contains inspect-first
+    behavior, one-question turns with `Recommendation:` and exact `Effect:`, and one
+    compact `## Ready to awaken Olympus` approval surface of no more than 12 nonblank
+    Markdown lines, with full detail available on request before approval.
+16. The canonical contract requires a complete generated proposal before the approval
+    surface: exact PROJECT bytes, identical managed loader units from the bootstrap
+    template, paths and preservation rules, conflicts and rejected settings, named-path
+    commit, no-remote statement, the second opt-in for an unchanged proposal with its
+    accepted approval forms and non-approval exclusions, the express pre-approval
+    sentence with its owner-turn provenance, pure-defaults precondition, and
+    receipt-not-gate delivery, the rule that no approval form waives the fresh
+    exact-unit review or any other gate, mapping and support gates, six ordered stages,
+    only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`, stage evidence, and exact success
+    and failure endings.
 17. Each of the five consumers has exactly one link to the canonical onboarding contract,
     and every target and anchor resolves.
 18. The canonical contract retains the immutable pin, fifteen-role catalog, Orchestrator
@@ -71,9 +79,11 @@ The framework passes static inspection when:
     approval gates, truthful `supported`, `unsupported`, and `untested` meanings, the
     provider-neutral Release Agent boundary, owner-selected workflow limits, and
     plain-Markdown limitations.
-19. Every stage-state transition sends the complete compact six-stage table, including
-    `ACTIVE`, `PASS`, and `STOPPED`; only one stage is `ACTIVE`, later stages stay `PENDING`
-    after a stop, and no stage is `PASS` before its evidence exists.
+19. Stage reporting is compact: the complete six-stage status set is sent once at the
+    end — the `Stages:` line in the success report, or the six-row table in the failure
+    report — and the six-row table on owner request mid-flow; only one stage is
+    `ACTIVE`, later stages stay `PENDING` after a stop, and no stage is `PASS` before
+    its evidence exists.
 20. The specification body contains only the current body. Task metadata, packet identifiers,
     hashes, verdict counts, findings, convergence state, and body size remain outside the
     hashed body. Earlier bodies, body diffs, reviewer transcripts, review history, round
@@ -87,13 +97,14 @@ The framework passes static inspection when:
     and excludes design completeness, coherence, authorization, mechanism quality, and
     acceptance-test structure. Spec Reviewer owns only completeness, coherence, authority
     boundaries, failure paths, joint satisfiability, and acceptance-testability, and does
-    not re-probe factual claims, counts, citations, or hashes after shared intake. The fixed
+    not re-probe factual claims, counts, citations, or hashes inside the Claims
+    Reviewer's jurisdiction. The fixed
     checklist comes from the immutable framework commit; freshness changes context only.
-23. The specification cap is 10 completed formal rounds (default 10; expected closure is
+23. The specification cap is 10 completed rounds (default 10; expected closure is
     2-3 rounds),
     other bracket caps remain unchanged, each round records open P0-P2 and body line/byte
     counts, the body is at most 300 lines and 48,000 bytes, and round 3 stagnation or growth
-    triggers a compact complete restatement. An oversized result cannot enter intake. At
+    triggers a compact complete restatement. An oversized result cannot enter review. At
     completed round 10, remaining P0-P2 findings block implementation.
 24. After acceptance, the general Reviewer owns whether implementation evidence satisfies the
     accepted criteria. Specification reviewers do not replace that implementation review.
@@ -116,10 +127,10 @@ The framework passes static inspection when:
     reconciliation, and future framework-gap handling for escaped external findings.
     These controls remain in PROTOCOL and TASK rather than being redefined in role
     charters.
-27. Activation preflight inspects the target root for both Olympus and unrelated repositories,
-    opens the first consistency bracket before the initial PROJECT sample, binds the three-file
-    and checkout evidence inside it, applies ordered state precedence, and rechecks it
-    immediately before activation. No unchanged complete capture means no activation claim.
+27. Activation preflight inspects the target root for both Olympus and unrelated
+    repositories, records the three-file and checkout evidence, applies ordered state
+    precedence, and re-reads the target immediately before activation. No `complete`
+    state with a matching recheck means no activation claim.
 28. The Issue #8 fixtures below cover source identity, state classes, wake phrases, mutation
     races, compact disclosure, safe defaults, plain-text fallback, and unchanged review gates.
 
@@ -149,12 +160,16 @@ criterion. Final verification and the task outcome match actual Git state.
 A Reviewer finding returns to Builder. A fresh Reviewer checks the complete repaired change.
 Open findings at the configured cap stop as `blocked`.
 
-### C05 — Git isolation
+### C05 — Git isolation and closure
 
-A clean sequential goal can use the current checkout or a branch. Concurrent work or
-unrelated dirty state uses a worktree. Relevant dirty work is committed or explicitly
-included before isolation. Overlap is serialized. Unrelated owner work is not staged,
-reset, stashed, or overwritten.
+Each goal runs in its own worktree from the committed working-directory HEAD by
+default; project policy may permit the current checkout for simple sequential work.
+Relevant dirty work is committed or explicitly included before a current-checkout
+goal. Overlap is serialized. Unrelated owner work is not staged, reset, stashed, or
+overwritten. At `complete`, `blocked`, or `cancelled`, goal closure records the branch
+disposition, removes the worktree only after merge, safe handoff, or explicit owner
+abandonment, and otherwise retains it with its path and reason recorded. Unmerged work
+is never deleted.
 
 ### C06 — Owner escalation
 
@@ -164,7 +179,8 @@ and remote, destructive, secret, publish, merge, or deploy actions stop for fres
 ### C07 — Configuration and evolution
 
 A configuration, custom instruction, or distilled evolution starts from an owner request.
-Configurer shows the complete effective result and waits for a second owner approval. It
+Configurer generates the complete effective result, presents the compact approval
+surface with the complete detail available on request, and waits for a second owner approval. It
 applies the exact approved unit without a commit, receives a fresh Reviewer pass, and only
 then stages and commits. Hook-changed content receives a fresh committed-content review.
 It cannot change fixed roles or an active goal.
@@ -186,15 +202,14 @@ freshness, tools, support status, and observed evidence recorded.
 
 ### C10 — Specification and planning brackets
 
-The Orchestrator persists the complete Writer result, updates task metadata, records a
-packet identifier and content hash, gives both fresh reviewers the same immutable packet,
-and obtains matching intake acknowledgements. Each reviewer stops after intake. Only then
-does the Orchestrator authorize `formal-review` with a candidate round and unique attempt
-identifier. The completed-round counter increases only after both self-contained reviewer
-packets return. A halted attempt remains recorded and consumes no completed round. A
-triggered Plan Writer receives the accepted contract or specification verbatim. The
-Orchestrator persists and hashes the complete plan, and a fresh Plan Verifier receives that
-exact identity. Repairs use complete fresh reviews. Specification, plan, configuration, and
+The Orchestrator persists the complete Writer result, records a packet identifier and
+content hash, and gives both fresh reviewers the same immutable packet, identifier, and
+hash. Each reviewer recomputes the hash from its received body and stops on a mismatch.
+The completed-round counter increases only after both self-contained reviewer packets
+return. A halted attempt remains recorded and consumes no completed round. A triggered
+Plan Writer receives the accepted contract or specification verbatim. The Orchestrator
+persists and hashes the complete plan, and a fresh Plan Verifier receives that exact
+identity. Repairs use complete fresh reviews. Specification, plan, configuration, and
 implementation caps apply independently.
 
 ### C11 — Documentation and design conditions
@@ -221,38 +236,43 @@ must map every source item and applicable fixed control through requirement, acc
 criterion, red path, and validation evidence. Removing any one of these five items makes
 the completeness check fail and prevents a ready packet.
 
-### C14 — Atomic reviewer intake fixtures
+### C14 — Packet integrity fixtures
 
-| Fixture | Expected handoff result | Formal rounds consumed | Required evidence |
+| Fixture | Expected handoff result | Rounds consumed | Required evidence |
 | --- | --- | --- | --- |
-| private Writer result not persisted | `intake-invalid` | `0` | missing specification content and pending task metadata |
-| complete packet with stale task metadata | `intake-invalid` | `0` | persisted metadata does not identify the complete Writer result |
-| reviewers receive different identifiers, bodies, or hashes | `intake-invalid` | `0` | both acknowledgements and the mismatch |
-| complete persisted packet, current metadata, matching identifier and hash | `formal-review`, then a formal verdict | `1` | both intake acknowledgements and both self-contained reviewer finals |
+| private Writer result not persisted | handoff defect | `0` | missing specification content in the task record |
+| reviewers receive different identifiers, bodies, or hashes | handoff defect | `0` | at least one reviewer's recomputed hash mismatch |
+| complete persisted packet with matching identifier and hash | a review verdict | `1` | both self-contained reviewer finals over the same packet |
 
-Failed intake remains visible in the task record. Recovery corrects and persists the
-handoff, then starts a new intake attempt. It does not consume or restore a formal round.
+A handoff defect remains visible in the task record. Recovery corrects and persists the
+handoff, then dispatches again. It does not consume or restore a review round.
 
 ### C15 — Guided onboarding contract
 
-Given an existing Git repository and an owner-supplied immutable framework pin, the
-Configurer runs canonical activation preflight, inspects without writing, shows a short
-welcome and material-only `## What I learned`, asks no more than one unresolved material
-question per turn with a recommendation and exact effect, then sends one compact
-`## Ready to awaken Olympus` message. Before optional detail, that surface is at most 25
-nonblank Markdown lines and names boot mode, version and short pin, project and validation,
-role support, changed files, approval effect, and local-only/no-remote scope. The message
-offers `Show full configuration` and `Change settings` only for valid owner knobs. Full
-exact PROJECT and both loader blocks, all mappings, paths, gates, and patch remain visible
-before approval. It also contains all paths and preservation rules, conflicts, rejected
-settings, named-path commit, no remote action, mappings and support evidence, and a second
-opt-in. Safe defaults reach this surface without questions on a clean repository with both
-source values. Missing source identity asks only for the absent URL, full commit, or both.
-The exact reply `Awaken Olympus` is the one second opt-in for an unchanged proposal;
-`Awaken Olympus.` is guided entry only and does not bypass the gate.
+Given an existing Git repository and an owner-supplied framework URL with an optional
+ref, the
+Configurer runs canonical activation preflight, inspects without writing, asks no more
+than one unresolved material question per turn with a recommendation and exact effect,
+then generates the complete proposal and sends one `## Ready to awaken Olympus` message.
+Its approval surface is at most 12 nonblank Markdown lines and names what was found,
+framework version and short pin, boot mode, validation, changed files, and the
+local-only/no-remote boundary. The message offers `Show details` and `Change settings`
+only for valid owner knobs. On request, the details reveal the exact generated PROJECT
+bytes, both loader diffs, mappings and support evidence, paths and preservation rules,
+conflicts, rejected settings, the named-path commit plan, and the no-remote statement —
+all generated before the surface was sent. Safe defaults reach this surface without
+questions on a clean repository with a framework URL; a missing ref defaults to `main`
+and resolves to a recorded full commit. A missing URL asks only for the URL. An
+unchanged proposal is approved by `Awaken Olympus` in any accepted form or by a clear,
+unconditional affirmative; a question, conditional reply, or settings change is not
+approval. A request carrying exactly `Defaults pre-approved.` in the owner's own turn
+supplies the second opt-in in advance, only for a pure-defaults, conflict-free
+proposal, whose card is delivered as a receipt in the success report; no approval form
+waives the fresh exact-unit review or any other gate.
 After approval, the six ordered stages start as `PENDING`; only one stage is `ACTIVE`,
-each `PASS` has evidence, and a complete compact six-stage table is sent again whenever
-any stage becomes `ACTIVE`, `PASS`, or `STOPPED`. A `STOPPED` stage leaves later stages
+each `PASS` has evidence, and the complete six-stage status set is sent once at the
+end — the `Stages:` line in the success report, or the six-row table in the failure
+report and on owner request. A `STOPPED` stage leaves later stages
 `PENDING`. The Configurer returns the exact uncommitted unit only to the Orchestrator. The
 Orchestrator dispatches a fresh exact-unit Reviewer and returns a passing verdict to the
 Configurer. The Configurer commits only named paths after both support gates and returns
@@ -269,8 +289,8 @@ before the second opt-in; a missing or unsupported required mapping; support inf
 tools, another role, or another commit; changed or malformed paths or markers; a
 Configurer-to-Reviewer handoff; an unreviewed or changed exact unit; staging before both
 support gates; a non-named path, remote action, evidence-free `PASS`, two active stages,
-an extra stage state, a missing complete transition table, or text after either exact
-final line.
+an extra stage state, a final report without the complete six-stage status set, or text
+after either exact final line.
 
 ### C16 — Specification convergence and compact state
 
@@ -283,13 +303,14 @@ minimum evidence, closure condition, state, first-seen and last-checked rounds, 
 all facts-and-evidence findings in one pass and does not assess design or acceptance
 structure. Spec Reviewer returns all
 completeness-and-coherence findings in one pass and does not re-probe facts, counts,
-citations, or hashes after shared intake. The Orchestrator merges and freezes both sets.
+citations, or hashes inside the Claims Reviewer's jurisdiction. The Orchestrator merges
+and freezes both sets.
 
 If a repair causes a later finding, classify it `introduced`; otherwise classify it `missed`.
 A new missed P0/P1 is a framework-review failure. If round 3 does not reduce open P0-P2
 findings, or body size grows without reducing them, the next Writer result is a compact
 complete restatement, not an additive patch. The specification cap is default 10 completed
-formal rounds, with expected closure in 2-3 rounds. Halted attempts remain visible but do
+rounds, with expected closure in 2-3 rounds. Halted attempts remain visible but do
 not consume that cap. At completed round 10, any remaining P0-P2 finding blocks
 implementation. The later general Reviewer checks implementation evidence only after
 acceptance.
@@ -320,7 +341,7 @@ Use the same identity and evidence envelope required by C17.
 | Frozen input | Observable pass evidence |
 | --- | --- |
 | A reviewed specification, plan, mutation, hook result, or diff changes by one byte after pass. | The old unit is marked invalid, a new identifier or digest is recorded, and no completion occurs before a fresh review of the new unit. |
-| One specification reviewer returns a finding and the other is interrupted after formal authorization. | The attempt identifier, provisional finding, partial-output disposition, recovery owner, and retry condition are recorded; completed formal rounds do not increase; the next fresh bracket must reproduce, withdraw, or maintain the finding; one retry is permitted before escalation. |
+| One specification reviewer returns a finding and the other is interrupted mid-review. | The provisional finding, partial-output disposition, recovery owner, and retry condition are recorded; completed rounds do not increase; the next fresh bracket must reproduce, withdraw, or maintain the finding; one retry is permitted before escalation. |
 | One transition has both an owner decision and an environment credential outstanding. | Both pending causes, owners, closure evidence, and retry conditions remain present; clearing only one does not resume the transition. |
 | A writer disputes one finding without changing the frozen artifact. | Exactly one fresh dispute review records withdraw or maintain; a maintained finding escalates and no second dispute starts. |
 | Hidden complexity changes the accepted plan twice at the same node. | The first re-plan records new evidence and affected steps; the second stall escalates without another re-plan. |
@@ -340,11 +361,10 @@ be the same.
 
 | Fixture | Observable pass evidence |
 | --- | --- |
-| Canonical homes | Runtime classifier, ordered precedence (`malformed` > `missing` > `complete` > `partial`), first bracket before the initial PROJECT sample, before-and-after bracket, and immediate recheck link only to `references/PROTOCOL.md#canonical-activation-preflight`; onboarding conversation links only to `references/ONBOARDING.md`; these fixtures remain in `docs/CONFORMANCE.md`. |
-| Compact default surface | After the short welcome and material-only `## What I learned`, the `## Ready to awaken Olympus` approval surface contains no more than 25 nonblank Markdown lines before optional detail, excluding optional art. |
-| Required approval summary | The compact summary names boot mode, `<framework version derived from the exact resolved pin>` and short pin, detected project and validation, role support, changed files, approval effect, and local-only/no-remote scope. |
-| Full disclosure | Before approval, `Show full configuration` exposes the exact PROJECT, both loader units, mappings, paths, preservation rules, gates, and the actual unapplied patch bytes. Plain Markdown keeps the detail inline. |
-| Exact patch bytes | The readiness response contains generated bytes in fenced blocks: the exact unapplied `.olympus/PROJECT.md` bytes and exact before-and-after bytes for root `AGENTS.md` and `CLAUDE.md`. A prose summary or unresolved placeholder fails this fixture. |
+| Canonical homes | Runtime classifier, ordered precedence (`malformed` > `missing` > `complete` > `partial`), and the final recheck link only to `references/PROTOCOL.md#canonical-activation-preflight`; onboarding conversation links only to `references/ONBOARDING.md`; these fixtures remain in `docs/CONFORMANCE.md`. |
+| Compact default surface | The `## Ready to awaken Olympus` approval surface contains no more than 12 nonblank Markdown lines, excluding optional art. |
+| Required approval summary | The compact summary names what was found, `<framework version derived from the exact resolved pin>` and short pin, boot mode, validation, changed files, and the local-only/no-remote boundary. |
+| Full disclosure | The complete proposal is generated before the approval surface is sent. On `Show details`, the response exposes the exact generated `.olympus/PROJECT.md` bytes, exact before-and-after bytes for root `AGENTS.md` and `CLAUDE.md`, mappings and support evidence, paths, preservation rules, conflicts, rejected settings, gates, and the named-path commit plan. A prose summary or unresolved placeholder fails this fixture. |
 | Valid setting exposure | `Change settings` exposes only boot mode, intent, Map or Validation, review cap, branch or worktree policy, role or harness mappings, matching standards, and approved custom instructions. It cannot change fixed roles, triggers, duties, protected paths, owner gates, or external authority. |
 | Plain-text equivalence | Removing optional ASCII or rich-host art, animation, color, links, or collapse controls leaves every required fact, gate, and action in plain text. |
 
@@ -353,22 +373,22 @@ be the same.
 | Fixture | Observable pass evidence |
 | --- | --- |
 | Target identity | Run every applicable row against an Olympus target and an unrelated target. Preflight reads the target root, never the framework checkout as target state, and returns equivalent classifications for equivalent target files. |
-| All absent, source supplied | `.olympus/PROJECT.md`, root `AGENTS.md` marker, and root `CLAUDE.md` marker are absent; supplied URL and full commit yield `missing`, System Configurer inspection, no question, no write, and no activation. The final coherent capture completes before the state report or route. Existing root loaders with no Olympus marker remain absent managed units. |
-| All absent, source missing | With all three units absent, omit only the URL, only the full commit, or both. After inspection and the final coherent capture, the result is `missing` and exactly one question names only the missing URL, full commit, or both; no write occurs. |
+| All absent, source supplied | `.olympus/PROJECT.md`, root `AGENTS.md` marker, and root `CLAUDE.md` marker are absent; a supplied URL, with any ref or the `main` default, yields `missing`, System Configurer inspection, no question, no write, and no activation. Existing root loaders with no Olympus marker remain absent managed units. |
+| All absent, source missing | With all three units absent, omit the framework URL. After inspection, the result is `missing` and exactly one question names only the missing URL; a missing ref defaults to `main` and asks nothing. No write occurs. |
 | Six valid partial combinations | Test exactly one or two valid units: PROJECT only; AGENTS only; CLAUDE only; PROJECT plus AGENTS; PROJECT plus CLAUDE; AGENTS plus CLAUDE. Each returns `partial` with exact present and missing units, stops without activation, mutation, or automatic repair, and identifies the smallest safe Configurer action. |
 | Malformed classes and precedence | Seed invalid PROJECT structure or fields, invalid URL, non-40-character commit, invalid boot mode, unreadable present unit, unavailable or mismatched or dirty pin, duplicate or nested or incomplete or noncanonical loader markers, and conflicting or unequal loaders. Any present invalid unit returns `malformed` before `missing` or `partial`, with exact evidence and no activation, mutation, or repair. |
-| Loader-only source identity | With PROJECT absent and one or two valid loader units, a valid complete owner/request URL and full commit enables canonical comparison and returns `partial`; without source identity, present loaders are unverifiable and return `malformed`. The result names the exact missing or unverifiable evidence and does not activate or repair. |
-| Stable malformed versus changed | Stable invalid evidence, including an unavailable, mismatched, or dirty pin, completes the bracket and coherent final capture before it returns `malformed`. Only internal instability or differing coherent first and final captures returns `changed`, requires fresh preflight, and does not route Configurer, report a candidate, or assign a role. A final read failure is `changed` only when its corresponding first capture was readable. |
+| Loader-only source identity | With PROJECT absent and one or two valid loader units, an owner/request URL with its resolved ref enables canonical comparison and returns `partial`; without source identity, present loaders are unverifiable and return `malformed`. The result names the exact missing or unverifiable evidence and does not activate or repair. |
+| Malformed versus changed | Stable invalid evidence, including an unavailable, mismatched, or dirty pin, returns `malformed` with exact evidence. Only a difference between the first read and the final recheck returns `changed`; a changed result requires a fresh preflight and does not route Configurer, report a candidate, or activate. |
 | Complete mode routing | With all three valid, canonical, matching units and a clean exact pin, `Use Olympus for: <goal>` starts one manual goal, `Activate Olympus orchestration` starts session routing, and PROJECT boot mode `orchestration` starts project routing. Project boot first resolves the exact pin, reads pinned `SKILL.md` and `references/PROTOCOL.md`, runs preflight, performs the immediate final recheck, and only then routes. Each requires an unchanged complete capture. |
-| Guided phrase matrix | Trim surrounding whitespace and accept one optional final period. In `missing`, `Awaken Olympus` and `Awaken Olympus.` start guided onboarding without an active claim. In `complete`, either phrase reports verified boot state and owner choices without starting a mode. In an unchanged proposal, only exact `Awaken Olympus` is opt-in two; `Awaken Olympus.` is guided entry and does not bypass the gate. |
+| Guided phrase matrix | Trim surrounding whitespace and accept one optional final period; both forms carry the same meaning. In `missing`, the phrase starts guided onboarding without an active claim. In `complete`, the phrase reports verified boot state and owner choices without starting a mode. In an unchanged proposal, the phrase is opt-in two. The phrase is never a session-activation alias. |
 | Six product paths | The proposal and mutation fixture name exactly these six product paths: Builder owns `SKILL.md`, `references/PROTOCOL.md`, and `templates/BOOTSTRAP.md`; Docs Writer owns `references/ONBOARDING.md`, `docs/INSTALLATION.md`, and `docs/CONFORMANCE.md`. The task record remains separate and no other path is in scope. |
-| Between-capture mutation | After a coherent first capture and before the final capture, mutate each target file separately: `.olympus/PROJECT.md`, root `AGENTS.md`, and root `CLAUDE.md`. Also mutate the resolved checkout path, commit, readability, or clean state. The final capture differs, so the result is `changed`, the old snapshot is discarded, and no activation, Configurer route, candidate report, or assignment occurs. |
-| During-capture mutation | Mutate target content during each target-file read. During the pinned `SKILL.md` read and the pinned `references/PROTOCOL.md` read, mutate the corresponding contract bytes or checkout identity, path, readability, or clean status. The before-and-after bracket is unstable, so the result is `changed`, with no activation, Configurer route, candidate report, or assignment. |
-| Post-transition boundary | A repository change after the coherent final capture and assignment is not claimed as detected by that transition. The next wake or activation entry runs a new preflight. No repository read, dispatch, or other action occurs between final capture and assignment. |
-| Zero pre-opt-in changes | Compare all target bytes, loader surrounding content, checkout state, and Git status before and after inspection and the unchanged proposal. No target file, loader, PROJECT, or checkout changes before the exact second opt-in. |
-| Zero-question defaults | On a clean repository with both source values and no material ambiguity, reach the compact approval surface without a question. Evidence shows `manual`, the exact supplied pin, repository-derived Map and Validation, review cap `2`, and host-default mappings unless a required role is unavailable. |
-| One approval action | An unchanged proposal has one approval action: exact `Awaken Olympus`. A changed proposal requires a new exact second opt-in. No alternate approval wording, optional period, progressive disclosure path, or rich-host control weakens double opt-in. |
-| Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; resend the complete table on each transition. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
+| Mutation before the recheck | After the first read and before the final recheck, mutate each target file separately: `.olympus/PROJECT.md`, root `AGENTS.md`, and root `CLAUDE.md`. Also mutate the resolved checkout path, commit, readability, or clean state. The recheck differs, so the result is `changed`, the old result is discarded, and no activation, Configurer route, or candidate report occurs. |
+| Mutation after the recheck | A repository change after the final recheck is not claimed as detected by that entry. The next wake or activation entry runs a new preflight. |
+| Zero pre-opt-in changes | Compare all target bytes, loader surrounding content, checkout state, and Git status before and after inspection and the unchanged proposal. No target file, loader, PROJECT, or checkout changes before the second opt-in, whether given as a reply or as express pre-approval in the request. |
+| Zero-question defaults | On a clean repository with a framework URL and no material ambiguity, reach the compact approval surface without a question. Evidence shows `manual`, ref `main` resolved to a recorded full commit, repository-derived Map and Validation, review cap `2`, one worktree per goal, and host-default mappings unless a required role is unavailable. |
+| Approval forms | An unchanged proposal is approved by `Awaken Olympus` (case-insensitive, optional final period) or a clear, unconditional affirmative reply. A question, a conditional reply, or a settings change never approves. A changed proposal requires a new second opt-in. Progressive disclosure and rich-host controls do not weaken double opt-in. |
+| Express pre-approval | A request containing exactly `Defaults pre-approved.` onboards a clean default-only repository in one step, with the card delivered as a receipt in the success report. Seed a conflict, an existing loader or PROJECT, a rejected setting, or a material question: the flow must stop and use the normal gated proposal instead. |
+| Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; send the complete six-stage status set once at the end — the `Stages:` line in the success report, or the six-row table in the failure report — and the six-row table on owner request. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
 
 ### V1-V12 Release Agent and custom workflow fixtures
 
@@ -388,8 +408,8 @@ records the exact consumer.
 #### V2 — Charter shape and role craft
 
 Assert that each worker charter has the eight ordered H2 section classes, including the
-Release Agent's source-only preparation, immutable execution, no-file authority, evidence
-calls, one-submission limit, truthful states, complete packet, and stop boundary. A fixture
+Release Agent's no-file authority, read-only evidence calls, one-submission limit,
+truthful states, complete packet, and stop boundary. A fixture
 with embedded instructions in repository, provider, task, or role-return data must classify
 that content as data and make no unauthorized change. Missing sections, unbounded methods,
 or an inferred provider capability fail.
@@ -412,87 +432,71 @@ complete zero-missing report passes.
 
 #### V5 — Cross-document agreement
 
-Compare the catalog, triggers, role support, preparation and execution handoffs, release
-states, boundary rows, selection rules, owner approval, recovery fields, and task records
+Compare the catalog, triggers, role support, release boundary fields and states,
+boundary rows, selection rules, owner approval, recovery fields, and task records
 with the canonical protocol. Assert one Orchestrator hub, fixed trigger closure, separate
 review and owner gates, no Release Agent file authority, and no runtime or provider-client
 claim. A changed field name, order, state, role, or gate without a canonical source fails.
 
-#### V6 — Canonical request and owner rendering vectors
+#### V6 — Release preparation and reconciliation
 
-Use a valid 16-line ASCII request with the exact marker pair, `schema: MQ`, 13 ordered value
-fields, final LF, unpadded base64url, and the required lowercase SHA-256. Decode it and
-round-trip the 14-line ASCII hexadecimal rendering with `schema: hex:31`. Exercise each
-vector separately: changed source byte; present empty `~` and optional absent `-` in one
-field; arbitrary bytes; C0, C1, DEL, NUL, bidirectional-control UTF-8, raw newline, marker
-text, invalid UTF-8, and non-text bytes; padding and invalid alphabet; a disallowed sentinel;
-duplicate, reordered, extra, or missing request or rendering line; CRLF; byte-order mark;
-trailing space; uppercase or odd hex; invalid `absent`; missing or extra final LF; multiple
-markers; and rendering mismatch. Invalid vectors are `blocked`. The two sentinels must have
-distinct canonical bytes, digests, renderings, and exact round trips. Rendering must remain
-ASCII and emit no decoded value bytes.
+Test preparation with complete fields and an absent target (`prepared`); with the exact
+desired state already present (`reconciled`); with missing, stale, or conflicting
+evidence (`blocked`); and with an existing non-exact target state (`blocked`). An
+evidence defect overrides an exact-state claim in every case.
 
-#### V7 — Phase precedence and release states
+#### V7 — Release results
 
-Apply each phase in strict first-match order. In `pre-dispatch`, test evidence defect plus
-exact state (`blocked`), exact state (`reconciled`), proven absence (`prepared`), and
-mismatch or no matching row (`blocked`). In `dispatch/final-readback`, test evidence defect
-plus exact state (`blocked`), exact state (`reconciled` with no submission), proven absence
-with ready controls (one submission and `post-submission`), and mismatch (`blocked`). In
-`post-submission`, test evidence defect plus exact state (`blocked`), definite created action
-plus exact read-back (`released`), winning conditional conflict plus exact state
-(`reconciled`), conditional mismatch (`blocked`), ambiguous outcome plus exact state
-(`reconciled` with uncertainty), ordinary rejection plus exact state (`blocked`), and every
-missing or conflicting evidence case (`blocked`). Only definite created-action evidence
+After one submission, test provider-confirmed creation plus exact read-back
+(`released`); a proven concurrent-winner conflict plus exact read-back (`reconciled`);
+an ambiguous outcome plus exact read-back (`reconciled` with recorded uncertainty);
+ordinary rejection (`blocked`); mismatched final state (`blocked`); and missing or
+unreadable post-state evidence (`blocked`). Only definite created-action evidence
 reaches `released`.
 
-#### V8 — Approval, expiry, consumption, and handoff
+#### V8 — Approval and single submission
 
-Test exact approval and bundled approval; changed digest, action, and target; valid time, one
-second before expiry, equality, and after expiry; invalid or failed first and second clocks;
-unconsumed and consumed approval; consumption failure; immutable approved block; missing
-execution field; reconstruction attempt; and execution-handoff replay. Require one-use
-approval bound to the canonical digest, action, and target. Require verified consumption
-before the immutable handoff. Equality or later is expired. Any post-consumption clock or
-expiry failure blocks submission and does not restore approval.
+Test exact approval; bundled approval; changed action or target after approval; reuse
+of an already-used approval; and reuse of an approval after its goal reached
+`complete`, `blocked`, or `cancelled`. Require one single-use owner approval bound to
+one action kind, one target, and one reviewed commit, checked against an active goal
+state immediately before submission. A lapsed approval and a second submission from the
+same approval are `blocked` in every case, including after an ambiguous first outcome.
 
-#### V9 — Duplicate, retry, and provider-call behavior
+#### V9 — Duplicate control and retry
 
-Test an attempted second submission, `submitted` and `ambiguous` ledger states, retry with
-old approval, retry with new exact approval, prior absence, safe provider idempotency,
-material race with and without provider control, ordinary rejection, conditional conflict
-with exact state, and conditional conflict with conflicting state. Authenticated read-only
-clock, capability, pre-submission, final, and post-submission calls must all remain
-available evidence calls and must not consume the one-action allowance. A duplicate,
-unsupported material race, unsafe retry, or ambiguous mismatch is `blocked`; a safe retry
-still needs a new approval and attempt.
+Test a material concurrent race with a provider conditional-write or idempotency
+primitive (allowed) and without one (`blocked` before submission). Authenticated
+read-only capability, pre-submission, and post-submission calls remain evidence calls
+and never consume the one-submission allowance. A retry is valid only with a new exact
+approval plus prior-absence or safe-idempotency evidence; an unknown outcome is never
+retried blindly.
 
 #### V10 — Boundary and custom workflow closure
 
 Assert all five exhaustive boundary rows: `review-only`, `diagnose-only`, `audit-only`,
-`spec-only`, and `mutation`, including exact effects, terminal artifact, required roles and
-checks, and incompatible roles. Test zero or one declaration of each kind; two workflow
-lines; two boundary lines; zero boundary declarations; unknown, duplicate, reordered,
-malformed, conflicting, or ambiguous declarations; valid `spec-only`; omitted paired
-verifier or reviewer; selected but untriggered role; later unselected trigger; approved
-expansion; rejected expansion; explicit cancellation; and default truncation. Invalid input
-dispatches no worker. Selection is an allowlist, not an invocation list. Later expansion
-stops before handoff as `pending-expansion`; rejection is `blocked`; only explicit owner
-cancellation is `cancelled`.
+`spec-only`, and `mutation`, including exact effects, terminal artifact, and admitted
+roles. Test zero or one declaration of each kind; two workflow lines; two boundary
+lines; unknown, duplicate, reordered, malformed, conflicting, or ambiguous declarations;
+valid `spec-only`; omitted paired verifier or reviewer; selected but untriggered role;
+later unselected trigger; approved expansion; rejected expansion; explicit cancellation;
+and default truncation. Invalid input dispatches no worker. Selection is an allowlist,
+not an invocation list. Later expansion stops before handoff as `pending-expansion`;
+rejection is `blocked`; only explicit owner cancellation is `cancelled`.
 
 #### V11 — Blocked recovery and compensation
 
-For every phase, create a complete blocked packet with cause, phase, last verified state,
-recovery owner, closure evidence, safe retry condition, uncertainty, and irreversible
-residual risk. Test missing and conflicting evidence, safe retry, and owner-retained risk.
-Assert that rollback and compensation never occur automatically. A compensation request is
-a new external action with a new preparation handoff, canonical request, approval,
-consumption, and execution handoff. Missing recovery data fails the fixture.
+Create a complete blocked packet with cause, last verified state, recovery owner,
+closure evidence, safe retry condition, uncertainty, and irreversible residual risk.
+Test missing and conflicting evidence, safe retry, and owner-retained risk. Assert that
+rollback and compensation never occur automatically. A compensation request is a new
+external action with its own preparation and owner approval. Missing recovery data
+fails the fixture.
 
 #### V12 — Identity, diff, review, and local-only delivery
 
 Verify the accepted source base, branch, head, merge-base, Builder identity, and named path
-allowlist. Resolve R16 snapshot `e4d7508760916548aba0bc411ad1f812ec2a1b36`, path
+allowlist. Resolve the recorded snapshot `e4d7508760916548aba0bc411ad1f812ec2a1b36`, path
 `.olympus/tasks/release-agent-v020.md`, and blob `f10f90bc9ed5fffb8316c07d3fab96c26165c23a`
 with Git metadata only; do not read or import historical task content. Check that only Builder
 and Docs Writer paths change, protected paths remain unchanged, links resolve, and tracked and
@@ -518,6 +522,8 @@ they do not establish general harness reliability.
 | Fixed conditional 14-role catalog | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `partial` |
 | Release Agent specification convergence | Codex | `103559b2ae57e5684035820e084c8617129a6cb1` | `fail` |
 | Role craft and shared state static validation | Codex | `d894317851b5ceacc0337578b9d684729401e7b6` | `pass` |
+| Guided onboarding on a fresh repository (C15) | Claude | `e67ff0b826adb4b6b8077e7f190e07038f2f13da` | `pass` |
+| Express onboarding with ref resolution (C15/C19) | Claude | `0a11d97c99d7edae1102e496758f9c5166bb6322` | `pass` |
 
 At framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`, Codex passed manual mutation;
 session activation, deactivation, and question routing; project activation; repair-cap and
@@ -637,3 +643,37 @@ no P0-P2 issue in the final exact tree. The reviewed tree matched the committed 
 This is static and independent-review evidence only. No live target repository has run the
 new C17 or C18 fixtures. It does not prove lower-model equivalence, general harness support,
 quality superiority, or production readiness.
+
+### D08 — Claude guided-onboarding dogfood on a fresh repository
+
+Two runs onboarded a clean scratch Python repository (`tidejournal`, base `6c62565`) with
+a fresh Claude session per run and a scripted owner.
+
+Run 1 used framework `6feee26fa6899143702bfd20876496b35da3e70c`. The proposal surface was
+6 nonblank lines, asked no question, and wrote nothing before opt-in two. `Show details`
+returned the complete generated PROJECT bytes, both loader diffs, mappings, conflicts,
+and the commit plan. After approval, the fresh Reviewer returned `repair` on the exact
+uncommitted unit: the instantiated PROJECT carried a relative protocol link that cannot
+resolve in a target repository, plus two weak field values. The flow stopped at
+`Fresh review=STOPPED` with nothing staged and a complete failure report ending
+`Olympus stopped.` The template defect was fixed at
+`e67ff0b826adb4b6b8077e7f190e07038f2f13da` through the normal repository workflow.
+
+Run 2 used framework `e67ff0b826adb4b6b8077e7f190e07038f2f13da` from the same clean base.
+The proposal surface was 7 nonblank lines with no question. All six stages passed. The
+named-path commit `e544402a898781e2142302fb1296226b1b1fb7e7` changed exactly
+`.olympus/PROJECT.md`, `AGENTS.md`, and `CLAUDE.md`; owner content outside the markers
+was preserved byte for byte; both managed units were byte-identical; the final tree was
+clean. The report ended `Olympus is awake.`
+
+Run 3 used framework `0a11d97c99d7edae1102e496758f9c5166bb6322` on a fresh copy of the
+same base. The request named the framework URL, a branch ref, and the exact sentence
+`Defaults pre-approved.` The session resolved the ref to the recorded full commit,
+inspected, found no conflict, ran all six stages without an owner turn, committed
+exactly the three named paths (`3f0045c`), preserved owner content byte for byte, and
+delivered the compact card as a receipt inside the success report. This is the first
+express-mode and ref-resolution evidence.
+
+This evidence covers the guided onboarding scenario on Claude only. It does not
+establish Claude support for the wider role catalog, and the earlier D03 `unsupported`
+result for a mutation goal on an older framework commit stands until a new trial.

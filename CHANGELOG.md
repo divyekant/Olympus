@@ -2,6 +2,59 @@
 
 ## Unreleased
 
+### Removed
+
+- The canonical release-request byte format, base64url encoding, hexadecimal owner
+  rendering, dual clock samples, expiry math, consumption records, and action-ledger
+  states. The release boundary keeps the same owner authority with a simple contract:
+  one single-use approval per action kind and target, at most one provider submission,
+  read-back before and after, and complete blocked-recovery records.
+- The specification intake handshake: acknowledgements, formal-attempt identifiers, and
+  round reservation. Reviewers verify the packet hash directly; a mismatch is a handoff
+  defect that consumes no round.
+- The activation-preflight consistency-bracket prose. The preflight keeps the four-state
+  classifier and a final re-read before activation; a difference is `changed` and
+  requires a fresh preflight.
+- Task-record tables that restated protocol rules. The task record now stores facts and
+  accepted results and references the protocol for meanings.
+
+### Changed
+
+- Guided onboarding is compact by default. The `## Ready to awaken Olympus` approval
+  surface is at most 12 nonblank Markdown lines. The complete proposal is still
+  generated before that surface; `Show details` reveals the exact PROJECT bytes, both
+  loader diffs, mappings, conflicts, and the commit plan on request.
+- The managed loader block shrinks to four steps. Detail lives at the pinned framework,
+  not in every target repository. See [templates/BOOTSTRAP.md](templates/BOOTSTRAP.md).
+- `Awaken Olympus` accepts one optional final period with the same meaning in every
+  state. The period no longer changes approval semantics.
+- The six onboarding stages report compactly: the `Stages:` line in the success report,
+  the six-row table in the failure report and on owner request, not on every
+  transition.
+- The PROJECT template records role support and preferences sparsely: one default row
+  plus exception rows, instead of two mandatory 15-row tables.
+- The onboarding contract references the PROJECT and bootstrap templates instead of
+  embedding full copies.
+
+### Added
+
+- Ref-based install: the owner supplies a URL and an optional branch, tag, or commit;
+  the ref defaults to `main` and is resolved once to the full commit PROJECT records.
+- Express onboarding: the exact request sentence `Defaults pre-approved.` onboards a
+  clean default-only repository in one step; any conflict or deviation falls back to
+  the gated proposal.
+- Affirmative approval: an unchanged proposal accepts `Awaken Olympus` in any accepted
+  form or a clear, unconditional affirmative reply.
+- Worktree-per-goal default with a goal-closure step: record the branch disposition,
+  remove the worktree only after merge, safe handoff, or explicit owner abandonment,
+  and otherwise retain it with its path and reason recorded.
+- Optional canonical ASCII art for the onboarding proposal and success report. Art is
+  decorative, carries no meaning, and does not count toward the approval-surface cap.
+- One inspection rule for deriving Map and Validation: code first, Git history next,
+  planning prose last.
+- D08 dogfood evidence: Claude passed guided onboarding on a fresh repository, and the
+  fresh-review gate caught a real template defect on the first run.
+
 ## 0.4.0 - 2026-08-28
 
 ### Added
