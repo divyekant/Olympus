@@ -26,7 +26,10 @@ Long agent sessions lose scope on large codebases. They can mix discovery, imple
   needs separate owner approval; the role has no file or standing external authority.
 - Decision Council gives read-only advice for unresolved material trade-offs.
 - Liaisons answer human status and explanation requests from current evidence.
-- Clean sequential goals can use branches. Concurrent goals use Git worktrees when their scopes do not overlap.
+- Each goal runs in its own worktree by default; goal closure records the branch
+  disposition and removes the worktree only after merge, safe handoff, or explicit
+  owner abandonment. Project policy may permit the current checkout for simple
+  sequential work.
 
 The [runtime protocol](references/PROTOCOL.md) defines the fixed order, triggers, packets,
 and authority. Project owners can configure role preferences, tools, models, review rounds,

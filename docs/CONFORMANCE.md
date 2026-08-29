@@ -26,7 +26,9 @@ The framework passes static inspection when:
 2. The protocol names one Orchestrator and the fixed ordered 15-role catalog with its
    triggers and authority.
 3. PROJECT supports manual and project orchestration modes, exact role preferences,
-   harness evidence, and design-standard matching details.
+   harness evidence, and design-standard matching details. The contract requires a
+   framework URL plus an optional ref defaulting to `main`, resolved once to a full
+   commit, with PROJECT recording the resolved commit as the pin.
 4. The skill routes manual, session, project, and guided wake entries through the canonical
    activation preflight before any goal, routing, or active-state claim.
 5. Every Spec Writer result has lossless source-to-validation traceability, fixed-control
@@ -63,9 +65,13 @@ The framework passes static inspection when:
 16. The canonical contract requires a complete generated proposal before the approval
     surface: exact PROJECT bytes, identical managed loader units from the bootstrap
     template, paths and preservation rules, conflicts and rejected settings, named-path
-    commit, no-remote statement, the `Awaken Olympus` second opt-in for an unchanged
-    proposal, mapping and support gates, six ordered stages, only `PENDING`, `ACTIVE`,
-    `PASS`, and `STOPPED`, stage evidence, and exact success and failure endings.
+    commit, no-remote statement, the second opt-in for an unchanged proposal with its
+    accepted approval forms and non-approval exclusions, the express pre-approval
+    sentence with its owner-turn provenance, pure-defaults precondition, and
+    receipt-not-gate delivery, the rule that no approval form waives the fresh
+    exact-unit review or any other gate, mapping and support gates, six ordered stages,
+    only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`, stage evidence, and exact success
+    and failure endings.
 17. Each of the five consumers has exactly one link to the canonical onboarding contract,
     and every target and anchor resolves.
 18. The canonical contract retains the immutable pin, fifteen-role catalog, Orchestrator
@@ -73,8 +79,9 @@ The framework passes static inspection when:
     approval gates, truthful `supported`, `unsupported`, and `untested` meanings, the
     provider-neutral Release Agent boundary, owner-selected workflow limits, and
     plain-Markdown limitations.
-19. Stage reporting is compact: the complete six-stage table is sent once at the end,
-    in the success or failure report, and on owner request mid-flow; only one stage is
+19. Stage reporting is compact: the complete six-stage status set is sent once at the
+    end — the `Stages:` line in the success report, or the six-row table in the failure
+    report — and the six-row table on owner request mid-flow; only one stage is
     `ACTIVE`, later stages stay `PENDING` after a stop, and no stage is `PASS` before
     its evidence exists.
 20. The specification body contains only the current body. Task metadata, packet identifiers,
@@ -242,7 +249,8 @@ handoff, then dispatches again. It does not consume or restore a review round.
 
 ### C15 — Guided onboarding contract
 
-Given an existing Git repository and an owner-supplied immutable framework pin, the
+Given an existing Git repository and an owner-supplied framework URL with an optional
+ref, the
 Configurer runs canonical activation preflight, inspects without writing, asks no more
 than one unresolved material question per turn with a recommendation and exact effect,
 then generates the complete proposal and sends one `## Ready to awaken Olympus` message.
@@ -261,8 +269,9 @@ approval. A request carrying exactly `Defaults pre-approved.` skips the gate onl
 a pure-defaults, conflict-free proposal, whose card is delivered as a receipt in the
 success report.
 After approval, the six ordered stages start as `PENDING`; only one stage is `ACTIVE`,
-each `PASS` has evidence, and the complete six-stage table is sent once in the final
-report or on owner request. A `STOPPED` stage leaves later stages
+each `PASS` has evidence, and the complete six-stage status set is sent once at the
+end — the `Stages:` line in the success report, or the six-row table in the failure
+report and on owner request. A `STOPPED` stage leaves later stages
 `PENDING`. The Configurer returns the exact uncommitted unit only to the Orchestrator. The
 Orchestrator dispatches a fresh exact-unit Reviewer and returns a passing verdict to the
 Configurer. The Configurer commits only named paths after both support gates and returns
@@ -279,8 +288,8 @@ before the second opt-in; a missing or unsupported required mapping; support inf
 tools, another role, or another commit; changed or malformed paths or markers; a
 Configurer-to-Reviewer handoff; an unreviewed or changed exact unit; staging before both
 support gates; a non-named path, remote action, evidence-free `PASS`, two active stages,
-an extra stage state, a final report without the complete six-stage table, or text after
-either exact final line.
+an extra stage state, a final report without the complete six-stage status set, or text
+after either exact final line.
 
 ### C16 — Specification convergence and compact state
 
@@ -374,7 +383,7 @@ be the same.
 | Six product paths | The proposal and mutation fixture name exactly these six product paths: Builder owns `SKILL.md`, `references/PROTOCOL.md`, and `templates/BOOTSTRAP.md`; Docs Writer owns `references/ONBOARDING.md`, `docs/INSTALLATION.md`, and `docs/CONFORMANCE.md`. The task record remains separate and no other path is in scope. |
 | Mutation before the recheck | After the first read and before the final recheck, mutate each target file separately: `.olympus/PROJECT.md`, root `AGENTS.md`, and root `CLAUDE.md`. Also mutate the resolved checkout path, commit, readability, or clean state. The recheck differs, so the result is `changed`, the old result is discarded, and no activation, Configurer route, or candidate report occurs. |
 | Mutation after the recheck | A repository change after the final recheck is not claimed as detected by that entry. The next wake or activation entry runs a new preflight. |
-| Zero pre-opt-in changes | Compare all target bytes, loader surrounding content, checkout state, and Git status before and after inspection and the unchanged proposal. No target file, loader, PROJECT, or checkout changes before the exact second opt-in. |
+| Zero pre-opt-in changes | Compare all target bytes, loader surrounding content, checkout state, and Git status before and after inspection and the unchanged proposal. No target file, loader, PROJECT, or checkout changes before the second opt-in, whether given as a reply or as express pre-approval in the request. |
 | Zero-question defaults | On a clean repository with a framework URL and no material ambiguity, reach the compact approval surface without a question. Evidence shows `manual`, ref `main` resolved to a recorded full commit, repository-derived Map and Validation, review cap `2`, one worktree per goal, and host-default mappings unless a required role is unavailable. |
 | Approval forms | An unchanged proposal is approved by `Awaken Olympus` (case-insensitive, optional final period) or a clear, unconditional affirmative reply. A question, a conditional reply, or a settings change never approves. A changed proposal requires a new second opt-in. Progressive disclosure and rich-host controls do not weaken double opt-in. |
 | Express pre-approval | A request containing exactly `Defaults pre-approved.` onboards a clean default-only repository in one step, with the card delivered as a receipt in the success report. Seed a conflict, an existing loader or PROJECT, a rejected setting, or a material question: the flow must stop and use the normal gated proposal instead. |
@@ -484,7 +493,7 @@ fails the fixture.
 #### V12 — Identity, diff, review, and local-only delivery
 
 Verify the accepted source base, branch, head, merge-base, Builder identity, and named path
-allowlist. Resolve R16 snapshot `e4d7508760916548aba0bc411ad1f812ec2a1b36`, path
+allowlist. Resolve the recorded snapshot `e4d7508760916548aba0bc411ad1f812ec2a1b36`, path
 `.olympus/tasks/release-agent-v020.md`, and blob `f10f90bc9ed5fffb8316c07d3fab96c26165c23a`
 with Git metadata only; do not read or import historical task content. Check that only Builder
 and Docs Writer paths change, protected paths remain unchanged, links resolve, and tracked and

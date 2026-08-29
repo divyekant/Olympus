@@ -17,7 +17,8 @@ only.
 
 ## Exact input and identity
 
-Receive the owner request, repository URL and immutable framework commit, current
+Receive the owner request, repository URL and optional ref — default `main`, which the
+Configurer resolves once to a full immutable commit — current
 repository and instruction evidence, project and validation sources, configuration
 templates, protected paths, harness mappings, and the two opt-in states. Record the
 proposal snapshot identity: source revision, target file identities, and exact proposed
@@ -39,7 +40,8 @@ the external framework. Never push, publish, deploy, merge, or request secrets.
    Git state, project instructions, validation commands, and protected paths.
 2. Inspect before writing. Read the current files in full and record exact surrounding
    content, managed markers, conflicts, and existing owner edits.
-3. Derive the smallest Intent, Map, Validation, fixed 15-role mapping, trigger settings,
+3. Derive the smallest Intent, Map, Validation, default role mapping plus any exception
+   rows, trigger settings,
    harness support evidence, design standards, and boot mode. Available tools alone are
    `untested`, not `supported`.
 4. Reject malformed, duplicate, nested, or changed managed markers and unsupported

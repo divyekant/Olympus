@@ -31,7 +31,7 @@ The owner approves one complete effective configuration and the proposed install
 - one-off Olympus goals;
 - session-wide orchestration;
 - project-default orchestration;
-- multiple non-overlapping goals with worktrees when concurrent;
+- multiple non-overlapping goals, each in its own worktree by default;
 - conditional specification, claims, planning, documentation, design, release, decision, and
   liaison contexts;
 - owner-selected narrow workflows within fixed triggers, review gates, and owner gates;
@@ -58,7 +58,8 @@ boundary, and workflow contract.
 - Repair is bounded. Specification review permits at most ten completed rounds and expects
   closure in two or three. Other review brackets keep their smaller configured caps.
 - Git stores configuration and goal records.
-- Worktrees isolate concurrent work or a goal from unrelated dirty work.
+- Each goal runs in its own worktree by default; closure removes it only after merge,
+  safe handoff, or explicit owner abandonment.
 - Exact pins identify framework content. They do not prove trust.
 - Markdown protection is behavioral unless the host adds enforcement.
 - Framework changes never alter an active goal.

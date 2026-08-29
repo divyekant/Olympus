@@ -41,7 +41,7 @@ requirements.
 | `resilience/SKILL.md` | material hazard, blast radius, degraded behavior, fail-closed unknowns | All fixed roles |
 | `systematic-debugging/SKILL.md` | reproduce, gather evidence, trace cause, test one hypothesis | Explorer, Builder |
 | `test-driven-development/SKILL.md` | prove material behavior can fail before relying on a check | Builder |
-| `using-git-worktrees/SKILL.md` | conditional isolation, dirty-state safety, baseline verification | Orchestrator protocol |
+| `using-git-worktrees/SKILL.md` | default per-goal isolation, dirty-state safety, baseline verification | Orchestrator protocol |
 | `verification-before-completion/SKILL.md` | current command evidence before completion claims | Builder, Reviewer, Orchestrator |
 | `requesting-code-review/SKILL.md` | exact review unit, independent feedback, evidence-backed response | Reviewer, Orchestrator |
 | `council/SKILL.md` | adversarial option comparison, challenge resolution, and pre-mortem | Decision Council advisory role |

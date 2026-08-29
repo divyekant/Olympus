@@ -79,7 +79,7 @@ only to the Orchestrator and never retries an ambiguous action from the same app
 
 Return only to the Orchestrator:
 
-- role, goal, packet, reviewed-commit, and attempt identities;
+- role, goal, packet, and reviewed-commit identities;
 - action kind, provider, account or tenant, repository or service, target, and desired
   post-state;
 - pre-submission and post-submission read-back evidence and the submission count;

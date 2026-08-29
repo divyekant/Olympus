@@ -75,7 +75,7 @@ flowchart LR
     Pack --> Flow[Fixed Markdown workflow]
     Flow --> Repo[Target Git repository]
     Repo --> Tasks[One task record per goal]
-    Repo --> Trees[Branch or worktree when useful]
+    Repo --> Trees[One worktree per goal]
 ```
 
 The framework does not call model APIs, schedule jobs, store conversations, or run a
@@ -85,7 +85,8 @@ The detailed framework stays outside the target repository at the pinned commit.
 
 ## Configuration boundary
 
-The owner supplies a framework repository URL and full commit. The Configurer inspects
+The owner supplies a framework repository URL and an optional ref; the ref defaults to
+`main` and is resolved once to the full commit PROJECT records. The Configurer inspects
 the target repository and derives a minimal configuration. It asks only questions that
 change intent, boot mode, boundaries, or authority.
 
@@ -257,7 +258,7 @@ after real goals show that Markdown, native agents, and Git cannot provide the r
 ### Ceremony cost
 
 The main risk is that the framework becomes slower than the work. Configurer, Explorer,
-specification, planning, Docs Writer, Design Reviewer, Council, Liaison, and worktrees are
+specification, planning, Docs Writer, Design Reviewer, Council, and Liaison are
 conditional. Task records stay short. Dogfood measures setup, build, review, and
 finalization separately.
 
@@ -288,9 +289,12 @@ guide](INSTALLATION.md) and [System Configurer charter](../agents/SYSTEM_CONFIGU
 
 ### Dirty or concurrent work
 
-Unrelated owner work is preserved and can be isolated with a worktree. Relevant dirty
-work must be committed or explicitly included before isolation. Overlapping goals are
-serialized because filesystem separation does not prevent design conflicts.
+Each goal runs in its own worktree from the committed working-directory HEAD by
+default, so unrelated owner work is never edited. Relevant dirty work must be committed
+or explicitly included before a current-checkout goal. Goal closure records the branch
+disposition and removes the worktree only after merge, safe handoff, or explicit owner
+abandonment. Overlapping goals are serialized because filesystem separation does not
+prevent design conflicts.
 
 ### False durability
 
