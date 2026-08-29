@@ -157,25 +157,16 @@ sequenceDiagram
     opt Substantial, ambiguous, architectural, or cross-layer goal
         O->>S: Bounded goal packet
         S-->>O: Complete traceable specification, identifier, and hash
-        O->>O: Persist body, update metadata, verify hash
-        O->>CR: Same immutable packet and metadata
-        CR-->>O: Identifier and recomputed hash, or intake-invalid
-        O->>SR: Same immutable packet and metadata
-        SR-->>O: Identifier and recomputed hash, or intake-invalid
-        alt Both intake acknowledgements match
-            O->>O: Reserve candidate round and attempt ID
-            O->>CR: Review every material claim for that attempt
-            O->>SR: Review every criterion and red path for that attempt
-            CR-->>O: Complete claim packet or halted return
-            SR-->>O: Complete specification packet or halted return
-            alt Both complete packets return
-                O->>O: Count completed round and freeze finding ledger
-            else Attempt halted
-                O->>O: Preserve provisional findings; count zero rounds
-                O->>O: Retry once with fresh reviewers, then escalate
-            end
-        else Intake invalid
-            O->>O: Preserve evidence; consume zero rounds
+        O->>O: Persist body, verify hash
+        O->>CR: Same immutable packet, identifier, and hash
+        O->>SR: Same immutable packet, identifier, and hash
+        CR-->>O: Complete claim packet, hash-mismatch defect, or halted return
+        SR-->>O: Complete specification packet, hash-mismatch defect, or halted return
+        alt Both complete packets return
+            O->>O: Count completed round and freeze finding ledger
+        else Defect or halted attempt
+            O->>O: Preserve provisional findings; count zero rounds
+            O->>O: Correct the handoff or retry once, then escalate
         end
     end
     opt Plan trigger holds
@@ -204,8 +195,8 @@ sequenceDiagram
     alt Every invoked review passes
         O->>O: Final verification
         opt Owner requests release preparation, reconciliation, or one external action
-            O->>RA: Source-only preparation or immutable execution handoff
-            RA-->>O: Canonical request, digest, rendering, and per-action result
+            O->>RA: Preparation fields or approved action and evidence
+            RA-->>O: Per-action release result and read-back evidence
         end
         O->>O: Completion
     else Repair below cap
@@ -229,12 +220,12 @@ workflow](../references/PROTOCOL.md#owner-selected-workflow) and [task release
 records](../templates/TASK.md#release-boundary-records).
 
 The [Release Agent](../agents/RELEASE_AGENT.md) owns only the provider-neutral release
-boundary. Preparation receives source fields and returns an exact inert request, digest,
-ASCII rendering, and pre-dispatch result. After separate owner approval and verified
-consumption, the Orchestrator sends an immutable execution handoff. The Release Agent has no
-file or standing external authority and makes at most one provider action submission for that
-handoff; required read-only clock, capability, and read-back calls do not consume it. These
-are Markdown contracts and static fixtures. They do not prove live provider support, release
+boundary. Preparation validates the reviewed commit, action, target, and desired
+post-state, and reconciles current provider state read-only. One single-use owner
+approval covers one action kind and one target. The Release Agent has no file or
+standing external authority and makes at most one provider action submission per
+approval; read-only capability and read-back calls do not consume it. These are Markdown
+contracts and static fixtures. They do not prove live provider support, release
 execution, production readiness, or general harness support.
 
 ## Why no runtime graph framework

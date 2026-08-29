@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+### Removed
+
+- The canonical release-request byte format, base64url encoding, hexadecimal owner
+  rendering, dual clock samples, expiry math, consumption records, and action-ledger
+  states. The release boundary keeps the same owner authority with a simple contract:
+  one single-use approval per action kind and target, at most one provider submission,
+  read-back before and after, and complete blocked-recovery records.
+- The specification intake handshake: acknowledgements, formal-attempt identifiers, and
+  round reservation. Reviewers verify the packet hash directly; a mismatch is a handoff
+  defect that consumes no round.
+- The activation-preflight consistency-bracket prose. The preflight keeps the four-state
+  classifier and a final re-read before activation; a difference is `changed` and
+  requires a fresh preflight.
+- Task-record tables that restated protocol rules. The task record now stores facts and
+  accepted results and references the protocol for meanings.
+
 ### Changed
 
 - Guided onboarding is compact by default. The `## Ready to awaken Olympus` approval
@@ -18,6 +34,15 @@
   plus exception rows, instead of two mandatory 15-row tables.
 - The onboarding contract references the PROJECT and bootstrap templates instead of
   embedding full copies.
+
+### Added
+
+- Optional canonical ASCII art for the onboarding proposal and success report. Art is
+  decorative, carries no meaning, and does not count toward the approval-surface cap.
+- One inspection rule for deriving Map and Validation: code first, Git history next,
+  planning prose last.
+- D08 dogfood evidence: Claude passed guided onboarding on a fresh repository, and the
+  fresh-review gate caught a real template defect on the first run.
 
 ## 0.4.0 - 2026-08-28
 

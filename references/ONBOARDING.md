@@ -52,8 +52,9 @@ The Configurer inspects read-only before it asks a question or proposes a write:
   standards;
 - role support, conflicts, stale evidence, and material unknowns.
 
-Do not write during inspection. Do not dump raw discovery output. Keep the working
-detail; the owner sees only what changes their decision.
+Derive Map and Validation from the repository itself: code first, Git history next,
+planning prose last. Do not write during inspection. Do not dump raw discovery output.
+Keep the working detail; the owner sees only what changes their decision.
 
 ## Ask one material question
 
@@ -93,8 +94,24 @@ Markdown lines, excluding optional art, in this shape:
 Reply `Awaken Olympus` to approve. `Show details` reveals the full configuration first.
 `Change settings` adjusts the owner knobs. No write occurs before your reply.
 
-Optional decorative art carries no meaning. Every required fact, gate, and action must
-survive with art removed.
+## Optional art
+
+The proposal and the success report may open with this art, immediately above their
+headings. On a host that renders it badly, omit it. Art is decorative and carries no
+meaning: every required fact, gate, and action must survive with art removed, and art
+lines do not count toward the approval-surface cap.
+
+```text
+                  *
+            ______________
+           /              \
+          /  O L Y M P U S \
+         /__________________\
+           |   |   |   |   |
+           |   |   |   |   |
+         ______________________
+        /______________________\
+```
 
 ## Details on request
 

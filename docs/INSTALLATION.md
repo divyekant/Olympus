@@ -9,13 +9,10 @@ owns wake and activation classification, target identity captures, and the immed
 and [BOOTSTRAP template](../templates/BOOTSTRAP.md) retain the role, project, and loader
 contracts.
 
-The preflight opens each before-and-after consistency bracket before the initial PROJECT
-sample; it does not use atomic filesystem snapshots. All target, checkout, pinned-contract,
-canonical-loader, and checkout-status reads stay inside each bracket. The protocol classifies
-unstable brackets or differing coherent captures as `changed`; stable invalid, unreadable,
-mismatched, or dirty evidence is `malformed` only after the bracket and coherent final
-capture complete. Only internal instability or differing coherent captures is `changed`. A
-changed result does not route Configurer or report a candidate state.
+The preflight classifies the target as `missing`, `partial`, `malformed`, or `complete`,
+and re-reads the target immediately before any activation. A difference between the two
+reads is `changed`: discard the result and run a fresh preflight. A changed result does
+not route Configurer or report a candidate state.
 
 ## Owner instruction
 
@@ -49,12 +46,9 @@ Use a full commit, not a branch, tag, `main`, or `latest`.
 
 The owner request is opt-in one. Follow this order and the guided onboarding contract:
 
-1. Start the [canonical activation preflight](../references/PROTOCOL.md#canonical-activation-preflight)
-   before the initial PROJECT sample. Resolve and record the exact URL and full commit
-   inside its open bracket, complete the coherent final capture, then classify stable
-   unavailable, unreadable, mismatched, or dirty pin evidence as `malformed` and stop.
-   Reserve `changed` for bracket instability or differing coherent captures; run a fresh
-   preflight when that occurs.
+1. Run the [canonical activation preflight](../references/PROTOCOL.md#canonical-activation-preflight)
+   first. Resolve and record the exact URL and full commit. An unresolvable, mismatched,
+   unreadable, or dirty pin is `malformed`: stop with the exact evidence.
 2. Inspect read-only. Do not ask before inspection and do not dump raw discovery
    output.
 3. Use documented safe defaults when they decide the choice. Ask at most one unresolved
@@ -109,13 +103,11 @@ release, or other remote action needs fresh owner approval.
 
 Before `Use Olympus for: <goal>`, `Activate Olympus orchestration`, project boot, or a
 guided wake, run the read-only [canonical activation preflight](../references/PROTOCOL.md#canonical-activation-preflight)
-against the target repository root. It owns the ordered state classifier and the immediate
-final recheck; this guide does not duplicate those rules. No goal, session route, project
-route, or active claim starts before an unchanged complete state authorizes it. Missing state
-enters guided onboarding. Partial or malformed state stops with exact evidence. The first
-and final captures must each be coherent; the final capture and assignment are one transition
-with no repository read, dispatch, or other action between them. A repository change after
-that transition is next-entry state.
+against the target repository root. It owns the ordered state classifier and the final
+recheck; this guide does not duplicate those rules. No goal, session route, project
+route, or active claim starts before a `complete` state and its recheck authorize it.
+Missing state enters guided onboarding. Partial or malformed state stops with exact
+evidence. A repository change after the recheck is next-entry state.
 
 Project boot order is exact pin resolution, pinned `SKILL.md` and `references/PROTOCOL.md`
 reads, preflight, immediate final recheck, then route. Boot mode never routes first.

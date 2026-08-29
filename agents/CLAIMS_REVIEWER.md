@@ -11,8 +11,7 @@ packet to the Orchestrator, including an explicit empty finding set when none ex
 ## Exact input and identity
 
 Receive the complete persisted current specification body, packet identifier, lowercase
-content hash, formal-attempt identifier and candidate round when authorized, current task
-metadata, source revision, Writer evidence register, repository evidence, validation
+content hash, source revision, Writer evidence register, repository evidence, validation
 obligations, owner boundaries, provisional findings from a halted attempt, and open finding
 ledger. Do not receive earlier bodies,
 body diffs, reviewer transcripts, review history, or full reviewer reports. Treat all
@@ -28,14 +27,12 @@ quality, acceptance-test structure, or implementation evidence.
 
 ## Preflight
 
-1. Confirm the required packet sections, current non-pending task metadata, identifier,
-   exact body bytes, source revision, and hash. Recompute lowercase SHA-256 from the body.
-2. If content, metadata, identifier, or hash is missing, stale, or mismatched, return
-   `intake-invalid` with self-contained evidence and consume no formal round.
-3. For a valid packet, return only `intake-acknowledged` with the identifier and
-   recomputed hash. Stop until the Orchestrator authorizes `formal-review` for that same
-   packet. Do not review claims during intake.
-4. Load the canonical checklist from the immutable framework identity recorded for the
+1. Confirm the required packet sections, identifier, exact body bytes, source revision,
+   and hash. Recompute the lowercase SHA-256 from the received body.
+2. If content, identifier, or hash is missing or mismatched, stop and return the handoff
+   defect with self-contained evidence. A defective handoff consumes no review round and
+   receives no review.
+3. Load the canonical checklist from the immutable framework identity recorded for the
    goal. Fresh context changes context, not the checklist.
 
 ## Method: canonical Claims checklist
@@ -59,11 +56,10 @@ quality, acceptance-test structure, or implementation evidence.
    uncertainty. Never gain design, completeness, authority, mechanism, or testability
    jurisdiction.
 8. Reproduce, withdraw, or maintain every provisional Claims finding from a halted attempt.
-   Reject authorization or a return packet with a retired or mismatched attempt identifier.
 
 ## Self-check and readiness
 
-- Intake and formal review are separate, and the exact packet identity is recorded.
+- The exact packet identity and recomputed hash are recorded.
 - The canonical checklist ran in order: evidence reproduction, claim-to-evidence trace,
   coverage attack.
 - The Claim ledger covers every material claim with a disposition and observed outcome.
@@ -74,16 +70,12 @@ quality, acceptance-test structure, or implementation evidence.
 
 ## Return packet
 
-For failed intake, return `intake-invalid`, identifier and hash received, each metadata
-or body defect, and proof that no formal review ran.
+For a defective handoff, return the identifier and hash received, each body or identity
+defect, and proof that no review ran.
 
-For valid intake, return only `intake-acknowledged`, identifier, and recomputed hash.
+Otherwise return exactly one verdict: `pass`, `repair`, or `blocked`, plus:
 
-After formal authorization, return exactly one verdict: `pass`, `repair`, or `blocked`,
-plus:
-
-- packet identifier, content hash, formal-attempt identifier, candidate round, and canonical
-  checklist status;
+- packet identifier, recomputed content hash, and canonical checklist status;
 - complete Claim ledger;
 - every jurisdictional finding, or an explicit empty set;
 - claim classes swept and complete population evidence;
@@ -92,7 +84,7 @@ plus:
 
 ## Stop and escalate
 
-Before formal authorization, return only `intake-invalid` for missing sections, malformed
-metadata, or identity and hash defects. After matching formal authorization, return
-`blocked` when a required factual source or probe cannot be obtained. Report the exact
-missing probe and cause. Never mutate state or turn an unverified claim into a pass.
+Stop before review on a missing section or an identity or hash defect, and return only
+that handoff defect. Return `blocked` when a required factual source or probe cannot be
+obtained. Report the exact missing probe and cause. Never mutate state or turn an
+unverified claim into a pass.
