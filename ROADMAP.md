@@ -10,7 +10,7 @@ promise.
 | 3 — Dogfood | complete | Codex correctness pilot `214be8163ba672d42b62ec7ad8ebe8fa71b466b5` |
 | 4 — Large-codebase proof | complete, mixed | D02 failed; Issue #750 tied with no P0-P2 defects; see D05 |
 | 5 — Second harness and unrelated project | complete | Claude `unsupported`; unrelated Codex mutation `pass`; see D03–D04 in `docs/CONFORMANCE.md` |
-| 6 — OSS readiness | private experimental releases | Apache-2.0; private canonical repository; `v0.4.0` prepared for manual validation |
+| 6 — OSS readiness | private experimental releases | Apache-2.0; private canonical repository; `v0.5.0` released with compact onboarding and the protocol diet |
 | Role and state quality | static pass, live test pending | all existing charters strengthened at `d894317851b5ceacc0337578b9d684729401e7b6`; C17-C18 specified |
 | Catalog and workflow expansion | static contract added; live evidence pending | the catalog now has fifteen roles, including a provider-neutral Release Agent and five fixed request boundaries with an owner-selected role allowlist; see the [release boundary](references/PROTOCOL.md#release-boundary), [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), and [V1–V12 fixtures](docs/CONFORMANCE.md#v1-v12-release-agent-and-custom-workflow-fixtures) |
 
@@ -83,11 +83,13 @@ fresh-clone installation; known limits and unsupported paths; conformance eviden
 owner approval for public remote, tag, package, or release actions.
 
 **Outcome:** Experimental releases use Apache-2.0 and remain private. Version `0.3.0`
-strengthened the fixed role and state contracts. The current private experimental `0.4.0`
-scope adds the provider-neutral Release Agent and owner-selected workflow boundaries with
-static contract evidence only. No live provider behavior, release execution, or production
-readiness is established. Keep the canonical repository private until the owner approves
-public version `1.0.0`.
+strengthened the fixed role and state contracts. Version `0.4.0` added the
+provider-neutral Release Agent and owner-selected workflow boundaries. The current
+private experimental `0.5.0` makes onboarding compact and one-step capable, defaults
+isolation to one worktree per goal, and removes protocol ceremony; Claude passed the
+guided onboarding scenario (D08). No live provider behavior, release execution, or
+production readiness is established. Keep the canonical repository private until the
+owner approves public version `1.0.0`.
 
 ## Deferred until evidence requires it
 
