@@ -508,6 +508,7 @@ they do not establish general harness reliability.
 | Release Agent specification convergence | Codex | `103559b2ae57e5684035820e084c8617129a6cb1` | `fail` |
 | Role craft and shared state static validation | Codex | `d894317851b5ceacc0337578b9d684729401e7b6` | `pass` |
 | Guided onboarding on a fresh repository (C15) | Claude | `e67ff0b826adb4b6b8077e7f190e07038f2f13da` | `pass` |
+| Express onboarding with ref resolution (C15/C19) | Claude | `0a11d97c99d7edae1102e496758f9c5166bb6322` | `pass` |
 
 At framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9`, Codex passed manual mutation;
 session activation, deactivation, and question routing; project activation; repair-cap and
@@ -649,6 +650,14 @@ named-path commit `e544402a898781e2142302fb1296226b1b1fb7e7` changed exactly
 `.olympus/PROJECT.md`, `AGENTS.md`, and `CLAUDE.md`; owner content outside the markers
 was preserved byte for byte; both managed units were byte-identical; the final tree was
 clean. The report ended `Olympus is awake.`
+
+Run 3 used framework `0a11d97c99d7edae1102e496758f9c5166bb6322` on a fresh copy of the
+same base. The request named the framework URL, a branch ref, and the exact sentence
+`Defaults pre-approved.` The session resolved the ref to the recorded full commit,
+inspected, found no conflict, ran all six stages without an owner turn, committed
+exactly the three named paths (`3f0045c`), preserved owner content byte for byte, and
+delivered the compact card as a receipt inside the success report. This is the first
+express-mode and ref-resolution evidence.
 
 This evidence covers the guided onboarding scenario on Claude only. It does not
 establish Claude support for the wider role catalog, and the earlier D03 `unsupported`
