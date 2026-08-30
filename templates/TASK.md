@@ -158,7 +158,7 @@ classification holds.
 | `decision` | `<passed, partitioned, proceed-unsplit, cancelled-with-goal, or pending>` |
 | `request-bytes` | `<exact bytes of the owner request field the check measured>` |
 | `source-base` | `<full commit the check read>` |
-| `proposal-reference` | `<exactly one reference whenever any threshold result is fail or unavailable; none only while that turn was interrupted before the reference was appended and no permitted send has appended it, or while the entry closed cancelled-with-goal before any permitted send; none on an all-pass entry>` |
+| `proposal-reference` | `<exactly one reference whenever any threshold result is fail or unavailable; none only while that turn was interrupted before the reference was appended and no permitted send has appended it, or while a halted outcome was recorded for that entry and the entry then closed before any permitted send, a permitted send being a send that appended a proposal reference; none on an all-pass entry>` |
 | `revision-reference` | `<one reference made in reply to a recorded owner clarification, or none>` |
 | `clarification-reference` | `<at most one owner clarification, with the Orchestrator reply when it answered, or none>` |
 | `owner-decision reference` | `<verbatim owner decision bytes and their position in the sequence below, or not applicable>` |
@@ -211,11 +211,13 @@ diffs, reviewer transcripts, review history, or defensive annotations in the bod
 Record a hash mismatch, missing content, or interrupted reviewer attempt here. A defect
 consumes no review round; correct and re-persist the handoff before a new dispatch.
 Preserve findings from an interrupted attempt as provisional evidence for the next
-complete bracket.
+complete bracket. One attempt counter serves each round, every append after that round's
+first append takes the next number from it, and a corrected re-persist also records the
+handoff-defect reference that caused it.
 
 | Attempt | Packet identifier | Defect or interruption | Provisional finding IDs | Disposition |
 | --- | --- | --- | --- | --- |
-| `<n>` | `<identifier>` | `<hash mismatch, missing content, or interrupted reviewer>` | `<IDs or none>` | `<corrected, retried with fresh reviewers, escalated, or blocked>` |
+| `<attempt number of the corrective append for this round; none when no corrective append exists>` | `<identifier>` | `<hash mismatch, missing content, or interrupted reviewer>` | `<IDs or none>` | `<corrected, retried with fresh reviewers, escalated, or blocked>` |
 
 ### Lens schedule
 
@@ -228,7 +230,7 @@ finding ledger, or in the specification body.
 
 | Round | Packet identifier and hash | Attempt | Assigned lenses and owning reviewers | Recorded dispositions | Supersedes |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<identifier and hash>` | `<handoff-defect attempt number>` | `<each lens with its owning reviewer; at most two lenses per reviewer>` | `<per lens: the lens, plus its findings by that reviewer's own references or an explicit no-additional-finding; or not yet returned>` | `<earlier row or none>` |
+| `<n>` | `<identifier and hash>` | `<attempt number from the one counter for this round, which is that append's handoff-defect reference; none only on the round's first append>` | `<each lens with its owning reviewer; at most two lenses per reviewer>` | `<per lens: the lens, plus its findings by that reviewer's own references or an explicit no-additional-finding; or not yet returned>` | `<earlier row or none>` |
 
 ### Specification review rounds
 

@@ -276,8 +276,9 @@ different Reviewer context. A host that cannot do this is unsupported.
 
 Specification review is capped at ten completed rounds and expects closure in two or three.
 Halted attempts do not consume that cap. One fresh retry is automatic; another runtime
-failure escalates. Other review brackets keep their smaller configured caps. Open findings
-at a cap produce `blocked`, not another automatic loop.
+failure escalates. Other review brackets keep their smaller configured caps. Any open P0,
+P1, or P2 at a cap produces `blocked`, not another automatic loop. An open P3 does not
+block.
 
 ### Partial installation
 
