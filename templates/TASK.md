@@ -163,6 +163,7 @@ classification holds.
 | `clarification-reference` | `<at most one owner clarification, with the Orchestrator reply when it answered, or none>` |
 | `owner-decision reference` | `<verbatim owner decision bytes and their position in the sequence below, or not applicable>` |
 | `observed-at-round-1` | `<body bytes, criteria count, and deliverable count observed at round 1, or not applicable>` |
+| `cap-amendment` | `<proposal reference and its cause; the exact current and proposed value of each cap named; the owner reply with its verbatim decision bytes; the path state, open, closed, or spent; each amended value and the first persisted Writer result it governs, or none>` |
 
 The owner-exchange sequence is append-only. Only the Orchestrator appends, and positions
 are assigned once and never renumbered.
@@ -187,7 +188,9 @@ dispatch. The body between the markers is the only specification body in this re
 must contain requirements, invariants, acceptance criteria, red paths, and validation
 obligations. Keep metadata, packet identifiers, hashes, verdict counts, findings,
 convergence state, and body size outside the hashed body. Never put earlier bodies, body
-diffs, reviewer transcripts, review history, or defensive annotations in the body.
+diffs, reviewer transcripts, review history, evidence transcripts, or defensive
+annotations in the body. The body carries claims and pointers only, under the protocol
+rule for reproduced text.
 
 ### Current specification body
 
