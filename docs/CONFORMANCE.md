@@ -87,7 +87,13 @@ The framework passes static inspection when:
 20. The specification body contains only the current body. Task metadata, packet identifiers,
     hashes, verdict counts, findings, convergence state, and body size remain outside the
     hashed body. Earlier bodies, body diffs, reviewer transcripts, review history, round
-    records, and defensive annotations are not embedded in it.
+    records, evidence transcripts, and defensive annotations are not embedded in it. The
+    body carries claims and pointers only. Reproduced text is body content only in the three
+    cases the protocol rule for reproduced text states, each under the bound that rule sets:
+    a licensed register result; exact bytes that must appear in, or that an edit replaces
+    in, an artifact the body requires; and a bounded quotation a claim, an edit, or a
+    criterion names. Reproduced text carries no evidentiary force, and each reviewer
+    verifies the claims in its own jurisdiction by that reviewer's own charter method.
 21. One compact Orchestrator-owned finding ledger records stable ID, reviewer jurisdiction,
     severity, concise finding, minimum reproducing evidence, closure condition, state,
     first-seen round, last-checked round, and `introduced` or `missed` classification for
@@ -104,7 +110,17 @@ The framework passes static inspection when:
     2-3 rounds),
     other bracket caps remain unchanged, each round records open P0-P2 and body line/byte
     counts, the body is at most 300 lines and 48,000 bytes, and round 3 stagnation or growth
-    triggers a compact complete restatement. An oversized result cannot enter review. At
+    triggers a compact complete restatement. An oversized result cannot enter review. Only
+    the owner amends a body size cap, through at most one Orchestrator proposal per goal
+    that names one cap or both, states the cause and the exact current and proposed value of
+    each cap named, and is granted in the owner's own reply turn by verbatim decision bytes
+    naming an exact new value, which the owner may set to a value the proposal did not
+    propose. The Orchestrator records the proposal, the reply, the path state, and each
+    amended value in the task record beside the sizing entry. An amended value governs that
+    goal only, from the first Writer result persisted after the grant. The goal blocks when
+    a result exceeds a cap in force, a restatement has not brought the body under that cap,
+    and the path is closed or spent. An Orchestrator that raises a cap on its own authority
+    fails this item. At
     completed round 10, remaining P0-P2 findings block implementation.
 24. After acceptance, the general Reviewer owns whether implementation evidence satisfies the
     accepted criteria. Specification reviewers do not replace that implementation review.

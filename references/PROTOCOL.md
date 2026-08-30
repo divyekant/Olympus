@@ -215,8 +215,8 @@ For each goal, the Orchestrator creates one task record with:
   owner-exchange sequence, the owner reply's verbatim decision bytes with their position
   in that sequence after the proposal and after any revision, each member goal row with
   the guidance position it realizes, the `decision-value reference` that every Spec Writer
-  packet record carries, and `observed-at-round-1` once the goal completes specification
-  round 1;
+  packet record carries, `observed-at-round-1` once the goal completes specification round
+  1, and the cap-amendment record once the task record holds one;
 - compact specification round summaries, one Orchestrator-owned finding ledger with
   minimum evidence and closure conditions, convergence state, and current specification
   body size;
@@ -305,8 +305,8 @@ Then:
      packet, and on repair send only the current specification body and the open finding
      ledger;
    - persist the complete current Writer result before review. The specification body
-     contains no earlier body, body diff, reviewer transcript, review history, or
-     defensive annotation;
+     contains no earlier body, body diff, reviewer transcript, review history, evidence
+     transcript, or defensive annotation;
    - record the packet identifier and the lowercase SHA-256 hash of the exact persisted
      specification body bytes, and verify that hash against the Writer return;
    - before reviewer dispatch, schedule this round's review lenses from the fixed catalog
@@ -396,7 +396,25 @@ The current specification body is the only specification text in the task record
 task metadata, packet identifiers, hashes, verdict counts, findings, convergence state,
 and body size outside the hashed body. The body must define requirements, invariants,
 acceptance criteria, red paths, and validation obligations. It must not contain review
-history or reviewer output.
+history or reviewer output. It carries claims and pointers only. Reproduced text, meaning
+text copied from a pre-existing source, is body content in exactly three cases: a recorded
+result licensed by the population-register rules below, whose command filters on the
+stated property; exact bytes that must appear in, or that an edit replaces in, an artifact
+the body requires, where output an obligation merely re-reads is not such bytes and where
+an anchor is no longer than uniqueness within its file and the edit require; and a
+quotation that one claim, one edit, or one acceptance criterion names, limited to the
+sentences of prose that carry the cited point and to at most three of them. Every other
+reproduction of text from a pre-existing source is an evidence transcript, and the body
+carries none. A register's recorded result is body content for that register's own
+completeness claim only, and when the population's members are regions of a file that
+recorded result is a digest of the command's output, optionally with the member count,
+because a digest changes whenever the population changes. Spec Writer reports an evidence
+transcript to the Orchestrator under the return item the charter already requires for the
+complete Evidence register and traceability map, and the body's claim points to that
+report. Reproduced text in the body carries no evidentiary force. Each reviewer verifies
+the claims in its own jurisdiction by that reviewer's own charter method, and text the
+body reproduces neither reduces nor replaces that method. A body that carries an evidence
+transcript is a specification defect, and the repair is the body.
 
 A specification body defines a population by a stated property. A bare list is not a
 population definition. A list of a population, meaning a list whose members are the
@@ -456,8 +474,45 @@ At every completed round, record the open P0-P2 count and the current body line 
 size. The body is at most 300 lines and 48,000 bytes. If round 3 does not reduce open
 P0-P2 findings, or the body grows without reducing them, the next Writer result is a
 compact, complete restatement, not an additive patch. This does not reset the round
-count. At round 10, any remaining P0-P2 finding blocks implementation. An oversized
-Writer result is incomplete and does not enter review.
+count. At round 10, any remaining P0-P2 finding blocks implementation. An oversized Writer
+result is incomplete and does not enter review.
+
+The owner alone amends a body size cap, and only through this path. An Orchestrator
+raising a cap on its own authority is illegal, and this path does not change that. An
+amendment during an open specification bracket is expected never to happen: the rule that
+the body carries claims and pointers only is the fix for a body that approaches a cap, and
+the compact complete restatement is the standing remedy. The Orchestrator sends at most
+one cap-amendment proposal per goal. One proposal names one cap or both. It states the
+cause, the exact current value and the exact proposed value of each cap it names, and the
+frozen ledger's recorded state at the latest frozen round, which shows whether an open
+finding concerns reproduced text; the Orchestrator records that state and originates no
+determination. The path closes or is spent only on the owner's own reply turn. A grant is
+the owner's verbatim decision bytes naming an exact new value for each cap the reply
+amends. The owner may name a value the proposal did not propose, and that owner-named
+value is the amended value, because the proposal is a request and the owner is the
+authority; a scalar counter-value is determinate and therefore a decision, unlike a
+counter-boundary in the sizing gate, which changes the goal's scope and leaves that gate
+open. A reply naming values for only some proposed caps grants the named caps and leaves
+the others unamended. A reply that omits a value, a question, a conditional reply, and a
+settings change are not grants, and a reply that names a value and also asks a question or
+states a condition is not a grant; each leaves the path open. If the turn is interrupted
+after the proposal is recorded and before it reaches the owner, record a `halted` outcome,
+then re-send the proposal once while the path is open, and reuse the recorded proposal
+reference. The path is open until a proposal is refused, which closes it, or a grant is
+recorded, which spends it. A proposal by itself stops no round and blocks no goal, and no
+proposal changes another rule: the round cap, the restatement duty, and the rule that an
+oversized result does not enter review stay as stated. While the path is open the goal
+continues under the values in force, and its exits are the compact complete restatement,
+the proposal the Orchestrator may still send, and the standing duty to record the current
+state and stop as `blocked` when safe continuation is unclear. The Orchestrator records
+the proposal, the reply, and each amended value in the task record beside the sizing
+entry's `observed-at-round-1` record, because an amendment shows that entry's projection
+was low. An amended value replaces the stated value for that goal only, and governs from
+the first Writer result persisted after the grant; a result persisted before that is
+measured against the value in force when it was persisted. At most one amendment takes
+effect in a goal. The goal blocks when a Writer result exceeds a cap in force, a compact
+complete restatement has not brought the body under that cap, and the path is closed or
+spent, in any order.
 
 Convergence is explicit. Claims Reviewer and Spec Reviewer each return their complete
 jurisdictional set on every round. The Orchestrator merges and freezes the ledger. A
@@ -790,10 +845,10 @@ Every packet contains only the information needed by the receiving role.
   receives earlier bodies or full reviewer reports. It returns the complete current
   specification body only to the Orchestrator.
 - Claims Reviewer receives the complete persisted current specification body, packet
-  identifier, content hash, current task metadata, current evidence, and the open finding
-  ledger. It verifies the hash against its received body, then returns the complete
-  facts-and-evidence finding set only to the Orchestrator. It does not assess design or
-  acceptance structure.
+  identifier, content hash, current task metadata including the cap-amendment record when
+  the task record holds one, current evidence, and the open finding ledger. It verifies
+  the hash against its received body, then returns the complete facts-and-evidence finding
+  set only to the Orchestrator. It does not assess design or acceptance structure.
 - Spec Reviewer receives the same immutable current body, identifier, hash, task metadata,
   and open finding ledger. It verifies the hash, then returns the complete specification
   finding set only to the Orchestrator. It does not re-probe facts inside the Claims
