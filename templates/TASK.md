@@ -14,7 +14,7 @@ the pinned [runtime protocol](../references/PROTOCOL.md) and are not restated he
 
 | Field | Value |
 | --- | --- |
-| owner request | `<request>` |
+| owner request | `<exact owner request bytes>` |
 | created at | `<time>` |
 | framework commit | `<full commit>` |
 | PROJECT revision | `<revision>` |
@@ -139,6 +139,43 @@ Delete this section when no owner decision was needed after activation.
 | --- | --- | --- | --- |
 | `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line>` | `<answer or limit>` |
 
+## Sizing check
+
+Record whenever the goal is classified as requiring the specification bracket.
+
+| Field | Required record |
+| --- | --- |
+| `deliverables` | `<integer or unavailable>` |
+| `projected-bytes` | `<integer or unavailable>` |
+| `projected-criteria` | `<integer or unavailable>` |
+| `basis` | `<each deliverable with its byte estimate, criteria count, and coupling reason when it merges change sets; the fixed-overhead byte estimate; the fixed-overhead criteria count; the counterfactual mark when it applies — or unavailable with its reason>` |
+| `deliverable-test` | `<pass, fail, or unavailable>` |
+| `byte-test` | `<pass, fail, or unavailable>` |
+| `criteria-test` | `<pass, fail, or unavailable>` |
+| `decision` | `<passed, partitioned, proceed-unsplit, cancelled-with-goal, or pending>` |
+| `request-bytes` | `<exact bytes of the owner request field the check measured>` |
+| `source-base` | `<full commit the check read>` |
+| `proposal-reference` | `<one reference, or none>` |
+| `revision-reference` | `<one reference made in reply to a recorded owner clarification, or none>` |
+| `clarification-reference` | `<at most one owner clarification, with the Orchestrator reply when it answered, or none>` |
+| `owner-decision reference` | `<verbatim owner decision bytes and their position in the sequence below, or not applicable>` |
+| `observed-at-round-1` | `<body bytes, criteria count, and deliverable count observed at round 1, or not applicable>` |
+
+The owner-exchange sequence is append-only. Only the Orchestrator appends, and positions
+are assigned once and never renumbered.
+
+| Position | Kind | Record |
+| --- | --- | --- |
+| `<n>` | `<proposal, clarification, revision, or owner turn>` | `<reference or exact bytes>` |
+
+Record a member goal only when the owner's own request bytes name both the proposal
+reference and that member's guidance position. Member rows are append-only; a correcting
+append supersedes an earlier row and never replaces it.
+
+| Guidance position | Stage position | Owner request bytes | Member goal identifier | Supersedes |
+| --- | --- | --- | --- | --- |
+| `<n>` | `<n for a staged sequence, or not applicable>` | `<exact bytes naming the proposal reference and the guidance position>` | `<goal-id>` | `<earlier row or none>` |
+
 ## Specification rounds
 
 Use this bracket only for substantial, ambiguous, architectural, or cross-layer goals.
@@ -156,6 +193,7 @@ diffs, reviewer transcripts, review history, or defensive annotations in the bod
 | status | `<complete or exact incomplete state>` |
 | packet identifier | `<identifier>` |
 | goal identifier | `<goal-id>` |
+| decision-value reference | `<sizing-check goal identifier and its recorded decision value>` |
 | source commit | `<full commit>` |
 | content hash | `<lowercase SHA-256 of the exact body between the markers below>` |
 
