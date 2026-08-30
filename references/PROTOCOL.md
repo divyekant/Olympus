@@ -294,11 +294,13 @@ Then:
      the original goal takes the owner's cancellation disposition. If the turn is
      interrupted after the failing or `unavailable` result is recorded and before the
      proposal reaches the owner, record a `halted` outcome, then re-send the proposal once
-     and reuse the proposal reference already appended when one exists. An entry whose
-     threshold results hold any `fail` or `unavailable` holds exactly one proposal
-     reference. That entry holds none only while that interruption window is open and no
-     permitted send has appended the reference, or while the entry closed
-     `cancelled-with-goal` before any permitted send. An all-pass entry holds none;
+     while the gate is still open, and reuse the proposal reference already appended when
+     one exists. An entry whose threshold results hold any `fail` or `unavailable` holds
+     exactly one proposal reference. That entry holds none only while that interruption
+     window is open and no permitted send has appended the reference, or while a `halted`
+     outcome was recorded for that entry and the entry then closed before any permitted
+     send, a permitted send being a send that appended a proposal reference. An all-pass
+     entry holds none;
    - send the bounded packet to Spec Writer; on the first round send the bounded goal
      packet, and on repair send only the current specification body and the open finding
      ledger;
@@ -310,8 +312,10 @@ Then:
    - before reviewer dispatch, schedule this round's review lenses from the fixed catalog
      below and append the round's lens schedule row. Assign each lens only to that lens's
      owning reviewer, assign no identifier outside the catalog, and assign at most two
-     lenses to one reviewer in a round. Round 1 assigns at least `L1` to Claims Reviewer
-     and `L2` to Spec Reviewer. Send each assignment to its owning reviewer as task
+     lenses to one reviewer in a round. Scheduling never narrows or replaces a lens; it
+     defers an unassigned lens to a later round, bounded by the round-3 assignment rule
+     and the coverage-completion rule below. Round 1 assigns at least `L1` to Claims
+     Reviewer and `L2` to Spec Reviewer. Send each assignment to its owning reviewer as task
      metadata in that reviewer's packet, and ask that reviewer to state in its return what
      the lens produced inside that reviewer's own charter jurisdiction. Send no lens
      assignment and no lens disposition to Spec Writer;
@@ -394,6 +398,60 @@ and body size outside the hashed body. The body must define requirements, invari
 acceptance criteria, red paths, and validation obligations. It must not contain review
 history or reviewer output.
 
+A specification body defines a population by a stated property. A bare list is not a
+population definition. A list of a population, meaning a list whose members are the
+whole of some population defined by a stated property as above and which the body relies
+on as complete, is a marked population register. A population register records the exact
+command that regenerates it, the recorded revision that command names, the location the
+command runs from, and that command's output, either verbatim or as a stated mechanical
+reduction that changes whenever the population changes. A digest of that output is the
+canonical such reduction, because any byte change anywhere in the population changes it.
+The recorded result carries output only: no interpretation, no conclusion, no claim
+about what the output means. The command filters on the stated property and names the
+recorded revision, so a re-run returns the same output after later edits. It runs as
+written under a stated neutral environment: the Git configuration
+`git --no-pager -c color.ui=false`, which each command carries, and the locale
+`LC_ALL=C`, which the runner sets so that a locale-sensitive filter sorts, collates, and
+matches the same way for every reader: one read-only Git read of the recorded revision,
+optionally piped to one text filter over that output, meaning a single `awk`, `sed`,
+`grep`, `tr`, `sort`, or `uniq` transform reading only that output, optionally followed
+by one final `shasum -a 256` digest stage. The digest stage adds no filtering: it
+digests exactly what the stage before it emitted. It starts no other program, changes no
+repository or environment state, makes no network request, and writes or removes no
+file. Default behavior of the Git read, its pager included, is not a defect. A list the
+body marks as examples is not a population register and licenses no universal or absence
+claim.
+
+Spec Writer re-runs every population register command at its recorded revision and runs
+an identifier audit before each return, and reports both under the return item the
+charter already requires for the complete Evidence register and traceability map. The
+report carries each command's observed output for that round, and the Orchestrator is
+its only recipient. The audit's subject is the body's own identifier series. It checks
+that every citation of a body-series identifier resolves to a definition in the body,
+and that each new identifier continues its series; an identifier belonging to a source
+document, such as a conformance, decision, or lens identifier, is out of range and is
+neither checked nor defined. A retired identifier leaves a recorded gap in its series,
+and a recorded gap is not a defect. An identifier an open frozen ledger row cites is
+retired only when the body records its successor, or when the retirement is the repair
+an open row requires and the body records the gap. A successor, where one exists, is
+recorded in the successor identifier's own clause. A body with no population register
+reports an explicit empty register set. The duty runs on every return, including a
+return that carries no repair.
+
+A population register whose re-run at its recorded revision differs from its recorded
+result is a defect in the specification body, not in the repository. The repair is the
+body, and the Orchestrator does not convert the divergence into a repository finding.
+Whether the population is still complete in the current tree is a separate question,
+closed by the validation obligations before acceptance, not by this check.
+
+The Spec Writer preflight duty to enumerate the full population for a universal or
+absence claim is satisfied, inside the body, by a population register. The charter's
+three exclusion sentences keep the Evidence register, findings, hashes, round records,
+reviewer text, and review state outside the body. A population register holds none of
+these: it records a command, its revision, its location, and that command's output, maps
+no claim to a fact, and licenses no fact. The `Assumptions` section stays body content,
+because the charter's stable body order requires it.
+
 At every completed round, record the open P0-P2 count and the current body line and byte
 size. The body is at most 300 lines and 48,000 bytes. If round 3 does not reduce open
 P0-P2 findings, or the body grows without reducing them, the next Writer result is a
@@ -429,10 +487,19 @@ the round and to that round's packet key, meaning the packet identifier and its 
 row holds the assigned lenses, their owning reviewers, and, once returns arrive, each
 recorded disposition. Rows are append-only. An interrupted attempt keeps its assignment.
 The permitted automatic retry over the same packet re-appends under the same round and
-packet key, discriminated by the attempt number already recorded in the handoff-defect
-table. A corrected re-persisted packet appends under the same round and its new packet key.
-Either append holds the same lens set and the same owning reviewers and retains the
-superseded row, and a round's current row is the latest append for that round and key.
+packet key, discriminated by the attempt number that round's counter records in the
+handoff-defect table. A corrected re-persisted packet appends under the same round and its
+new packet key. When the correction leaves the body unchanged, the key's hash component is
+unchanged; an append whose whole key is then unchanged keeps that key and is discriminated
+by the attempt number, exactly as the retry is. One attempt counter serves each round. The
+round's first append records no attempt number, the round's second append records attempt
+number 1, and each later append in that round records the next integer. That attempt number
+is the append's handoff-defect reference. A handoff-defect row references the corrective
+append that follows it, by that append's attempt number, and records none when no
+corrective append exists. An append after a round's first append with no recorded attempt
+number is itself a handoff defect. A retry append and a corrected re-persisted append each
+hold the same lens set and the same owning reviewers and retain the superseded row, and a
+round's current row is the latest append for that round and key.
 
 A lens disposition names its lens and gives either the findings the lens produced, by that
 reviewer's own references, or an explicit no-additional-finding.
@@ -451,8 +518,8 @@ record, a ledger row, or the specification body.
 While coverage is incomplete and the frozen ledger holds no open finding, or none other
 than P3, the next Writer result may be the unchanged body with the coverage-only reason
 recorded in convergence state. An unchanged body is a complete restatement, not an additive
-patch, and over such a ledger it also satisfies the compactness rule above, because no
-growth occurred.
+patch, and over either such ledger it also satisfies the compactness rule above, because
+no growth occurred.
 
 The specification bracket closes as accepted before its cap when, and only when, all three
 conditions hold and each one is recorded:

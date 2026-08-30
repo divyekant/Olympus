@@ -158,7 +158,7 @@ criterion. Final verification and the task outcome match actual Git state.
 ### C04 — Repair bound
 
 A Reviewer finding returns to Builder. A fresh Reviewer checks the complete repaired change.
-Open findings at the configured cap stop as `blocked`.
+Any open P0, P1, or P2 at the configured cap stops as `blocked`. An open P3 does not block.
 
 ### C05 — Git isolation and closure
 
@@ -322,6 +322,13 @@ record names the framework commit, task and packet identity, frozen source revis
 payload or snapshot path, and allowed commands. Preserve the complete role return, command
 outputs, changed-path set, verdict or operational outcome, and pass/fail result. Missing
 input identity or observed output means `not run`, not pass.
+
+Across C17, C18, and C19 no fixture row exercises the
+[review-lens catalog](../references/PROTOCOL.md#4-goal-flow), the
+[lens schedule row](../references/PROTOCOL.md#4-goal-flow),
+[lens coverage](../references/PROTOCOL.md#4-goal-flow), or the
+[pre-cap accepted close](../references/PROTOCOL.md#4-goal-flow). That absence is an
+evidence limit only: it gates nothing and waives nothing.
 
 | Frozen input | Observable pass evidence |
 | --- | --- |
