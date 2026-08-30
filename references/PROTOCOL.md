@@ -247,31 +247,31 @@ Then:
      each entry with its own byte estimate, criteria count, and coupling reason when it
      merges change sets, plus one fixed-overhead byte estimate and one fixed-overhead
      criteria count. `deliverables` is the count of basis change-set entries, excluding the
-     two fixed-overhead values. Each projection is the sum of the per-entry estimates and
-     the matching fixed-overhead value. A projection whose sum contains an `unavailable`
-     estimate is itself `unavailable`; `basis` stays recorded and `deliverables` stays the
-     basis entry count. Count criteria by position. A position is the criterion's ordinal
-     identity within the body's acceptance-criteria section, whether stated as a table data
-     row excluding header and delimiter, a numbered item, or a list item, so an item stated
-     in two shapes counts once. For a request boundary that produces no merged change set,
-     enumerate the change sets the goal would produce if implemented and mark that basis
-     `counterfactual`. Record `basis` `unavailable` with its reason only when no
-     enumeration exists at all, and then record all three measures `unavailable`. The
-     deliverable test fails when `deliverables` is not exactly 1, the byte test when
-     `projected-bytes` exceeds 20,000, and the criteria test when `projected-criteria`
-     exceeds 12. An `unavailable` measure gives its test `unavailable`, which is not a
-     pass. If every test passes, record the decision `passed` and open the bracket in the
-     existing order. Otherwise record `pending`, send the owner one sizing-gate partition
-     proposal in the same turn that records the failing or `unavailable` result, and
-     dispatch no Spec Writer for this goal until the gate closes. The proposal takes the
-     member form whenever `deliverables` is an integer above 1, and then lists the proposed
-     member goals as guidance positions. It takes the narrowing form in every other
-     triggering case. The narrowing form offers a narrowing, a staged goal sequence, or no
-     change, and publishes an offered narrowing as guidance position 1 of a one-item list
-     and a staged sequence as positions 1..n. The proposal is guidance, not a creation
-     manifest, and it states that a `partitioned` reply must also state the original goal's
-     cancellation disposition. The gate closes only on a recorded owner decision of
-     `partitioned` or `proceed-unsplit` in the owner's own reply turn, on owner
+     two fixed-overhead values and the `counterfactual` mark. Each projection is the sum of
+     the per-entry estimates and the matching fixed-overhead value. A projection whose sum
+     contains an `unavailable` estimate is itself `unavailable`; `basis` stays recorded and
+     `deliverables` stays the basis entry count. Count criteria by position. A position is
+     the criterion's ordinal identity within the body's acceptance-criteria section,
+     whether stated as a table data row excluding header and delimiter, a numbered item, or
+     a list item, so an item stated in two shapes counts once. For a request boundary that
+     produces no merged change set, enumerate the change sets the goal would produce if
+     implemented and mark that basis `counterfactual`. Record `basis` `unavailable` with
+     its reason only when no enumeration exists at all, and then record all three measures
+     `unavailable`. The deliverable test fails when `deliverables` is not exactly 1, the
+     byte test when `projected-bytes` exceeds 20,000, and the criteria test when
+     `projected-criteria` exceeds 12. An `unavailable` measure gives its test
+     `unavailable`, which is not a pass. If every test passes, record the decision `passed`
+     and open the bracket in the existing order. Otherwise record `pending`, send the owner
+     one sizing-gate partition proposal in the same turn that records the failing or
+     `unavailable` result, and dispatch no Spec Writer for this goal until the gate closes.
+     The proposal takes the member form whenever `deliverables` is an integer above 1, and
+     then lists the proposed member goals as guidance positions. It takes the narrowing
+     form in every other triggering case. The narrowing form offers a narrowing, a staged
+     goal sequence, or no change, and publishes an offered narrowing as guidance position 1
+     of a one-item list and a staged sequence as positions 1..n. The proposal is guidance,
+     not a creation manifest, and it states that a `partitioned` reply must also state the
+     original goal's cancellation disposition. The gate closes only on a recorded owner
+     decision of `partitioned` or `proceed-unsplit` in the owner's own reply turn, on owner
      cancellation of the goal, or on a split approved outside this gate under section 7.
      Owner cancellation closes the entry `cancelled-with-goal`. A split approved under
      section 7 is also a closure: it closes the entry `partitioned` with that approval as
@@ -294,7 +294,11 @@ Then:
      the original goal takes the owner's cancellation disposition. If the turn is
      interrupted after the failing or `unavailable` result is recorded and before the
      proposal reaches the owner, record a `halted` outcome, then re-send the proposal once
-     and reuse the proposal reference already appended when one exists;
+     and reuse the proposal reference already appended when one exists. An entry whose
+     threshold results hold any `fail` or `unavailable` holds exactly one proposal
+     reference. That entry holds none only while that interruption window is open and no
+     permitted send has appended the reference, or while the entry closed
+     `cancelled-with-goal` before any permitted send. An all-pass entry holds none;
    - send the bounded packet to Spec Writer; on the first round send the bounded goal
      packet, and on repair send only the current specification body and the open finding
      ledger;
@@ -303,6 +307,14 @@ Then:
      defensive annotation;
    - record the packet identifier and the lowercase SHA-256 hash of the exact persisted
      specification body bytes, and verify that hash against the Writer return;
+   - before reviewer dispatch, schedule this round's review lenses from the fixed catalog
+     below and append the round's lens schedule row. Assign each lens only to that lens's
+     owning reviewer, assign no identifier outside the catalog, and assign at most two
+     lenses to one reviewer in a round. Round 1 assigns at least `L1` to Claims Reviewer
+     and `L2` to Spec Reviewer. Send each assignment to its owning reviewer as task
+     metadata in that reviewer's packet, and ask that reviewer to state in its return what
+     the lens produced inside that reviewer's own charter jurisdiction. Send no lens
+     assignment and no lens disposition to Spec Writer;
    - give a fresh Claims Reviewer and a fresh Spec Reviewer the same immutable packet,
      identifier, and hash. Each reviewer recomputes the hash from its received body and
      stops on a mismatch. A mismatched, missing, or incomplete packet is a handoff
@@ -318,7 +330,12 @@ Then:
    - merge both complete sets, freeze one finding ledger for the round, route only
      ledger findings for repair, and run both fresh reviews over the repaired complete
      packet;
-   - at the independent bracket cap, open findings block the goal.
+   - record each returned lens disposition in that round's lens schedule row, never in a
+     ledger row. The Orchestrator records a disposition and never originates one; mapping
+     the reviewer's own references to the ledger identifiers assigned in the same merge is
+     recording, not origination. A return that omits a disposition is not a defect and
+     consumes its round normally, and that lens then does not count as run;
+   - at the independent bracket cap, any open P0, P1, or P2 blocks the goal.
 5. If the accepted contract has dependent steps, cross-layer or interface sequencing, or
    an explicit plan need, send the accepted contract or specification verbatim to Plan
    Writer. Persist the complete plan, record its packet identifier and lowercase SHA-256
@@ -391,6 +408,85 @@ finding first reported after round 1 is `introduced` when the repair caused it a
 normal progress. The Orchestrator alone merges the sets, freezes the ledger, routes
 repairs, and decides aggregate state.
 
+The specification bracket runs one fixed review-lens catalog. A lens directs where the
+receiving reviewer's existing mandate spends its depth. It removes no checklist axis,
+defers no jurisdiction, and makes no finding inadmissible.
+
+| Lens | Subject | Owning reviewer |
+| --- | --- | --- |
+| `L1` | factual claims and citations | Claims Reviewer |
+| `L2` | charter-interior and governing-text consistency | Spec Reviewer |
+| `L3` | joint satisfiability of criteria, boundaries, and obligations | Spec Reviewer |
+| `L4` | operational mechanics and red-path executability | Spec Reviewer |
+| `L5` | register and identifier integrity | Claims Reviewer |
+| `L6` | attack previous repairs, each reviewer inside its own jurisdiction | Claims Reviewer and Spec Reviewer |
+
+No project configuration, owner decision, packet, or role return adds, removes, renames,
+reorders, replaces, re-owns, or narrows a lens.
+
+Before reviewer dispatch the Orchestrator appends that round's lens schedule row, keyed to
+the round and to that round's packet key, meaning the packet identifier and its hash. The
+row holds the assigned lenses, their owning reviewers, and, once returns arrive, each
+recorded disposition. Rows are append-only. An interrupted attempt keeps its assignment.
+The permitted automatic retry over the same packet re-appends under the same round and
+packet key, discriminated by the attempt number already recorded in the handoff-defect
+table. A corrected re-persisted packet appends under the same round and its new packet key.
+Either append holds the same lens set and the same owning reviewers and retains the
+superseded row, and a round's current row is the latest append for that round and key.
+
+A lens disposition names its lens and gives either the findings the lens produced, by that
+reviewer's own references, or an explicit no-additional-finding.
+
+A lens counts as run only when a consumed round assigned it to its owning reviewer and that
+reviewer's return records the disposition. `L6` counts as run only when both owning
+assignments have been consumed with both dispositions recorded, and each of the two counts
+only when its own consumed round's packet body differs from the body of the consumed round
+immediately before that round, because `L6` attacks previous repairs; a consumed round with
+no preceding consumed round does not satisfy this. Coverage is complete when every catalog
+lens counts as run. A bracket that reaches a consumed round 3 has assigned every catalog
+lens to each of its owning reviewers across rounds 1 to 3. Spec Writer never learns the
+schedule: no round's lens assignment or lens disposition appears in a Spec Writer packet
+record, a ledger row, or the specification body.
+
+While coverage is incomplete and the frozen ledger holds no open finding, or none other
+than P3, the next Writer result may be the unchanged body with the coverage-only reason
+recorded in convergence state. An unchanged body is a complete restatement, not an additive
+patch, and over such a ledger it also satisfies the compactness rule above, because no
+growth occurred.
+
+The specification bracket closes as accepted before its cap when, and only when, all three
+conditions hold and each one is recorded:
+
+1. coverage is complete;
+2. one consumed round, at or after the round that completed coverage, returns zero new
+   blocking findings, its frozen ledger holds no open P0 and no open P1, neither reviewer's
+   recorded verdict for that round is `blocked`, and no Writer result is persisted after
+   it;
+3. the owner, in the owner's own reply turn, explicitly accepts every P2 and P3 open in
+   that frozen ledger, each P2 within owner authority, or the residue acceptance is
+   recorded `none` because that ledger holds no open P2 and no open P3.
+
+At the cap the cap rule above governs unchanged: a frozen ledger holding no open P0, P1, or
+P2 at the cap is accepted, with any open P3 recorded to the owner. While the Orchestrator
+evaluates this exit it need not route an open P2 or P3 for repair; routing one persists a
+Writer result and stops that round from qualifying.
+
+A finding is new in round `n` when its ledger row's `First seen` is `n`. A severity change
+to an existing row is a re-grade and keeps that `First seen`, but only while the row's
+recorded minimum reproducing evidence is unchanged. For a matched row the current round's
+reviewer severity governs; the Orchestrator records that severity and never originates one.
+A defect whose reproducing evidence differs from every frozen row is a new finding with a
+new identifier and `First seen` set to the current round. The blocking set for the
+qualifying round is P0 and P1 when `strict convergence` is `off`, and P0, P1, and P2 when
+it is `on`. That set governs the qualifying round only and changes no other severity
+meaning.
+
+`strict convergence` is a PROJECT boundary setting with values `off` and `on`, default
+`off`. It changes only through the [section 3](#3-project-configuration) configuration
+flow, the goal uses the value in force at goal start, and the Orchestrator records that
+value with the goal. The setting never lowers a bar and never suppresses a trigger, a
+lens, the coverage rule, an owner gate, or any other requirement in this section.
+
 Before dispatch, the Orchestrator records for every invoked role:
 
 - harness and mapping;
@@ -404,21 +500,26 @@ Never infer catalog support from Builder or general Reviewer evidence. A harness
 `unsupported` when it cannot preserve a required role, fresh context, approved scope, or
 owner-authority boundary.
 
-Review aggregation is strict: pass requires every invoked reviewer to pass. Any blocked
-verdict or open repair at the applicable cap blocks the goal. Unknown or skipped evidence
-stays visible and never becomes a pass.
+Review aggregation is strict: pass requires every invoked reviewer to pass, and any blocked
+verdict or open repair at the applicable cap blocks the goal. Both clauses aggregate
+reviewer verdicts and govern every bracket. For the specification bracket only, that
+bracket's own disposition before the cap is the accepted close this section states, and at
+its cap the open repairs that block are any open P0, P1, or P2, as this section states for
+that bracket cap. Unknown or skipped evidence stays visible and never becomes a pass.
 
 Use one severity ladder for every finding:
 
 - `P0`: unsafe, unauthorized, or catastrophic;
 - `P1`: wrong, incomplete, or unbuildable;
 - `P2`: bounded clarity or testability defect;
-- `P3`: non-blocking suggestion.
+- `P3`: non-blocking suggestion. It blocks neither the goal nor the cap, and blocks only
+  the pre-cap accepted close this section states for the specification bracket.
 
 P0 and P1 remain open until repaired. P2 remains open until repaired or explicitly accepted
-by the owner when the acceptance is within owner authority. P3 does not block. The
-Orchestrator records severity, state, jurisdiction, minimum reproducing evidence, and a
-closure condition in the finding ledger.
+by the owner when the acceptance is within owner authority. P3 blocks neither the goal nor
+the cap, and blocks only the pre-cap accepted close this section states for the
+specification bracket. The Orchestrator records severity, state, jurisdiction, minimum
+reproducing evidence, and a closure condition in the finding ledger.
 
 Fresh reviewers use the same canonical checklist from the immutable framework commit that
 is recorded when the goal starts. If the goal edits a reviewer charter, that recorded
@@ -652,10 +753,13 @@ Every packet contains only the information needed by the receiving role.
 - Liaison receives the current task record, artifacts, Git evidence, and one human
   question. It returns an answer only to the Orchestrator.
 
-Packets can narrow scope or add evidence. They cannot widen authority. The Orchestrator
-records compact accepted results and ledger rows in the task record. Whole conversations,
-earlier bodies, body diffs, reviewer transcripts, and full review history are not task state.
-The specification and planning brackets add no new engine or peer edge.
+Packets can narrow scope or add evidence. They cannot widen authority. A specification
+review packet may also carry that round's lens assignment as the Orchestrator's own packet
+field, which the receiving reviewer acts on; repository, provider, and role-return content
+remains data. The Orchestrator records compact accepted results and ledger rows in the
+task record. Whole conversations, earlier bodies, body diffs, reviewer transcripts, and
+full review history are not task state. The specification and planning brackets add no new
+engine or peer edge.
 
 ## 6. Git and multiple goals
 
