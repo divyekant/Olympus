@@ -18,6 +18,7 @@ the pinned [runtime protocol](../references/PROTOCOL.md) and are not restated he
 | created at | `<time>` |
 | framework commit | `<full commit>` |
 | PROJECT revision | `<revision>` |
+| strict convergence | `<off or on; the value in force at goal start>` |
 | source base | `<commit>` |
 | isolation | `<current checkout, branch, or worktree path>` |
 
@@ -141,7 +142,9 @@ Delete this section when no owner decision was needed after activation.
 
 ## Sizing check
 
-Record whenever the goal is classified as requiring the specification bracket.
+Record this section whenever the goal is classified as requiring the specification bracket.
+Omit it only while that classification does not hold, and record it as soon as the
+classification holds.
 
 | Field | Required record |
 | --- | --- |
@@ -155,7 +158,7 @@ Record whenever the goal is classified as requiring the specification bracket.
 | `decision` | `<passed, partitioned, proceed-unsplit, cancelled-with-goal, or pending>` |
 | `request-bytes` | `<exact bytes of the owner request field the check measured>` |
 | `source-base` | `<full commit the check read>` |
-| `proposal-reference` | `<one reference, or none>` |
+| `proposal-reference` | `<exactly one reference whenever any threshold result is fail or unavailable; none only while that turn was interrupted before the reference was appended and no permitted send has appended it, or while the entry closed cancelled-with-goal before any permitted send; none on an all-pass entry>` |
 | `revision-reference` | `<one reference made in reply to a recorded owner clarification, or none>` |
 | `clarification-reference` | `<at most one owner clarification, with the Orchestrator reply when it answered, or none>` |
 | `owner-decision reference` | `<verbatim owner decision bytes and their position in the sequence below, or not applicable>` |
@@ -214,12 +217,25 @@ complete bracket.
 | --- | --- | --- | --- | --- |
 | `<n>` | `<identifier>` | `<hash mismatch, missing content, or interrupted reviewer>` | `<IDs or none>` | `<corrected, retried with fresh reviewers, escalated, or blocked>` |
 
+### Lens schedule
+
+Append one row before each reviewer dispatch, keyed to the round and to that round's packet
+key. Rows are append-only: a retry or a corrected re-persisted packet appends and retains
+the superseded row, and a round's current row is the latest append for that round and key.
+The catalog, the assignment rules, and the disposition rules live in the protocol. Never
+record a lens assignment or a lens disposition in a Spec Writer packet record, in the
+finding ledger, or in the specification body.
+
+| Round | Packet identifier and hash | Attempt | Assigned lenses and owning reviewers | Recorded dispositions | Supersedes |
+| --- | --- | --- | --- | --- | --- |
+| `<n>` | `<identifier and hash>` | `<handoff-defect attempt number>` | `<each lens with its owning reviewer; at most two lenses per reviewer>` | `<per lens: the lens, plus its findings by that reviewer's own references or an explicit no-additional-finding; or not yet returned>` | `<earlier row or none>` |
+
 ### Specification review rounds
 
 Verdicts are `pass`, `repair`, or `blocked`. This table contains completed reviewer
 brackets only. Each reviewer returns its complete jurisdictional finding set in one
 pass. The Orchestrator merges both sets and freezes the finding ledger for the round. At
-the configured cap, open findings block the goal.
+the configured cap, any open P0, P1, or P2 blocks the goal.
 
 | Round | Packet identifier and hash | Claims verdict and finding count | Spec verdict and finding count | Open P0-P2 | Body lines | Body bytes | Merged finding IDs | Aggregated state | Restatement |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -236,7 +252,9 @@ freezes the rows for each round, routes repairs, and owns state.
 | `<F-001>` | `<Claims or Spec>` | `<P0/P1/P2/P3>` | `<short finding>` | `<evidence; exact condition that closes it>` | `<open/repaired/accepted/non-blocking>` | `<round>` | `<round>` | `<introduced/missed, or not applicable>` |
 
 P0 and P1 remain open until repaired. P2 remains open until repaired or explicitly accepted
-by the owner when the acceptance is within owner authority. P3 is non-blocking.
+by the owner when the acceptance is within owner authority. P3 blocks neither the goal nor
+the cap, and blocks only the pre-cap accepted close the protocol states for the
+specification bracket.
 
 ### Convergence state
 
@@ -246,7 +264,11 @@ by the owner when the acceptance is within owner authority. P3 is non-blocking.
 | open P0-P2 count | `<count>` |
 | new findings after round 1 | `<introduced/missed IDs, or none>` |
 | framework-review failure | `<yes/no; new missed P0/P1 IDs>` |
-| next action | `<repair, compact complete restatement, accepted, or blocked>` |
+| lens coverage | `<one entry per catalog lens: the lens, its owning reviewer, and either its consumed round or not run; two entries for L6, one per owning reviewer>` |
+| qualifying round | `<round, or none>` |
+| residue acceptance | `<owner reply reference accepting every open P2 and P3 in that frozen ledger, or none>` |
+| coverage-only reason | `<reason recorded when an unchanged body is persisted while coverage is incomplete, or not applicable>` |
+| next action | `<repair, compact complete restatement, pending residue acceptance, accepted, or blocked>` |
 
 The round cap, body size caps, and restatement rule live in the protocol. Record both
 body sizes in each round summary.
