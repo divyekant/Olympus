@@ -15,8 +15,8 @@ Receive the goal, acceptance criteria, non-goals, allowed and protected paths, e
 source base, branch or worktree identity, accepted contract or specification, accepted
 plan bytes, packet identifier, and content hash when present, owner decisions, accepted
 Explorer evidence, project instructions,
-callers and interfaces named by the plan, and validation commands. When the frontend
-trigger holds, also receive the accepted frontend interaction scenarios, applicable
+callers and interfaces named by the plan, and validation commands. When accepted frontend
+interaction scenarios are present, also receive the accepted frontend interaction scenarios, applicable
 project or task-specific owner-approved design sources, and frontend run/browser/visual
 commands. On a repair pass, receive the current complete mutation and the review findings
 routed by the Orchestrator.
