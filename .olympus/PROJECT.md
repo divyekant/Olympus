@@ -14,7 +14,7 @@ double opt-in.
 | --- | --- |
 | project name | `Olympus` |
 | repository root | `/Users/dk/projects/Olympus` |
-| configuration revision | `1` |
+| configuration revision | `2` |
 | boot mode | `manual` |
 | configured at | `2026-08-28` |
 
@@ -24,7 +24,7 @@ double opt-in.
 | --- | --- |
 | repository URL | `git@github.com:divyekant/Olympus.git` |
 | requested ref | `main` |
-| full immutable commit | `8653b5409dec4ec7d9153c8b8e9ee30b3c5113f1` |
+| full immutable commit | `9624f5ee3595cc8f38338f51507cab4d33085715` |
 
 The pin identifies framework content. It does not authenticate the source or grant remote
 authority.
@@ -74,6 +74,8 @@ Map and Validation are hints. Check them against current code for each goal.
 | allowed project areas | `all repository paths except the protected paths` |
 | branch/worktree policy | `one worktree per goal with closure at goal end; commit or explicitly include relevant dirty work before a current-checkout goal` |
 | review round cap | `2` |
+| strict convergence | `on` |
+| writer reuse | `reuse` |
 | local commit policy | `stage only the named approved paths; keep each commit local; use Conventional Commit subjects for project work and the fixed onboarding message for configuration; a push, pull request, merge, or release needs fresh owner approval` |
 
 The owner gates in the runtime protocol are fixed and not configurable in PROJECT.
@@ -90,11 +92,14 @@ or has observed evidence.
 | Harness | Default mapping | Default status |
 | --- | --- | --- |
 | `Claude Code` | `host default; protocol freshness rules` | `untested` |
+| `Codex` | `host default; protocol freshness rules` | `untested` |
 
 | Harness | Role | Status | Mapping and freshness | Tools or capabilities | Observed evidence and limit |
 | --- | --- | --- | --- | --- | --- |
 | `Claude Code` | `System Configurer` | `untested` | `main session under the pinned charter; separate from the Reviewer` | `file read and write, Git` | `No behavior observed at this pin when this revision was written` |
 | `Claude Code` | `Reviewer` | `untested` | `fresh subagent context, read-only, never the Configurer` | `file read, Git read-only commands` | `No behavior observed at this pin when this revision was written` |
+| `Codex` | `System Configurer` | `untested` | `main session under the pinned charter; separate from the Reviewer` | `file read and write, Git` | `No behavior observed at this pin when this revision was written` |
+| `Codex` | `Reviewer` | `untested` | `fresh subagent context, read-only, never the Configurer` | `file read, Git read-only commands` | `No behavior observed at this pin when this revision was written` |
 
 Unsupported harnesses do not run goals that invoke unsupported roles through Olympus.
 
@@ -120,7 +125,7 @@ exception row per role that diverges.
 
 | # | Role | When used | Model or capability | Tools | Limit |
 | --- | --- | --- | --- | --- | --- |
-| `1-15` | `all roles` | `when the fixed trigger holds` | `host default` | `host default` | `No role preference is recorded at revision 1` |
+| `1-15` | `all roles` | `when the fixed trigger holds` | `host default` | `host default` | `No role preference is recorded at revision 2` |
 
 ## Approved custom instructions and evolutions
 
