@@ -3,7 +3,7 @@
 Olympus is an opinionated, Markdown-only build system for reliable agent-led software
 development. Version `0.5.1` is a private experimental fixes release.
 
-It gives a coding agent one fixed orchestration graph, fifteen conditional roles, bounded
+It gives a coding agent one fixed orchestration graph, sixteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
 no runtime, service, database, package, or scheduler.
 
@@ -19,6 +19,8 @@ Long agent sessions lose scope on large codebases. They can mix discovery, imple
 - Spec Writers, Claims Reviewers, and Spec Reviewers define and falsify substantial goals.
 - Plan Writers and Plan Verifiers cover dependent or cross-layer implementation steps.
 - Builders make the smallest approved project change.
+- Testers write and run tests in their own test paths only, when a contract-flagged red
+  path crosses a boundary or the owner requests one.
 - Docs Writers synchronize approved documentation when the contract requires it.
 - Fresh Reviewers verify each mutation and return `pass`, `repair`, or `blocked`.
 - Design Reviewers check material user-facing changes against project-provided standards.
