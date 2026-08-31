@@ -85,10 +85,11 @@ invoked role through the harness, test Codex and Claude, and label unsupported m
 honestly. The original 14-role catalog began dogfood in the controlled Issue #750 A/B comparison;
 not every conditional role has evidence. The earlier experimental version `0.3.0` strengthened
 role craft and shared state after the Release Agent specification failed to converge. It exists
-for larger tests, not to claim production readiness. The current private experimental `0.5.0`
+for larger tests, not to claim production readiness. The current private experimental `0.5.1`
 scope has fifteen roles, including a provider-neutral Release Agent, owner-selected
-workflow boundaries, compact guided onboarding with an express one-step path, and
-worktree-per-goal isolation with closure.
+workflow boundaries, compact guided onboarding, and worktree-per-goal isolation. Its
+fixes separate core-change authority from dogfood evidence and bound specification-review
+churn without adding a product feature.
 Claude has passed guided onboarding and one bounded Builder-to-fresh-Reviewer mutation
 path. Those scenarios do not establish general Claude or current-pin support.
 Static contract evidence does not prove live provider support, release
