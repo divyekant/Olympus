@@ -893,12 +893,17 @@ other role still requires its fixed trigger:
 | `spec-only` | explore when blocked, write and review the specification; no plan, mutation, delivery, or external action | accepted specification body and hash, or blocked specification | Explorer, Spec Writer, Claims Reviewer, Spec Reviewer, Decision Council, Liaison |
 | `mutation` | perform the approved local goal; release execution remains a separately owner-approved stage | reviewed local mutation or commit, plus any separately authorized per-action release result | all roles |
 
-Explorer's `diagnose-only` reproduction is bounded to the disposable worktree and
-read-only commands that its own charter,
-[`agents/EXPLORER.md`](../agents/EXPLORER.md#authority-and-boundaries), defines; it
-never mutates tracked repository content. Liaison's `diagnose-only` participation is
-explanation over evidence Explorer or an earlier role already captured; Liaison has no
-reproduction authority and creates no worktree.
+Explorer's `diagnose-only` reproduction executes only inside a PROJECT-recorded
+enforcing execution environment, `supported` status, per
+[`templates/PROJECT.md`](../templates/PROJECT.md#harness-and-role-support); enumerating
+a command never grants execution authority on its own. Inside that environment,
+Explorer's own charter,
+[`agents/EXPLORER.md`](../agents/EXPLORER.md#authority-and-boundaries), bounds the
+disposable worktree and permitted commands as defense-in-depth over what the
+environment must already enforce. Outside that environment, `diagnose-only` stays
+observation-only and never mutates tracked repository content. Liaison's
+`diagnose-only` participation is explanation over evidence Explorer or an earlier role
+already captured; Liaison has no reproduction authority and creates no worktree.
 
 A role outside a boundary's admitted set is incompatible. An incompatible role makes a
 custom selection `invalid`; default routing truncates incompatible roles before trigger
@@ -924,11 +929,14 @@ Every packet contains only the information needed by the receiving role.
 - Configurer receives the owner request with its framework URL and optional ref,
   repository evidence, configuration template, and double-opt-in state.
 - Explorer receives one question, path scope, revision, relevant documentation, and
-  allowed read-only commands. For a bounded diagnose-only defect question, it also
-  receives the enumerated permitted reproduction commands and the exact path for one
-  disposable reproduction worktree, which the Orchestrator selects outside the target
-  repository's working tree. Explorer refuses a packet whose worktree path is missing,
-  inside the target repository's working tree, or inside the repository itself.
+  allowed read-only commands. For a bounded diagnose-only defect question when
+  PROJECT's harness-support table records an enforcing execution environment as
+  `supported` for reproduction, it also receives the enumerated permitted reproduction
+  commands and the exact path for one disposable reproduction worktree, which the
+  Orchestrator selects outside the target repository's working tree; Explorer refuses a
+  packet whose worktree path is missing, inside the target repository's working tree, or
+  inside the repository itself. When that gate is not open, a diagnose-only dispatch
+  receives no reproduction fields and stays observation-only.
 - Spec Writer receives the goal boundary, source/base revision, paths, evidence,
   validation obligations, source requirements, fixed controls, and owner or permission
   boundaries. On repair it also receives the current body and open finding ledger. It never

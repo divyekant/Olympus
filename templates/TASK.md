@@ -139,9 +139,9 @@ Delete this section when no owner decision was needed after activation.
 
 ## Explorer
 
-| Status | Question | Evidence | Answer and uncertainty | Reproduction worktree |
-| --- | --- | --- | --- | --- |
-| `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line>` | `<answer or limit>` | `<path, removal status, and any ref violation, when one was created; otherwise none>` |
+| Status | Question | Evidence | Answer and uncertainty | Execution gate | Reproduction worktree |
+| --- | --- | --- | --- | --- | --- |
+| `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line>` | `<answer or limit>` | `<supported, untested, unsupported, or not consulted>` | `<path, removal status, and any ref violation, when the gate was open and execution ran; otherwise none>` |
 
 ## Sizing check
 

@@ -7,11 +7,15 @@
 - Explorer's trigger and mission now admit a bounded diagnose-only defect question,
   alongside the existing material-question and read-only-audit triggers, across
   `references/PROTOCOL.md`, `agents/EXPLORER.md`, `SKILL.md`, `docs/DECISIONS.md`,
-  `templates/TASK.md`, and `docs/WHITEPAPER.md`. For that request only, Explorer may
-  create one disposable reproduction worktree outside the target working tree and run
-  the project's own recorded validation commands plus read-only inspection there.
-  Explorer stays read-only over tracked repository content in every other case. See
-  D036.
+  `templates/TASK.md`, `templates/PROJECT.md`, and `docs/WHITEPAPER.md`. Explorer stays
+  fully read-only by default in every dispatch. It may execute a reproduction command in
+  one disposable worktree only when PROJECT's harness-support table records an
+  enforcing execution environment as `supported`, with evidence that the environment
+  itself blocks network access, credential access, writes outside the worktree, and
+  access to the shared Git object store beyond read; enumerating a command never grants
+  that authority on its own. When the gate is closed, a diagnose-only dispatch stays
+  observation-only, and Explorer returns `blocked` with cause for any part needing
+  execution. See D036.
 
 ## 0.5.1 - 2026-08-30
 
