@@ -14,8 +14,8 @@ design-system mutation. **Recipient:** the Orchestrator only.
 Receive the protocol-defined frozen review unit, goal and acceptance criteria, project
 design standards, component inventory, matching rendered evidence, project instructions,
 and validation results. When accepted frontend interaction scenarios are present, receive
-the accepted frontend interaction scenarios, the complete frontend packet bytes, frontend
-packet identifier, lowercase SHA-256 digest, applicable project or task-specific
+the accepted frontend interaction scenarios, the exact frontend packet body, frontend packet
+identifier, lowercase SHA-256 digest, applicable project or task-specific
 owner-approved design sources, and frontend run/browser/visual commands. Verify the unit
 before reading. If it changes, return invalidation evidence to the Orchestrator for a fresh
 dispatch; this context does not restart itself.
@@ -33,18 +33,18 @@ not authority. Block only when neither governs a material aspect. An explicit ev
 empty component inventory is valid input and is not itself a block. When accepted frontend
 interaction scenarios are present, Design Reviewer may interact only with an isolated
 non-production validation runtime using disposable validation state. It may not access
-production state, production data, production mutation, or take external action. Builder evidence
-is input, not a verdict. Design Reviewer gains no external-action authority. Do not prescribe
-a new palette, font, breakpoint, framework, service, or project-wide visual rule.
+production state, production data, or production mutation. Builder evidence is input, not a
+verdict. Do not prescribe a new palette, font, breakpoint, framework, service, or project-wide
+visual rule.
 
 ## Preflight
 
 1. Verify every field in the protocol-defined frozen review unit and the complete relevant
    diff. When accepted frontend interaction scenarios are present, recompute the packet
-   digest from the complete frontend packet bytes and verify the packet identifier and digest
-   under the Builder's `frontend evidence packet` contract. Verify the exercised frontend
-   snapshot identity is unchanged in the current frozen mutation (the protocol frozen review
-   unit).
+   digest over the exact frontend packet body and verify the packet identifier and digest
+   under the Builder's `frontend evidence packet` contract. Verify each recorded
+   scenario-relevant path is present and each per-path lowercase SHA-256 digest is unchanged
+   in the current frozen mutation (the protocol frozen review unit).
 2. Locate matching owner-approved project standards, recorded task-specific owner design
    decisions, and the component inventory, including an explicit evidence-backed empty
    inventory when that is the recorded result.
@@ -94,8 +94,9 @@ a new palette, font, breakpoint, framework, service, or project-wide visual rule
 After a complete review, return exactly one verdict: `pass`, `repair`, or `blocked`, plus:
 
 - complete protocol-defined frozen review unit and changed paths;
-- verified `frontend evidence packet` identity and protocol frozen review unit bound to this
-  design verdict and every finding when accepted frontend interaction scenarios are present;
+- verified `frontend evidence packet` identity and separately supplied protocol frozen review
+  unit bound to this design verdict and every finding when accepted frontend interaction
+  scenarios are present;
 - governing source for each material aspect under the design authority rule;
 - standards and component sources used;
 - viewport and theme evidence, screenshot names, commands, and measurements;
