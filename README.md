@@ -7,6 +7,14 @@ It gives a coding agent one fixed orchestration graph, fifteen conditional roles
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
 no runtime, service, database, package, or scheduler.
 
+## Unreleased
+
+The static frontend evidence loop is recorded in [C22](docs/CONFORMANCE.md#c22--frontend-evidence-loop)
+and [D038](docs/DECISIONS.md). It covers source discovery, accepted interaction scenarios,
+conditional plans, candidate-bound browser evidence, paired fresh review, and identity-based
+repair invalidation. Live frontend dogfood evidence remains pending until a bounded run is
+recorded; this does not claim browser, harness, or production support.
+
 ## Why it exists
 
 Long agent sessions lose scope on large codebases. They can mix discovery, implementation, and self-review in one context. Olympus separates those duties and carries only accepted evidence between fresh role sessions.

@@ -133,6 +133,23 @@ stale sources. Explorer resolves only the material gaps needed for a goal.
 Native host instructions, project instructions, skills, and memory can supply context.
 They cannot change Olympus role duties or owner authority.
 
+## Frontend craft and evidence boundary
+
+For material frontend behavior, Explorer maps the design philosophy, owner-approved standards
+or tokens, reusable components, exemplar screens or flows, routes, states, fixtures, and browser
+commands. When no source exists, the record states the absence and obtains owner direction; it
+does not invent a standard. Accepted interaction scenarios remain in the hashed specification.
+Planning stays conditional, but a plan carries scenario execution details and a bidirectional
+scenario-to-step map when its trigger holds.
+
+Builder creates a reproducible browser-evidence candidate with exact packet, path, and artifact
+identities. A fresh general Reviewer and a fresh Design Reviewer independently replay the same
+frozen candidate in the isolated validation runtime. Screenshot-only, stale, or missing state,
+console, or required replay evidence cannot pass. A repair invalidates both verdicts and requires
+a new packet and the same full replay. Project standards govern first; a task-specific owner
+decision covers only an otherwise missing material aspect. Browser execution is a project or
+harness capability. This contract does not claim live browser or harness support.
+
 ## Goal architecture
 
 ```mermaid

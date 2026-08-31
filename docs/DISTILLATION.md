@@ -73,6 +73,19 @@ uses the current shared protocol and adds no provider-specific commands or autho
 #750 began catalog dogfood, but not every conditional role ran. The `v0.3.0` charter upgrade
 has static and independent review evidence; a new live target-repository run remains pending.
 
+## Frontend craft and evidence boundary
+
+For material frontend behavior, Explorer locates design philosophy, owner-approved standards,
+reusable components, routes, states, fixtures, and browser commands. An absent source remains
+explicit and needs owner direction; it does not license an invented standard. Accepted hashed
+interaction scenarios stay in the specification. Planning remains conditional, but a triggered
+plan carries scenario execution details and its bidirectional mapping. Builder produces a
+reproducible browser-evidence candidate with exact packet, path, and artifact identities.
+Fresh general and Design Reviewers independently replay the same frozen candidate, and a repair
+invalidates both verdicts. Project standards govern first; a task-specific owner decision covers
+only an otherwise missing material aspect. This is a static contract and a project or harness
+capability boundary, not live support evidence.
+
 ## Deliberate exclusions
 
 - Source skill names and invocation commands are not runtime dependencies.

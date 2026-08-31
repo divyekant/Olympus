@@ -14,6 +14,12 @@ promise.
 | Role and state quality | static pass, live test pending | all existing charters strengthened at `d894317851b5ceacc0337578b9d684729401e7b6`; C17-C18 specified |
 | Catalog and workflow expansion | static contract added; live evidence pending | the catalog now has fifteen roles, including a provider-neutral Release Agent and five fixed request boundaries with an owner-selected role allowlist; see the [release boundary](references/PROTOCOL.md#release-boundary), [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), and [V1–V12 fixtures](docs/CONFORMANCE.md#v1-v12-release-agent-and-custom-workflow-fixtures) |
 
+## Unreleased
+
+The frontend craft and evidence boundary is a static contract in [C22](docs/CONFORMANCE.md#c22--frontend-evidence-loop)
+and [D038](docs/DECISIONS.md). Live frontend and browser dogfood evidence remains pending until
+a bounded run is recorded; no browser, harness, or production support claim follows yet.
+
 ## Phase 1 — Specify the fixed framework
 
 **Goal:** Define the smallest complete Markdown protocol.

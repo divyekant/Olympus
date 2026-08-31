@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Added
+
+- Added the static frontend craft and evidence loop in C22 and D038, including source discovery,
+  accepted interaction scenarios, conditional plan mapping, candidate-bound browser evidence,
+  cumulative path identity, and paired fresh review with repair invalidation.
+
+### Known limits
+
+- Live frontend dogfood and browser or harness support evidence remain pending.
+
 ## 0.5.1 - 2026-08-30
 
 The fixes-only stabilization release. It closes policy and specification-convergence
