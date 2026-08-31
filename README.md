@@ -1,15 +1,11 @@
 # Olympus
 
 Olympus is an opinionated, Markdown-only build system for reliable agent-led software
-development. Version `0.5.1` is a private experimental fixes release.
+development. Version `0.6.0` is a private experimental contract release.
 
 It gives a coding agent one fixed orchestration graph, sixteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
 no runtime, service, database, package, or scheduler.
-
-## Unreleased
-
-The static frontend contract is [C22](docs/CONFORMANCE.md#c22--frontend-evidence-loop) and [D038](docs/DECISIONS.md); live dogfood and browser or harness support evidence remain pending.
 
 ## Why it exists
 
@@ -86,6 +82,7 @@ The framework stays outside the target repository and is resolved at the exact c
 - This session: `Activate Olympus orchestration`
 - Every session: choose `boot mode: orchestration` during onboarding
 - Guided entry: `Awaken Olympus` opens onboarding or reports readiness; it never activates a session.
+- Help: `Olympus help` returns a read-only owner card where the entry path supports it.
 - Stop session routing: `Deactivate Olympus orchestration`
 
 Each entry runs the canonical preflight before routing. Project boot is routing authority, not
@@ -106,14 +103,13 @@ a background process. Questions do not create goals. Project-changing requests d
 
 ## Version status
 
-Olympus `0.5.1` separates core-framework authority from bounded dogfood evidence and
-contains specification-review churn. Writer self-tests now block before persistence,
-both fresh reviewers cover every persisted body, lens handoff defects consume no round,
-the body-cap path has explicit owner-controlled states, and post-coverage P0/P1 repair is
-bounded. The release adds no runtime, dependency, role, or product feature.
+Olympus `0.6.0` has sixteen roles. It adds a test-paths-only Tester, bounded
+diagnose-only Explorer work, `Olympus help`, an owner guide, harness adapter notes, and a
+static frontend evidence loop. Strict specification convergence now defaults to `on`.
+The release adds no runtime, service, database, package, scheduler, or test framework.
 
-The release boundary, custom workflow, and dieted protocol are static Markdown
-contracts.
+The frontend evidence loop is a static Markdown contract. Live frontend dogfood and
+browser or harness support evidence remain pending.
 D03 preserves the first unsupported Claude mutation trial and a later bounded pass through
 one Builder-to-fresh-Reviewer mutation path. That pass does not establish self-governance,
 current-pin support, Configurer repin support, uninvoked-role support, or general Claude

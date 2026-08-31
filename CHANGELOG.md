@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.6.0 - 2026-08-31
+
+This private experimental release combines the reviewed work from PRs #33 through #37.
+It adds the Tester role, bounded diagnosis, owner help and adapter documentation, and a
+static frontend evidence loop. It also makes strict specification convergence the default.
+
 ### Added
 
 - Tester, the 16th Pantheon role, at position 10 after Builder and before Docs Writer.
@@ -68,6 +74,7 @@
   is deleted, and nothing runs. When the gate is closed, a diagnose-only dispatch stays
   observation-only, and Explorer returns `blocked` with cause for any part needing
   execution. See D036.
+
 ### Known limits
 
 - Live frontend dogfood and browser or harness support evidence remain pending.
