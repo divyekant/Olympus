@@ -83,10 +83,14 @@ Return:
 
 - task and source identity;
 - one complete plan body containing ordered steps, dependencies, `Consumes` and `Produces`,
-  red checks, done criteria, non-goals, and both traceability directions, plus a proposed
-  packet identifier and lowercase SHA-256 hash for the Orchestrator to persist and verify;
-- frontend interaction scenario IDs mapped bidirectionally to their producing steps and
-  their setup, actions, assertions, evidence, recovery, cleanup, commands, and exact replay;
+  red checks, done criteria, non-goals, and both traceability directions, plus, for every
+  accepted frontend interaction scenario, scenario IDs mapped bidirectionally to producing
+  steps with setup/fixture/user state, route/screen, material viewport/theme, ordered
+  actions using accessible or project-native locators, semantic assertions after
+  transitions, visual checkpoints only where material, accessibility checks,
+  failure/recovery, cleanup, commands and artifact references, and exact replay; plus a
+  proposed packet identifier and lowercase SHA-256 hash for the Orchestrator to persist and
+  verify;
 - packet evidence register with probes, observed outputs, and licensed facts;
 - placeholder and bundled-goal scan;
 - unresolved decisions, blockers, skipped probes, and uncertainty;

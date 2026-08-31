@@ -52,7 +52,7 @@ external action. It may not re-decide an owner decision or grant authority.
    requirement through requirement, acceptance criterion, red path, and validation
    obligation. For material frontend behavior, define stable `frontend interaction scenario`
    IDs as coherent journeys, not one criterion per click. Each scenario states
-   the actor and starting state; route and preconditions; ordered user action; observable
+   the actor and starting state; route and preconditions; ordered user actions; observable
    result; failure/recovery; accessibility expectations; material viewport/theme; and
    semantic and visual evidence. Use existing project sources first. Task-specific owner
    direction can fill a missing product/design choice; if neither exists, return `blocked`
@@ -94,7 +94,7 @@ external action. It may not re-decide an owner decision or grant authority.
 - Failure boundaries and red paths are complete where applicable.
 - Material frontend behavior has stable frontend interaction scenario IDs. Each scenario
   is a coherent journey with actor and starting state, route and preconditions, ordered
-  user action, observable result, failure/recovery, accessibility expectations, material
+  user actions, observable result, failure/recovery, accessibility expectations, material
   viewport/theme, and semantic and visual evidence.
 - The stable body order is exact, and the hashed body contains no Evidence register or
   review state.
@@ -117,9 +117,11 @@ Return:
 - three self-test results for each subject clause in every body-bearing return: both readings,
   the clause-interaction matrix, and the gate and state-machine path re-walk;
 - fixed-control closure, authority and path ownership, and non-goals;
-- complete current specification body in the stable section order;
-- stable frontend interaction scenario IDs and their complete scenario requirements when
-  material frontend behavior applies;
+- complete current specification body in the stable section order, including stable
+  frontend interaction scenario IDs and complete frontend interaction scenario requirements
+  when material frontend behavior applies: actor and starting state; route and preconditions;
+  ordered user actions; observable result; failure/recovery; accessibility expectations;
+  material viewport/theme; semantic and visual evidence;
 - expected evidence, skipped probes, and uncertainty;
 - explicit statement that the Orchestrator must persist and hash the body outside the body.
 
