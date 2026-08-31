@@ -34,9 +34,10 @@ records each invoked role's result.
 
 Only the System Configurer changes `.olympus/PROJECT.md` or managed loader blocks.
 Only the Orchestrator writes `.olympus/tasks/<goal-id>.md`. Only the Builder changes
-approved non-documentation project paths. Only the Tester changes test paths, and never
-product code; see [Tester round semantics](#tester-round-semantics) for the exact
-boundary. Only the Docs Writer changes approved documentation paths. Claims, Spec, Plan,
+approved non-documentation project paths outside Tester-owned test paths. Only the
+Tester changes test paths, and never product code; see [Tester round
+semantics](#tester-round-semantics) for the exact boundary. Only the Docs Writer changes
+approved documentation paths. Claims, Spec, Plan,
 Design, and general Reviewers are read-only. Decision Council is advisory and has no
 gate. Release Agent changes no file, has no standing external authority, and returns
 only to the Orchestrator. Liaison is read-only and has no gate.
@@ -963,13 +964,16 @@ non-consuming passes nor reached before genuine repair-or-test work occurs; the
 one-free-self-correction bound keeps a pure self-correction cycle from advancing the
 round count indefinitely without ever consuming one.
 
-**Assignment completeness.** When the Tester trigger holds because a contract-flagged red
-path crosses a boundary, the Orchestrator's test-path assignment for that round must
-cover every path that red path names as crossing it. Tester's return packet states
-whether the assignment is `assignment-complete` (covers everything the trigger names) or
-`assignment-narrower-than-trigger` (naming each path the trigger names that the
-assignment omits). An owner request with no contract-flagged red path to compare against
-is `assignment-complete` by definition. A round whose assignment is
+**Assignment completeness.** Every Tester trigger has a recorded scope to assign against.
+When the trigger is a contract-flagged red path crossing a boundary, the scope is every
+path that red path names as crossing it. When the trigger is an owner request, the
+Orchestrator records the owner's requested test scope at dispatch, and that recorded
+scope is the comparison scope; an owner request names some scope by construction, so
+there is always a recorded scope to compare against, never a vacuous one. The round's
+test-path assignment must cover its trigger's recorded scope. Tester's return packet
+states whether the assignment is `assignment-complete` (covers everything the recorded
+scope names) or `assignment-narrower-than-trigger` (naming each path the recorded scope
+names that the assignment omits). A round whose assignment is
 `assignment-narrower-than-trigger` is never `converged`, even when every path it did
 assign is `covered-clean`; the omitted scope is a recorded, owner-visible gap that gets
 the same cap treatment as a `skipped` path below, never a silent pass.
@@ -989,11 +993,12 @@ tested nothing on that path, so partial coverage is never rounded up to whole co
 Any `covered-with-finding` path leaves the round holding an open defect at that finding's
 severity. An empty or missing test-path assignment for a dispatched Tester is a handoff
 defect, not a per-path `skipped` state: mirroring the specification and plan brackets'
-handoff-defect rule, the assignment is not evidence a Tester can supply, so it consumes no
-round, stays recorded, and is corrected and re-dispatched before Tester evaluates any
-path; it is never recorded `unsupported` and never sets the goal `blocked` on its own. An
-owner request for a Tester run with no enumerable test path blocks that trigger instead of
-producing an empty assignment.
+handoff-defect rule, the assignment is not evidence a Tester can supply, so the first
+occurrence in a round consumes no round, stays recorded, and is corrected and
+re-dispatched before Tester evaluates any path, and is never recorded `unsupported`. A
+second empty or missing assignment in the same round blocks, matching the sibling
+handoff-defect rule's one-retry bound. An owner request for a Tester run with no
+enumerable test path blocks that trigger instead of producing an empty assignment.
 
 **Cap disposition.** At the implementation cap, the final round's merged Tester evidence
 resolves as follows: any open P0 or P1 `covered-with-finding` path forces the goal
@@ -1053,11 +1058,12 @@ Every packet contains only the information needed by the receiving role.
   and hash when a plan exists.
 - Tester receives the goal, accepted contract or specification identity, accepted plan
   identity when one exists, the complete Builder mutation, the round's assigned test
-  paths, protected paths, source base, branch or worktree identity, packet identity, and
-  the project's own validation commands. On repair or self-correction it also receives
-  the current mutation, the round's assigned test paths, and the open finding ledger. It
-  returns its complete observation register, findings, self-corrections, and uncertainty
-  only to the Orchestrator, and issues no verdict.
+  paths, the trigger's recorded scope, protected paths, source base, branch or worktree
+  identity, packet identity, and the project's own validation commands. On repair or
+  self-correction it also receives the current mutation, the round's assigned test
+  paths, and the open finding ledger. It returns its complete observation register,
+  assignment-vs-trigger disposition, findings, self-corrections, and uncertainty only to
+  the Orchestrator, and issues no verdict.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs,
   and relevant link-check commands.
 - Reviewer receives the goal boundary, complete current mutation diff, role results,

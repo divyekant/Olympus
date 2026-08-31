@@ -465,8 +465,11 @@ not `pass`.
 
 Assert that every current catalog copy has the exact 16-role order from the protocol, with
 Tester after Builder and before Docs Writer, and Release Agent after Design Reviewer and
-before Decision Council. Assert 15 worker links in `SKILL.md`, 15 worker charters, and the
-fixed 16-role Configurer phrase. A positive fixture
+before Decision Council. Assert 15 worker links in `SKILL.md` and 15 worker charters. This
+fixture checks the framework's own current text — `SKILL.md`, the protocol, charters, and
+templates — not an already-configured project's pinned `.olympus/PROJECT.md`, whose own
+catalog claims change only through an explicit owner-approved Configurer repin proposal,
+separate from a framework content change. A positive fixture
 passes only when all copies match. A missing, extra, reordered, or duplicated role fails and
 records the exact consumer.
 
