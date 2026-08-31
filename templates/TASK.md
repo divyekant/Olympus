@@ -310,11 +310,14 @@ Accepted plan:
 
 ## Builder and review rounds
 
-Builder rounds use a separate context:
+Builder rounds use a separate context. Assigned paths is the goal-wide ownership record:
+the paths that round's Builder dispatch named, whether or not the mutation changed all of
+them. [Tester round semantics](../references/PROTOCOL.md#tester-round-semantics) uses its
+accumulated goal-wide history, not just changed paths, for the Tester ownership check.
 
-| Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
-| --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results>` | `<none or limit>` |
+| Round | Builder | Assigned paths | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
+| --- | --- | --- | --- | --- | --- | --- |
+| `<n>` | `<separate context>` | `<paths the dispatch named for Builder this round>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results>` | `<none or limit>` |
 
 ### Tester results
 
@@ -324,8 +327,10 @@ by a Builder mutation or repair, an executed Tester command, or a Docs Writer ed
 most one self-correction pass per round is non-consuming, a second one in the same round
 consumes it or blocks at the cap. Record the cause class for a pass that consumes none.
 An empty or missing test-path assignment is a handoff defect, not a per-path `skipped`
-state. The Tester loop converges for a round only when the assignment is
-`assignment-complete` against its trigger and every assigned test path is
+state. The disjointness check against Builder's paths uses the Builder round table's
+accumulated goal-wide Assigned-paths history, not only changed paths; an absent history
+is the same class of handoff defect. The Tester loop converges for a round only when the
+assignment is `assignment-complete` against its trigger and every assigned test path is
 `covered-clean`.
 
 | Round | Context | Assigned test paths | Assignment vs trigger | Observation register: path, command(s), coverage state, findings | Self-corrections | Consumes round | Uncertainty |

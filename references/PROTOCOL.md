@@ -932,17 +932,24 @@ no cap value.
 **Test path, product code, and ownership.** A test path is a path enumerated in the
 Orchestrator's dispatch packet for a round, drawn from the accepted contract's allowed
 paths. Product code is every allowed path that is not a Tester-owned test path.
-Assignment is the Orchestrator's per-round act of enumerating a round's test paths;
-ownership is a separate, goal-scoped fact that follows assignment, never authorship: once
-the Orchestrator assigns a path as a test path in any round, that path stays Tester-owned
-for the rest of the goal, including a path authored in an earlier round and independent
-of which round's dispatch is current or which role's edit most recently touched it. A
-path assigned to Builder in any round can never become a test path, and a Tester-owned
-path can never become Builder's, unless an explicit owner decision recorded in the task
-record crosses it before any edit under the new ownership. Builder keeps its own
-red-first obligation for its own assigned paths; Tester may correct any Tester-owned test
-path, including one from an earlier round, within its current dispatch, without
-withdrawing or suppressing an observed defect signal against product code.
+Assignment is the Orchestrator's per-round act of enumerating a round's test paths, and
+symmetrically its per-round act of enumerating the **Builder-assigned paths**: the paths
+that round's Builder dispatch names, recorded in the task record's Builder round table,
+whether or not Builder's mutation ends up changing all of them. Ownership is a separate,
+goal-scoped fact that follows assignment, never authorship: once the Orchestrator assigns
+a path as a test path in any round, that path stays Tester-owned for the rest of the
+goal, including a path authored in an earlier round and independent of which round's
+dispatch is current or which role's edit most recently touched it. A path recorded as
+Builder-assigned in any round can never become a test path, and a Tester-owned path can
+never become Builder's, unless an explicit owner decision recorded in the task record
+crosses it before any edit under the new ownership. The Orchestrator passes Tester the
+goal-wide Builder-assigned-paths history at every dispatch, so an assigned-but-unchanged
+path stays visibly Builder-owned to Tester and not only the paths a diff happens to show;
+a missing or absent history is a handoff defect, mirroring the empty-test-path-assignment
+rule below, with the same one-retry-then-blocks bound. Builder keeps its own red-first
+obligation for its own assigned paths; Tester may correct any Tester-owned test path,
+including one from an earlier round, within its current dispatch, without withdrawing or
+suppressing an observed defect signal against product code.
 
 **Round consumption.** An implementation round is consumed only when the fresh Reviewer's
 pass grades a frozen unit produced by a Builder mutation or repair, a Tester run that
@@ -1058,12 +1065,12 @@ Every packet contains only the information needed by the receiving role.
   and hash when a plan exists.
 - Tester receives the goal, accepted contract or specification identity, accepted plan
   identity when one exists, the complete Builder mutation, the round's assigned test
-  paths, the trigger's recorded scope, protected paths, source base, branch or worktree
-  identity, packet identity, and the project's own validation commands. On repair or
-  self-correction it also receives the current mutation, the round's assigned test
-  paths, and the open finding ledger. It returns its complete observation register,
-  assignment-vs-trigger disposition, findings, self-corrections, and uncertainty only to
-  the Orchestrator, and issues no verdict.
+  paths, the trigger's recorded scope, the goal-wide Builder-assigned-paths history,
+  protected paths, source base, branch or worktree identity, packet identity, and the
+  project's own validation commands. On repair or self-correction it also receives the
+  current mutation, the round's assigned test paths, and the open finding ledger. It
+  returns its complete observation register, assignment-vs-trigger disposition, findings,
+  self-corrections, and uncertainty only to the Orchestrator, and issues no verdict.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs,
   and relevant link-check commands.
 - Reviewer receives the goal boundary, complete current mutation diff, role results,
