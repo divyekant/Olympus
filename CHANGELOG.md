@@ -16,6 +16,11 @@
   `strict convergence` is `off`, may instead be owner-accepted; a task-related P3 still
   needs owner acceptance at the pre-cap accepted close. Owner acceptance never closes a
   task-related P2 while `strict convergence` is `on`.
+- The task-related test also covers a requirement the current body omits: a P2 or P3 is
+  task-related when its evidence names the omitted requirement's exact source, in the owner
+  request bytes or a governing contract clause, and that requirement bears on what the
+  request asks this goal to deliver. A missing required clause can no longer classify
+  non-essential just because there is no body clause to name.
 
 ## 0.5.1 - 2026-08-30
 

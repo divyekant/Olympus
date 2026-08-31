@@ -144,7 +144,10 @@ The framework passes static inspection when:
     repair does. An owner may relax the setting to `off` for the P0/P1-only qualifying-round
     bar, restoring owner acceptance for a task-related P2; the cap rule above is unaffected
     by that value. The Orchestrator classifies each P2 and P3 as task-related or
-    non-essential; a non-essential P2 or P3 remains open until repaired or filed as a
+    non-essential; a body-omission finding is task-related too when its evidence names the
+    omitted requirement's exact source in the owner request bytes or a governing contract
+    clause bearing on what the request asks this goal to deliver, and non-essential
+    otherwise. A non-essential P2 or P3 remains open until repaired or filed as a
     repository issue, recorded `filed` with its issue reference, and needs no owner
     acceptance. When the issue channel is unavailable, the owner may grant a manual filing
     record in the owner's own reply turn instead; absent that, the finding stays open and

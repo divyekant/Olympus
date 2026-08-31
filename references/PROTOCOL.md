@@ -626,10 +626,15 @@ lens disposition appears in a Spec Writer packet record, a ledger row, or the sp
 Every P2 and P3 finding in the specification bracket is task-related or non-essential. A
 finding is task-related when its minimum reproducing evidence names a clause in the current
 specification body, a path in the goal's allowed paths, or an artifact the owner request
-bytes name; otherwise it is non-essential. The Orchestrator classifies each P2 and P3 at
-first seen and records the classification beside the finding in the finding ledger. This
-classification governs the qualifying round's blocking set and the coverage-only shortcut
-below; the owner reviews it and may correct it only as stated at the pre-cap accepted close.
+bytes name, or when that evidence instead names a requirement of the owner request bytes or
+of a governing contract clause that the current body omits and that bears on what the owner
+request asks this goal to deliver; otherwise it is non-essential. An omission finding is
+task-related only while its evidence names that requirement's exact source — the owner
+request bytes or the governing contract clause it derives from; evidence that names no such
+source is non-essential. The Orchestrator classifies each P2 and P3 at first seen and
+records the classification beside the finding in the finding ledger. This classification
+governs the qualifying round's blocking set and the coverage-only shortcut below; the owner
+reviews it and may correct it only as stated at the pre-cap accepted close.
 
 While coverage is incomplete and the frozen ledger holds no open finding, or none open
 other than P3 or non-essential P2, the next Writer result may be the unchanged body with
