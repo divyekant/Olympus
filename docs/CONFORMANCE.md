@@ -38,10 +38,23 @@ The framework passes static inspection when:
    symbols, or headings; the specification does not require self-referential `file:line`
    citations. Spec Writer records validation obligations only; executable implementation
    validation runs after acceptance during build and general review. Claims Reviewer may
-   run read-only probes for present repository facts.
+   run read-only probes for present repository facts. Every Spec Writer return reports the
+   three self-tests the protocol requires over its subject set of new and modified rule
+   clauses, edit payloads included, or every rule clause on a first return or restatement:
+   both readings, the clause-interaction matrix, and the gate and state-machine path re-walk.
+   It states each subject clause's result, or an explicit empty subject set. An adverse result
+   is a body defect repaired before the return; a residue stated instead is recorded, every
+   standing one reaches the owner's residue acceptance and a superseded one is excluded, and
+   after a cap-blocked residue with no restatement yet in the bracket the next result is a
+   compact complete restatement.
 6. The complete current Writer result is persisted before fresh Claims Reviewer and Spec
    Reviewer review over the same immutable packet, identifier, and hash. Only the
-   current specification body is stored between its markers.
+   current specification body is stored between its markers. Each reviewer is fresh at each
+   dispatch. The Spec Writer context follows the `writer reuse` setting, default `reuse`:
+   selection changes no packet, a retained context is never authority for a repair, a
+   replacement receives the same packet and nothing else, and under `reuse` a harness that
+   cannot retain a context records a replacement per dispatch, escalating to the owner on
+   the second in adjacent entries, instead of becoming `unsupported`.
 7. Missing content or an identifier or hash mismatch is a handoff defect; it is
    preserved as evidence and consumes no review round.
 8. Every Plan Writer result receives fresh Plan Verifier checks, when the plan trigger

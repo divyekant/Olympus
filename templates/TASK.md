@@ -19,6 +19,7 @@ the pinned [runtime protocol](../references/PROTOCOL.md) and are not restated he
 | framework commit | `<full commit>` |
 | PROJECT revision | `<revision>` |
 | strict convergence | `<off or on; the value in force at goal start>` |
+| writer reuse | `<reuse or fresh-per-round; the value in force at goal start>` |
 | source base | `<commit>` |
 | isolation | `<current checkout, branch, or worktree path>` |
 
@@ -45,7 +46,9 @@ invoked role before dispatch.
 | 14 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 15 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 
-Missing required mapping blocks dispatch. Use `supported`, `unsupported`, or `untested`.
+Missing required mapping blocks dispatch. The Spec Writer row records that role's
+mapping, context record, and support evidence; the per-attempt continuity log is the
+`writer continuity` row. Use `supported`, `unsupported`, or `untested`.
 
 ## Shared state checkpoints
 
@@ -270,8 +273,9 @@ specification bracket.
 | new findings after round 1 | `<introduced/missed IDs, or none>` |
 | framework-review failure | `<yes/no; new missed P0/P1 IDs>` |
 | lens coverage | `<one entry per catalog lens: the lens, its owning reviewer, and either its consumed round or not run; two entries for L6, one per owning reviewer>` |
+| writer continuity | `<one entry per dispatched Writer attempt, consumed or not: the round, the attempt, and either first dispatch, reused, fresh by configuration, or replaced with its cause>` |
 | qualifying round | `<round, or none>` |
-| residue acceptance | `<owner reply reference accepting every open P2 and P3 in that frozen ledger, or none>` |
+| residue acceptance | `<owner reply reference accepting every open P2 and P3 in that frozen ledger and every standing Writer-stated residue recorded for the goal, or none when neither exists>` |
 | coverage-only reason | `<reason recorded when an unchanged body is persisted while coverage is incomplete, or not applicable>` |
 | next action | `<repair, compact complete restatement, pending residue acceptance, accepted, or blocked>` |
 

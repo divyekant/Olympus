@@ -301,7 +301,9 @@ Then:
      outcome was recorded for that entry and the entry then closed before any permitted
      send, a permitted send being a send that appended a proposal reference. An all-pass
      entry holds none;
-   - send the bounded packet to Spec Writer; on the first round send the bounded goal
+   - select the round's Spec Writer context under the `writer reuse` value in force, record
+     that dispatch, and send the bounded packet to that
+     Writer; on the first round send the bounded goal
      packet, and on repair send only the current specification body and the open finding
      ledger;
    - persist the complete current Writer result before review. The specification body
@@ -456,6 +458,62 @@ recorded in the successor identifier's own clause. A body with no population reg
 reports an explicit empty register set. The duty runs on every return, including a
 return that carries no repair.
 
+A dispatch is one send of a Writer packet to a selected context; a re-send after an
+interruption reusing that packet is the same dispatch; an attempt is a dispatch. The
+Orchestrator selects each dispatch's context under the `writer reuse` value: under `reuse`,
+the most recent context to return a Writer result in this bracket; under `fresh-per-round`,
+one that has not served this bracket. On a first dispatch none has returned a result, so both
+values select one that has not served this bracket. When the serving Writer is interrupted,
+unavailable, or replaced for any cause, including a harness that cannot retain a context, the
+Orchestrator selects one that has not served this bracket, sends it that same packet and
+nothing else, and records the dispatch as a replacement with its cause; under `reuse` it then
+serves the remaining dispatches. Selection changes no packet.
+
+A context serving more than one dispatch of a bracket may hold what it lawfully received or
+authored, judged by the packet contract in force at that time. It must not receive anew, and
+must not reconstruct, any of the following, each item on its own: a body that the packet's
+persisted current body superseded; a body diff; a reviewer transcript; review history; a lens
+assignment; a lens disposition. Only the packet's persisted current body and open finding
+ledger are authority for a repair; material retained from an earlier dispatch, or received in
+breach, is never authority however obtained, and the Orchestrator records it.
+
+Spec Writer runs three self-tests before each return. The subject set is every rule clause of
+the returned body that is new, or whose bytes differ from the corresponding clause of the
+packet's persisted current body; it is empty when the returned body is byte-identical to that
+body; and it is every rule clause on a bracket's first return and on a compact complete
+restatement of a changed body. A rule clause states an obligation, permission, prohibition,
+or condition, and when the body amends framework files its rule clauses include those of its
+edit payloads. The both-readings test asks of each subject clause whether a reading escapes
+it or deadlocks the goal, and, where the clause quantifies over a set, asks the distributive
+and collective reading. The clause-interaction matrix pairs each subject clause with every
+other subject clause and with every untouched rule clause of each file an edit lands in,
+keeps the pairs sharing a named artifact, actor, identifier, or backtick-quoted string, the
+first three read as judgment, any uncoverable class routed to residue, reports each kept pair
+as consistent, jointly unsatisfiable, or an ordering conflict, the dropped pairs as one class
+with that reason, and reports any pair class it could not cover as residue below. The path
+re-walk covers each gate or state machine a subject clause touches, walking every path from
+entry to each terminal outcome and naming it. When a return deletes a rule clause, the matrix
+runs over the pairs it keeps under the same filter, computed from the packet's persisted
+current body before the deletion; the path re-walk is required when the deletion touches a
+gate or state machine; and both results are reported under the deleted clause's identifier.
+An adverse result, meaning an escape, a deadlock, a jointly unsatisfiable pair, or a broken
+path, is a defect in the body, not the packet, and the Writer repairs it before the return.
+The Writer then re-tests the repaired clauses once; that re-test is the last pass. An adverse
+result present at the last pass is stated in the return for the clause it concerns, and so is
+one whose repair would exceed a cap in force. The return is lawful with such a residue, which
+is not review material: the Orchestrator records it in the task record verbatim, marks it
+superseded when a later Writer return reports repairing or deleting the clause the residue
+names, which is recording on the Writer's report, not origination, and reports every standing
+residue to the owner, whose acceptance at the pre-cap accepted close and whose report at the
+cap read it. After a return states a cap-blocked residue, and no compact complete restatement
+has been produced in this bracket, the next Writer result is a compact complete restatement.
+The duties run on every return, which states each subject clause's result or an explicit
+empty set. These results are the Writer's evidence, not body content, and go only to the
+Orchestrator, riding the return item the charter requires for the Evidence register and
+traceability map: that map binds each requirement to its validation, and this report does so
+at rule-clause grain. It holds no finding, hash, round record, reviewer text, or review
+state, so the charter's three exclusions are unaffected.
+
 A population register whose re-run at its recorded revision differs from its recorded
 result is a defect in the specification body, not in the repository. The repair is the
 body, and the Orchestrator does not convert the divergence into a repository finding.
@@ -586,10 +644,15 @@ conditions hold and each one is recorded:
    it;
 3. the owner, in the owner's own reply turn, explicitly accepts every P2 and P3 open in
    that frozen ledger, each P2 within owner authority, or the residue acceptance is
-   recorded `none` because that ledger holds no open P2 and no open P3.
+   recorded `none` because that ledger holds no open P2 and no open P3, and no standing
+   Writer-stated residue is recorded for this goal. That same acceptance covers every residue
+   a Spec Writer stated in a return for this goal, as recorded and not marked superseded, and
+   an unaccepted standing residue bars this close.
 
 At the cap the cap rule above governs unchanged: a frozen ledger holding no open P0, P1, or
-P2 at the cap is accepted, with any open P3 recorded to the owner. While the Orchestrator
+P2 at the cap is accepted, with any open P3 recorded to the owner. Every standing residue a Spec
+Writer stated in a return for this goal is reported to the owner
+at the same time. While the Orchestrator
 evaluates this exit it need not route an open P2 or P3 for repair; routing one persists a
 Writer result and stops that round from qualifying.
 
@@ -609,10 +672,20 @@ flow, the goal uses the value in force at goal start, and the Orchestrator recor
 value with the goal. The setting never lowers a bar and never suppresses a trigger, a
 lens, the coverage rule, an owner gate, or any other requirement in this section.
 
+`writer reuse` is a PROJECT boundary setting with values `reuse` and `fresh-per-round`,
+default `reuse`. It changes only through the [section 3](#3-project-configuration)
+configuration flow, the goal uses the value in force at goal start, and the Orchestrator
+records that value with the goal. It governs the Spec Writer context only. Each reviewer is
+fresh at each of its own dispatches under both values, because reviewer independence needs a
+context that has not seen the body before and Writer repair needs one holding its own
+authoring history; one role carries each property. The setting never makes a reviewer
+persistent, never changes a packet, never lowers a bar, and never suppresses a trigger, a
+lens, the coverage rule, an owner gate, or any other requirement of this protocol.
+
 Before dispatch, the Orchestrator records for every invoked role:
 
 - harness and mapping;
-- whether the context is separate or fresh as required;
+- whether the context is separate, fresh as required, or retained as configured;
 - tools and capabilities used;
 - `supported`, `unsupported`, or `untested` status;
 - observed evidence and its limit.
@@ -620,7 +693,14 @@ Before dispatch, the Orchestrator records for every invoked role:
 Missing required mapping blocks that goal path. Available tools alone mean `untested`.
 Never infer catalog support from Builder or general Reviewer evidence. A harness is
 `unsupported` when it cannot preserve a required role, fresh context, approved scope, or
-owner-authority boundary.
+owner-authority boundary. Under `reuse`, a harness that cannot preserve a Spec Writer context
+across dispatches is not `unsupported` for that reason alone, because it violates no
+freshness requirement: the Orchestrator selects a context that has not served the bracket at
+each dispatch, recording each as a replacement caused by that limit, so the degradation is
+recorded, not silent. On the second such replacement in adjacent continuity entries, a first
+dispatch being no replacement, the Orchestrator records the limit and reports it to the owner
+in the goal's next owner exchange, no later than the completion report; the goal continues
+under fresh dispatch. Under `fresh-per-round` this paragraph does not apply.
 
 Review aggregation is strict: pass requires every invoked reviewer to pass, and any blocked
 verdict or open repair at the applicable cap blocks the goal. Both clauses aggregate
@@ -843,7 +923,9 @@ Every packet contains only the information needed by the receiving role.
   validation obligations, source requirements, fixed controls, and owner or permission
   boundaries. On repair it also receives the current body and open finding ledger. It never
   receives earlier bodies or full reviewer reports. It returns the complete current
-  specification body only to the Orchestrator.
+  specification body only to the Orchestrator. Writer continuity adds no input to this bullet
+  and removes none: a context that serves more than one dispatch is never authority for an
+  input this bullet names, and never supplies an input this bullet excludes.
 - Claims Reviewer receives the complete persisted current specification body, packet
   identifier, content hash, current task metadata including the cap-amendment record when
   the task record holds one, current evidence, and the open finding ledger. It verifies

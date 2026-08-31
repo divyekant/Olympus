@@ -58,6 +58,7 @@ Map and Validation are hints. Check them against current code for each goal.
 | branch/worktree policy | `<one worktree per goal with closure at goal end (default); current checkout or branch when the owner permits it for simple sequential work; commit or explicitly include relevant dirty work>` |
 | review round cap | `2` (`1`, `2`, or `3`) |
 | strict convergence | `off` (`off` or `on`) |
+| writer reuse | `reuse` (`reuse` or `fresh-per-round`) |
 | local commit policy | `<project convention>` |
 
 The owner gates in the runtime protocol are fixed and not configurable in PROJECT.
