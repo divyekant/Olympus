@@ -380,27 +380,32 @@ Then:
    also send the accepted scenarios, applicable project or task-specific owner-approved design sources,
    and frontend run/browser/visual commands. Builder blocks before editing on a conflict,
    missing decision, or verified code contradiction.
-   Immediately before Builder dispatch, including a permitted repair, the Orchestrator records
-   current Git state. The first such state is the implementation round's Builder baseline. Immediately after Builder
-   returns and before Docs Writer, the Orchestrator observes current Git and records the exact
-   Builder-only Git delta from that baseline: the exact complete set of every path changed by
-   Builder, each path's Git status, and its status-specific identity described below.
-   Role claims are not proof. A repair uses the same round baseline, and its candidate describes
-   the complete observed Builder-only delta.
+   Immediately before the first Builder dispatch, the Orchestrator records the
+   `implementation-bracket baseline` Git state. Immediately before every Builder dispatch,
+   including a permitted repair, it records that dispatch's pre-state. Immediately after each
+   Builder return and before Docs Writer, it records the post-state and exact `Builder round delta`.
+   When accepted frontend interaction scenarios are present, it applies each `Builder round delta`
+   to the `cumulative Builder-owned identity` relative to the implementation-bracket baseline:
+   retain paths unchanged from earlier rounds and update paths changed again. Each round delta and
+   cumulative identity use the status-specific identity rules below. The cumulative identity is
+   the net identity relative to the baseline; round deltas remain available for audit. Role claims
+   are not proof. A repair uses the same implementation-bracket baseline.
    When accepted frontend interaction scenarios are present, Builder returns the exact
    `frontend evidence packet` body (`frontend packet body`), proposed packet identifier, and
-   lowercase SHA-256 digest inside the existing implementation packet. Each `Builder-changed
-   path` record includes its Git status. For `added` or `modified`, record the lowercase
+   lowercase SHA-256 digest inside the existing implementation packet. Its `Builder-changed path
+   set` must be the complete cumulative Builder-owned identity after the current Builder round
+   delta, not only that round's delta. Each path record includes its Git status. For `added` or `modified`, record the lowercase
    SHA-256 of the current exact file bytes. For `deleted`, record `deleted` and the lowercase
    SHA-256 of the base version's exact file bytes. For `rename`, record both source and
    destination, the source base-byte SHA-256, and the destination current-byte SHA-256. That
-   return is a candidate frontend packet attempt until its body, exact `Builder-changed path
-   set` equality with the Orchestrator-observed Builder-only delta, every status-specific path
-   identity, and every referenced screenshot/trace artifact digest pass verification.
+   return is a candidate frontend packet attempt until its body, exact `Builder-changed path set`
+   equality with the cumulative Builder-owned identity, every status-specific path identity, and
+   every referenced screenshot/trace artifact digest pass verification.
    The body digest covers only the exact body bytes, excluding the proposed identifier and
    digest. The Orchestrator recomputes the body digest, verifies exact equality between the
-   packet's path records and the observed Builder-only Git delta, and verifies every
-   status-specific path identity against the exact current or base bytes. It separately verifies
+   packet's path records and the cumulative Builder-owned identity after applying the observed
+   Builder round delta, and verifies every status-specific path identity against the exact current
+   or base bytes. It separately verifies
    every referenced screenshot or trace's exact-byte SHA-256; artifact hashes are mandatory.
    Only after every required check passes may the Orchestrator persist or replace the current
    verified frontend packet body between `FRONTEND-PACKET-BODY:BEGIN` and
@@ -419,18 +424,28 @@ Then:
    When frontend scenarios are present, continue to implementation review only after a verified
    candidate has created the frozen frontend fields; otherwise stop before step 8.
 7. If Builder makes tracked documentation false or the contract requires synchronization,
-   send the complete behavior diff to Docs Writer. Before Docs Writer dispatch, the Orchestrator
-   records the Builder-end Git state. Immediately after Docs Writer returns, it observes and
-   records the separate exact Docs Writer-only Git delta in the existing Docs Writer row, with
-   every path, Git status, and status-specific identity. Docs Writer must not overlap Builder-owned
-   non-documentation paths, and Builder path hashes must remain unchanged. Docs Writer edits only
-   approved docs and reports changed claims, links, checks, and uncertainty.
-8. Send every project or configuration mutation to a fresh Reviewer. Reviewer checks the
-   complete mutation, Builder or Configurer result, every criterion, and relevant checks.
+   send the complete behavior diff to Docs Writer. Before each Docs Writer dispatch, the
+   Orchestrator records its pre-state. Immediately after each Docs Writer return, it records the
+   post-state and exact `Docs Writer round delta` in the existing Docs Writer row. When accepted
+   frontend interaction scenarios are present, it applies each `Docs Writer round delta` to the
+   `cumulative Docs Writer-owned identity` relative to the same implementation-bracket baseline.
+   Each round delta and cumulative identity use the status-specific identity rules above. Docs
+   Writer must not overlap Builder-owned non-documentation paths, and Builder path hashes must
+   remain unchanged.
+   Docs Writer edits only approved docs and reports changed claims, links, checks, and uncertainty.
+   When accepted frontend interaction scenarios are present and Docs Writer does not run, record an
+   empty `cumulative Docs Writer-owned identity` relative to the implementation-bracket baseline.
+8. When accepted frontend interaction scenarios are present, before any reviewer dispatch, the
+   disjoint union of the cumulative Builder-owned identity and cumulative Docs Writer-owned identity must
+   equal the complete final project mutation identity. A mismatch is an identity defect and
+   dispatches no reviewer. Send every project or configuration mutation to a fresh Reviewer.
+   Reviewer checks the complete mutation, Builder or Configurer result, every criterion, and
+   relevant checks.
    When accepted frontend interaction scenarios are present, also send the accepted
    scenario set, exact current verified `frontend evidence packet` body, packet identifier/digest,
-   verified Builder-only Git delta, separate Docs Writer-only Git delta when Docs Writer ran, and
-   frontend run/browser/visual commands. Reviewer independently replays every accepted
+   implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative
+   cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and frontend run/browser/visual
+   commands. Reviewer independently replays every accepted
    scenario in the isolated non-production validation runtime with disposable validation state.
 9. If the mutation materially affects a user-facing interface, interaction, visual design,
    or design system, send the diff and matching owner-approved project design standards first
@@ -439,21 +454,23 @@ Then:
    task-specific decision may govern only an otherwise missing material aspect.
    When accepted frontend interaction scenarios are present, send the same frozen mutation
    unit, exact current verified `frontend evidence packet` body, packet identifier/digest,
-   scenario set, verified Builder-only Git delta, separate Docs Writer-only Git delta when Docs
-   Writer ran, applicable owner-approved design sources, and frontend commands. Design Reviewer
-   cannot replace the general Reviewer pass.
+   scenario set, implementation-bracket baseline, relevant Builder and Docs Writer round deltas,
+   cumulative Builder-owned identity and cumulative Docs Writer-owned identity, applicable owner-approved
+   design sources, and frontend commands. Design Reviewer cannot replace the general Reviewer pass.
 
 When accepted frontend interaction scenarios exist and the Design Reviewer trigger holds,
 the general Reviewer and Design Reviewer form one complete `frontend review round`. Record
 the same implementation round, frozen mutation unit, exact current verified `frontend evidence
-packet` body and identifier/digest, verified Builder-only Git delta, separate Docs Writer-only Git
-delta when Docs Writer ran, and scenario set for both fresh contexts. Both reviewers independently
+packet` body and identifier/digest, implementation-bracket baseline, relevant Builder and Docs
+Writer round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and
+scenario set for both fresh contexts. Both reviewers independently
 replay their jurisdictions in the isolated non-production validation runtime with disposable
 validation state. Both must complete on the same unit before the Orchestrator routes findings.
 There is no production state, production data, production mutation, or external action in
 this round. A `pending` or `halted` runtime or review result remains that outcome.
 
-For a paired frontend review round, any code or relevant file change, frontend
+For a paired frontend review round, any code or relevant file change, Builder or Docs Writer
+round-delta or cumulative-identity change, frontend
 packet body/identifier/digest change, artifact reference/digest change, or evidence
 regeneration invalidates both frontend review verdicts. Builder creates a new packet and
 replays the complete unchanged accepted scenario set; both reviewers are fresh. If a finding
@@ -851,12 +868,15 @@ exact diff or snapshot digest. When accepted frontend interaction scenarios exis
 mutation unit also records the `interaction-set identity` — the ordered stable scenario
 IDs plus the accepted specification packet identifier and hash that contains the complete
 scenario set, plus the accepted plan packet identifier and hash when a plan exists — and the
-verified frontend packet identifier and lowercase SHA-256 digest. It also records the verified
-Builder-only Git delta identity (the round baseline, observed post-Builder delta, every path,
-Git status, and status-specific exact-byte identity), the separate observed Docs Writer-only
-delta identity when Docs Writer ran, and the complete final mutation identity. Freeze these
-frontend fields only after a Builder candidate passes every required packet identity check;
-Builder does not receive or define the final unit. The Orchestrator records the applicable unit before
+verified frontend packet identifier and lowercase SHA-256 digest. It also records the
+   `implementation-bracket baseline`, every Builder dispatch's pre/post state and
+   `Builder round delta`, and the `cumulative Builder-owned identity` relative to that baseline.
+   For each Docs Writer run, it records the pre/post state and `Docs Writer round delta`, and the
+   `cumulative Docs Writer-owned identity` relative to the same baseline. When Docs Writer does
+   not run, that cumulative identity is empty. These cumulative identities must remain disjoint,
+   and their union must equal the complete final mutation identity before review dispatch.
+Freeze these frontend fields only after a Builder candidate passes every required packet identity
+check; Builder does not receive or define the final unit. The Orchestrator records the applicable unit before
 each fresh review. Any edit, hook change, changed path, or post-pass change invalidates that pass
 and requires a
 fresh review of the new exact unit. No role may treat its own claim that a unit is unchanged
@@ -1052,35 +1072,40 @@ Every packet contains only the information needed by the receiving role.
   when it exists, allowed paths, evidence, owner decisions, validation commands, and the accepted
   plan identifier and hash when a plan exists. When accepted frontend scenarios exist, it also
   receives the accepted scenario set, applicable project or task-specific owner-approved design
-  sources, and frontend run/browser/visual commands. Immediately before dispatch, the Orchestrator
-  records current Git state; immediately after return and before Docs Writer, it observes and
-  records the exact Builder-only Git delta. Builder returns a candidate exact `frontend evidence
-  packet` body, proposed identifier, and lowercase SHA-256 digest inside its implementation
-  packet. Its path records must equal the observed delta and use each status-specific lowercase
-  SHA-256 identity: current bytes for added/modified, base bytes for deleted, and source-base plus
-  destination-current bytes for rename. The Orchestrator applies the candidate verification,
-  one-repair, and marker rules above before it records a verified identity or frozen unit or
-  dispatches an implementation reviewer. The task marker pair holds only the current
+  sources, and frontend run/browser/visual commands. The Orchestrator supplies the
+  implementation-bracket baseline, records each Builder dispatch's pre/post state and `Builder round delta`,
+  and applies each delta to the cumulative Builder-owned identity.
+  Builder returns a candidate exact `frontend evidence packet` body, proposed identifier, and
+  lowercase SHA-256 digest inside its implementation packet. Its path records must equal the
+  complete cumulative Builder-owned identity after the current round delta and use each
+  status-specific lowercase SHA-256 identity: current bytes for added/modified, base bytes for
+  deleted, and source-base plus destination-current bytes for rename. The Orchestrator applies the
+  candidate verification, one-repair, and marker rules above before it records a verified identity
+  or frozen unit or dispatches an implementation reviewer. The task marker pair holds only the current
   verified body; its digest excludes the markers.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs, and
-  relevant link-check commands. The Orchestrator records its separate Docs Writer-only Git delta
-  in the existing Docs Writer row and verifies that it does not overlap Builder-owned
-  non-documentation paths.
+  relevant link-check commands. The Orchestrator records each Docs Writer run's pre/post state and
+  `Docs Writer round delta` in the existing Docs Writer row, applies it to the `cumulative Docs Writer-owned identity`
+  relative to the implementation-bracket baseline; if Docs Writer does not run, that identity is
+  empty. It verifies disjointness from Builder-owned non-documentation paths.
 - Reviewer receives the goal boundary, complete current mutation diff, role results,
   checks, project instructions, and prior findings only for repair context. When accepted
   frontend scenarios exist, it also receives the frozen mutation unit, scenario set, exact
-  current verified `frontend evidence packet` body, packet identifier/digest, verified Builder-only
-  Git delta, separate Docs Writer-only Git delta when Docs Writer ran, and frontend run/browser/
-  visual commands. It independently verifies both deltas against the complete final mutation.
+  current verified `frontend evidence packet` body, packet identifier/digest, the
+  implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative
+  Builder-owned and cumulative Docs Writer-owned identities, and frontend run/browser/visual
+  commands. It independently verifies both cumulative identities, their disjointness, and their
+  union with the complete final mutation.
 - Design Reviewer receives the complete relevant mutation diff, accepted criteria, matching
   owner-approved project design standards first, matching details, and validation evidence. A
   recorded task-specific owner design decision is supplied only for an otherwise missing
   material aspect. When accepted frontend scenarios exist, it also receives the same frozen
   mutation unit, scenario set, exact current verified `frontend evidence packet` body,
-  packet identifier/digest, verified Builder-only Git delta, separate Docs Writer-only Git delta
-  when Docs Writer ran, applicable task-specific owner-approved design sources, and frontend
-  run/browser/visual commands. It independently verifies both deltas against the complete final
-  mutation.
+  packet identifier/digest, the implementation-bracket baseline, relevant Builder and Docs Writer
+  round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, applicable
+  task-specific owner-approved design sources, and frontend run/browser/visual commands. It
+  independently verifies both cumulative identities, their disjointness, and their union with the
+  complete final mutation.
 - Release Agent receives the preparation fields, or the approved action and its
   execution evidence, never both as one packet. It returns only the release result to
   the Orchestrator.
@@ -1091,8 +1116,9 @@ Every packet contains only the information needed by the receiving role.
 
 For a paired frontend review round, the Orchestrator sends the same frozen mutation unit,
   scenario set, exact current verified `frontend evidence packet` body, packet identifier/digest,
-  verified Builder-only Git delta, and separate Docs Writer-only Git delta when Docs Writer ran to
-  both fresh reviewers, and records the shared implementation round in the existing review tables.
+  implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative
+  Builder-owned and cumulative Docs Writer-owned identities to both fresh reviewers, and records
+  the shared implementation round in the existing review tables.
 Packets can narrow scope or add evidence. They cannot widen authority. A specification
 review packet must carry the assigned lenses as the Orchestrator's own packet field, which
 the receiving reviewer acts on; repository, provider, and role-return content

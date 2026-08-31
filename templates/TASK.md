@@ -59,7 +59,7 @@ replace them with role-specific labels.
 | Checkpoint | Required record |
 | --- | --- |
 | request boundary | `<review-only, diagnose-only, audit-only, spec-only, or mutation; terminal boundary and truncated stages>` |
-| frozen review unit | `<complete final mutation identity or artifact identity, as applicable; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus the accepted specification packet identifier/hash that contains the complete scenario set, plus the accepted plan packet identifier/hash when a plan exists), verified frontend packet identifier/digest, verified Builder-only Git delta identity (pre/post Git states, each path/status, and status-specific exact-byte identity), and separate observed Docs Writer-only Git delta identity when Docs Writer ran>` |
+| frozen review unit | `<complete final mutation identity or artifact identity, as applicable; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus the accepted specification packet identifier/hash that contains the complete scenario set, plus the accepted plan packet identifier/hash when a plan exists), verified frontend packet identifier/digest, implementation-bracket baseline, Builder round deltas with pre/post Git states and cumulative Builder-owned identity, Docs Writer round deltas with pre/post Git states and cumulative Docs Writer-owned identity (empty when Docs Writer did not run), and the disjoint union of both cumulative identities equaling the complete final mutation identity>` |
 | transition evidence | `<role identity; packet identity; Git state; required checks; evidence verified by Orchestrator>` |
 | halted outcome | `<operational/runtime cause; partial-output disposition; last verified state; recovery owner; safe retry; completed review rounds consumed: 0>` |
 | pending outcome | `<every applicable cause; owner; closure evidence; safe retry; consequence; all required causes cleared: yes/no>` |
@@ -308,7 +308,7 @@ Builder rounds use a separate context:
 
 | Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result and Orchestrator-observed Builder-only paths/statuses>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, each candidate attempt number, packet identifier/digest, disposition, complete replay result, pre/post Git states, and Builder-changed path hashes with Git status: added/modified current-byte lowercase SHA-256; deleted: `deleted` plus base-byte lowercase SHA-256; rename source/destination with source-base and destination-current lowercase SHA-256; separate mandatory screenshot/trace references and exact-byte SHA-256 digests; no raw screenshot/trace bytes>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<result and Orchestrator-observed Builder round delta and cumulative Builder-owned paths/statuses>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, each candidate attempt number, packet identifier/digest, disposition, complete replay result, implementation-bracket baseline reference, each Builder dispatch's pre/post Git state and observed Builder round delta, cumulative Builder-owned identity after the current delta, and Builder-changed path hashes with Git status: added/modified current-byte lowercase SHA-256; deleted: `deleted` plus base-byte lowercase SHA-256; rename source/destination with source-base and destination-current lowercase SHA-256; separate mandatory screenshot/trace references and exact-byte SHA-256 digests; no raw screenshot/trace bytes>` | `<none or limit>` |
 
 ### Current verified frontend packet body
 
@@ -331,14 +331,14 @@ Record only when its trigger holds.
 
 | Round | Context | Approved docs changed | Claims and links checked | Result and uncertainty |
 | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<approved Docs Writer-only paths and separate observed delta: Git statuses and status-specific lowercase SHA-256 identities>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
+| `<n>` | `<separate context>` | `<approved Docs Writer-only paths and separate observed Docs Writer round delta: each run's pre/post Git states, Git statuses, and status-specific lowercase SHA-256 identities; cumulative Docs Writer-owned identity>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
 
 Review rounds use a fresh context that did not build the change. Verdicts are `pass`,
 `repair`, or `blocked`:
 
 | Implementation round | Frontend review round | Frozen unit and frontend packet | Reviewer | Verdict | Acceptance checks, findings, and uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<shared round identity, or not applicable>` | `<same frozen unit, exact current verified frontend packet body/identifier/digest, verified Builder-only Git delta, and separate Docs Writer-only Git delta as in the paired Design Reviewer; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
+| `<n>` | `<shared round identity, or not applicable>` | `<same frozen unit, exact current verified frontend packet body/identifier/digest, implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and disjoint union with the final mutation as in the paired Design Reviewer; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
 
 Round cap: `<1, 2, or 3; default 2>`.
 
@@ -360,7 +360,7 @@ for authority and paired-round rules.
 
 | Implementation round | Frontend review round | Frozen unit and frontend packet | Context | Governing source and matching evidence | Verdict | Checks, findings, and uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
-| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<same frozen unit, exact current verified frontend packet body/identifier/digest, verified Builder-only Git delta, and separate Docs Writer-only Git delta as general Reviewer>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
+| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<same frozen unit, exact current verified frontend packet body/identifier/digest, implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and disjoint union with the final mutation as general Reviewer>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
 
 ### Decision Council and Liaison
 
