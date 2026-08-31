@@ -18,8 +18,8 @@ the pinned [runtime protocol](../references/PROTOCOL.md) and are not restated he
 | created at | `<time>` |
 | framework commit | `<full commit>` |
 | PROJECT revision | `<revision>` |
-| strict convergence | `<off or on; the value in force at goal start>` |
-| writer reuse | `<reuse or fresh-per-round; the value in force at goal start>` |
+| strict convergence | `<off or on; explicit or defaulted from omission; the value in force at goal start>` |
+| writer reuse | `<reuse or fresh-per-round; explicit or defaulted from omission; the value in force at goal start>` |
 | source base | `<commit>` |
 | isolation | `<current checkout, branch, or worktree path>` |
 
@@ -34,8 +34,8 @@ invoked role before dispatch.
 | 2 | System Configurer | `<owner config request and double-opt-in flow>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 3 | Explorer | `<material question or explicit audit>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 4 | Spec Writer | `<substantial or other trigger>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 5 | Claims Reviewer | `<every Spec Writer result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
-| 6 | Spec Reviewer | `<every Spec Writer result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
+| 5 | Claims Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
+| 6 | Spec Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 7 | Plan Writer | `<dependent or cross-layer steps or explicit need>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 8 | Plan Verifier | `<every Plan Writer result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 9 | Builder | `<every non-configuration mutation>` | `<yes/no>` | `<yes/no>` | `<separate mapping and evidence>` |
@@ -165,8 +165,8 @@ classification holds.
 | `revision-reference` | `<one reference made in reply to a recorded owner clarification, or none>` |
 | `clarification-reference` | `<at most one owner clarification, with the Orchestrator reply when it answered, or none>` |
 | `owner-decision reference` | `<verbatim owner decision bytes and their position in the sequence below, or not applicable>` |
-| `observed-at-round-1` | `<body bytes, criteria count, and deliverable count observed at round 1, or not applicable>` |
-| `cap-amendment` | `<proposal reference and its cause; the exact current and proposed value of each cap named; the owner reply with its verbatim decision bytes; the path state, open, closed, or spent; each amended value and the first persisted Writer result it governs, or none>` |
+| `observed-at-round-1` | `<body bytes, criteria count, and deliverable count observed at round 1; empty until the first round completes, or not applicable>` |
+| `cap-amendment` | `<proposal reference and its cause; latest frozen ledger state, including no-frozen-ledger before round 1; the exact current and proposed value of each cap named; the owner reply with its verbatim decision bytes; the path state, open, closed, or spent; each amended value and the next Writer result it governs, including a blocked result that is not persisted, or none>` |
 
 The owner-exchange sequence is append-only. Only the Orchestrator appends, and positions
 are assigned once and never renumbered.
@@ -236,7 +236,7 @@ finding ledger, or in the specification body.
 
 | Round | Packet identifier and hash | Attempt | Assigned lenses and owning reviewers | Recorded dispositions | Supersedes |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<identifier and hash>` | `<attempt number from the one counter for this round, which is that append's handoff-defect reference; none only on the round's first append>` | `<each lens with its owning reviewer; at most two lenses per reviewer>` | `<per lens: the lens, plus its findings by that reviewer's own references or an explicit no-additional-finding; or not yet returned>` | `<earlier row or none>` |
+| `<n>` | `<identifier and hash>` | `<attempt number from the one counter for this round, which is that append's handoff-defect reference; none only on the round's first append>` | `<each lens with its owning reviewer; at most two lenses per reviewer>` | `<per lens: the lens, plus its findings by that reviewer's own references; for lenses other than L6, an explicit no-additional-finding; for L6, no-prior-repair only on a valid clean L6, or no-additional-finding only after attacking a repaired body; or not yet returned>` | `<earlier row or none>` |
 
 ### Specification review rounds
 
@@ -245,9 +245,9 @@ brackets only. Each reviewer returns its complete jurisdictional finding set in 
 pass. The Orchestrator merges both sets and freezes the finding ledger for the round. At
 the configured cap, any open P0, P1, or P2 blocks the goal.
 
-| Round | Packet identifier and hash | Claims verdict and finding count | Spec verdict and finding count | Open P0-P2 | Body lines | Body bytes | Merged finding IDs | Aggregated state | Restatement |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<identifier and hash>` | `<pass/repair/blocked; count>` | `<pass/repair/blocked; count>` | `<count>` | `<count>` | `<count>` | `<ledger IDs or none>` | `<pass/repair/blocked>` | `<yes/no; reason>` |
+| Round | Packet identifier and hash | Claims verdict and finding count | Spec verdict and finding count | Open P0-P2 | Body lines | Body bytes | Merged finding IDs | Aggregated state |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `<n>` | `<identifier and hash>` | `<pass/repair/blocked; count>` | `<pass/repair/blocked; count>` | `<count>` | `<count>` | `<count>` | `<ledger IDs or none>` | `<pass/repair/blocked>` |
 
 ### Finding ledger (Orchestrator-owned)
 
@@ -275,12 +275,11 @@ specification bracket.
 | lens coverage | `<one entry per catalog lens: the lens, its owning reviewer, and either its consumed round or not run; two entries for L6, one per owning reviewer>` |
 | writer continuity | `<one entry per dispatched Writer attempt, consumed or not: the round, the attempt, and either first dispatch, reused, fresh by configuration, or replaced with its cause>` |
 | qualifying round | `<round, or none>` |
-| residue acceptance | `<owner reply reference accepting every open P2 and P3 in that frozen ledger and every standing Writer-stated residue recorded for the goal, or none when neither exists>` |
 | coverage-only reason | `<reason recorded when an unchanged body is persisted while coverage is incomplete, or not applicable>` |
-| next action | `<repair, compact complete restatement, pending residue acceptance, accepted, or blocked>` |
+| next action | `<repair, accepted, blocked, or pending owner reply>` |
 
-The round cap, body size caps, and restatement rule live in the protocol. Record both
-body sizes in each round summary.
+The round cap and body size caps live in the protocol. Record both body sizes in each round
+summary.
 
 ## Plan rounds
 

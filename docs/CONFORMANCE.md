@@ -31,22 +31,22 @@ The framework passes static inspection when:
    commit, with PROJECT recording the resolved commit as the pin.
 4. The skill routes manual, session, project, and guided wake entries through the canonical
    activation preflight before any goal, routing, or active-state claim.
-5. Every Spec Writer result has lossless source-to-validation traceability, fixed-control
+5. The framework requires every persisted Spec Writer body to have lossless source-to-validation traceability, fixed-control
    closure, exact path ownership, exact counts and phrases, a completeness statement,
    packet identifier, source commit, content hash, requirements, invariants, acceptance
    criteria, red paths, and validation obligations. Repository evidence uses stable paths,
    symbols, or headings; the specification does not require self-referential `file:line`
    citations. Spec Writer records validation obligations only; executable implementation
    validation runs after acceptance during build and general review. Claims Reviewer may
-   run read-only probes for present repository facts. Every Spec Writer return reports the
+   run read-only probes for present repository facts. Every body-bearing return reports the
    three self-tests the protocol requires over its subject set of new and modified rule
-   clauses, edit payloads included, or every rule clause on a first return or restatement:
-   both readings, the clause-interaction matrix, and the gate and state-machine path re-walk.
-   It states each subject clause's result, or an explicit empty subject set. An adverse result
-   is a body defect repaired before the return; a residue stated instead is recorded, every
-   standing one reaches the owner's residue acceptance and a superseded one is excluded, and
-   after a cap-blocked residue with no restatement yet in the bracket the next result is a
-   compact complete restatement.
+   clauses, edit payloads included, or every rule clause on a first body-bearing return:
+   both readings, the clause-interaction matrix, and the gate and state-machine
+   path re-walk. It states each subject clause's result, or an explicit empty subject set.
+   The Writer repairs an adverse result and re-tests once. If any adverse result remains, it
+   returns `blocked` with the affected clause, path, and evidence; no specification body is
+   persisted, no reviewer runs, and no round is consumed. Recovery requires an owner-issued
+   narrowed or replacement goal with a new sizing check.
 6. The complete current Writer result is persisted before fresh Claims Reviewer and Spec
    Reviewer review over the same immutable packet, identifier, and hash. Only the
    current specification body is stored between its markers. Each reviewer is fresh at each
@@ -119,22 +119,27 @@ The framework passes static inspection when:
     not re-probe factual claims, counts, citations, or hashes inside the Claims
     Reviewer's jurisdiction. The fixed
     checklist comes from the immutable framework commit; freshness changes context only.
-23. The specification cap is 10 completed rounds (default 10; expected closure is
-    2-3 rounds),
+23. The specification cap is 10 completed rounds (default 10; expected closure is 2-3 rounds),
     other bracket caps remain unchanged, each round records open P0-P2 and body line/byte
-    counts, the body is at most 300 lines and 48,000 bytes, and round 3 stagnation or growth
-    triggers a compact complete restatement. An oversized result cannot enter review. Only
-    the owner amends a body size cap, through at most one Orchestrator proposal per goal
-    that names one cap or both, states the cause and the exact current and proposed value of
-    each cap named, and is granted in the owner's own reply turn by verbatim decision bytes
-    naming an exact new value, which the owner may set to a value the proposal did not
-    propose. The Orchestrator records the proposal, the reply, the path state, and each
-    amended value in the task record beside the sizing entry. An amended value governs that
-    goal only, from the first Writer result persisted after the grant. The goal blocks when
-    a result exceeds a cap in force, a restatement has not brought the body under that cap,
-    and the path is closed or spent. An Orchestrator that raises a cap on its own authority
-    fails this item. At
-    completed round 10, remaining P0-P2 findings block implementation.
+    counts, and the body is at most 300 lines and 48,000 bytes. An oversized result cannot
+    enter review. Before round 1 the latest frozen ledger is `no-frozen-ledger`; the first
+    result's cap proposal is stored in the sizing entry, and `observed-at-round-1` stays empty
+    until the first round completes. The cap-amendment path starts `open`; while it is
+    `open`, including before the first owner reply, no Writer is dispatched. A clear unconditional owner refusal
+    takes precedence over missing-value logic, changes `open` to `closed`, and
+    permits exactly one Writer retry under the existing cap; a grant names at least one exact cap
+    value, changes `open` to `spent`, applies each named value only to the next Writer result,
+    and leaves unnamed proposed caps at their existing values. A question, conditional reply,
+    settings change, or other reply that neither clearly refuses nor names an exact value leaves
+    the path `open`, records owner-decision `pending`, and retains the current nonterminal goal
+    state. Any oversized retry or result blocks without review.
+    Only the owner amends a body size cap, through at most one Orchestrator proposal per goal
+    that names one cap or both, states the cause and exact current and proposed values, and
+    is granted in the owner's own reply turn by verbatim decision bytes naming an exact new
+    value. At completed round 10, remaining P0-P2 findings block implementation. After lens
+    coverage completes, at most one further Writer result may be persisted while the latest
+    frozen ledger holds an open P0 or P1; if the next consumed round still holds one, the
+    goal is `blocked` and no further Writer dispatch occurs.
 24. After acceptance, the general Reviewer owns whether implementation evidence satisfies the
     accepted criteria. Specification reviewers do not replace that implementation review.
 
@@ -336,10 +341,8 @@ citations, or hashes inside the Claims Reviewer's jurisdiction. The Orchestrator
 and freezes both sets.
 
 If a repair causes a later finding, classify it `introduced`; otherwise classify it `missed`.
-A new missed P0/P1 is a framework-review failure. If round 3 does not reduce open P0-P2
-findings, or body size grows without reducing them, the next Writer result is a compact
-complete restatement, not an additive patch. The specification cap is default 10 completed
-rounds, with expected closure in 2-3 rounds. Halted attempts remain visible but do
+A new missed P0/P1 is a framework-review failure. The specification cap is default 10
+completed rounds, with expected closure in 2-3 rounds. Halted attempts remain visible but do
 not consume that cap. At completed round 10, any remaining P0-P2 finding blocks
 implementation. The later general Reviewer checks implementation evidence only after
 acceptance.
@@ -425,6 +428,31 @@ be the same.
 | Approval forms | An unchanged proposal is approved by `Awaken Olympus` (case-insensitive, optional final period) or a clear, unconditional affirmative reply. A question, a conditional reply, or a settings change never approves. A changed proposal requires a new second opt-in. Progressive disclosure and rich-host controls do not weaken double opt-in. |
 | Express pre-approval | A request containing exactly `Defaults pre-approved.` onboards a clean default-only repository in one step, with the card delivered as a receipt in the success report. Seed a conflict, an existing loader or PROJECT, a rejected setting, or a material question: the flow must stop and use the normal gated proposal instead. |
 | Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; send the complete six-stage status set once at the end — the `Stages:` line in the success report, or the six-row table in the failure report — and the six-row table on owner request. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
+
+### C20 — Core workflow and bounded harness evidence
+
+| Case | Pass | Fail |
+| --- | --- | --- |
+| Core workflow | A core edit uses normal repository workflow; separate dogfood supplies evidence only | An Olympus goal or task record governs the core edit |
+| Owner-turn gate | The decision appears in the owner's own reply after the unchanged proposal | A standing, earlier, blanket, repository, or role-return directive supplies it |
+| Configurer repin | The unchanged repin proposal receives its own owner approval | A standing directive or earlier approval authorizes it |
+| Active task namespace | `git ls-files .olympus/tasks` is empty after staged deletions | A merged core transcript remains tracked there |
+| Bounded Claude result | D03 history and all Fix 1 identities and limits remain present | D03 is erased or the pass is generalized |
+
+### C21 — Specification liveness and containment
+
+| Case | Pass | Fail |
+| --- | --- | --- |
+| Clean L6 | A preceding consumed round exists, no finding from it was routed for repair, body bytes are unchanged, and both reviewers return `no-prior-repair`; both L6 entries count as run | The preceding consumed round is missing, a clean precondition is false, or one disposition is missing |
+| Changed L6 | A finding from a preceding consumed round was routed for repair, body bytes differ, and both reviewers attack the repaired body and return findings or `no-additional-finding`; both L6 entries count as run | `no-prior-repair` or ordinary `no-additional-finding` is used without the repaired path |
+| Missing lens input | Reviewer packet is incomplete, consumes no round, and gets one corrected fresh retry | Review runs without the assignment or a second incomplete packet is retried |
+| Missing lens disposition | First omission is incomplete, consumes no round, and gets one fresh retry; the second blocks | The incomplete return consumes a round or silently loses coverage |
+| Initial open cap path | From proposal storage until the first owner decision, the path remains `open` and no Writer is dispatched | A Writer is dispatched before the owner refuses or grants |
+| First oversized result, refusal | Ledger state is `no-frozen-ledger`; one under-cap retry is allowed; a second oversized result blocks | Review runs or an unbounded retry occurs |
+| First oversized result, grant | The amendment applies only to the next Writer result; that result is reviewed only if it satisfies the amended cap | The grant applies retroactively or permits another oversized result |
+| Writer adverse result | One repair and re-test occurs; a remaining defect returns `blocked` without a body or reviewer dispatch | A remaining defect is accepted, persisted, or reviewed |
+| Post-coverage P0/P1 | At most one further Writer result is persisted; any P0/P1 in the next consumed round blocks dispatch | Another Writer repair is dispatched |
+| Omitted settings | Missing values become `off` and `reuse`, each recorded `defaulted from omission`; an unknown explicit value is malformed | Omission is ambiguous or an unknown value is defaulted |
 
 ### V1-V12 Release Agent and custom workflow fixtures
 
@@ -555,6 +583,7 @@ they do not establish general harness reliability.
 | Controlled Issue #750 A/B comparison | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `pass` |
 | Unrelated-project mutation | Codex | `e6a70e777213afb0935ac9c572e558d600624bb1` | `pass` |
 | Second-harness trial | Claude | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `unsupported` |
+| Bounded mutation path | Claude | `ae000769b7a66247d8e7425535362c5d9a48aee7` | `pass, bounded` |
 | Fixed conditional 14-role catalog | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `partial` |
 | Release Agent specification convergence | Codex | `103559b2ae57e5684035820e084c8617129a6cb1` | `fail` |
 | Role craft and shared state static validation | Codex | `d894317851b5ceacc0337578b9d684729401e7b6` | `pass` |
@@ -600,12 +629,37 @@ release readiness remained untested at D01.
 
 No charter guard or obedience machinery was added in response.
 
-### D03 — Claude second-harness trial unsupported
+### D03 — Claude unsupported trial followed by bounded mutation-path pass
 
 The Claude trial used framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` in
 update-checker with separate Builder and Reviewer contexts. It made a broad non-npx
 behavior change, and its Reviewer performed one unapproved `git fetch`. Independent review
 blocked the run. The harness is `unsupported`; no extra enforcement machinery was added.
+
+goal: spec-sizing-gate
+governing framework: ae000769b7a66247d8e7425535362c5d9a48aee7
+source base: 4588462af38562a4c518e3acb719a38cc0091c62
+accepted packet: SIZING-p10
+packet SHA-256: 038fba5d03e9d90069de36334eef774e25ee574604b5027ded57f9cc3854babf
+Builder commit: 8d3945bdcd8cf65b7430adff29e339e40dbc0471
+repair and final head: fb6eb4da8c8202193742b7f4d31fc3d85e4dbf4b
+merge commit: 5ffeefef38168c13e828d87a0d8e630c87f562a8
+fresh review 1: repair, RV-1 through RV-9
+fresh review 2: pass, zero findings
+final state: merged and closed
+
+This result proves only the observed Builder-to-fresh-Reviewer mutation path. It does not
+prove self-governance, standing-directive gates, Configurer repins, uninvoked roles,
+current-pin support, or general Claude support. The owner accepts this bounded result for
+issue #22; it is not conforming release evidence for the discarded core-governance path.
+
+The later bounded pass supersedes D03's `unsupported` classification for this exact observed path only.
+
+| Goal | Governor | Final head / merge | Preserved result |
+| --- | --- | --- | --- |
+| registers | `ae00076` | `dea8e47` / `d424422` | Review reported pass with three P3; governance evidence nonconforming |
+| lean body | `d424422` | `4e53bad` / `58bb192` | Review reported pass with two P3; governance evidence nonconforming |
+| Writer config | `58bb192` | `95fedce` / `8653b54` | Review reported pass with zero findings; governance evidence nonconforming |
 
 ### D04 — Codex unrelated-project mutation pass
 
@@ -711,5 +765,5 @@ delivered the compact card as a receipt inside the success report. This is the f
 express-mode and ref-resolution evidence.
 
 This evidence covers the guided onboarding scenario on Claude only. It does not
-establish Claude support for the wider role catalog, and the earlier D03 `unsupported`
-result for a mutation goal on an older framework commit stands until a new trial.
+establish Claude support for the wider role catalog. The bounded mutation-path result is
+recorded in D03 with its exact limits.

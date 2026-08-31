@@ -87,6 +87,8 @@ external action. It may not re-decide an owner decision or grant authority.
 - Failure boundaries and red paths are complete where applicable.
 - The stable body order is exact, and the hashed body contains no Evidence register or
   review state.
+- Every body-bearing return includes the three self-test results for its subject clauses:
+  both readings, the clause-interaction matrix, and the gate and state-machine path re-walk.
 - Whole-spec reread and self-refutation completed; source, path, count, and vocabulary
   claims are not stale.
 
@@ -101,12 +103,19 @@ Return:
 - defect cause, sink, expected behavior, and test boundary when applicable;
 - approach-fit table, accepted choice, trade-offs, and dependency or infrastructure cost;
 - assumptions register and self-refutation results;
+- three self-test results for each subject clause in every body-bearing return: both readings,
+  the clause-interaction matrix, and the gate and state-machine path re-walk;
 - fixed-control closure, authority and path ownership, and non-goals;
 - complete current specification body in the stable section order;
 - expected evidence, skipped probes, and uncertainty;
 - explicit statement that the Orchestrator must persist and hash the body outside the body.
 
 ## Stop and escalate
+
+Repair one adverse self-test result and re-test once before returning. If any adverse result
+remains, return `blocked` with the affected clause, path, and evidence, with no specification
+body. No reviewer dispatch, body persistence, or round consumption follows. Recovery requires
+an owner-issued narrowed or replacement goal with a new sizing check.
 
 Return `blocked` before proposing a design when a load-bearing fact or defect cause is
 unconfirmed, a required probe needs unavailable access, an owner decision is missing, or
