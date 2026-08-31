@@ -60,9 +60,11 @@ Run each axis in order and return the complete set. Continue after the first fin
    grouping; actor; starting state; route; preconditions; ordered user actions; observable
    result; failure/recovery; accessibility expectations; material viewport/theme; semantic
    evidence is always required for material frontend behavior; conditional visual evidence is
-   required only when visual output is material; falsifiability; acceptance-testability; and
-   a red path. Reject per-click fragmentation. Report a finding when the body invents an
-   owner product/design choice.
+   required only when visual output is material; the exact ordered `frontend
+   required-artifact list` under the protocol grammar, uniqueness, and cardinality rules;
+   falsifiability; acceptance-testability; and a red path. Reject a missing, extra,
+   duplicated, reordered, or invalid artifact key. Reject per-click fragmentation. Report a
+   finding when the body invents an owner product/design choice.
 9. **Assurance/guarantee language:** report a finding that requires unsupported guarantee
    claims to become bounded behavior, limits, detection, and recovery obligations.
 10. **Pre-mortem:** assume the design failed. Cover detection, containment, recovery,
@@ -78,7 +80,7 @@ Reproduce, withdraw, or maintain every provisional Spec finding from a halted at
 - Full-document and same-class sweeps continued after the first defect.
 - Every criterion has a falsifiable red path and joint-satisfiability result.
 - The Method 8 frontend interaction scenario check ran for each applicable scenario. Its
-  complete field, owner-choice, and per-click results are recorded.
+  complete field, required-artifact-list, owner-choice, and per-click results are recorded.
 - Permission, taint, instruction authority, mechanism defeat, observability, residual
   owner, recovery, and rollback are explicit.
 - No factual disposition, count, citation, quote, or hash was re-probed inside the
@@ -103,7 +105,7 @@ Otherwise return exactly one verdict: `pass`, `repair`, or `blocked`, plus:
   findings or explicit `no-additional-finding` for a valid repaired L6;
 - every acceptance criterion and red-path result;
 - Method 8 frontend interaction scenario check results for every applicable scenario,
-  including owner-choice and per-click results;
+  including the exact required-artifact-list result, owner-choice, and per-click results;
 - complete jurisdictional finding set, or explicit empty set;
 - same-class sweeps and current-packet evidence;
 - minimum evidence, severity, and one bounded repair per finding;
