@@ -443,7 +443,7 @@ Then:
    relevant checks.
    When accepted frontend interaction scenarios are present, also send the accepted
    scenario set, exact current verified `frontend evidence packet` body, packet identifier/digest,
-   implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative
+   implementation-bracket baseline, relevant Builder and Docs Writer round deltas,
    cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and frontend run/browser/visual
    commands. Reviewer independently replays every accepted
    scenario in the isolated non-production validation runtime with disposable validation state.
