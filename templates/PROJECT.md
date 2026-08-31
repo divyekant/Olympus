@@ -41,11 +41,19 @@ authority.
 | --- | --- | --- | --- |
 | `<area>` | `<paths>` | `<purpose>` | `<none or limit>` |
 
+For a user-facing frontend, Map records or explicitly marks absent a `frontend source map`
+for design philosophy, design-system/token sources, reusable component inventory, and
+exemplar screens/flows. An explicit absence is evidence, not permission to invent a source.
+
 ### Validation
 
 | Scope | Command or evidence | When to use it | Known limit |
 | --- | --- | --- | --- |
 | `<scope>` | `<command/source>` | `<condition>` | `<none or limit>` |
+
+For a user-facing frontend, Validation records or explicitly marks absent interaction and
+accessibility rules, material viewport/theme rules, and frontend run, route, fixture,
+browser, and visual commands. Check these fields against the current code for each goal.
 
 Map and Validation are hints. Check them against current code for each goal.
 
@@ -85,8 +93,14 @@ Unsupported harnesses do not run goals that invoke unsupported roles through Oly
 ## Project design standards
 
 Record the sources and matching details that Design Reviewer uses, or `none recorded`.
-Missing required standards or matching evidence makes a triggered Design Reviewer
-unavailable.
+For a user-facing frontend, record or explicitly mark absent the design philosophy,
+design-system/token sources, reusable component inventory, exemplar screens/flows,
+interaction/accessibility rules, and material viewport/theme rules. A missing source is not
+permission to invent a standard. A recorded task-specific owner design decision may govern
+only an otherwise missing material aspect in that task. Analogous screens and flows are
+evidence, not authority. If neither a matching owner-approved project standard nor that
+task-specific decision governs a material aspect, the triggered Design Reviewer blocks.
+An evidence-backed empty component inventory is valid input.
 
 | Source | Matching project area or component | Standard or rule | Status and evidence | Limit |
 | --- | --- | --- | --- | --- |

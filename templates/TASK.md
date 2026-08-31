@@ -59,7 +59,7 @@ replace them with role-specific labels.
 | Checkpoint | Required record |
 | --- | --- |
 | request boundary | `<review-only, diagnose-only, audit-only, spec-only, or mutation; terminal boundary and truncated stages>` |
-| frozen review unit | `<spec body id/hash, plan id/hash, or mutation task/base/branch/worktree/base/head/merge-base/paths/diff digest, as applicable>` |
+| frozen review unit | `<spec body id/hash, plan id/hash, or mutation task/base/branch/worktree/base/head/merge-base/paths/diff digest, as applicable; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus the accepted specification or plan packet identifier/hash that contains them) and verified frontend packet identifier/digest>` |
 | transition evidence | `<role identity; packet identity; Git state; required checks; evidence verified by Orchestrator>` |
 | halted outcome | `<operational/runtime cause; partial-output disposition; last verified state; recovery owner; safe retry; completed review rounds consumed: 0>` |
 | pending outcome | `<every applicable cause; owner; closure evidence; safe retry; consequence; all required causes cleared: yes/no>` |
@@ -141,7 +141,7 @@ Delete this section when no owner decision was needed after activation.
 
 | Status | Question | Evidence | Answer and uncertainty |
 | --- | --- | --- | --- |
-| `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line>` | `<answer or limit>` |
+| `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line; for the frontend question, the frontend source map covering philosophy, standards/tokens, components, exemplars, routes/states/fixtures, commands, freshness/conflicts/unknowns>` | `<answer or limit; evidence is not approval>` |
 
 ## Sizing check
 
@@ -194,6 +194,8 @@ convergence state, and body size outside the hashed body. Never put earlier bodi
 diffs, reviewer transcripts, review history, evidence transcripts, or defensive
 annotations in the body. The body carries claims and pointers only, under the protocol
 rule for reproduced text.
+When material frontend behavior applies, accepted `frontend interaction scenario` records
+and stable IDs stay inside the hashed body, not in task metadata or a side artifact.
 
 ### Current specification body
 
@@ -285,7 +287,10 @@ summary.
 
 Use this bracket only when the accepted contract has dependent steps, cross-layer or
 interface sequencing, or an explicit plan need. Plan Writer receives the accepted contract
-or specification verbatim. Plan Verifier receives that contract plus the whole plan.
+or specification verbatim. When accepted frontend interaction scenarios exist, the hashed
+plan body contains the current `frontend plan scenario contract` and bidirectional
+scenario-ID-to-producing-step map. Plan Verifier checks both in a fresh context. Frontend
+scenarios do not make planning unconditional.
 
 | Round | Plan packet identifier and hash | Plan Writer context | Fresh Plan Verifier context | Verdict | Accepted plan or findings/evidence | Uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -303,7 +308,7 @@ Accepted plan:
 
 <!-- PLAN-BODY:BEGIN -->
 
-`<complete accepted plan body only, persisted verbatim before verification, or not required>`
+`<complete accepted plan body only, persisted verbatim before verification, including the frontend plan scenario contract and bidirectional scenario-ID-to-producing-step map when accepted frontend scenarios exist, or not required>`
 
 <!-- PLAN-BODY:END -->
 
@@ -313,7 +318,7 @@ Builder rounds use a separate context:
 
 | Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results; when accepted frontend interaction scenarios exist, exact frontend evidence packet body, proposed and verified frontend packet identifier/digest, complete scenario replay result, scenario-relevant path hashes, and screenshot/trace artifact references with exact-byte SHA-256 digests; no raw screenshot/trace bytes>` | `<none or limit>` |
 
 ### Docs Writer results
 
@@ -326,9 +331,9 @@ Record only when its trigger holds.
 Review rounds use a fresh context that did not build the change. Verdicts are `pass`,
 `repair`, or `blocked`:
 
-| Round | Reviewer | Verdict | Acceptance checks, findings, and uncertainty |
-| --- | --- | --- | --- |
-| `<n>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
+| Implementation round | Frontend review round | Frozen unit and frontend packet | Reviewer | Verdict | Acceptance checks, findings, and uncertainty |
+| --- | --- | --- | --- | --- | --- |
+| `<n>` | `<shared round identity, or not applicable>` | `<same frozen unit and exact frontend packet body/identifier/digest as the Design Reviewer when paired; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
 
 Round cap: `<1, 2, or 3; default 2>`.
 
@@ -345,12 +350,23 @@ content receives a fresh committed-content review.
 
 ### Design review
 
-Record whenever the material user-facing design trigger holds. Missing required project
-standards or matching evidence produce `blocked`, not `not used`.
+Record whenever the material user-facing design trigger holds. Use a matching owner-approved
+project standard first. A recorded task-specific owner design decision may govern only an
+otherwise missing material aspect in that task. Analogous screens are evidence, not
+authority. If neither governs a material aspect, record `blocked`. An evidence-backed empty
+component inventory is valid input. Pending or halted runtime outcomes remain visible and
+are not verdicts.
 
-| Context | Standards and matching evidence | Verdict | Checks, findings, and uncertainty |
-| --- | --- | --- | --- |
-| `<fresh context>` | `<sources and paths>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
+| Implementation round | Frontend review round | Frozen unit and frontend packet | Context | Governing source and matching evidence | Verdict | Checks, findings, and uncertainty |
+| --- | --- | --- | --- | --- | --- | --- |
+| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<same frozen unit and exact frontend packet body/identifier/digest as general Reviewer>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
+
+For a paired frontend review round, any code change, scenario-relevant file change, frontend
+packet body/identifier/digest change, artifact reference/digest change, or evidence
+regeneration invalidates both paired verdicts and requires a new round. Builder creates a new
+packet and replays the complete unchanged accepted scenario set; both reviewers are fresh.
+If a finding changes that set, record the existing one re-plan and fresh Plan Verifier path
+before Builder. Do not silently change scenarios.
 
 ### Decision Council and Liaison
 
