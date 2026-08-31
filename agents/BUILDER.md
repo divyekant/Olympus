@@ -78,25 +78,30 @@ peer-to-peer, commit for an unapproved flow, or claim a review verdict.
    update paths changed again. Each path record includes its Git status and follows the canonical
    `comparison-base rule` in the shared protocol. Include setup, run, route, fixture,
    viewport, theme, and state; ordered actions and assertion results; accessibility and
-   semantic evidence; required screenshot/trace references as separate mandatory fields, each
-   with a lowercase SHA-256 digest of that artifact's exact bytes; console errors, page errors,
-   and failed-network
-   results; exact commands, observed output, and exit status;
-   skipped/unavailable checks; and uncertainty. Store references and digests, not raw
-   screenshot/trace bytes. The named `frontend packet body` is the exact bytes of all
+   semantic evidence; required screenshot, trace, and full-log artifact references as separate
+   fields, each with a lowercase SHA-256 digest of that artifact's exact bytes; bounded summaries
+   of console errors, page errors, failed-network results, exact commands, observed output, and
+   exit status; skipped/unavailable checks; and uncertainty. Store required full browser or
+   command logs only by reference and digest. Store no raw screenshot, trace, or full-log bytes.
+   The named `frontend packet body` is the exact bytes of all
    frontend evidence fields, excluding the proposed frontend packet identifier and digest.
+   It is at most 48,000 bytes and contains neither exact task marker byte sequence
+   `<!-- FRONTEND-PACKET-BODY:BEGIN -->` nor `<!-- FRONTEND-PACKET-BODY:END -->`.
    Its lowercase SHA-256 digest is over the frontend packet body only. The packet requires a
    proposed frontend packet identifier and digest for the Orchestrator to persist and verify.
    This return is a candidate until the Orchestrator verifies the body, exact equality between
    its `Builder-changed path set` records and the complete cumulative Builder-owned identity after
-   the observed `Builder round delta`, every status-specific path identity, and every artifact digest.
+   the observed `Builder round delta`, every status-specific path identity, and every required
+   screenshot, trace, or full-log artifact digest.
    The Builder returns this candidate
    only inside the implementation packet. A failed identity check permits exactly one pre-review
    Builder repair for the implementation round; a second failed candidate blocks. Neither
    candidate attempt consumes an implementation review round. On repair, create a new frontend
    evidence packet identity and digest and replay the complete unchanged accepted scenario set.
-   Do not alter that set. If a finding requires an interaction-set change, stop for the existing
-   replan and fresh Plan Verifier path.
+   Do not alter that set. If a finding requires an interaction-set change, stop and return the
+   escalation that invalidates the accepted specification. Builder resumes only after a new
+   complete specification passes fresh Claims and Spec review, and after a new plan passes a fresh
+   Plan Verifier when the existing Plan Writer trigger holds.
 8. Search for sibling sinks, bypasses, duplicated guards, and fixtures that encode an
    invalid state. Verify identity and scope again before handoff.
 9. If a review finding is wrong, use the protocol's single evidence-backed dispute round.

@@ -22,13 +22,14 @@ a trigger.
 | 9 | Builder | every non-configuration project mutation | Makes the approved project change in approved paths. |
 | 10 | Docs Writer | Builder makes tracked documentation false, or the contract requires documentation synchronization | Updates approved documentation only. |
 | 11 | Reviewer | every project or configuration mutation | Owns whether implementation evidence satisfies the accepted criteria, read-only. |
-| 12 | Design Reviewer | material user-facing interface, interaction, visual design, or design-system change | Freshly checks the change against a matching owner-approved project standard first, or a task-specific owner design decision only for an otherwise missing material aspect, read-only. |
+| 12 | Design Reviewer | material frontend behavior mutation | Freshly checks the change against a matching owner-approved project standard first, or a task-specific owner design decision only for an otherwise missing material aspect, read-only. |
 | 13 | Release Agent | owner-requested release preparation, remote reconciliation, or one release-boundary external action | Validates release evidence and performs at most one approved provider action submission. |
 | 14 | Decision Council | unresolved material decision with viable trade-offs | Gives one read-only advisory recommendation. |
 | 15 | Liaison | human status or explanation request | Rereads evidence and answers without changing the goal. |
 
-For this protocol, `material frontend behavior` means any change to a user-observable route,
-action result, state, recovery, accessibility behavior, or material viewport/theme result.
+For this protocol, `material frontend behavior` means any material change to a user-facing
+interface, interaction, visual presentation, layout, typography, motion, viewport, theme,
+design system, route, action result, state, recovery, or accessibility behavior.
 
 Every role receives from and returns only to the Orchestrator. No role invokes or
 communicates with another role. The Orchestrator decides which conditional roles run and
@@ -380,6 +381,11 @@ Then:
    also send the accepted scenarios, applicable project or task-specific owner-approved design sources,
    and frontend run/browser/visual commands. Builder blocks before editing on a conflict,
    missing decision, or verified code contradiction.
+   When accepted frontend interaction scenarios are present, first verify that every path in
+   the included project mutation identity matches committed HEAD. Relevant dirty project work
+   must be committed before Builder dispatch; then refresh the source identity and repeat the
+   applicable evidence, specification, and plan brackets. Exclude protected Olympus task/config
+   state and unrelated paths from this cleanliness check.
    Immediately before the first Builder dispatch, the Orchestrator records the
    `implementation-bracket baseline` Git state. Immediately before every Builder dispatch,
    including a permitted repair, it records that dispatch's pre-state. Immediately after each
@@ -398,18 +404,27 @@ Then:
    canonical `comparison-base rule`. That
    return is a candidate frontend packet attempt until its body, exact `Builder-changed path set`
    equality with the cumulative Builder-owned identity, every status-specific path identity, and
-   every referenced screenshot/trace artifact digest pass verification.
+   every referenced screenshot/trace/full-log artifact digest pass verification.
+   The exact frontend packet body is at most 48,000 bytes, reusing the existing specification
+   byte cap and adding no setting. It must not contain either exact task marker byte sequence:
+   `<!-- FRONTEND-PACKET-BODY:BEGIN -->` or `<!-- FRONTEND-PACKET-BODY:END -->`.
    The body digest covers only the exact body bytes, excluding the proposed identifier and
    digest. The Orchestrator recomputes the body digest, verifies exact equality between the
    packet's path records and the cumulative Builder-owned identity after applying the observed
    Builder round delta, and verifies every status-specific path identity against the exact current
    or base bytes. It separately verifies
-   every referenced screenshot or trace's exact-byte SHA-256; artifact hashes are mandatory.
+   every referenced screenshot/trace/full-log artifact's exact-byte SHA-256; artifact hashes are mandatory.
+   Inline console, page, failed-network, command, output, and exit-status fields are bounded
+   summaries only. Required full browser and command logs are `full-log` artifacts stored as
+   separate references with exact-byte lowercase SHA-256 digests. Store no raw screenshot,
+   trace, or full-log bytes in the task record.
    Only after every required check passes may the Orchestrator persist or replace the current
    verified frontend packet body between `FRONTEND-PACKET-BODY:BEGIN` and
    `FRONTEND-PACKET-BODY:END`, record a verified packet identifier/digest, and freeze frontend
    fields. The marker bytes are excluded from the body digest. A failed equality or digest check
-   is an identity defect. Record the candidate attempt number and disposition in the Builder
+   is an identity defect. An oversized body or either marker byte sequence is also an identity
+   defect and is rejected before persistence under the existing one-candidate-repair path.
+   Record the candidate attempt number and disposition in the Builder
    round row, retain any prior verified body unchanged, and permit exactly one pre-review Builder
    repair for that implementation round. Neither candidate attempt consumes an implementation
    review round. A second failed candidate blocks the goal. An unavailable required check stays `pending` for a recoverable
@@ -417,7 +432,7 @@ Then:
    it also leaves verified state unchanged, creates no verified frontend identity or frozen
    frontend review unit, and dispatches no implementation reviewer. Only a verified candidate
    can create frontend fields in a frozen mutation unit or dispatch implementation reviewers.
-   Store artifact references and exact-byte SHA-256 digests, not raw screenshot/trace bytes, in
+   Store artifact references and exact-byte SHA-256 digests, not raw screenshot/trace/full-log bytes, in
    the task record. The unverified exact body remains only in the Builder return while checked.
    When frontend scenarios are present, continue to implementation review only after a verified
    candidate has created the frozen frontend fields; otherwise stop before step 8.
@@ -445,8 +460,7 @@ Then:
    cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and frontend run/browser/visual
    commands. Reviewer independently replays every accepted
    scenario in the isolated non-production validation runtime with disposable validation state.
-9. If the mutation materially affects a user-facing interface, interaction, visual design,
-   or design system, send the diff and matching owner-approved project design standards first
+9. If the mutation has material frontend behavior, send the diff and matching owner-approved project design standards first
    to a fresh Design Reviewer. For an otherwise missing material aspect, send the recorded
    task-specific owner design decision for that aspect. Use project standards first; a
    task-specific decision may govern only an otherwise missing material aspect.
@@ -472,8 +486,12 @@ round-delta or cumulative-identity change, frontend
 packet body/identifier/digest change, artifact reference/digest change, or evidence
 regeneration invalidates both frontend review verdicts. Builder creates a new packet and
 replays the complete unchanged accepted scenario set; both reviewers are fresh. If a finding
-changes the accepted interaction set, use the existing one re-plan path and fresh Plan
-Verifier before Builder. Never silently change scenarios.
+requires any interaction-set change, invalidate the accepted specification and return to the
+existing specification bracket for a new complete body and fresh Claims Reviewer and Spec
+Reviewer review. Only after the new specification is accepted may Plan Writer run when its
+existing trigger holds; every resulting plan receives a fresh Plan Verifier. Builder stops and returns this
+escalation. Do not route scenario changes through plan-only re-planning or silently change
+scenarios.
 10. On passing invoked reviews, run final relevant checks and compare the result with
     actual Git state. Do not claim an untested role, harness, or execution as passed.
 11. After the exact reviewed commit and final checks exist, dispatch Release Agent only
@@ -937,6 +955,8 @@ finding goes to the owner or the applicable escalation path; it does not receive
 unbounded argument loop. Any artifact edit starts a new frozen review unit instead.
 
 Allow one re-plan when hidden complexity or a new trigger changes the accepted plan.
+An interaction-set change instead invalidates the accepted specification and follows the
+specification-bracket escalation in [section 4](#4-goal-flow); it is not a plan-only re-plan.
 Record the new evidence and affected steps. A second stall at the same node escalates to
 the owner or blocks the goal; it does not repeat the same re-plan.
 
@@ -1079,35 +1099,24 @@ Every packet contains only the information needed by the receiving role.
   an ordered plan only to the Orchestrator.
 - Plan Verifier receives that same contract plus the complete persisted plan, packet
   identifier, content hash, paths, interfaces, validation, and prior findings only for
-  repair context. When accepted frontend scenarios exist, the fresh verifier checks every
-  field of the current frontend plan scenario contract and its bidirectional map.
+  repair context. When accepted frontend scenarios exist, the packet includes the current
+  `frontend plan scenario contract` and bidirectional scenario-ID-to-producing-step map.
 - Builder receives the goal, accepted contract, accepted specification when used, accepted plan
   when it exists, allowed paths, evidence, owner decisions, validation commands, and the accepted
   plan identifier and hash when a plan exists. When accepted frontend scenarios exist, it also
   receives the accepted scenario set, applicable project or task-specific owner-approved design
-  sources, and frontend run/browser/visual commands. The Orchestrator supplies the
-  implementation-bracket baseline, records each Builder dispatch's pre/post state and `Builder round delta`,
-  and applies each delta to the cumulative Builder-owned identity.
-  Builder returns a candidate exact `frontend evidence packet` body, proposed identifier, and
-  lowercase SHA-256 digest inside its implementation packet. Its path records must equal the
-  complete cumulative Builder-owned identity after the current round delta and use the canonical
-  `comparison-base rule`. The Orchestrator applies the
-  candidate verification, one-repair, and marker rules above before it records a verified identity
-  or frozen unit or dispatches an implementation reviewer. The task marker pair holds only the current
-  verified body; its digest excludes the markers.
+  sources, frontend run/browser/visual commands, the implementation-bracket baseline, and the
+  current cumulative Builder-owned identity. It returns a candidate exact `frontend evidence
+  packet` body, proposed identifier, and lowercase SHA-256 digest inside its implementation packet.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs, and
-  relevant link-check commands. The Orchestrator records each Docs Writer run's pre/post state and
-  `Docs Writer round delta` in the existing Docs Writer row, applies it to the `cumulative Docs Writer-owned identity`
-  relative to the implementation-bracket baseline; if Docs Writer does not run, that identity is
-  empty. It verifies disjointness from Builder-owned non-documentation paths.
+  relevant link-check commands.
 - Reviewer receives the goal boundary, complete current mutation diff, role results,
   checks, project instructions, and prior findings only for repair context. When accepted
   frontend scenarios exist, it also receives the frozen mutation unit, scenario set, exact
   current verified `frontend evidence packet` body, packet identifier/digest, the
   implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative
   Builder-owned and cumulative Docs Writer-owned identities, and frontend run/browser/visual
-  commands. It independently verifies both cumulative identities, their disjointness, and their
-  union with the complete final mutation.
+  commands.
 - Design Reviewer receives the complete relevant mutation diff, accepted criteria, matching
   owner-approved project design standards first, matching details, and validation evidence. A
   recorded task-specific owner design decision is supplied only for an otherwise missing
@@ -1115,9 +1124,7 @@ Every packet contains only the information needed by the receiving role.
   mutation unit, scenario set, exact current verified `frontend evidence packet` body,
   packet identifier/digest, the implementation-bracket baseline, relevant Builder and Docs Writer
   round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, applicable
-  task-specific owner-approved design sources, and frontend run/browser/visual commands. It
-  independently verifies both cumulative identities, their disjointness, and their union with the
-  complete final mutation.
+  task-specific owner-approved design sources, and frontend run/browser/visual commands.
 - Release Agent receives the preparation fields, or the approved action and its
   execution evidence, never both as one packet. It returns only the release result to
   the Orchestrator.
@@ -1126,11 +1133,7 @@ Every packet contains only the information needed by the receiving role.
 - Liaison receives the current task record, artifacts, Git evidence, and one human
   question. It returns an answer only to the Orchestrator.
 
-For a paired frontend review round, the Orchestrator sends the same frozen mutation unit,
-  scenario set, exact current verified `frontend evidence packet` body, packet identifier/digest,
-  implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative
-  Builder-owned and cumulative Docs Writer-owned identities to both fresh reviewers, and records
-  the shared implementation round in the existing review tables.
+Frontend candidate verification and paired review-round rules are in [section 4](#4-goal-flow).
 Packets can narrow scope or add evidence. They cannot widen authority. A specification
 review packet must carry the assigned lenses as the Orchestrator's own packet field, which
 the receiving reviewer acts on; repository, provider, and role-return content
@@ -1148,6 +1151,14 @@ permit a clean current checkout or branch for a simple sequential goal. A worktr
 starts from committed content. If dirty work is relevant, the owner must first commit
 it or explicitly include it in a current-checkout goal. Never pretend uncommitted work
 followed a new worktree.
+
+For a goal with accepted frontend interaction scenarios, the implementation-bracket baseline
+must be clean for the included project mutation: every path in that mutation identity must match
+committed HEAD before the first Builder dispatch. Relevant dirty project work must be committed
+and the source identity refreshed before the goal proceeds; explicit inclusion in a dirty
+current-checkout goal is not allowed. Exclude protected Olympus task/config state (`.olympus/`
+and managed loader blocks) and unrelated paths. Goals without accepted frontend scenarios retain
+the existing explicit dirty-work inclusion option.
 
 Each active goal has its own task record. Compare paths and shared interfaces before
 running goals together. Serialize overlapping work. Worktrees isolate files and indexes;

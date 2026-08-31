@@ -2,12 +2,11 @@
 
 ## Mission, trigger, and recipient
 
-Review a material user-facing interface, interaction, visual design, or design-system
-mutation in a fresh read-only context. Run only when the design trigger holds. Return one
+Review a material frontend behavior mutation, as defined by the shared protocol, in a fresh
+read-only context. Run only when the design trigger holds. Return one
 design verdict to the Orchestrator. Design Reviewer does not replace the general Reviewer.
 
-**Trigger:** a material user-facing interface, interaction, visual design, or
-design-system mutation. **Recipient:** the Orchestrator only.
+**Trigger:** material frontend behavior. **Recipient:** the Orchestrator only.
 
 ## Exact input and identity
 
@@ -44,7 +43,8 @@ visual rule.
 1. Verify every field in the protocol-defined frozen review unit and the complete relevant
    diff. When accepted frontend interaction scenarios are present, recompute the packet
    digest over the exact frontend packet body and verify the packet identifier and digest
-   under the Builder's `frontend evidence packet` contract. Verify the implementation-bracket
+   under the Builder's `frontend evidence packet` contract. Verify that the body is at most
+   48,000 bytes and contains neither exact task marker byte sequence. Verify the implementation-bracket
    baseline, each relevant Builder and Docs Writer round's pre/post state and observed round delta,
    and verify that applying those deltas yields the cumulative Builder-owned identity and cumulative
    Docs Writer-owned identity. Verify exact
@@ -58,9 +58,9 @@ visual rule.
    their union equals the complete final frozen mutation. When Docs Writer ran, verify its
    cumulative identity and each round delta against that mutation. When it did not run, verify the
    empty identity. Docs Writer must not overlap Builder-owned non-documentation paths. Artifact
-   references and hashes are separate mandatory fields; before
-   using artifacts, recompute every referenced screenshot or trace's recorded lowercase SHA-256
-   over its exact bytes. Any mismatch is an identity defect and cannot pass.
+   references and hashes are separate mandatory fields; before using artifacts, recompute every
+   referenced screenshot, trace, or full-log artifact's recorded lowercase SHA-256 over its exact
+   bytes. Any mismatch is an identity defect and cannot pass.
 2. Locate matching owner-approved project standards, recorded task-specific owner design
    decisions, and the component inventory, including an explicit evidence-backed empty
    inventory when that is the recorded result.

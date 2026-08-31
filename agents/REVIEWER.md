@@ -43,7 +43,8 @@ edits, production mutation, or external action.
    snapshot, or an identity mismatch is a review defect.
    When accepted frontend interaction scenarios are present, recompute the packet digest over
    the exact frontend packet body and verify the packet identifier and digest under the
-   Builder's `frontend evidence packet` contract. Verify the implementation-bracket baseline,
+   Builder's `frontend evidence packet` contract. Verify that the body is at most 48,000 bytes
+   and contains neither exact task marker byte sequence. Verify the implementation-bracket baseline,
    each relevant Builder and Docs Writer round's pre/post state and observed round delta, and
    verify that applying those deltas yields the cumulative Builder-owned identity and cumulative Docs
    Writer-owned identity. Verify exact equality between
@@ -58,8 +59,8 @@ edits, production mutation, or external action.
    against that mutation. When it did not run, verify the empty identity. Docs Writer must not
    overlap Builder-owned non-documentation paths. Artifact
    references and hashes are separate mandatory fields; before using artifacts, recompute every
-   referenced screenshot or trace's recorded lowercase SHA-256 over its exact bytes. Any mismatch
-   is an identity defect and cannot pass.
+   referenced screenshot, trace, or full-log artifact's recorded lowercase SHA-256 over its exact
+   bytes. Any mismatch is an identity defect and cannot pass.
 3. If any reviewed path, content, base, head, or snapshot changes during review, stop and
    return invalidation evidence. The Orchestrator records the new unit and dispatches a
    fresh Reviewer; this context does not restart itself.

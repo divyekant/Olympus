@@ -41,7 +41,7 @@ invoked role before dispatch.
 | 9 | Builder | `<every non-configuration mutation>` | `<yes/no>` | `<yes/no>` | `<separate mapping and evidence>` |
 | 10 | Docs Writer | `<false tracked docs or sync contract>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 11 | Reviewer | `<every project or configuration mutation>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
-| 12 | Design Reviewer | `<material user-facing change>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
+| 12 | Design Reviewer | `<material frontend behavior>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 13 | Release Agent | `<owner-requested release preparation, reconciliation, or external action>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 14 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 15 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
@@ -308,20 +308,21 @@ Builder rounds use a separate context:
 
 | Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result and Orchestrator-observed Builder round delta and cumulative Builder-owned paths/statuses>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, each candidate attempt number, packet identifier/digest, disposition, complete replay result, implementation-bracket baseline reference, each Builder dispatch's pre/post Git state and observed Builder round delta, cumulative Builder-owned identity after the current delta, and Builder-changed path hashes/status-specific identities under the canonical comparison-base rule; separate mandatory screenshot/trace references and exact-byte SHA-256 digests; no raw screenshot/trace bytes>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<result and Orchestrator-observed Builder round delta and cumulative Builder-owned paths/statuses>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, each candidate attempt number, packet identifier/digest, disposition, complete replay result, implementation-bracket baseline reference, each Builder dispatch's pre/post Git state and observed Builder round delta, cumulative Builder-owned identity after the current delta, and Builder-changed path hashes/status-specific identities under the canonical comparison-base rule; bounded console/page/network/command/output/exit summaries; separate required screenshot/trace/full-log references and exact-byte SHA-256 digests; no raw artifact bytes>` | `<none or limit>` |
 
 ### Current verified frontend packet body
 
 Use this one marker pair only when accepted frontend interaction scenarios exist. It contains only
-the current verified `frontend packet body`; bytes between the markers are exact and its digest
-excludes the markers. It contains references and exact-byte digests, never raw screenshots or
-traces. Record candidate attempts, dispositions, and prior identity/evidence in the Builder row;
+the current verified `frontend packet body`; bytes between the markers are exact, at most 48,000
+bytes, contain neither exact marker byte sequence, and its digest excludes the markers. It contains
+bounded summaries plus references and exact-byte digests, never raw screenshots, traces, or full
+logs. Record candidate attempts, dispositions, and prior identity/evidence in the Builder row;
 replace this body only with a new verified packet. See the [goal-flow
 protocol](../references/PROTOCOL.md#4-goal-flow) for verification and repair rules.
 
 <!-- FRONTEND-PACKET-BODY:BEGIN -->
 
-`<exact current verified frontend packet body only, persisted verbatim; present only with accepted scenarios>`
+`<exact current verified frontend packet body only, persisted verbatim; at most 48,000 bytes; no marker byte sequence; present only with accepted scenarios>`
 
 <!-- FRONTEND-PACKET-BODY:END -->
 
