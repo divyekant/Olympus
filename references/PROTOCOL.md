@@ -14,7 +14,7 @@ a trigger.
 | 1 | Orchestrator | every routed request | Owns classification, routing, packets, task records, gates, and result aggregation. |
 | 2 | System Configurer | owner onboarding or configuration request, plus double opt-in | Owns configuration mutation. |
 | 3 | Explorer | fresh for a material repository question blocking any required role, or an explicit audit | Answers one bounded question read-only. |
-| 4 | Spec Writer | substantial, ambiguous, architectural, or cross-layer goal | Turns a bounded goal into a testable contract. |
+| 4 | Spec Writer | substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal | Turns a bounded goal into a testable contract. |
 | 5 | Claims Reviewer | every persisted Spec Writer body | Owns only facts, evidence, citations, counts, hashes, and uncertainty. |
 | 6 | Spec Reviewer | every persisted Spec Writer body | Owns only completeness, coherence, authority boundaries, failure paths, joint satisfiability, and acceptance-testability. |
 | 7 | Plan Writer | accepted contract has dependent steps, cross-layer or interface sequencing, or an explicit plan need | Produces an ordered implementation plan. |
@@ -22,7 +22,7 @@ a trigger.
 | 9 | Builder | every non-configuration project mutation | Makes the approved project change in approved paths. |
 | 10 | Docs Writer | Builder makes tracked documentation false, or the contract requires documentation synchronization | Updates approved documentation only. |
 | 11 | Reviewer | every project or configuration mutation | Owns whether implementation evidence satisfies the accepted criteria, read-only. |
-| 12 | Design Reviewer | material user-facing interface, interaction, visual design, or design-system change | Freshly checks the change against matching project design standards read-only. |
+| 12 | Design Reviewer | material user-facing interface, interaction, visual design, or design-system change | Freshly checks the change against a matching owner-approved project standard first, or a task-specific owner design decision only for an otherwise missing material aspect, read-only. |
 | 13 | Release Agent | owner-requested release preparation, remote reconciliation, or one release-boundary external action | Validates release evidence and performs at most one approved provider action submission. |
 | 14 | Decision Council | unresolved material decision with viable trade-offs | Gives one read-only advisory recommendation. |
 | 15 | Liaison | human status or explanation request | Rereads evidence and answers without changing the goal. |
@@ -245,7 +245,7 @@ Then:
    points/routes/states/fixtures, browser/visual commands, freshness, conflicts, and
    unknowns. Explorer evidence unblocks work; it is not approval. It can unblock any
    required role but returns only to the Orchestrator.
-4. For a substantial, ambiguous, architectural, or cross-layer goal, run the
+4. For a substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal, run the
    specification bracket before planning or building:
    - run the pre-bracket sizing check before the sub-items below. The check reads the
      repository, dispatches no role, and writes only this goal's sizing-check entry.
@@ -362,6 +362,9 @@ Then:
    contract` and a bidirectional map from each stable scenario ID to its producing step or
    steps. A fresh Plan Verifier checks the complete contract and map. Frontend scenarios do
    not make planning unconditional.
+   For material frontend behavior, the accepted hashed specification body must contain the
+   complete accepted frontend interaction scenario set before Plan Writer or Builder receives
+   it. An accepted plan maps those scenarios but cannot replace the complete specification set.
 5. If the accepted contract has dependent steps, cross-layer or interface sequencing, or
    an explicit plan need, send the accepted contract or specification verbatim to Plan
    Writer. Persist the complete plan, record its packet identifier and lowercase SHA-256
@@ -378,12 +381,23 @@ Then:
    When accepted frontend interaction scenarios are present, Builder returns the exact
    `frontend evidence packet` body (`frontend packet body`), proposed packet identifier, and
    lowercase SHA-256 digest inside the existing implementation packet. The body digest covers
-   only the exact body bytes,
-   excluding the proposed identifier and digest. The Orchestrator recomputes that digest,
-   verifies scenario-relevant per-path hashes and referenced-artifact hashes when possible,
-   and records the verified packet identifier/digest and accepted interaction-set identity.
-   Store artifact references and exact-byte SHA-256 digests, not raw screenshot/trace bytes,
-   in the task record. An unavailable replay or verification remains visible under the
+   only the exact body bytes, excluding the proposed identifier and digest. The Orchestrator
+   recomputes the body digest. It verifies exact equality between the packet's recorded
+   scenario-relevant path set and the complete scenario-relevant path population licensed by
+   the accepted interaction contract, the accepted plan when one exists, and the current
+   mutation. It verifies each per-path exact-file-byte SHA-256 and every referenced screenshot
+   or trace exact-byte SHA-256. Freeze and record the verified packet identifier/digest only
+   after every required identity check passes. Preserve the exact packet body, identifier, and
+   digest after Builder returns. The task record persists the exact current body between
+   `FRONTEND-PACKET-BODY:BEGIN` and `FRONTEND-PACKET-BODY:END`; the digest excludes those
+   markers. Builder does not receive or define the final protocol frozen review unit. Store
+   artifact references and exact-byte SHA-256 digests, not raw screenshot/trace bytes, in the
+   task record. If any required check cannot execute, record `pending` for a recoverable
+   environment or credential cause or `halted` for role, tool, transport, or runtime
+   inability. Create no verified frontend identity, freeze no frontend review unit, and
+   dispatch no implementation reviewer. A failed identity equality or hash check also creates
+   no verified frontend identity, freezes no frontend review unit, and dispatches no
+   implementation reviewer. An unavailable replay or verification remains visible under the
    `pending` or `halted` runtime outcomes; it is not a pass.
 7. If Builder makes tracked documentation false or the contract requires synchronization,
    send the complete behavior diff to Docs Writer. Docs Writer edits only approved docs
@@ -395,9 +409,10 @@ Then:
    run/browser/visual commands. Reviewer independently replays every accepted scenario in
    the isolated non-production validation runtime with disposable validation state.
 9. If the mutation materially affects a user-facing interface, interaction, visual design,
-   or design system, send the diff and matching project design standards or recorded
-   task-specific owner design decisions to a fresh Design Reviewer. Use project standards
-   first; a task-specific decision may govern only an otherwise missing material aspect.
+   or design system, send the diff and matching owner-approved project design standards first
+   to a fresh Design Reviewer. For an otherwise missing material aspect, send the recorded
+   task-specific owner design decision for that aspect. Use project standards first; a
+   task-specific decision may govern only an otherwise missing material aspect.
    When accepted frontend interaction scenarios are present, send the same frozen mutation
    unit, exact `frontend evidence packet` body, packet identifier/digest, scenario set,
    applicable owner-approved design sources, and frontend commands. Design Reviewer cannot
@@ -808,10 +823,12 @@ packet identifier, and lowercase SHA-256 hash. A mutation uses task identifier, 
 base, branch or worktree, base and head, merge-base, allowed and protected paths, and the
 exact diff or snapshot digest. When accepted frontend interaction scenarios exist, the
 mutation unit also records the `interaction-set identity` — the ordered stable scenario
-IDs plus the accepted specification or plan packet identifier and hash that contains them
-— and the verified frontend packet identifier and lowercase SHA-256 digest. Freeze these
-frontend fields only after Builder returns its packet; Builder does not receive or define
-the final unit. The Orchestrator records the applicable unit before each fresh review. Any
+IDs plus the accepted specification packet identifier and hash that contains the complete
+scenario set, plus the accepted plan packet identifier and hash when a plan exists — and the
+verified frontend packet identifier and lowercase SHA-256 digest. Freeze these frontend fields
+only after Builder returns its packet and every required packet identity check passes; Builder
+does not receive or define the final unit. The Orchestrator records the applicable unit before
+each fresh review. Any
 edit, hook change, changed path, or post-pass change invalidates that pass and requires a
 fresh review of the new exact unit. No role may treat its own claim that a unit is unchanged
 as repository proof.
@@ -1002,23 +1019,30 @@ Every packet contains only the information needed by the receiving role.
   identifier, content hash, paths, interfaces, validation, and prior findings only for
   repair context. When accepted frontend scenarios exist, the fresh verifier checks every
   field of the current frontend plan scenario contract and its bidirectional map.
-- Builder receives the goal, accepted contract, accepted specification or plan, allowed
+- Builder receives the goal, accepted contract, accepted specification, accepted plan when it
+  exists, allowed
   paths, evidence, owner decisions, validation commands, and the accepted plan identifier
   and hash when a plan exists. When accepted frontend scenarios exist, it also receives the
   accepted scenario set, applicable project or task-specific owner-approved design sources,
   and frontend run/browser/visual commands. It returns the exact `frontend evidence packet`
-  body, proposed identifier,
-  and lowercase SHA-256 digest inside its implementation packet; it
-  does not receive or claim the final frozen review unit.
+  body, proposed identifier, and lowercase SHA-256 digest inside its implementation packet. The
+  Orchestrator recomputes the body digest, verifies the complete scenario-relevant path set and
+  every required file and artifact digest before recording a verified identity or frozen unit.
+  It persists the exact current packet body in the task record between
+  `FRONTEND-PACKET-BODY:BEGIN` and `FRONTEND-PACKET-BODY:END`; the digest excludes the markers.
+  If a required check cannot execute, it records `pending` or `halted` and dispatches no
+  implementation reviewer. Builder does not receive or claim the final frozen review unit.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs,
   and relevant link-check commands.
 - Reviewer receives the goal boundary, complete current mutation diff, role results,
   checks, project instructions, and prior findings only for repair context. When accepted
   frontend scenarios exist, it also receives the frozen mutation unit, scenario set, exact
   `frontend evidence packet` body, packet identifier/digest, and frontend run/browser/visual commands.
-- Design Reviewer receives the complete relevant mutation diff, accepted criteria, project
-  design standards, matching details, and validation evidence. When accepted frontend
-  scenarios exist, it also receives the same frozen mutation unit, scenario set, exact
+- Design Reviewer receives the complete relevant mutation diff, accepted criteria, matching
+  owner-approved project design standards first, matching details, and validation evidence. A
+  recorded task-specific owner design decision is supplied only for an otherwise missing
+  material aspect. When accepted frontend scenarios exist, it also receives the same frozen
+  mutation unit, scenario set, exact
   `frontend evidence packet` body, packet identifier/digest, applicable task-specific owner-approved
   design sources, and frontend run/browser/visual commands.
 - Release Agent receives the preparation fields, or the approved action and its
