@@ -19,7 +19,8 @@ only the charter needed for the next role.
 - PROJECT boot mode `orchestration` routes project-changing requests in every session only after an unchanged complete preflight state.
 - `Awaken Olympus` or `Awaken Olympus.` is the guided entry phrase. It is never a session-activation alias.
 - `Deactivate Olympus orchestration` stops new routing in the current session.
-- Questions do not create goals. An explicit read-only audit uses Explorer.
+- Questions do not create goals. An explicit read-only audit or a bounded diagnose-only
+  defect question uses Explorer.
 
 The [runtime protocol](references/PROTOCOL.md) defines the fixed roles, goal flow,
 handoffs, owner gates, states, activation rules, and Git workflow.

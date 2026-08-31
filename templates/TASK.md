@@ -32,7 +32,7 @@ invoked role before dispatch.
 | --- | --- | --- | --- | --- | --- |
 | 1 | Orchestrator | every routed request | `<yes>` | `<yes>` | `<mapping and evidence>` |
 | 2 | System Configurer | `<owner config request and double-opt-in flow>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 3 | Explorer | `<material question or explicit audit>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 3 | Explorer | `<material question, explicit audit, or diagnose-only defect question>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 4 | Spec Writer | `<substantial or other trigger>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 5 | Claims Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 6 | Spec Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |

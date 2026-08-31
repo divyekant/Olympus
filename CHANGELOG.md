@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Changed
+
+- Explorer's trigger and mission now admit a bounded diagnose-only defect question,
+  alongside the existing material-question and read-only-audit triggers, across
+  `references/PROTOCOL.md`, `agents/EXPLORER.md`, `SKILL.md`, `docs/DECISIONS.md`,
+  `templates/TASK.md`, and `docs/WHITEPAPER.md`. For that request only, Explorer may
+  create one disposable reproduction worktree outside the target working tree and run
+  the project's own recorded validation commands plus read-only inspection there.
+  Explorer stays read-only over tracked repository content in every other case. See
+  D036.
+
 ## 0.5.1 - 2026-08-30
 
 The fixes-only stabilization release. It closes policy and specification-convergence
