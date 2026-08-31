@@ -93,6 +93,8 @@ a background process. Questions do not create goals. Project-changing requests d
 - [Decision record](docs/DECISIONS.md)
 - [Skill-to-charter distillation](docs/DISTILLATION.md)
 - [Installation and onboarding](docs/INSTALLATION.md)
+- [Owner guide](docs/GUIDE.md)
+- [Harness adapter notes](references/HARNESS.md)
 - [Conformance plan and evidence](docs/CONFORMANCE.md)
 - [Roadmap](ROADMAP.md)
 - [Changelog](CHANGELOG.md)

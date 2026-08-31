@@ -45,8 +45,10 @@ A question never creates a goal. Full contract:
 
 ## `Olympus help`
 
-`Olympus help` is a read-only status lookup. It performs no write, approves nothing, and
-starts no mode, in any state. Ask it any time you are unsure what Olympus will do next.
+`Olympus help` is a read-only status lookup. It performs no write inside your repository,
+approves nothing, and starts no mode, in any state — it may resolve a framework pin into
+an outside checkout or cache, as installation does, but only ever reads from that copy.
+Ask it any time you are unsure what Olympus will do next.
 
 - In `complete` state, with no proposal pending, it returns a bounded owner card: what
   Olympus is, the current state, and the next available owner actions — see the example
@@ -64,9 +66,8 @@ loads this skill directly. **It is not yet reachable through an installed projec
 `manual`-mode loader block**, because that block's step 3 routes only the two original
 owner phrases; `Olympus help` is not one of them, so the loader takes no action on it.
 Closing that gap needs a later loader revision and an explicit owner decision; until
-then, run `Olympus help` before install, or by asking the agent to load this skill
-directly. Full contract:
-[`references/PROTOCOL.md`, "Olympus help"](../references/PROTOCOL.md#olympus-help).
+then, run `Olympus help` before install, or by asking the agent to load this skill directly.
+Full contract: [`references/PROTOCOL.md`, "Olympus help"](../references/PROTOCOL.md#olympus-help).
 
 ### Owner card example
 
@@ -128,8 +129,7 @@ what still has to happen before the goal can close.
 
 Release Agent changes no file and holds no standing external authority; it validates
 evidence and, after your one exact single-use approval naming the action kind and target,
-submits at most one provider action. A local commit is never itself a release. Full
-contract:
+submits at most one provider action. A local commit is never itself a release. Full contract:
 [`references/PROTOCOL.md`, "Release boundary"](../references/PROTOCOL.md#release-boundary).
 
 ## Recover

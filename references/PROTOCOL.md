@@ -170,10 +170,16 @@ entry-gate exception to the loader block in a later revision.
 **Procedure.** Read the same three target-root units the canonical activation preflight
 inspects — `.olympus/PROJECT.md`, the Olympus managed unit in root `AGENTS.md`, and the
 Olympus managed unit in root `CLAUDE.md` — and, when a present configuration names a pin,
-resolve it in a clean checkout or cache outside the target. An unresolvable, mismatched,
-unreadable, or dirty pin required by a present configuration reports `malformed` with
-that evidence; it never guesses a version or reports readiness. With all three units
-absent there is no pin to resolve, so `missing` stays reachable.
+resolve it in a clean checkout or cache outside the target, exactly as the canonical
+activation preflight does. That resolution may write there — cloning or fetching into
+that outside checkout or cache — but never inside the target repository; the "no write
+inside the target repository" guarantee above binds only the target, not this outside
+location. `Olympus help` then only reads from the resolved outside checkout, to confirm
+it is clean and to read `SKILL.md` and `references/PROTOCOL.md` from it; it never uses
+that checkout to write into, or otherwise mutate, the target. An unresolvable,
+mismatched, unreadable, or dirty pin required by a present configuration reports
+`malformed` with that evidence; it never guesses a version or reports readiness. With all
+three units absent there is no pin to resolve, so `missing` stays reachable.
 
 **Help state comparison.** This replaces the final recheck for `Olympus help`, because it
 honors no entry. When the session holds a recorded preflight result, `Olympus help`
@@ -206,20 +212,33 @@ exactly as they were, and no opt-in is recorded.
 
 **The owner card.** In `complete` state with no live proposal, `Olympus help` returns one
 information card: what Olympus is, in one line; the current boot mode and preflight
-state; and the next available owner actions, one line per phrase, naming all five owner
-phrases (`Use Olympus for: <goal>`; `Activate Olympus orchestration`;
-`Deactivate Olympus orchestration`; `Awaken Olympus`; `Olympus help`); plus one line
-pointing to the owner manual at the literal form
+state, in one line; and the next available owner actions, one line per phrase, in fixed
+catalog order (`Use Olympus for: <goal>`; `Activate Olympus orchestration`;
+`Deactivate Olympus orchestration`; `Awaken Olympus`; `Olympus help`); plus one closing
+line pointing to the owner manual at the literal form
 `<resolved framework checkout>/docs/GUIDE.md` — never a bare `docs/GUIDE.md` or other
 repository-relative path, because that path does not resolve inside the target
-repository.
+repository. Each phrase line may carry a short descriptive clause of what that phrase
+does. It is purely descriptive: never an instruction to reply, and never the
+`Reply \`<phrase>\` to approve` pattern that the `## Ready to awaken Olympus` proposal
+surface alone uses. The live-proposal precedence rule above already keeps the card from
+ever appearing while a proposal is live, so the two are never shown together.
 
-The card is at most 15 nonblank lines. If assembling it would exceed the cap, drop
-content in this order, shortest cut first: the one-line "what Olympus is" description,
-then any elaboration on an owner action beyond its one-line phrase entry. Never drop a
-line naming one of the five owner phrases, and never drop the `docs/GUIDE.md` pointer
-line — both are the floor. If the floor alone still exceeds 15 nonblank lines, stop and
-report the overflow instead of guessing which line to cut.
+A nonblank line is any line with a non-whitespace character. The card is returned as
+plain lines, with no surrounding code fence and no heading; neither would count toward
+the cap if present, because neither is part of the card.
+
+The card is at most 15 nonblank lines. If assembling it would exceed the cap, trim in
+this fixed order, shortest cut first, until it fits: (1) shorten or drop the one-line
+"what Olympus is" description; (2) shorten or drop the descriptive clause on each of the
+five phrase lines in turn, in the same fixed catalog order given above (`Use Olympus
+for:` first, `Olympus help` last), leaving each as its bare phrase text. The bare text of
+each of the five phrase lines and the `docs/GUIDE.md` pointer line are the floor — six
+lines — and are never dropped or merged onto one line, regardless of cap. If that
+six-line floor itself ever exceeds 15 nonblank lines, for example after a future addition
+to the owner phrase set, `Olympus help` returns a short text report to the owner instead
+of a card, stating plainly that the card cannot be assembled within the 15-line cap and
+naming the exact floor line count, and takes no other action.
 
 The preflight and guided routing add no runtime, dependency, service, state store, role,
 or remote authority. The Orchestrator remains the sole routing hub; only System
