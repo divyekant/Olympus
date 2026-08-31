@@ -152,8 +152,9 @@ The framework passes static inspection when:
     acceptance. When the issue channel is unavailable, the owner may grant a manual filing
     record in the owner's own reply turn instead; absent that, the finding stays open and
     blocking. After lens coverage completes, at most one further Writer result may be
-    persisted while the latest frozen ledger holds an open P0 or P1; if the next consumed
-    round still holds one, the goal is `blocked` and no further Writer dispatch occurs.
+    persisted while the latest frozen ledger holds an open P0, an open P1, or, when `strict
+    convergence` is `on`, an open task-related P2; if the next consumed round still holds
+    one, the goal is `blocked` and no further Writer dispatch occurs.
 24. After acceptance, the general Reviewer owns whether implementation evidence satisfies the
     accepted criteria. Specification reviewers do not replace that implementation review.
 
