@@ -135,10 +135,11 @@ They cannot change Olympus role duties or owner authority.
 
 ## Frontend craft and evidence boundary
 
-For material frontend behavior, Explorer maps the design philosophy, owner-approved standards
-or tokens, reusable components, exemplar screens or flows, routes, states, fixtures, and browser
-commands. When no source exists, the record states the absence and obtains owner direction; it
-does not invent a standard. Accepted interaction scenarios remain in the hashed specification.
+For material frontend behavior, current project and repository evidence maps the design
+philosophy, owner-approved standards or tokens, reusable components, exemplar screens or flows,
+routes, states, fixtures, and browser commands. Explorer resolves only a material gap that blocks
+a required role. When no source exists, the record states the absence and obtains owner direction;
+it does not invent a standard. Accepted interaction scenarios remain in the hashed specification.
 Planning stays conditional, but a plan carries scenario execution details and a bidirectional
 scenario-to-step map when its trigger holds.
 
