@@ -27,8 +27,7 @@ most 12 nonblank lines. Nothing is written before you approve it. Reply `Awaken 
 (or `yes`, `approve`, `go ahead`) to approve, `Show details` for the exact file bytes, or
 `Change settings` to adjust boot mode, Intent, Map, Validation, or role mappings. For a
 one-step install on a clean repository, add `Defaults pre-approved.` to your first
-message; any conflict still falls back to the normal proposal. Full contract:
-[`references/ONBOARDING.md`](../references/ONBOARDING.md).
+message; any conflict still falls back to the normal proposal. Full contract: [`references/ONBOARDING.md`](../references/ONBOARDING.md).
 
 ## Activate
 
@@ -45,9 +44,10 @@ A question never creates a goal. Full contract: [`references/PROTOCOL.md` sectio
 ## `Olympus help`
 
 `Olympus help` is a read-only status lookup. It performs no write inside your repository,
-approves nothing, and starts no mode, in any state — it may resolve a framework pin into
-an outside checkout or cache, as installation does, but only ever reads from that copy.
-Ask it any time you are unsure what Olympus will do next.
+approves nothing, and starts no mode, in any state. It resolves a pin only from a
+validated `.olympus/PROJECT.md`, or pre-install from a URL you gave in that same request
+— never from a malformed PROJECT file — into an outside checkout or cache it only ever
+reads from. Ask it any time you are unsure what Olympus will do next.
 
 - In `complete` state, with no surface pending, it returns a bounded owner card: what
   Olympus is, the current state, and the next available owner actions — see the example

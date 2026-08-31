@@ -169,17 +169,28 @@ entry-gate exception to the loader block in a later revision.
 
 **Procedure.** Read the same three target-root units the canonical activation preflight
 inspects — `.olympus/PROJECT.md`, the Olympus managed unit in root `AGENTS.md`, and the
-Olympus managed unit in root `CLAUDE.md` — and, when a present configuration names a pin,
-resolve it in a clean checkout or cache outside the target, exactly as the canonical
-activation preflight does. That resolution may write there — cloning or fetching into
-that outside checkout or cache — but never inside the target repository; the "no write
-inside the target repository" guarantee above binds only the target, not this outside
-location. `Olympus help` then only reads from the resolved outside checkout, to confirm
-it is clean and to read `SKILL.md` and `references/PROTOCOL.md` from it; it never uses
-that checkout to write into, or otherwise mutate, the target. An unresolvable,
-mismatched, unreadable, or dirty pin required by a present configuration reports
-`malformed` with that evidence; it never guesses a version or reports readiness. With all
-three units absent there is no pin to resolve, so `missing` stays reachable.
+Olympus managed unit in root `CLAUDE.md`. Validate a present `.olympus/PROJECT.md`
+against the canonical preflight's own PROJECT validity rule *before resolving anything
+from it*: valid only when it passes the pinned framework's PROJECT structure and
+configuration checks, contains a repository URL and a 40-character immutable commit, and
+uses boot mode `manual` or `orchestration`. A present `.olympus/PROJECT.md` that fails
+this check reports `malformed` with that evidence immediately; `Olympus help` never
+resolves, clones, or fetches a pin, URL, or ref taken from an invalid PROJECT, because
+malformed or repository-controlled content is not a trusted source. Only a valid
+PROJECT's own resolved pin may be resolved this way; pre-install, with no
+`.olympus/PROJECT.md` present, `Olympus help` may instead resolve an owner-supplied URL
+and ref, but only when the owner's own current request supplies one — the same
+source-selection rule the preflight itself uses. With no PROJECT and no owner-supplied
+URL, there is nothing to resolve, and `missing` stays reachable. A resolution proceeds in
+a clean checkout or cache outside the target, exactly as the canonical activation
+preflight does. That resolution may write there — cloning or fetching into that outside
+checkout or cache — but never inside the target repository; the "no write inside the
+target repository" guarantee above binds only the target, not this outside location.
+`Olympus help` then only reads from the resolved outside checkout, to confirm it is clean
+and to read `SKILL.md` and `references/PROTOCOL.md` from it; it never uses that checkout
+to write into, or otherwise mutate, the target. An unresolvable, mismatched, unreadable,
+or dirty pin taken from an already-valid PROJECT reports `malformed` with that evidence;
+it never guesses a version or reports readiness.
 
 **Help state comparison.** This replaces the final recheck for `Olympus help`, because it
 honors no entry. When the session holds a recorded preflight result, `Olympus help`
