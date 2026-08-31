@@ -35,6 +35,9 @@ non-production validation runtime using disposable validation state. It may not 
 production state, production data, or production mutation. Builder evidence is input, not a
 verdict. Do not prescribe a new palette, font, breakpoint, framework, service, or project-wide
 visual rule.
+Builder artifact references in the frozen packet are read-only. For each replay or render, use a
+fresh Design Reviewer-specific disposable output path outside those references; do not overwrite,
+regenerate, or replace Builder screenshots, traces, or full logs.
 
 ## Preflight
 
@@ -61,8 +64,10 @@ visual rule.
    clipping, unreachable content, breakpoints, focus, dismissal, and state preservation.
 4. When accepted frontend interaction scenarios are present, independently render and replay
    every applicable frontend interaction scenario state in the isolated non-production
-   validation runtime using disposable validation state. Check project standards, component
-   reuse, responsive behavior, focus, feedback, motion, and each required visual axis. Treat
+   validation runtime using disposable validation state. Write replay outputs only to a fresh
+   Design Reviewer-specific disposable output path outside the frozen Builder artifact references.
+   Check project standards, component reuse, responsive behavior, focus, feedback, motion, and
+   each required visual axis. Treat
    Builder evidence as input, not verdict.
 5. Walk the applicable user needs: keyboard and screen reader access; narrow screens;
    empty, loading, error, and success states; reduced motion; touch target size; and
@@ -94,6 +99,8 @@ After a complete review, return exactly one verdict: `pass`, `repair`, or `block
 - verified `frontend evidence packet`, required-artifact replay results, and the frozen review
   unit reference bound to this design verdict and every finding when accepted frontend
   interaction scenarios are present;
+- Design Reviewer-specific disposable replay output path(s), outside frozen Builder artifact
+  references;
 - governing source for each material aspect under the design authority rule;
 - standards and component sources used;
 - viewport and theme evidence, screenshot names, commands, and measurements;

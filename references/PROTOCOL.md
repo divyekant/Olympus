@@ -251,14 +251,18 @@ Then:
    required role but returns only to the Orchestrator.
 4. For a substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal, run the
    specification bracket before planning or building:
-   - for material frontend behavior, before the sizing check, record the exact approved
-     Builder and Docs Writer allowed-path set and verify every included project path is
-     byte-identical to committed `HEAD`. Exclude protected Olympus task/config state,
-     managed loader blocks, and unrelated paths. If an included path is dirty, stop this
-     goal before sizing or role dispatch; the owner must commit the relevant work and issue
-     a new goal with refreshed source identity. Do not use a later mutation identity as the
-     input to this check. Record the path set, Git output, and source identity in the shared
-     task checkpoint.
+   - for material frontend behavior, before the sizing check and before creating the goal
+     worktree, run and record this gate in the source checkout that supplies the base (its
+     checkout path, committed `HEAD`, and Git output). Record the exact approved Builder and
+     Docs Writer allowed-path set and verify every included path is byte-identical to that
+     committed `HEAD`. Exclude protected Olympus task/config state, managed loader blocks, and
+     unrelated paths. If an included path is dirty, stop this goal before sizing or role
+     dispatch. If relevant dirty work must be committed, this goal stops; after that commit, a
+     new goal starts from the refreshed source. Do not use a later mutation identity as the
+     input to this check. After a pass, create the goal worktree from that recorded committed
+     source and re-read the same path set and source identity in the worktree immediately before
+     the first Builder dispatch. A failed recheck has the same stopped/new-goal result. Record
+     the path set, Git output, and source identity in the shared task checkpoint.
    - run the pre-bracket sizing check before the sub-items below. The check reads the
      repository, dispatches no role, and writes only this goal's sizing-check entry.
      Record `deliverables`, `projected-bytes`, and `projected-criteria`, each one integer
@@ -389,12 +393,9 @@ Then:
    also send the accepted scenarios, applicable project or task-specific owner-approved design sources,
    and frontend run/browser/visual commands. Builder blocks before editing on a conflict,
    missing decision, or verified code contradiction.
-   When accepted frontend interaction scenarios are present, confirm that the pre-bracket
-   clean gate passed for the exact approved Builder and Docs Writer path set. Re-read that
-   path set and the source identity immediately before the first Builder dispatch. If an
-   included path changed or became dirty, stop this goal and require a new owner goal after
-   the relevant commit; do not derive or check a mutation identity here. Protected Olympus
-   task/config state, managed loader blocks, and unrelated paths remain excluded.
+   When accepted frontend interaction scenarios are present, continue only after the
+   pre-sizing clean gate in step 4 passes and its recorded path set and source identity are
+   rechecked in the goal worktree immediately before the first Builder dispatch.
    Immediately before the first Builder dispatch, the Orchestrator records the
    `implementation-bracket baseline` Git state. Immediately before every Builder dispatch,
    including a permitted repair, it records that dispatch's pre-state. Immediately after each
@@ -405,10 +406,11 @@ Then:
    cumulative identity use the status-specific identity rules below. The cumulative identity is
    the net identity relative to the baseline; round deltas remain available for audit. Role claims
    are not proof. A repair uses the same implementation-bracket baseline.
-   When accepted frontend interaction scenarios are present, Builder returns implementation
-   tests and scenario results in this pass, but does not generate or persist a frontend packet.
-   Candidate packet generation occurs only after the named project paths are committed and
-   hooks complete in step 7.
+   When accepted frontend interaction scenarios are present, Builder's implementation pass
+   returns tests and scenario results and explicitly states
+   `frontend evidence packet: not yet permitted`; it returns no candidate packet fields in this
+   pass. It does not generate or persist a frontend packet. Candidate packet generation occurs
+   only after the named project paths are committed and hooks complete in step 7.
 7. If Builder makes tracked documentation false or the contract requires synchronization,
    send the complete behavior diff to Docs Writer. Before each Docs Writer dispatch, the
    Orchestrator records its pre-state. Immediately after each Docs Writer return, it records the
@@ -422,11 +424,19 @@ Then:
    When accepted frontend interaction scenarios are present and Docs Writer does not run, record an
    empty `cumulative Docs Writer-owned identity` relative to the implementation-bracket baseline.
    When accepted frontend interaction scenarios are present, after Builder and Docs Writer edits
-   finish, the Orchestrator commits the named project paths under normal local Git policy and
-   completes the applicable hooks before generating candidate frontend evidence. If a hook changes
-   an included byte, route the changed path back to its owning Builder or Docs Writer, make a new
-   named-path commit, and repeat the applicable checks. Do not generate candidate evidence from a
-   dirty or pre-hook state.
+   finish, before each named-path commit the Orchestrator records the exact pre-commit Git state,
+   commits the named project paths under normal local Git policy, and completes the applicable
+   hooks. Immediately after hooks, record the exact post-hook Git state and the exact
+   `frontend hook delta` from pre-commit working-tree bytes to post-hook working-tree bytes for
+   every included path; the commit's `HEAD` movement alone produces no byte delta. If the first hook
+   cycle changes an included byte, route the changed path to its owning Builder or Docs Writer
+   for validation, make exactly one new named-path commit, and complete the hooks again. Do not
+   assign the hook delta's bytes to a cumulative identity until its owning role validates them;
+   then assign or update the proper cumulative identity from the exact committed bytes. Keep the
+   cumulative Builder and Docs Writer identities disjoint, and keep their union equal to the final
+   mutation.
+   If hooks change an included byte again on this second named-path commit, block the goal; one
+   hook repair is allowed. Do not generate candidate evidence from a dirty or pre-hook state.
 8. When accepted frontend interaction scenarios are present, dispatch Builder for an evidence-only
    pass against that exact clean commit. Builder makes no relevant edits and executes the complete
    unchanged accepted scenario set in isolated non-production state. It returns the exact
@@ -469,7 +479,7 @@ Then:
    relevant checks.
    When accepted frontend interaction scenarios are present, also send the accepted
    scenario set, exact current verified `frontend evidence packet` body, packet identifier/digest,
-   implementation-bracket baseline, relevant Builder and Docs Writer round deltas,
+   implementation-bracket baseline, frontend commit and hook checkpoint, relevant Builder and Docs Writer round deltas,
    cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and frontend run/browser/visual
    commands. Reviewer independently replays every accepted
    scenario in the isolated non-production validation runtime with disposable validation state.
@@ -488,9 +498,13 @@ the general Reviewer and Design Reviewer form one complete `frontend review roun
 the same implementation round, frozen mutation unit, exact current verified `frontend evidence
 packet` body and identifier/digest, implementation-bracket baseline, relevant Builder and Docs
 Writer round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and
-scenario set for both fresh contexts. Both reviewers independently
-replay their jurisdictions in the isolated non-production validation runtime with disposable
-validation state. Both must complete on the same unit before the Orchestrator routes findings.
+scenario set for both fresh contexts. Both reviewers independently replay their jurisdictions
+in the isolated non-production validation runtime with disposable validation state, each using
+a fresh reviewer-specific disposable output path outside the frozen Builder artifact
+   references. Those Builder screenshot, trace, and full-log references are read-only; replay
+   must not overwrite, regenerate, or replace them. Both must complete on the same unit before
+   the Orchestrator routes findings. If a required command cannot write to the assigned disposable
+   path, the replay is unavailable and cannot pass.
 There is no production state, production data, production mutation, or external action in
 this round. A `pending` or `halted` runtime or review result remains that outcome.
 
@@ -905,8 +919,12 @@ verified frontend packet identifier and lowercase SHA-256 digest. It also record
    `Builder round delta`, and the `cumulative Builder-owned identity` relative to that baseline.
    For each Docs Writer run, it records the pre/post state and `Docs Writer round delta`, and the
    `cumulative Docs Writer-owned identity` relative to the same baseline. When Docs Writer does
-   not run, that cumulative identity is empty. These cumulative identities must remain disjoint,
-   and their union must equal the complete final mutation identity before review dispatch.
+   not run, that cumulative identity is empty. For material frontend behavior, each named-path
+   commit also records the exact pre-commit and post-hook Git states and the `frontend hook delta`.
+   After the owning role validates a first hook delta, assign or refresh that role's cumulative
+   identity from exact committed bytes; a second included-byte hook delta on the repair commit
+   blocks the goal. These cumulative identities must remain disjoint, and their union must equal the
+   complete final mutation identity before review dispatch.
 
 The canonical `comparison-base rule` for frontend path identity is:
 
@@ -1136,7 +1154,9 @@ Every packet contains only the information needed by the receiving role.
   receives the accepted scenario set and its required-artifact lists, applicable project or
   task-specific owner-approved design sources, frontend run/browser/visual commands, the
   implementation-bracket baseline, and the current cumulative Builder-owned identity. The
-  implementation pass returns tests and scenario results. After the named-path commit and hooks,
+  implementation pass returns tests and scenario results and explicitly states
+  `frontend evidence packet: not yet permitted`; it returns no candidate packet fields. After the
+  named-path commit and hooks,
   an evidence-only pass returns the candidate exact `frontend evidence packet` body, proposed
   identifier, and lowercase SHA-256 digest inside its implementation packet.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs, and
@@ -1183,15 +1203,10 @@ starts from committed content. If dirty work is relevant, the owner must first c
 it or explicitly include it in a current-checkout goal. Never pretend uncommitted work
 followed a new worktree.
 
-For a goal with material frontend behavior, before the sizing/specification bracket the
-Orchestrator records the exact approved Builder and Docs Writer allowed-path set and verifies
-every included project path against committed `HEAD`. Exclude protected Olympus task/config
-state (`.olympus/` and managed loader blocks) and unrelated paths. A relevant dirty path stops
-the goal before sizing or role dispatch; the owner must commit that work and issue a new goal
-with refreshed source identity. The new goal reruns the clean gate. It cannot continue by
-including dirty work or by postponing the clean check until after Builder edits. Immediately before
-the first Builder dispatch, re-read the same path set and source identity; any relevant change
-stops the goal and requires the same new-goal path. Goals without material frontend behavior
+For material frontend behavior, apply the pre-sizing clean gate in step 4. Run and record it in
+the source checkout supplying the base before creating the goal worktree. After the gate passes,
+create the worktree from its recorded committed source and recheck the recorded path set and
+source identity there before the first Builder dispatch. Goals without material frontend behavior
 retain the existing explicit dirty-work inclusion option.
 
 Each active goal has its own task record. Compare paths and shared interfaces before

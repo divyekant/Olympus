@@ -59,8 +59,9 @@ replace them with role-specific labels.
 | Checkpoint | Required record |
 | --- | --- |
 | request boundary | `<review-only, diagnose-only, audit-only, spec-only, or mutation; terminal boundary and truncated stages>` |
-| frontend pre-bracket clean gate | `<material frontend only: exact approved Builder and Docs Writer allowed-path set, committed HEAD comparison, Git output, source identity, pass or stopped/new-goal result; protected Olympus task/config state and unrelated paths excluded>` |
-| frozen review unit | `<complete final mutation identity or artifact identity, as applicable; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus the accepted specification packet identifier/hash that contains the complete scenario set, plus the accepted plan packet identifier/hash when a plan exists), verified frontend packet identifier/digest, implementation-bracket baseline, Builder round deltas with pre/post Git states and cumulative Builder-owned identity, Docs Writer round deltas with pre/post Git states and cumulative Docs Writer-owned identity (empty when Docs Writer did not run), and the disjoint union of both cumulative identities equaling the complete final mutation identity>` |
+| frontend pre-bracket clean gate | `<material frontend only: source checkout path supplying the base and committed HEAD, exact approved Builder and Docs Writer allowed-path set, Git output before worktree creation, pass or stopped/new-goal result; worktree path and path/source recheck before Builder dispatch; protected Olympus task/config state and unrelated paths excluded>` |
+| frontend commit and hook checkpoint | `<material frontend only: exact pre-commit Git state, named-path commit, exact post-hook Git state, pre-commit-working-bytes-to-post-hook-working-bytes delta, owning-role validation of hook-mutated paths, cumulative identity refreshed from committed bytes, and second-commit hook result or blocked outcome>` |
+| frozen review unit | `<complete final mutation identity or artifact identity, as applicable; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus the accepted specification packet identifier/hash that contains the complete scenario set, plus the accepted plan packet identifier/hash when a plan exists), verified frontend packet identifier/digest, implementation-bracket baseline, frontend commit and hook checkpoint reference, Builder round deltas with pre/post Git states and cumulative Builder-owned identity, Docs Writer round deltas with pre/post Git states and cumulative Docs Writer-owned identity (empty when Docs Writer did not run), and the disjoint union of both cumulative identities equaling the complete final mutation identity>` |
 | transition evidence | `<role identity; packet identity; Git state; required checks; evidence verified by Orchestrator>` |
 | halted outcome | `<operational/runtime cause; partial-output disposition; last verified state; recovery owner; safe retry; completed review rounds consumed: 0>` |
 | pending outcome | `<every applicable cause; owner; closure evidence; safe retry; consequence; all required causes cleared: yes/no>` |
@@ -309,7 +310,7 @@ Builder rounds use a separate context:
 
 | Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result; reference to the Builder round delta and cumulative Builder-owned identity in the shared frozen review unit checkpoint>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, candidate attempt number, packet identifier/digest, disposition, replay result, required-artifact references and exact-byte digests, bounded console/page/network/command/output/exit summaries, and no raw artifact bytes; identity details are in the shared frozen review unit checkpoint>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<result; implementation pass explicitly records frontend evidence packet: not yet permitted; evidence-only candidate result references the Builder round delta and cumulative Builder-owned identity in the shared frozen review unit checkpoint>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, candidate attempt number, packet identifier/digest only for the evidence-only pass after commit/hooks, disposition, replay result, required-artifact references and exact-byte digests, bounded console/page/network/command/output/exit summaries, and no raw artifact bytes; identity details are in the shared frozen review unit checkpoint>` | `<none or limit>` |
 
 ### Current verified frontend packet body
 
@@ -333,7 +334,7 @@ Record only when its trigger holds.
 
 | Round | Context | Approved docs changed | Claims and links checked | Result and uncertainty |
 | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<approved Docs Writer-only paths; reference to the Docs Writer round delta and cumulative Docs Writer-owned identity in the shared frozen review unit checkpoint>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
+| `<n>` | `<separate context>` | `<approved Docs Writer-only paths; reference to the Docs Writer round delta, cumulative Docs Writer-owned identity, and frontend commit and hook checkpoint in the shared frozen review unit checkpoint>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
 
 Review rounds use a fresh context that did not build the change. Verdicts are `pass`,
 `repair`, or `blocked`:

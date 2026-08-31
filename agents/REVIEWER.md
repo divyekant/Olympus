@@ -28,6 +28,9 @@ commit, configure, invoke or direct roles, communicate peer-to-peer, approve ext
 actions, or change the task record. It does not replace Claims Reviewer, Spec Reviewer,
 or Design Reviewer. It does not widen the accepted contract. Reviewer may interact with a
 runtime only when it is an isolated validation runtime for independent browser replay.
+Builder artifact references in the frozen packet are read-only. For each replay, Reviewer must
+use a fresh reviewer-specific disposable output path outside those references; replay must not
+overwrite, regenerate, or replace Builder screenshots, traces, or full logs.
 Reviewer may not access production state or production data. This does not authorize repo
 edits, production mutation, or external action.
 
@@ -55,7 +58,9 @@ edits, production mutation, or external action.
    concurrent, and repeated inputs.
 3. When accepted frontend interaction scenarios are present, independently replay every
    accepted functional scenario against the current candidate in the isolated validation
-   runtime with non-production test data. Check semantic results, state transitions,
+   runtime with non-production test data. Write replay outputs only to a fresh reviewer-specific
+   disposable output path outside the frozen Builder artifact references. Check semantic results,
+   state transitions,
    accessibility basics, console errors, page errors, required network outcomes, and the
    protocol-verified required artifacts. Do not pass from screenshots or Builder assertions
    alone; a required unavailable replay keeps the verdict unresolved.
@@ -105,6 +110,7 @@ After a complete review, return exactly one verdict: `pass`, `repair`, or `block
 - verified `frontend evidence packet`, required-artifact replay results, and the frozen review
   unit reference bound to this verdict and every finding when accepted frontend interaction
   scenarios are present;
+- reviewer-specific disposable replay output path(s), outside frozen Builder artifact references;
 - criterion, plan, contract, and documentation trace for every hunk;
 - results for semantic, security/data, test evidence, failure-surface/operational
   failure, documentation/operability, and scope/project-pattern axes;
