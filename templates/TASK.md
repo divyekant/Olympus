@@ -39,12 +39,13 @@ invoked role before dispatch.
 | 7 | Plan Writer | `<dependent or cross-layer steps or explicit need>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 8 | Plan Verifier | `<every Plan Writer result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 9 | Builder | `<every non-configuration mutation>` | `<yes/no>` | `<yes/no>` | `<separate mapping and evidence>` |
-| 10 | Docs Writer | `<false tracked docs or sync contract>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 11 | Reviewer | `<every project or configuration mutation>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
-| 12 | Design Reviewer | `<material user-facing change>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
-| 13 | Release Agent | `<owner-requested release preparation, reconciliation, or external action>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 14 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 15 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 10 | Tester | `<contract-flagged red path crosses a boundary, or an owner request>` | `<yes/no>` | `<yes/no>` | `<separate mapping and evidence>` |
+| 11 | Docs Writer | `<false tracked docs or sync contract>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 12 | Reviewer | `<every project or configuration mutation>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
+| 13 | Design Reviewer | `<material user-facing change>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
+| 14 | Release Agent | `<owner-requested release preparation, reconciliation, or external action>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 15 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 16 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 
 Missing required mapping blocks dispatch. The Spec Writer row records that role's
 mapping, context record, and support evidence; the per-attempt continuity log is the
@@ -315,6 +316,18 @@ Builder rounds use a separate context:
 | --- | --- | --- | --- | --- | --- |
 | `<n>` | `<separate context>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results>` | `<none or limit>` |
 
+### Tester results
+
+Record only when its trigger holds. Round consumption follows [Tester round
+semantics](../references/PROTOCOL.md#tester-round-semantics): a round is consumed only
+by a Builder mutation or repair, an executed Tester command, or a Docs Writer edit;
+record the cause class for a pass that consumes none. The Tester loop converges for a
+round only when every assigned test path is `covered-clean`.
+
+| Round | Context | Assigned test paths | Observation register: path, command(s), coverage state, findings | Self-corrections | Consumes round | Uncertainty |
+| --- | --- | --- | --- | --- | --- | --- |
+| `<n>` | `<separate context>` | `<paths>` | `<per-path entries: covered-clean, covered-with-finding, or skipped>` | `<reason and prior signal, or none>` | `<yes, or no with cause class>` | `<none or limit>` |
+
 ### Docs Writer results
 
 Record only when its trigger holds.
@@ -375,7 +388,7 @@ Set frontmatter `status` to `complete`, `blocked`, or `cancelled`.
 | Explorer | `<used or skipped with reason>` |
 | Invoked roles and support evidence | `<predicted/actual mapping summary>` |
 | Specification and plan rounds | `<counts and verdicts>` |
-| Builder, Docs Writer, Reviewer, Design Reviewer, and Release Agent | `<counts and verdicts>` |
+| Builder, Tester, Docs Writer, Reviewer, Design Reviewer, and Release Agent | `<counts and verdicts>` |
 | Configuration review | `<pass, blocked, or not used>` |
 | Council and Liaison | `<results or not used>` |
 | Review aggregation | `<pass only when every invoked reviewer passes>` |

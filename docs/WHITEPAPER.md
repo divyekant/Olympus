@@ -8,7 +8,7 @@ edit it, and judge its own work. Context fills with old assumptions and self-rev
 inherits the Builder's blind spots.
 
 Olympus keeps one small Orchestrator context and sends bounded work to a fixed
-conditional catalog of fifteen roles. Git stores project configuration and task records.
+conditional catalog of sixteen roles. Git stores project configuration and task records.
 Codex or Claude supplies the agents and tools. Olympus supplies no runtime. Its
 success criterion is product delivery: administration that costs more than the change is
 a failure.
@@ -32,6 +32,7 @@ flowchart TD
     O --> P[Plan Writer<br/>dependent steps]
     O --> PV[Plan Verifier<br/>fresh after plan]
     O --> B[Builder<br/>project mutation]
+    O --> T[Tester<br/>boundary red path or owner request]
     O --> D[Docs Writer<br/>conditional after builder]
     O --> R[Fresh Reviewer<br/>every mutation]
     O --> DR[Design Reviewer<br/>conditional after mutation]
@@ -46,6 +47,7 @@ flowchart TD
     P --> O
     PV --> O
     B --> O
+    T --> O
     D --> O
     DR --> O
     RA --> O
@@ -145,6 +147,7 @@ sequenceDiagram
     participant P as Plan Writer
     participant PV as Plan Verifier
     participant B as Builder
+    participant T as Tester
     participant D as Docs Writer
     participant R as Reviewer
     participant DR as Design Reviewer
@@ -179,6 +182,10 @@ sequenceDiagram
     end
     O->>B: Goal, accepted specification and plan identities, paths, evidence, checks
     B-->>O: Diff, results, uncertainty
+    opt Tester trigger holds
+        O->>T: Assigned test paths, complete Builder mutation, validation commands
+        T-->>O: Observation register, findings, self-corrections
+    end
     opt Documentation trigger holds
         O->>D: Complete behavior diff and approved docs
         D-->>O: Documentation result
@@ -258,7 +265,7 @@ after real goals show that Markdown, native agents, and Git cannot provide the r
 ### Ceremony cost
 
 The main risk is that the framework becomes slower than the work. Configurer, Explorer,
-specification, planning, Docs Writer, Design Reviewer, Council, and Liaison are
+specification, planning, Tester, Docs Writer, Design Reviewer, Council, and Liaison are
 conditional. Task records stay short. Dogfood measures setup, build, review, and
 finalization separately.
 

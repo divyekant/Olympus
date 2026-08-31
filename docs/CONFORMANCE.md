@@ -23,7 +23,7 @@ The framework passes static inspection when:
 
 1. `SKILL.md` has valid frontmatter, links to the protocol, and links to every local
    charter and template it names.
-2. The protocol names one Orchestrator and the fixed ordered 15-role catalog with its
+2. The protocol names one Orchestrator and the fixed ordered 16-role catalog with its
    triggers and authority.
 3. PROJECT supports manual and project orchestration modes, exact role preferences,
    harness evidence, and design-standard matching details. The contract requires a
@@ -87,7 +87,7 @@ The framework passes static inspection when:
     and failure endings.
 17. Each of the five consumers has exactly one link to the canonical onboarding contract,
     and every target and anchor resolves.
-18. The canonical contract retains the immutable pin, fifteen-role catalog, Orchestrator
+18. The canonical contract retains the immutable pin, sixteen-role catalog, Orchestrator
     authority, Configurer-only mutation, fresh exact-unit review, hook rereview, external
     approval gates, truthful `supported`, `unsupported`, and `untested` meanings, the
     provider-neutral Release Agent boundary, owner-selected workflow limits, and
@@ -228,7 +228,7 @@ transcript analysis, or Git plumbing to compensate.
 
 ### C09 — Fixed catalog and triggers
 
-The Orchestrator records the ordered 15-role catalog, predicts the roles for the goal, and
+The Orchestrator records the ordered 16-role catalog, predicts the roles for the goal, and
 invokes each role only when its trigger holds. An owner-selected workflow is an ordered
 allowlist, not a new graph or invocation list. PROJECT can make optional triggers more eager
 but cannot suppress a framework trigger or add a role. Every invoked role has a mapping,
@@ -463,9 +463,10 @@ not `pass`.
 
 #### V1 — Population and role order
 
-Assert that every current catalog copy has the exact 15-role order from the protocol, with
-Release Agent after Design Reviewer and before Decision Council. Assert 14 worker links in
-`SKILL.md`, 14 worker charters, and the fixed 15-role Configurer phrase. A positive fixture
+Assert that every current catalog copy has the exact 16-role order from the protocol, with
+Tester after Builder and before Docs Writer, and Release Agent after Design Reviewer and
+before Decision Council. Assert 15 worker links in `SKILL.md`, 15 worker charters, and the
+fixed 16-role Configurer phrase. A positive fixture
 passes only when all copies match. A missing, extra, reordered, or duplicated role fails and
 records the exact consumer.
 

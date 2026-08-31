@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Added
+
+- Tester, the 16th Pantheon role, at position 10 after Builder and before Docs Writer.
+  Tester writes and runs tests in Tester-owned test paths only, never product code, and
+  never issues a verdict; its trigger is a contract-flagged red path crossing a boundary
+  or an owner request, and PROJECT may make it more eager but not suppress it. See
+  `agents/TESTER.md`.
+- [Tester round semantics](references/PROTOCOL.md#tester-round-semantics): goal-scoped
+  path ownership that follows assignment rather than authorship, the exact classes of
+  Reviewer pass that consume an implementation round, per-path `covered-clean` coverage
+  required for a round's Tester loop to converge instead of a vacuous pass, and a cap
+  disposition that always ends `blocked` or an explicit owner-accepted partial, never
+  silence.
+
 ## 0.5.1 - 2026-08-30
 
 The fixes-only stabilization release. It closes policy and specification-convergence

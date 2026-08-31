@@ -39,7 +39,7 @@ The owner approves one complete effective configuration and the proposed install
 - bounded repair and evidence-backed completion.
 
 The owner can adjust supported knobs inside fixed slots. The owner cannot change the
-fifteen fixed role duties, hub communication, graph ownership, triggers, or protected
+sixteen fixed role duties, hub communication, graph ownership, triggers, or protected
 rules. The owner-selected workflow is an ordered allowlist, not a new graph. The
 [runtime protocol](references/PROTOCOL.md) is the canonical catalog, graph, release
 boundary, and workflow contract.

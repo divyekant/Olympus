@@ -12,7 +12,7 @@ promise.
 | 5 — Second harness and unrelated project | complete | Claude bounded mutation-path pass; unrelated Codex mutation pass; see D03-D04 |
 | 6 — OSS readiness | private experimental releases | Apache-2.0; private canonical repository; `v0.5.1` released with core-authority and specification-convergence fixes |
 | Role and state quality | static pass, live test pending | all existing charters strengthened at `d894317851b5ceacc0337578b9d684729401e7b6`; C17-C18 specified |
-| Catalog and workflow expansion | static contract added; live evidence pending | the catalog now has fifteen roles, including a provider-neutral Release Agent and five fixed request boundaries with an owner-selected role allowlist; see the [release boundary](references/PROTOCOL.md#release-boundary), [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), and [V1–V12 fixtures](docs/CONFORMANCE.md#v1-v12-release-agent-and-custom-workflow-fixtures) |
+| Catalog and workflow expansion | static contract added; live evidence pending | the catalog now has sixteen roles, including a provider-neutral Release Agent, a test-paths-only Tester, and five fixed request boundaries with an owner-selected role allowlist; see the [release boundary](references/PROTOCOL.md#release-boundary), [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), [Tester round semantics](references/PROTOCOL.md#tester-round-semantics), and [V1–V12 fixtures](docs/CONFORMANCE.md#v1-v12-release-agent-and-custom-workflow-fixtures) |
 
 ## Phase 1 — Specify the fixed framework
 
