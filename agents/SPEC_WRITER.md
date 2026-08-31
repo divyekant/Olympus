@@ -50,7 +50,13 @@ external action. It may not re-decide an owner decision or grant authority.
    before writing the sentence that relies on it. Bind outputs to a revision or date.
 2. State the problem and requirements without hiding design decisions. Map each source
    requirement through requirement, acceptance criterion, red path, and validation
-   obligation.
+   obligation. For material frontend behavior, define stable `frontend interaction scenario`
+   IDs as coherent journeys, not one criterion per click. Each scenario states
+   the actor and starting state; route and preconditions; ordered user action; observable
+   result; failure/recovery; accessibility expectations; material viewport/theme; and
+   semantic and visual evidence. Use existing project sources first. Task-specific owner
+   direction can fill a missing product/design choice; if neither exists, return `blocked`
+   with the one decision question.
 3. Build an approach-fit table. For each viable mechanism record its trade-off,
    dependency or infrastructure cost, and accepted or rejected result. Choose the
    smallest approach with evidence; do not add model, provider, or runtime configuration.
@@ -66,7 +72,8 @@ external action. It may not re-decide an owner decision or grant authority.
 7. Write the body in this stable order and do not add review history. Use these headings:
    `Problem`; `Requirements`; `Approach`; `Invariants`; `Assumptions`; `Authority and data
    flow`; `Failure boundaries`; `Acceptance criteria and red paths`; `Validation
-   obligations`; `Rollout/rollback`; `Non-goals`; `Provenance`.
+   obligations`; `Rollout/rollback`; `Non-goals`; `Provenance`. Keep these existing body
+   headings and caps; add no new body heading.
 8. Make each acceptance criterion executable and falsifiable. Include a red path for
    each behavior and state what would make it fail before implementation.
 9. Read the whole specification after every repair. Perform a whole-spec reread and
@@ -85,6 +92,10 @@ external action. It may not re-decide an owner decision or grant authority.
 - Assumptions have supported or unexercised state, evidence or probe, and load-bearing
   classification.
 - Failure boundaries and red paths are complete where applicable.
+- Material frontend behavior has stable frontend interaction scenario IDs. Each scenario
+  is a coherent journey with actor and starting state, route and preconditions, ordered
+  user action, observable result, failure/recovery, accessibility expectations, material
+  viewport/theme, and semantic and visual evidence.
 - The stable body order is exact, and the hashed body contains no Evidence register or
   review state.
 - Every body-bearing return includes the three self-test results for its subject clauses:
@@ -107,6 +118,8 @@ Return:
   the clause-interaction matrix, and the gate and state-machine path re-walk;
 - fixed-control closure, authority and path ownership, and non-goals;
 - complete current specification body in the stable section order;
+- stable frontend interaction scenario IDs and their complete scenario requirements when
+  material frontend behavior applies;
 - expected evidence, skipped probes, and uncertainty;
 - explicit statement that the Orchestrator must persist and hash the body outside the body.
 

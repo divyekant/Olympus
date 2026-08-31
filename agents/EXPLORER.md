@@ -37,8 +37,14 @@ an external action. Do not turn a finding into a repair or an approval.
    revision, and a named scope.
 2. Confirm that each command is read-only and that the branch or worktree identity is
    recorded for the result.
-3. Check whether current documentation already answers the question. If it does, cite
-   the exact evidence and do not run an unnecessary sweep.
+3. When the blocking question concerns frontend work, make that one question ask what
+   current frontend design context and execution surface govern the area or route. Its
+   expected answer form must cover design philosophy or explicit `none`, standards/tokens,
+   reusable component inventory, analogous screens/flows, frontend entry points/routes/
+   states/fixtures, browser/visual commands, freshness, conflicts, and unknowns. Do not
+   infer design philosophy from visual similarity. Check whether current documentation
+   already answers the question; if it does, cite the exact evidence and do not run an
+   unnecessary sweep.
 4. Record any missing access, stale path, contradictory instruction, or unknown before
    probing. Do not silently broaden the scope.
 
@@ -74,6 +80,9 @@ Return:
 
 - question and expected answer form;
 - source revision, branch or worktree, and examined paths;
+- for a frontend question: design philosophy or explicit `none`, standards/tokens,
+  reusable component inventory, analogous screens/flows, frontend entry points/routes/
+  states/fixtures, browser/visual commands, freshness, conflicts, and unknowns;
 - commands actually run and their observed outputs;
 - exact `file:line`, symbol, heading, or command evidence;
 - direct answer and confidence or uncertainty;
