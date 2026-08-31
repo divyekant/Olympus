@@ -310,10 +310,12 @@ Accepted plan:
 
 ## Builder and review rounds
 
-Builder rounds use a separate context. Assigned paths is the goal-wide ownership record:
-the paths that round's Builder dispatch named, whether or not the mutation changed all of
-them. [Tester round semantics](../references/PROTOCOL.md#tester-round-semantics) uses its
-accumulated goal-wide history, not just changed paths, for the Tester ownership check.
+Builder rounds use a separate context. Assigned paths records the distinct
+Builder-assigned-paths field of that round's dispatch packet, selected by the
+Orchestrator before Builder acts, whether or not the mutation changed all of them — never
+reconstructed afterward from changed paths. [Tester round
+semantics](../references/PROTOCOL.md#tester-round-semantics) uses its accumulated
+goal-wide history for the Tester ownership check.
 
 | Round | Builder | Assigned paths | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |

@@ -361,9 +361,11 @@ Then:
    repair gets a new identity and complete fresh verification. Builder receives only the
    exact accepted plan identity.
 6. For every non-configuration project mutation, send the accepted contract, accepted
-   specification when used, accepted plan when used, allowed paths, evidence, and checks
-   to Builder. Builder blocks before editing on a conflict, missing decision, or verified
-   code contradiction.
+   specification when used, accepted plan when used, allowed paths, this round's
+   Builder-assigned paths, evidence, and checks to Builder. The Orchestrator selects and
+   records the round's Builder-assigned paths at dispatch time, under [Tester round
+   semantics](#tester-round-semantics). Builder blocks before editing on a conflict,
+   missing decision, missing Builder-assigned-paths field, or verified code contradiction.
 7. When the Tester trigger holds, send the round's assigned test paths, the complete
    Builder mutation, protected paths, and validation commands to a fresh Tester, under
    [Tester round semantics](#tester-round-semantics). Tester returns its observation
@@ -933,23 +935,33 @@ no cap value.
 Orchestrator's dispatch packet for a round, drawn from the accepted contract's allowed
 paths. Product code is every allowed path that is not a Tester-owned test path.
 Assignment is the Orchestrator's per-round act of enumerating a round's test paths, and
-symmetrically its per-round act of enumerating the **Builder-assigned paths**: the paths
-that round's Builder dispatch names, recorded in the task record's Builder round table,
-whether or not Builder's mutation ends up changing all of them. Ownership is a separate,
-goal-scoped fact that follows assignment, never authorship: once the Orchestrator assigns
-a path as a test path in any round, that path stays Tester-owned for the rest of the
-goal, including a path authored in an earlier round and independent of which round's
-dispatch is current or which role's edit most recently touched it. A path recorded as
-Builder-assigned in any round can never become a test path, and a Tester-owned path can
-never become Builder's, unless an explicit owner decision recorded in the task record
-crosses it before any edit under the new ownership. The Orchestrator passes Tester the
-goal-wide Builder-assigned-paths history at every dispatch, so an assigned-but-unchanged
-path stays visibly Builder-owned to Tester and not only the paths a diff happens to show;
-a missing or absent history is a handoff defect, mirroring the empty-test-path-assignment
-rule below, with the same one-retry-then-blocks bound. Builder keeps its own red-first
-obligation for its own assigned paths; Tester may correct any Tester-owned test path,
-including one from an earlier round, within its current dispatch, without withdrawing or
-suppressing an observed defect signal against product code.
+symmetrically its per-round act of enumerating the **Builder-assigned paths**: a distinct
+field of the Builder dispatch packet, beside and narrower than the goal-wide allowed
+paths, that the Orchestrator selects from the accepted contract or plan's work for that
+round and excludes every Tester-owned test path from. Builder's mutation stays within its
+assigned paths, not merely within allowed paths. There is one recorded source for this
+fact and no invention point after the fact: the Orchestrator writes the round's
+Builder-assigned paths into the task record's Assigned paths column at dispatch time,
+before Builder acts, whether or not Builder's mutation ends up changing all of them; nothing
+reconstructs this set later from what Builder changed. A Builder dispatch packet missing
+this field is a handoff defect: the first occurrence in a round consumes no round and is
+corrected and re-dispatched before Builder edits; a second occurrence in the same round
+blocks. Ownership is a separate, goal-scoped fact that follows assignment, never
+authorship: once the Orchestrator assigns a path as a test path in any round, that path
+stays Tester-owned for the rest of the goal, including a path authored in an earlier
+round and independent of which round's dispatch is current or which role's edit most
+recently touched it. A path recorded as Builder-assigned in any round can never become a
+test path, and a Tester-owned path can never become Builder's, unless an explicit owner
+decision recorded in the task record crosses it before any edit under the new ownership.
+The Orchestrator passes Tester the same recorded goal-wide Builder-assigned-paths history
+— the task record's Assigned paths column, accumulated across every round, the one source
+this paragraph names — at every dispatch, so an assigned-but-unchanged path stays visibly
+Builder-owned to Tester and not only the paths a diff happens to show; a missing or
+absent history on the Tester side is a handoff defect with the same one-retry-then-blocks
+bound. Builder keeps its own red-first obligation for its own assigned paths; Tester may
+correct any Tester-owned test path, including one from an earlier round, within its
+current dispatch, without withdrawing or suppressing an observed defect signal against
+product code.
 
 **Round consumption.** An implementation round is consumed only when the fresh Reviewer's
 pass grades a frozen unit produced by a Builder mutation or repair, a Tester run that
@@ -1061,8 +1073,10 @@ Every packet contains only the information needed by the receiving role.
   identifier, content hash, paths, interfaces, validation, and prior findings only for
   repair context.
 - Builder receives the goal, accepted contract, accepted specification or plan, allowed
-  paths, evidence, owner decisions, validation commands, and the accepted plan identifier
-  and hash when a plan exists.
+  paths, this round's Builder-assigned paths, evidence, owner decisions, validation
+  commands, and the accepted plan identifier and hash when a plan exists. A missing
+  Builder-assigned-paths field is a handoff defect under [Tester round
+  semantics](#tester-round-semantics).
 - Tester receives the goal, accepted contract or specification identity, accepted plan
   identity when one exists, the complete Builder mutation, the round's assigned test
   paths, the trigger's recorded scope, the goal-wide Builder-assigned-paths history,
