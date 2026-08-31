@@ -167,8 +167,10 @@ The framework passes static inspection when:
     state with a matching recheck means no activation claim.
 28. The Issue #8 fixtures below cover source identity, state classes, wake phrases, mutation
     races, compact disclosure, safe defaults, plain-text fallback, and unchanged review gates.
-29. Material frontend behavior has a complete source map or an explicit absence and owner
-    direction, accepted hashed interaction scenarios before planning or building, and a
+29. Current PROJECT or current-repository evidence may provide the complete frontend source
+    map; dispatch Explorer only for a material gap blocking a required role, and record Explorer
+    skipped when current evidence suffices. Material frontend behavior has accepted hashed
+    interaction scenarios before planning or building, and a
     conditional plan with complete scenario execution details and bidirectional mapping when
     the plan trigger holds. Builder evidence is candidate-bound: exact body, artifact, and
     status-specific path lowercase SHA-256 digests must verify before persistence. Cumulative Builder and Docs
@@ -472,15 +474,27 @@ browser, harness, or production support. Missing output is `not run`, not pass.
 
 | Fixture | Observable pass evidence |
 | --- | --- |
-| Source discovery | Explorer records design philosophy, owner-approved standards or tokens, reusable components, exemplar screens or flows, routes, states, fixtures, browser or visual commands, freshness, conflicts, and unknowns. An absent source is explicit and is not permission to invent one. |
+| Source discovery | Current PROJECT or current-repository evidence may satisfy the source map: record design philosophy, owner-approved standards or tokens, reusable components, exemplar screens or flows, routes, states, fixtures, browser or visual commands, freshness, conflicts, and unknowns. Dispatch Explorer only for a material gap blocking a required role, and record Explorer skipped when current evidence suffices. An absent source is explicit and is not permission to invent one. |
 | No sources plus owner direction | When no frontend source exists, the record states `none` or the exact absence and obtains the bounded owner direction needed for the material aspect; Explorer evidence is not approval. |
 | Incomplete interaction plan | Accepted scenarios stay in the hashed specification before Plan Writer or Builder receives them. Planning remains conditional. If the existing plan trigger holds, the plan carries the complete frontend plan scenario contract and a bidirectional stable-ID-to-producing-step map; an incomplete interaction plan, contract, or map is rejected. |
 | Candidate-bound evidence | Builder returns a candidate packet with exact body bytes and lowercase SHA-256 digest, proposed identifier, complete cumulative Builder-owned paths, status-specific path identities under the canonical comparison-base rule, and separate exact-byte screenshot or trace lowercase SHA-256 digests. Only verified equality and digests create frozen frontend state. |
+| Candidate verification failure | A failed candidate verification retains the prior verified packet body and state, permits exactly one pre-review Builder candidate repair, and blocks on a second failed candidate. Candidate attempts consume no implementation review round. |
 | Replay evidence | Screenshot-only, stale, missing state, console or page errors, missing required network outcomes, or Builder assertions alone cannot pass. Required semantic, state, accessibility, console, network, and visual replay evidence is present. |
 | Paired repair | Any relevant code or path change, identity or packet change, artifact change, or evidence regeneration invalidates both fresh general and Design Reviewer verdicts. Builder creates a new packet, and both reviewers replay the complete unchanged scenario set on the same frozen candidate. |
 | Browser capability | A recoverable environment or credential gap is `pending`; role, tool, transport, or runtime inability is `halted`; missing required evidence or an owner decision after review is `blocked`; a harness that cannot preserve the required capability or role is `unsupported`. Tool availability alone is not support or a pass. |
 | Jurisdiction split | The general Reviewer checks semantic results, state, recovery, security, and operational evidence. Design Reviewer checks governing standards, component reuse, responsive and visual axes, focus, and interaction presentation. Both are fresh and paired; Design Reviewer never replaces general review. |
 | Cumulative path identity | One implementation baseline is retained across multiple Builder rounds. Each round delta updates the cumulative Builder-owned identity, while Docs Writer deltas form a separate cumulative identity with no overlap. Their disjoint union, with status-specific hashes, equals the complete final mutation before either reviewer dispatches. |
+
+#### C22 path identity status matrix
+
+| Status or identity | Required evidence |
+| --- | --- |
+| Every round delta | Compare each dispatch pre-state (the recorded pre-state) with its post-state. |
+| Every cumulative identity | Compare current state with the implementation-bracket baseline. |
+| `added` or `modified` | Use current exact-byte lowercase SHA-256 hashes. |
+| `deleted` | Record `deleted` and the lowercase SHA-256 of exact bytes from the applicable comparison base for that identity. |
+| `rename` | Record source and destination; hash the source from the applicable comparison base and the destination from current exact bytes. |
+| `add-then-delete` | The path is absent from the cumulative identity relative to the baseline. Retain its deletion in the round delta with the hash of exact bytes from the dispatch pre-state. |
 
 ### V1-V12 Release Agent and custom workflow fixtures
 

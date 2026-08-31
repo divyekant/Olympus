@@ -75,16 +75,10 @@ has static and independent review evidence; a new live target-repository run rem
 
 ## Frontend craft and evidence boundary
 
-For material frontend behavior, Explorer locates design philosophy, owner-approved standards,
-reusable components, routes, states, fixtures, and browser commands. An absent source remains
-explicit and needs owner direction; it does not license an invented standard. Accepted hashed
-interaction scenarios stay in the specification. Planning remains conditional, but a triggered
-plan carries scenario execution details and its bidirectional mapping. Builder produces a
-reproducible browser-evidence candidate with exact packet, path, and artifact identities.
-Fresh general and Design Reviewers independently replay the same frozen candidate, and a repair
-invalidates both verdicts. Project standards govern first; a task-specific owner decision covers
-only an otherwise missing material aspect. This is a static contract and a project or harness
-capability boundary, not live support evidence.
+Frontend craft is distilled in the Explorer, Builder, Reviewer, and Design Reviewer charters;
+see the [C22 frontend evidence loop](CONFORMANCE.md#c22--frontend-evidence-loop), [D038](DECISIONS.md),
+and the [runtime protocol](../references/PROTOCOL.md#4-goal-flow). Live browser and harness support
+remain untested.
 
 ## Deliberate exclusions
 

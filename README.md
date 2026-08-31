@@ -9,11 +9,7 @@ no runtime, service, database, package, or scheduler.
 
 ## Unreleased
 
-The static frontend evidence loop is recorded in [C22](docs/CONFORMANCE.md#c22--frontend-evidence-loop)
-and [D038](docs/DECISIONS.md). It covers source discovery, accepted interaction scenarios,
-conditional plans, candidate-bound browser evidence, paired fresh review, and identity-based
-repair invalidation. Live frontend dogfood evidence remains pending until a bounded run is
-recorded; this does not claim browser, harness, or production support.
+The static frontend contract is [C22](docs/CONFORMANCE.md#c22--frontend-evidence-loop) and [D038](docs/DECISIONS.md); live dogfood and browser or harness support evidence remain pending.
 
 ## Why it exists
 
