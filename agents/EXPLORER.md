@@ -37,16 +37,16 @@ an external action. Do not turn a finding into a repair or an approval.
    revision, and a named scope.
 2. Confirm that each command is read-only and that the branch or worktree identity is
    recorded for the result.
-3. When frontend context is the blocker, verify that the Orchestrator supplied the one
+3. Check whether current documentation already answers the received question. If it does,
+   cite the exact evidence and do not run an unnecessary repository sweep.
+4. When frontend context is the blocker, verify that the Orchestrator supplied the one
    bounded question: what current frontend design context and execution surface govern the
    named area or route. Validate its expected answer form, which must cover design
    philosophy or explicit `none`, standards/tokens, reusable component inventory,
    analogous screens/flows, frontend entry points/routes/states/fixtures, browser/visual
    commands, freshness, conflicts, and unknowns. Do not rewrite or broaden the received
-   question. Do not infer design philosophy from visual similarity. Check whether current
-   documentation already answers the question; if it does, cite the exact evidence and do
-   not run an unnecessary sweep.
-4. Record any missing access, stale path, contradictory instruction, or unknown before
+   question. Do not infer design philosophy from visual similarity.
+5. Record any missing access, stale path, contradictory instruction, or unknown before
    probing. Do not silently broaden the scope.
 
 ## Method

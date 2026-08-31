@@ -48,17 +48,9 @@ commit; or take external action. Do not turn an unverified claim into a pass.
    missing producers, incompatible values, hidden shared state, and dependency order.
 5. Run or inspect each exact red check. Verify that it states what causes red before the
    build and that it can fail for the intended behavior. For every accepted frontend
-   interaction scenario, check every field in the `frontend plan scenario contract`: actor
-   and starting state; route/screen and preconditions; setup/fixture/user state and its
-   producer; material viewport/theme; ordered actions using accessible or project-native
-   locators; independent semantic assertions after each transition; semantic evidence is
-   always required for material frontend behavior; conditional visual checkpoints only when
-   visual output is material; accessibility checks; failure/recovery; cleanup; commands and
-   the exact required-artifact list copied from the accepted specification; and an exact replay
-   command or ordered replay steps. Verify one screenshot key per material visual checkpoint,
-   one trace key per material interaction sequence or runtime failure/recovery path, and one
-   full-log key per run, browser, or visual command whose full output is required. Reject
-   missing, extra, or changed keys.
+   interaction scenario, check every field, artifact rule, and mapping direction in the
+   protocol's canonical `frontend plan scenario contract`. Reject missing, extra, or changed
+   artifact keys.
    Reject generic instructions such as `verify the UI` or `check visually`.
 6. Scan the whole plan for `TBD`, placeholders, generic test or error-handling steps,
    bundled goals, hidden decisions, and scope expansion. Continue after a blocker and
@@ -72,10 +64,8 @@ commit; or take external action. Do not turn an unverified claim into a pass.
 - The persisted plan identifier and recomputed content hash match the packet.
 - Every claim has a disposition and command result, or a named unavailable probe.
 - Criterion and step mappings are bidirectional and complete.
-- Frontend interaction scenario IDs map bidirectionally to producing steps. Every field in
-  the `frontend plan scenario contract` is checked, including semantic evidence, conditional
-  visual checkpoints, and exact required-artifact lists copied from the accepted specification;
-  generic UI instructions are rejected.
+- Every field, artifact rule, and mapping direction in the protocol's canonical `frontend plan
+  scenario contract` is checked; generic UI instructions are rejected.
 - `Consumes`/`Produces` order and signatures are valid.
 - Every red check names its pre-build cause.
 - Placeholder, generic, bundled, and hidden-decision scans completed after findings.

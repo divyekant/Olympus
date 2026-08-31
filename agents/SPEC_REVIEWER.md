@@ -56,15 +56,10 @@ Run each axis in order and return the complete set. Continue after the first fin
    adversarial actor would. Reject ambiguous or self-defeating normative text.
 8. **Acceptance-criterion falsifiability/vacuity/joint satisfiability:** confirm each
    criterion can go red, has a red path, and can hold with every other criterion. For each
-   applicable frontend interaction scenario, check a stable unique ID; coherent journey
-   grouping; actor; starting state; route; preconditions; ordered user actions; observable
-   result; failure/recovery; accessibility expectations; material viewport/theme; semantic
-   evidence is always required for material frontend behavior; conditional visual evidence is
-   required only when visual output is material; the exact ordered `frontend
-   required-artifact list` under the protocol grammar, uniqueness, and cardinality rules;
-   falsifiability; acceptance-testability; and a red path. Reject a missing, extra,
-   duplicated, reordered, or invalid artifact key. Reject per-click fragmentation. Report a
-   finding when the body invents an owner product/design choice.
+   applicable frontend interaction scenario, check every field and artifact rule in the
+   protocol's canonical `frontend interaction scenario contract`. Reject a missing, extra,
+   duplicated, reordered, or invalid artifact key. Report a finding when the body invents an
+   owner product/design choice.
 9. **Assurance/guarantee language:** report a finding that requires unsupported guarantee
    claims to become bounded behavior, limits, detection, and recovery obligations.
 10. **Pre-mortem:** assume the design failed. Cover detection, containment, recovery,

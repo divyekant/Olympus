@@ -424,21 +424,25 @@ Then:
    When accepted frontend interaction scenarios are present and Docs Writer does not run, record an
    empty `cumulative Docs Writer-owned identity` relative to the implementation-bracket baseline.
    When accepted frontend interaction scenarios are present, after Builder and Docs Writer edits
-   finish, before each named-path commit the Orchestrator records the exact pre-commit Git state
-   and intended included-path identity,
+   finish, before each named-path commit the Orchestrator records the exact pre-commit whole-tree
+   Git state and intended identity,
    commits the named project paths under normal local Git policy, and completes the applicable
-   hooks. Immediately after hooks, record each included path's exact committed `HEAD`, index, and
-   working-tree identity. The `frontend hook delta` is every difference between the intended
-   identity and those three post-hook identities; the commit's `HEAD` movement with unchanged
-   bytes produces no delta. Route every changed path to its owning Builder or Docs Writer for
-   validation. If the validated bytes already equal committed `HEAD` and the index and working
-   tree match `HEAD`, make no empty repair commit. Otherwise permit exactly one corrective
-   named-path commit and complete its hooks. After that corrective commit, any included identity
-   that differs from the owning role's validated identity, or any included index or working-tree
-   difference from `HEAD`, blocks the goal. Assign or update the proper cumulative identity only
-   after owning-role validation, using exact final committed `HEAD` bytes. Keep the cumulative
-   Builder and Docs Writer identities disjoint, and keep their union equal to the final mutation.
-   Do not generate candidate evidence from a dirty or pre-hook state.
+   hooks. Immediately after hooks, record the complete repository's committed `HEAD`, index, and
+   working-tree identities. The `frontend hook delta` is every whole-tree difference between the
+   intended identity and those three post-hook identities; the commit's `HEAD` movement with
+   unchanged bytes produces no delta. A changed path inside the approved Builder or Docs Writer
+   set returns to its owning role for validation. A changed path outside that set is a scope defect:
+   stop before evidence, record the path and bytes, and require the owner to clean or commit it and
+   issue a new goal from the refreshed source. Do not silently widen path authority. If validated
+   in-scope bytes already equal committed `HEAD` and the index and working tree match `HEAD`, make
+   no empty repair commit. Otherwise permit exactly one corrective named-path commit and complete
+   its hooks. After that corrective commit, any repository identity outside the accepted final
+   mutation, any included identity that differs from the owning role's validated identity, or any
+   included index or working-tree difference from `HEAD` blocks the goal. Assign or update the
+   proper cumulative identity only after owning-role validation, using exact final committed
+   `HEAD` bytes. Keep the cumulative Builder and Docs Writer identities disjoint, and keep their
+   union equal to the final mutation. Do not generate candidate evidence from a dirty or pre-hook
+   state.
 8. When accepted frontend interaction scenarios are present, dispatch Builder for an evidence-only
    pass against that exact clean commit. Builder makes no relevant edits and executes the complete
    unchanged accepted scenario set in isolated non-production state. It returns the exact
@@ -458,14 +462,17 @@ Then:
    The body digest covers only the exact body bytes, excluding the proposed identifier and
    digest. The Orchestrator recomputes the body digest, verifies the packet's path records against
    the cumulative Builder-owned identity, and verifies every status-specific path identity against
-   the exact committed bytes. It separately verifies every referenced artifact's exact-byte
-   lowercase SHA-256. Inline console, page, failed-network, command, output, and exit-status
+   the exact committed bytes. If exact repository bytes and packet path records match but the
+   Orchestrator-owned cumulative identity does not, permit one bookkeeping correction and recheck
+   the same candidate before routing any defect to Builder. A second bookkeeping mismatch blocks.
+   It separately verifies every referenced artifact's exact-byte lowercase SHA-256. Inline console,
+   page, failed-network, command, output, and exit-status
    fields are bounded summaries only. Store no raw screenshot, trace, or full-log bytes in the
    task record. Only after every required check passes may the Orchestrator persist or replace the
    current verified frontend packet body between `FRONTEND-PACKET-BODY:BEGIN` and
    `FRONTEND-PACKET-BODY:END`, record its verified identifier/digest, and freeze frontend fields.
-   A failed check, oversized body, or marker byte sequence is an identity defect and is rejected
-   before persistence under the existing one-candidate-repair path. Record the candidate attempt
+   A remaining failed check, oversized body, or marker byte sequence is an identity defect and is
+   rejected before persistence under the existing one-candidate-repair path. Record the candidate attempt
    and disposition in the Builder round row, retain any prior verified body unchanged, and permit
    exactly one pre-review Builder repair for that implementation round. Neither candidate attempt
    consumes an implementation review round. A second failed candidate blocks. An unavailable
@@ -475,46 +482,46 @@ Then:
    a frozen mutation unit or dispatch implementation reviewers.
 9. When accepted frontend interaction scenarios are present, before any reviewer dispatch, the
    disjoint union of the cumulative Builder-owned identity and cumulative Docs Writer-owned identity must
-   equal the complete final project mutation identity. A mismatch is an identity defect and
-   dispatches no reviewer. Send every project or configuration mutation to a fresh Reviewer.
+   equal the complete final project mutation identity. A first mismatch is an identity defect and
+   dispatches no reviewer. Permit one pre-review identity repair: correct Orchestrator-owned
+   bookkeeping when repository bytes already match, or route a byte or ownership defect to the
+   owning Builder or Docs Writer under the existing path and commit rules. Recompute the packet
+   whenever the repair changes the Builder round delta or cumulative identity. A second mismatch
+   blocks. Send every project or
+   configuration mutation to a fresh Reviewer.
    Reviewer checks the complete mutation, Builder or Configurer result, every criterion, and
    relevant checks.
-   When accepted frontend interaction scenarios are present, also send the accepted
-   scenario set, exact current verified `frontend evidence packet` body, packet identifier/digest,
-   implementation-bracket baseline, frontend commit and hook checkpoint, relevant Builder and Docs Writer round deltas,
-   cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and frontend run/browser/visual
-   commands. Reviewer independently replays every accepted
-   scenario in the isolated non-production validation runtime with disposable validation state.
+   When accepted frontend interaction scenarios are present, send the protocol's canonical
+   `frontend general-review packet`. Reviewer applies its recorded replay disposition.
 10. If the mutation has material frontend behavior, send the diff and matching owner-approved project design standards first
    to a fresh Design Reviewer. For an otherwise missing material aspect, send the recorded
    task-specific owner design decision for that aspect. Use project standards first; a
    task-specific decision may govern only an otherwise missing material aspect.
-   When accepted frontend interaction scenarios are present, send the same frozen mutation
-   unit, exact current verified `frontend evidence packet` body, packet identifier/digest,
-   scenario set, implementation-bracket baseline, relevant Builder and Docs Writer round deltas,
-   cumulative Builder-owned identity and cumulative Docs Writer-owned identity, applicable owner-approved
-   design sources, and frontend commands. Design Reviewer cannot replace the general Reviewer pass.
+   When accepted frontend interaction scenarios are present, send the protocol's canonical
+   `frontend design-review packet`. Design Reviewer applies its recorded replay disposition and
+   cannot replace the general Reviewer pass.
 
 When accepted frontend interaction scenarios exist and the Design Reviewer trigger holds,
 the general Reviewer and Design Reviewer form one complete `frontend review round`. Record
 the same implementation round, frozen mutation unit, exact current verified `frontend evidence
 packet` body and identifier/digest, implementation-bracket baseline, relevant Builder and Docs
 Writer round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and
-scenario set for both fresh contexts. Both reviewers independently replay their jurisdictions
-in the isolated non-production validation runtime with disposable validation state, each using
-a fresh reviewer-specific disposable output path outside the frozen Builder artifact
-   references. Those Builder screenshot, trace, and full-log references are read-only; replay
-   must not overwrite, regenerate, or replace them. Both must complete on the same unit before
-   the Orchestrator routes findings. If a required command cannot write to the assigned disposable
-   path, the replay is unavailable and cannot pass.
+scenario set for both fresh contexts. Both must complete on the same unit before the Orchestrator
+routes findings. For `full`, both independently replay the complete unchanged accepted scenario
+set in the isolated non-production validation runtime with disposable state and their separate
+reviewer-specific output paths. For `verified-disjoint-docs-only`, both verify the canonical
+exception without browser execution. Frozen Builder artifacts remain read-only. If a required
+command cannot write to the assigned disposable path, the replay is unavailable and cannot pass.
 There is no production state, production data, production mutation, or external action in
 this round. A `pending` or `halted` runtime or review result remains that outcome.
 
-For a paired frontend review round, any code or relevant file change, Builder or Docs Writer
-round-delta or cumulative-identity change, frontend
-packet body/identifier/digest change, artifact reference/digest change, or evidence
-regeneration invalidates both frontend review verdicts. Builder creates a new packet and
-replays the complete unchanged accepted scenario set; both reviewers are fresh. If a finding
+For a paired frontend review round, any frontend-affecting code or file change, Builder round
+delta or cumulative-identity change, frontend packet body/identifier/digest change, artifact
+reference/digest change, or evidence regeneration requires `full`: Builder creates a new packet,
+replays the complete unchanged accepted scenario set, and both reviewers are fresh. A proven
+disjoint Docs Writer-only documentation delta uses `verified-disjoint-docs-only`; it keeps the
+unchanged verified packet but still dispatches both fresh reviewers on the new exact mutation
+unit. If a finding
 requires any interaction-set change, invalidate the accepted specification and return to the
 existing specification bracket for a new complete body and fresh Claims Reviewer and Spec
 Reviewer review. Only after the new specification is accepted may Plan Writer run when its
@@ -524,8 +531,8 @@ scenarios.
 11. On passing invoked reviews, run final relevant checks and compare the result with
     actual Git state. For a paired frontend review pass, final checks are limited to
     non-generating Git, identity, and read-back checks; do not regenerate frontend evidence.
-    Any relevant change invalidates both verdicts and requires a fresh candidate and paired
-    replay. Do not claim an untested role, harness, or execution as passed.
+    Any relevant change invalidates both verdicts. Apply the canonical replay disposition to
+    the new exact mutation unit. Do not claim an untested role, harness, or execution as passed.
 12. After the exact reviewed commit and final checks exist, dispatch Release Agent only
     for an owner-requested release preparation, remote reconciliation, or one
     release-boundary external action, under the [release boundary](#release-boundary).
@@ -906,6 +913,37 @@ artifact is returned. If a request contains analysis and action, keep them as se
 stages; the action stage needs its own authorization. A terminal boundary cannot be
 overridden by a later role trigger or delivery signal.
 
+### Frontend scenario contracts and artifacts
+
+The canonical `frontend interaction scenario contract` is one record per accepted scenario.
+Each record contains a stable unique scenario ID; one coherent journey rather than per-click
+fragments; actor and starting state; route or screen; preconditions; ordered user actions;
+observable results; failure and recovery; accessibility expectations; material viewport and
+theme; semantic evidence for every material frontend behavior; visual checkpoints when visual
+output is material; one exact ordered `frontend required-artifact list`; acceptance-testability;
+and a falsifiable red path. Project standards govern first. A recorded task-specific owner
+decision may govern only an otherwise missing material aspect.
+
+The canonical `frontend plan scenario contract` copies each accepted scenario ID and required-
+artifact list unchanged. Each record contains actor and starting state; route or screen and
+preconditions; setup, fixture, and user state with its producer; material viewport and theme;
+ordered actions using accessible or project-native locators; independent semantic assertions
+after each transition; conditional visual checkpoints; accessibility checks; failure and
+recovery; cleanup; commands; and an exact replay command or ordered replay steps. The complete
+plan maps every accepted scenario ID to its producing step or steps and every producing step
+back to the accepted scenario IDs it serves.
+
+The canonical `frontend required-artifact list` is an ordered list of artifact keys, or an
+explicit empty list. Add exactly one `screenshot:<checkpoint-id>` for each material visual
+checkpoint, one `trace:<sequence-or-recovery-id>` for each material interaction sequence or
+runtime failure/recovery path, and one `full-log:<command-id>` for each run, browser, or visual
+command whose full output is required evidence. Add no other key. A key occurs at most once per
+scenario. The Builder packet repeats the accepted list for each scenario. Its artifact references
+must match the list exactly by scenario, kind, key, order, and cardinality before any artifact
+digest check. Missing, extra, duplicated, or reordered references are a handoff defect. Each
+matched reference carries the exact artifact bytes' lowercase SHA-256. Store references and
+digests, never raw screenshot, trace, or full-log bytes.
+
 ### Identity and frozen review units
 
 Every gated artifact or mutation has one frozen review unit. A specification uses its
@@ -922,13 +960,14 @@ verified frontend packet identifier and lowercase SHA-256 digest. It also record
    For each Docs Writer run, it records the pre/post state and `Docs Writer round delta`, and the
    `cumulative Docs Writer-owned identity` relative to the same baseline. When Docs Writer does
    not run, that cumulative identity is empty. For material frontend behavior, each named-path
-   commit also records the pre-commit intended included-path identity and the post-hook committed
+   commit also records the pre-commit intended whole-tree identity and the complete post-hook
    `HEAD`, index, and working-tree identities. The `frontend hook delta` is their difference.
-   After the owning role validates a first hook delta, assign or refresh that role's cumulative
-   identity from exact final committed `HEAD` bytes. Make one corrective commit only when validated
-   bytes are not already cleanly committed; a post-correction difference blocks. These cumulative
-   identities must remain disjoint, and their union must equal the
-   complete final mutation identity before review dispatch.
+   An out-of-set difference stops before evidence and requires owner cleanup or commit plus a new
+   goal. After the owning role validates an in-scope hook delta, assign or refresh that role's
+   cumulative identity from exact final committed `HEAD` bytes. Make one corrective commit only
+   when validated bytes are not already cleanly committed; a post-correction difference blocks.
+   These cumulative identities must remain disjoint, and their union must equal the complete final
+   mutation identity before review dispatch.
 
 The canonical `comparison-base rule` for frontend path identity is:
 
@@ -944,19 +983,6 @@ The canonical `comparison-base rule` for frontend path identity is:
   relevant cumulative identity. Its deletion remains in that round delta with the hash of exact
   bytes from the dispatch's recorded pre-state.
 
-The canonical `frontend required-artifact list` is recorded once for each accepted frontend
-scenario in the specification body and copied unchanged into the accepted plan when a plan is
-used. It is an ordered list of artifact keys, or an explicit empty list. Add exactly one
-`screenshot:<checkpoint-id>` for each material visual checkpoint, one
-`trace:<sequence-or-recovery-id>` for each material interaction sequence or runtime
-failure/recovery path, and one `full-log:<command-id>` for each run, browser, or visual command
-whose full output is required evidence. Add no other key. A key occurs at most once per scenario.
-The Builder packet repeats the accepted list for each scenario. Its artifact references must
-match the list exactly by scenario, kind, key, and cardinality before any artifact digest check.
-Missing, extra, or reordered required references are a handoff defect and cannot create verified
-frontend state. Each matched reference then carries the exact artifact bytes' lowercase SHA-256;
-store references and digests, never raw screenshot, trace, or full-log bytes.
-
 Freeze these frontend fields only after a Builder candidate passes every required packet identity
 check; Builder does not receive or define the final unit. The Orchestrator records the applicable unit before
 each fresh review. Any edit, hook change, changed path, or post-pass change invalidates that pass
@@ -967,6 +993,33 @@ as repository proof.
 Role claims are not repository proof. Before each state transition, the Orchestrator
 verifies role identity, packet identity, Git state, required checks, and the transition's
 evidence. A role result cannot substitute for a command, file, or provider observation.
+
+### Frontend review packets and replay scope
+
+The canonical `frontend general-review packet` contains the goal boundary, acceptance criteria,
+non-goals, complete current mutation diff, protocol-defined frozen review unit, role results,
+checks and outputs, project instructions, prior findings only for repair context, complete
+accepted scenario set, exact current verified frontend packet body and identifier/digest,
+frontend commit and hook checkpoint, relevant Builder and Docs Writer round deltas and cumulative
+identities, frontend run/browser/visual commands, and one fresh Reviewer-specific disposable
+output path outside frozen Builder artifact references.
+
+The canonical `frontend design-review packet` contains the same frozen mutation unit, complete
+accepted scenario set, verified frontend packet body and identifier/digest, commit and hook
+checkpoint, relevant round deltas and cumulative identities, commands, and a fresh Design
+Reviewer-specific disposable output path. It also contains the complete relevant diff, accepted
+criteria, matching owner-approved project design standards first, component inventory, matching
+evidence, validation results, and a recorded task-specific owner decision only for an otherwise
+missing material aspect.
+
+Each frontend review packet records one replay disposition. `full` requires both fresh reviewers
+to execute the complete unchanged accepted scenario set. `verified-disjoint-docs-only` is valid
+only when the new delta is entirely Docs Writer-owned documentation and no changed path or bytes
+are consumed by a scenario route, fixture, runtime, command, artifact production, or governing
+design source. For that disposition, retain the verified Builder packet, dispatch both fresh
+reviewers on the new exact mutation unit, and require them to verify the disjointness and all
+unchanged identities without browser execution. If either reviewer cannot prove every condition,
+the disposition is `full`.
 
 ### Orchestrator aggregation boundary
 
@@ -1145,13 +1198,12 @@ Every packet contains only the information needed by the receiving role.
   Reviewer's jurisdiction.
 - Plan Writer receives the accepted contract or specification verbatim plus boundary,
   evidence, and validation. When the existing Plan Writer trigger holds and accepted
-  frontend scenarios exist, it returns the current `frontend plan scenario contract` and
-  bidirectional scenario-ID-to-producing-step map inside the hashed plan body. It returns
-  an ordered plan only to the Orchestrator.
+  frontend scenarios exist, it returns the protocol's canonical `frontend plan scenario
+  contract` inside the hashed plan body. It returns an ordered plan only to the Orchestrator.
 - Plan Verifier receives that same contract plus the complete persisted plan, packet
   identifier, content hash, paths, interfaces, validation, and prior findings only for
-  repair context. When accepted frontend scenarios exist, the packet includes the current
-  `frontend plan scenario contract` and bidirectional scenario-ID-to-producing-step map.
+  repair context. When accepted frontend scenarios exist, the packet includes the protocol's
+  canonical `frontend plan scenario contract`.
 - Builder receives the goal, accepted contract, accepted specification when used, accepted plan
   when it exists, allowed paths, evidence, owner decisions, validation commands, and the accepted
   plan identifier and hash when a plan exists. When accepted frontend scenarios exist, it also
@@ -1165,21 +1217,15 @@ Every packet contains only the information needed by the receiving role.
   identifier, and lowercase SHA-256 digest inside its implementation packet.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs, and
   relevant link-check commands.
-- Reviewer receives the goal boundary, complete current mutation diff, role results,
-  checks, project instructions, and prior findings only for repair context. When accepted
-  frontend scenarios exist, it also receives the frozen mutation unit, scenario set, exact
-  current verified `frontend evidence packet` body, packet identifier/digest, the
-  implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative
-  Builder-owned and cumulative Docs Writer-owned identities, and frontend run/browser/visual
-  commands.
+- Reviewer receives the goal boundary, complete current mutation diff, role results, checks,
+  project instructions, and prior findings only for repair context. When accepted frontend
+  scenarios exist, this is the canonical `frontend general-review packet` defined in the shared
+  state contract.
 - Design Reviewer receives the complete relevant mutation diff, accepted criteria, matching
   owner-approved project design standards first, matching details, and validation evidence. A
   recorded task-specific owner design decision is supplied only for an otherwise missing
-  material aspect. When accepted frontend scenarios exist, it also receives the same frozen
-  mutation unit, scenario set, exact current verified `frontend evidence packet` body,
-  packet identifier/digest, the implementation-bracket baseline, relevant Builder and Docs Writer
-  round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, applicable
-  task-specific owner-approved design sources, and frontend run/browser/visual commands.
+  material aspect. When accepted frontend scenarios exist, this is the canonical `frontend
+  design-review packet` defined in the shared state contract.
 - Release Agent receives the preparation fields, or the approved action and its
   execution evidence, never both as one packet. It returns only the release result to
   the Orchestrator.

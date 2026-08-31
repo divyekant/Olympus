@@ -48,15 +48,8 @@ take external action. Plan Writer owns sequencing and testability only.
 4. Give each step one red check: the exact test, command, assertion, or named check; why
    it must be red before the build; and the expected failure cause. Do not use generic
    "add tests" or "handle errors" instructions. For every accepted frontend interaction scenario,
-   the named `frontend plan scenario contract` records actor and starting state; route/screen
-   and preconditions; setup/fixture/user state and its producer; material viewport/theme;
-   ordered actions using accessible or project-native locators; independent semantic assertions after
-   each transition; semantic evidence is always required for material frontend behavior;
-   conditional visual checkpoints only when visual output is material; accessibility checks;
-   failure/recovery; cleanup; commands and the exact ordered `frontend required-artifact list`
-   copied from the accepted specification; and an exact replay command or ordered replay
-   steps. It maps each accepted scenario ID bidirectionally to its
-   producing step or steps.
+   produce every field and both mapping directions in the protocol's canonical `frontend plan
+   scenario contract`.
 5. Give each step done criteria, explicit non-goals, recovery or rollback obligations,
    and documentation or external-action flags when applicable.
 6. Create a bidirectional `criterion-to-step` matrix: every criterion maps to one or
@@ -72,9 +65,8 @@ take external action. Plan Writer owns sequencing and testability only.
   red check, cause, done criteria, and non-goals.
 - No step consumes a value that has no earlier producer.
 - The `criterion-to-step` matrix is complete in both directions.
-- Every accepted frontend interaction scenario satisfies the `frontend plan scenario contract`,
-  including its semantic-evidence requirement, conditional visual checkpoints, and the exact
-  required-artifact list copied from the accepted specification.
+- Every accepted frontend interaction scenario satisfies every field, artifact rule, and mapping
+  direction in the protocol's canonical `frontend plan scenario contract`.
 - Every red check can become red for a stated reason before implementation.
 - Placeholder, generic-test, generic-error-handling, and bundled-goal scans are clear.
 - Owner decisions and scope remain unchanged.
@@ -86,9 +78,8 @@ Return:
 - task and source identity;
 - one complete plan body containing ordered steps, dependencies, `Consumes` and `Produces`,
   red checks, done criteria, non-goals, and both traceability directions, plus, for every
-  accepted frontend interaction scenario, its complete `frontend plan scenario contract`
-  record, its exact required-artifact list, and bidirectional scenario-ID-to-producing-step
-  mapping inside the body; plus a
+  accepted frontend interaction scenario, its complete canonical `frontend plan scenario
+  contract` record inside the body; plus a
   proposed packet identifier and lowercase SHA-256 hash for the Orchestrator to persist and
   verify;
 - packet evidence register with probes, observed outputs, and licensed facts;

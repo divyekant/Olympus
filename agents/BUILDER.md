@@ -76,23 +76,11 @@ peer-to-peer, commit for an unapproved flow, or claim a review verdict.
    Do not generate, persist, or return candidate packet fields before the Orchestrator commits
    the named project paths and completes hooks.
    In the later evidence-only pass, verify the exact clean committed candidate, make no relevant
-   edits, and execute every accepted scenario with disposable validation state. Return one
-   `frontend evidence packet` containing stable scenario IDs; the complete cumulative
-   Builder-owned identity relative to the implementation-bracket baseline; each scenario's
-   exact accepted `frontend required-artifact list`; setup, route, fixture, viewport, theme,
-   state, ordered actions, assertion results, accessibility and semantic evidence; matching
-   artifact references with lowercase SHA-256 digests; bounded console, page, network, command,
-   output, and exit summaries; skipped or unavailable checks; and uncertainty. Artifact
-   references must equal each accepted list exactly before digest checks. Store full browser or
-   command logs only by reference and digest, never raw screenshot, trace, or full-log bytes.
-   The `frontend packet body` is the exact bytes of these fields, excluding its proposed
-   identifier and digest; it is at most 48,000 bytes and contains neither exact task marker
-   byte sequence `<!-- FRONTEND-PACKET-BODY:BEGIN -->` nor
-   `<!-- FRONTEND-PACKET-BODY:END -->`. Its lowercase SHA-256 covers the body only.
-   The Orchestrator verifies the candidate before persistence. A failed check permits exactly
-   one pre-review Builder repair; a second failed candidate blocks. Neither attempt consumes a
-   review round. Replay the complete unchanged scenario set on repair. If a finding requires a
-   scenario-set change, return the protocol escalation and wait for a new accepted specification
+   edits, execute the complete unchanged accepted scenario set with disposable validation state,
+   and return one candidate under the protocol's canonical `frontend evidence packet` body,
+   identity, artifact, size, marker, digest, and repair rules. The Orchestrator verifies the
+   candidate before persistence. On repair, replay the same complete set. If a finding requires
+   a scenario-set change, return the protocol escalation and wait for a new accepted specification
    and any newly triggered plan verification.
 8. Search for sibling sinks, bypasses, duplicated guards, and fixtures that encode an
    invalid state. Verify identity and scope again before handoff.

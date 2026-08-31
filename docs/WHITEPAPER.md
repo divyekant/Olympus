@@ -146,10 +146,11 @@ scenario-to-step map when its trigger holds.
 Builder creates a reproducible browser-evidence candidate with exact packet, path, and artifact
 identities. A fresh general Reviewer and a fresh Design Reviewer independently replay the same
 frozen candidate in the isolated validation runtime. Screenshot-only, stale, or missing state,
-console, or required replay evidence cannot pass. A repair invalidates both verdicts and requires
-a new packet and the same full replay. Project standards govern first; a task-specific owner
-decision covers only an otherwise missing material aspect. Browser execution is a project or
-harness capability. This contract does not claim live browser or harness support.
+console, or required replay evidence cannot pass. A frontend-affecting repair requires a new
+packet and full replay. A proven disjoint Docs Writer-only documentation delta retains the packet
+and gets fresh identity review without browser execution. Project standards govern first; a
+task-specific owner decision covers only an otherwise missing material aspect. Browser execution
+is a project or harness capability. This contract does not claim live browser or harness support.
 
 ## Goal architecture
 
@@ -204,12 +205,8 @@ sequenceDiagram
     O->>R: Goal, complete diff, results
     R-->>O: General review verdict
     opt Design trigger holds
-        alt A governing source exists for each material aspect
-            O->>DR: Diff and project standards first, then bounded task decisions
-            DR-->>O: Design verdict
-        else A material aspect has no governing source
-            O->>O: Record blocked
-        end
+        O->>DR: Diff and project standards first, then bounded task decisions
+        DR-->>O: Pass, repair, or blocked design verdict
     end
     alt Every invoked review passes
         O->>O: Final verification
