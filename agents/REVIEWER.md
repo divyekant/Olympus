@@ -42,7 +42,9 @@ edits, production mutation, or external action.
    the exact frontend packet body and verify the packet identifier and digest under the
    Builder's `frontend evidence packet` contract. Verify each recorded scenario-relevant path
    is present and each per-path lowercase SHA-256 digest is unchanged in the current frozen
-   mutation (the protocol frozen review unit).
+   mutation (the protocol frozen review unit). Before using artifacts, recompute the recorded
+   lowercase SHA-256 digest for every referenced screenshot or trace over that artifact's exact
+   bytes; any mismatch is an identity defect and cannot pass.
 3. If any reviewed path, content, base, head, or snapshot changes during review, stop and
    return invalidation evidence. The Orchestrator records the new unit and dispatches a
    fresh Reviewer; this context does not restart itself.

@@ -44,7 +44,9 @@ visual rule.
    digest over the exact frontend packet body and verify the packet identifier and digest
    under the Builder's `frontend evidence packet` contract. Verify each recorded
    scenario-relevant path is present and each per-path lowercase SHA-256 digest is unchanged
-   in the current frozen mutation (the protocol frozen review unit).
+   in the current frozen mutation (the protocol frozen review unit). Before using artifacts,
+   recompute the recorded lowercase SHA-256 digest for every referenced screenshot or trace
+   over that artifact's exact bytes; any mismatch is an identity defect and cannot pass.
 2. Locate matching owner-approved project standards, recorded task-specific owner design
    decisions, and the component inventory, including an explicit evidence-backed empty
    inventory when that is the recorded result.

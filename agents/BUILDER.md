@@ -74,8 +74,9 @@ peer-to-peer, commit for an unapproved flow, or claim a review verdict.
    exercised frontend snapshot identity: the exact scenario-relevant path set, and for each
    path a lowercase SHA-256 digest of its exact file bytes; setup, run, route, fixture,
    viewport, theme, and state; ordered actions and assertion results; accessibility and
-   semantic evidence; required screenshot/trace references plus digests; console errors, page
-   errors, and failed-network results; exact commands, observed output, and exit status;
+   semantic evidence; required screenshot/trace references, each with a lowercase SHA-256
+   digest of that artifact's exact bytes; console errors, page errors, and failed-network
+   results; exact commands, observed output, and exit status;
    skipped/unavailable checks; and uncertainty. Store references and digests, not raw
    screenshot/trace bytes. The named `frontend packet body` is the exact bytes of all
    frontend evidence fields, excluding the proposed frontend packet identifier and digest.
