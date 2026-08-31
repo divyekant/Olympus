@@ -320,13 +320,17 @@ Builder rounds use a separate context:
 
 Record only when its trigger holds. Round consumption follows [Tester round
 semantics](../references/PROTOCOL.md#tester-round-semantics): a round is consumed only
-by a Builder mutation or repair, an executed Tester command, or a Docs Writer edit;
-record the cause class for a pass that consumes none. The Tester loop converges for a
-round only when every assigned test path is `covered-clean`.
+by a Builder mutation or repair, an executed Tester command, or a Docs Writer edit; at
+most one self-correction pass per round is non-consuming, a second one in the same round
+consumes it or blocks at the cap. Record the cause class for a pass that consumes none.
+An empty or missing test-path assignment is a handoff defect, not a per-path `skipped`
+state. The Tester loop converges for a round only when the assignment is
+`assignment-complete` against its trigger and every assigned test path is
+`covered-clean`.
 
-| Round | Context | Assigned test paths | Observation register: path, command(s), coverage state, findings | Self-corrections | Consumes round | Uncertainty |
-| --- | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<paths>` | `<per-path entries: covered-clean, covered-with-finding, or skipped>` | `<reason and prior signal, or none>` | `<yes, or no with cause class>` | `<none or limit>` |
+| Round | Context | Assigned test paths | Assignment vs trigger | Observation register: path, command(s), coverage state, findings | Self-corrections | Consumes round | Uncertainty |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `<n>` | `<separate context>` | `<paths>` | `<assignment-complete or assignment-narrower-than-trigger with omitted paths>` | `<per-path entries: covered-clean, covered-with-finding, or skipped>` | `<reason and prior signal, or none; 1st per round is non-consuming>` | `<yes, or no with cause class>` | `<none or limit>` |
 
 ### Docs Writer results
 

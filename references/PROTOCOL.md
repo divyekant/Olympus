@@ -946,14 +946,33 @@ withdrawing or suppressing an observed defect signal against product code.
 **Round consumption.** An implementation round is consumed only when the fresh Reviewer's
 pass grades a frozen unit produced by a Builder mutation or repair, a Tester run that
 executed at least one command, or a Docs Writer edit. A Reviewer pass required solely by
-review-unit invalidation or a hook-side change to already-reviewed content — including a
-Tester self-correction that revises only Tester-owned test-path content with no
-accompanying Builder repair — consumes no round; the Orchestrator records the cause class
-of every non-consuming pass. A halted Builder, Tester, or Reviewer attempt consumes no
+review-unit invalidation or a hook-side change to already-reviewed content consumes no
+round; the Orchestrator records the cause class of every non-consuming pass. A Tester
+self-correction that revises only Tester-owned test-path content with no accompanying
+Builder repair — whether the Tester chose to correct it or a Reviewer routed a
+Tester-owned-path finding back to Tester — triggers a fresh Reviewer pass under the
+general unit-invalidation rule; at most one such self-correction pass per round is
+non-consuming. A second self-correction pass in the same round consumes that round like
+an ordinary Tester run, or, if the cap is already reached, the round is `blocked`,
+mirroring the one-free-repeat pattern the shared halted-attempt and evidence-backed
+dispute rules use elsewhere. A halted Builder, Tester, or Reviewer attempt consumes no
 round. Because only a Builder repair, an executed Tester command, or a Docs Writer edit
 can advance the count, and a goal with an open defect always has a Builder repair
 available to produce one of those, the cap can be neither made unreachable by
-non-consuming passes nor reached before genuine repair-or-test work occurs.
+non-consuming passes nor reached before genuine repair-or-test work occurs; the
+one-free-self-correction bound keeps a pure self-correction cycle from advancing the
+round count indefinitely without ever consuming one.
+
+**Assignment completeness.** When the Tester trigger holds because a contract-flagged red
+path crosses a boundary, the Orchestrator's test-path assignment for that round must
+cover every path that red path names as crossing it. Tester's return packet states
+whether the assignment is `assignment-complete` (covers everything the trigger names) or
+`assignment-narrower-than-trigger` (naming each path the trigger names that the
+assignment omits). An owner request with no contract-flagged red path to compare against
+is `assignment-complete` by definition. A round whose assignment is
+`assignment-narrower-than-trigger` is never `converged`, even when every path it did
+assign is `covered-clean`; the omitted scope is a recorded, owner-visible gap that gets
+the same cap treatment as a `skipped` path below, never a silent pass.
 
 **Per-path coverage and convergence.** For a round's Tester dispatch, each assigned test
 path resolves to exactly one coverage state: `covered-clean` (at least one executed
@@ -961,34 +980,36 @@ command exercised it and returned no open defect for it), `covered-with-finding`
 least one executed command exercised it and returned an open defect), or `skipped` (no
 in-bound command exists; recorded with reason, required capability, and consequence,
 under the `pending` cause class `unavailable execution` for a command needing network
-access, package installation, or a service start, or `writer-suppliable evidence` when
-the round's assignment was empty or missing). The Tester loop converges for a round only
-when every assigned test path is `covered-clean`; this is a per-path, distributive test,
-not an aggregate one. Any `skipped` path leaves the round `pending`, never converged,
-regardless of how many other assigned paths are `covered-clean` — a Tester that executed
-nothing against a path has tested nothing on that path, so partial coverage is never
-rounded up to whole coverage. Any `covered-with-finding` path leaves the round holding an
-open defect at that finding's severity. An empty or missing test-path assignment for a
-dispatched Tester is an Orchestrator packet defect: it consumes no round, is recorded
-`pending` under the cause class `writer-suppliable evidence`, and is corrected and
-re-dispatched; it is never recorded `unsupported` and never sets the goal `blocked` on its
-own. An owner request for a Tester run with no enumerable test path blocks that trigger
-instead of producing an empty assignment.
+access, package installation, or a service start). The Tester loop converges for a round
+only when the assignment is `assignment-complete` and every assigned test path is
+`covered-clean`; this is a per-path, distributive test, not an aggregate one. Any
+`skipped` path leaves the round `pending`, never converged, regardless of how many other
+assigned paths are `covered-clean` — a Tester that executed nothing against a path has
+tested nothing on that path, so partial coverage is never rounded up to whole coverage.
+Any `covered-with-finding` path leaves the round holding an open defect at that finding's
+severity. An empty or missing test-path assignment for a dispatched Tester is a handoff
+defect, not a per-path `skipped` state: mirroring the specification and plan brackets'
+handoff-defect rule, the assignment is not evidence a Tester can supply, so it consumes no
+round, stays recorded, and is corrected and re-dispatched before Tester evaluates any
+path; it is never recorded `unsupported` and never sets the goal `blocked` on its own. An
+owner request for a Tester run with no enumerable test path blocks that trigger instead of
+producing an empty assignment.
 
 **Cap disposition.** At the implementation cap, the final round's merged Tester evidence
 resolves as follows: any open P0 or P1 `covered-with-finding` path forces the goal
 `blocked`, with no owner-partial exit — this never widens past P0 and P1. With no open
-P0 or P1, an open P2 `covered-with-finding` path or a `skipped` path forces `blocked`
-unless the Orchestrator closes it as an explicit owner-accepted partial recorded in the
-task record, matching the general severity ladder's own rule that a P2 remains open
-until repaired or explicitly accepted by the owner within owner authority; a `skipped`
-path gets the same explicit-acceptance treatment because untested coverage carries the
-same unresolved risk as an open P2. An open P3 `covered-with-finding` path, with no open
-P0, P1, or P2 and no `skipped` path, does not block on its own, matching the general
-ladder. Silence is never a disposition; every cap exit is `blocked`, a recorded explicit
-partial, or a clean close with only P3 findings open. A halted Builder, Tester, or
-Reviewer attempt at the cap follows the shared `halted` rule and does not itself force a
-disposition.
+P0 or P1, an open P2 `covered-with-finding` path, a `skipped` path, or an
+`assignment-narrower-than-trigger` gap forces `blocked` unless the Orchestrator closes it
+as an explicit owner-accepted partial recorded in the task record, matching the general
+severity ladder's own rule that a P2 remains open until repaired or explicitly accepted
+by the owner within owner authority; a `skipped` path and an untested trigger gap get the
+same explicit-acceptance treatment because each carries the same unresolved risk as an
+open P2. An open P3 `covered-with-finding` path, with no open P0, P1, or P2, no `skipped`
+path, and no `assignment-narrower-than-trigger` gap, does not block on its own, matching
+the general ladder. Silence is never a disposition; every cap exit is `blocked`, a
+recorded explicit partial, or a clean close with only P3 findings open. A halted Builder,
+Tester, or Reviewer attempt at the cap follows the shared `halted` rule and does not
+itself force a disposition.
 
 **Reviewer's role.** The fresh general Reviewer always runs in every consuming round,
 including one whose Tester run left an open P0 or P1 or an unconverged path, and grades

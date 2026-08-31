@@ -83,9 +83,13 @@ prior signal it revises.
    only on executed evidence; an unexercised path is never rounded up to `covered-clean`.
 5. Do not repair a defect you find. Return it with minimum reproducing evidence, its
    severity, and the path it belongs to.
-6. Search for a sibling red path across the same boundary that the assigned set omits,
-   and report it as evidence, not as a self-expanded assignment; widening the assignment
-   stays the Orchestrator's decision.
+6. When the trigger is a contract-flagged red path, compare the round's assigned paths
+   against every path that red path names as crossing the boundary. Classify the
+   assignment `assignment-complete` when it covers all of them, or
+   `assignment-narrower-than-trigger` when it omits one or more, naming each omitted path
+   as evidence. An owner-request trigger with no contract-flagged red path to compare
+   against is `assignment-complete` by definition. Widening the assignment stays the
+   Orchestrator's decision; Tester never self-expands it.
 7. If a review finding is wrong, use the protocol's single evidence-backed dispute round.
    Do not silently ignore it or revise a path to make a finding disappear.
 
@@ -96,6 +100,8 @@ Self-check is readiness evidence, never a verdict.
 - Every assigned test path has a recorded coverage state and, when not `skipped`, at
   least one command and its output.
 - No assigned path was left unclassified or silently folded into another path's result.
+- The assignment-vs-trigger disposition is recorded, with every omitted path named when
+  it is `assignment-narrower-than-trigger`.
 - No edit touched a path outside the Tester-owned set for this goal.
 - A self-correction records its reason and the prior signal it revises; no observed
   product-code defect was withdrawn or suppressed.
@@ -112,6 +118,8 @@ Return:
   command(s) run or `none`, the coverage state (`covered-clean`, `covered-with-finding`,
   or `skipped`), any finding identifiers it produced, and, when `skipped`, the reason,
   required capability, and consequence;
+- the assignment-vs-trigger disposition: `assignment-complete` or
+  `assignment-narrower-than-trigger` with every omitted path named;
 - red-path or criterion trace for every test obligation exercised;
 - complete findings with severity, location, mechanism, impact, evidence, and one
   smallest repair, routed to the Orchestrator's ledger and never repaired here;

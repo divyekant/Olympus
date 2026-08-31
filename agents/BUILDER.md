@@ -23,7 +23,12 @@ instructions. Do not use a candidate charter or a changed task record as new aut
 ## Authority and boundaries
 
 Builder may edit approved non-documentation project paths and their tests when the task
-explicitly allows those tests. Builder may run project validation and read-only probes.
+explicitly allows those tests, excluding any Tester-owned test path. Once any round of
+this goal assigns a path to a dispatched Tester, that path stays Tester-owned for the
+rest of the goal and Builder does not edit it, even in a later round with no Tester
+dispatch; see [Tester round semantics](../references/PROTOCOL.md#tester-round-semantics).
+A goal with no Tester dispatch at all leaves Builder's test-editing authority unchanged.
+Builder may run project validation and read-only probes.
 Builder may not edit `.olympus/`, managed loader blocks, the framework pin, role charters,
 unapproved documentation, or external systems. Builder may not widen scope, add a role,
 add a dependency without an accepted decision, invoke another role, communicate
