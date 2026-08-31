@@ -15,8 +15,8 @@ a trigger.
 | 2 | System Configurer | owner onboarding or configuration request, plus double opt-in | Owns configuration mutation. |
 | 3 | Explorer | fresh for a material repository question blocking any required role, or an explicit audit | Answers one bounded question read-only. |
 | 4 | Spec Writer | substantial, ambiguous, architectural, or cross-layer goal | Turns a bounded goal into a testable contract. |
-| 5 | Claims Reviewer | every Spec Writer result | Owns only facts, evidence, citations, counts, hashes, and uncertainty. |
-| 6 | Spec Reviewer | every Spec Writer result | Owns only completeness, coherence, authority boundaries, failure paths, joint satisfiability, and acceptance-testability. |
+| 5 | Claims Reviewer | every persisted Spec Writer body | Owns only facts, evidence, citations, counts, hashes, and uncertainty. |
+| 6 | Spec Reviewer | every persisted Spec Writer body | Owns only completeness, coherence, authority boundaries, failure paths, joint satisfiability, and acceptance-testability. |
 | 7 | Plan Writer | accepted contract has dependent steps, cross-layer or interface sequencing, or an explicit plan need | Produces an ordered implementation plan. |
 | 8 | Plan Verifier | every Plan Writer result | Freshly verifies the whole plan read-only. |
 | 9 | Builder | every non-configuration project mutation | Makes the approved project change in approved paths. |
@@ -309,7 +309,8 @@ Then:
      Writer; on the first round send the bounded goal
      packet, and on repair send only the current specification body and the open finding
      ledger;
-   - persist the complete current Writer result before review. The specification body
+   - persist the complete current specification body only after the Writer's three self-tests pass
+     and it satisfies the applicable body-size cap. The specification body
      contains no earlier body, body diff, reviewer transcript, review history, evidence
      transcript, or defensive annotation;
    - record the packet identifier and the lowercase SHA-256 hash of the exact persisted
@@ -320,8 +321,9 @@ Then:
      lenses to one reviewer in a round. Scheduling never narrows or replaces a lens; it
      defers an unassigned lens to a later round, bounded by the round-3 assignment rule
      and the coverage-completion rule below. Round 1 assigns at least `L1` to Claims
-     Reviewer and `L2` to Spec Reviewer. Send each assignment to its owning reviewer as task
-     metadata in that reviewer's packet, and ask that reviewer to state in its return what
+     Reviewer and `L2` to Spec Reviewer. Do not assign `L6` before a preceding consumed round exists.
+     Send each assignment to its owning reviewer as task metadata in that reviewer's
+     packet, and ask that reviewer to state in its return what
      the lens produced inside that reviewer's own charter jurisdiction. Send no lens
      assignment and no lens disposition to Spec Writer;
    - give a fresh Claims Reviewer and a fresh Spec Reviewer the same immutable packet,
@@ -342,8 +344,12 @@ Then:
    - record each returned lens disposition in that round's lens schedule row, never in a
      ledger row. The Orchestrator records a disposition and never originates one; mapping
      the reviewer's own references to the ledger identifiers assigned in the same merge is
-     recording, not origination. A return that omits a disposition is not a defect and
-     consumes its round normally, and that lens then does not count as run;
+     recording, not origination;
+   - require one disposition for each assigned lens in a normal reviewer return. A reviewer
+     packet with no lens assignment is incomplete, consumes no round, and receives one
+     corrected fresh retry; a second incomplete packet blocks. A missing lens disposition
+     is incomplete, consumes no round, preserves provisional findings, and receives one
+     fresh retry; a second omission blocks;
    - at the independent bracket cap, any open P0, P1, or P2 blocks the goal.
 5. If the accepted contract has dependent steps, cross-layer or interface sequencing, or
    an explicit plan need, send the accepted contract or specification verbatim to Plan
@@ -377,13 +383,13 @@ Then:
     decision, the Orchestrator may use at most three fresh Council invocations for that
     same question. Record each packet separately and do not convert the set into a verdict
     or a new gate. Sequential or same-context execution is degraded independence.
-13. For a human status or explanation request, Liaison rereads the current task record,
-    artifacts, and Git evidence, answers first, cites evidence, and routes action requests
-    back to the Orchestrator.
-14. When the goal reaches `complete`, `blocked`, or `cancelled`, run goal closure under
-    [section 6](#6-git-and-multiple-goals): record the branch disposition, remove the
-    worktree only after merge, safe handoff, or explicit owner abandonment, and
-    otherwise retain it with its path and reason recorded.
+   13. For a human status or explanation request, Liaison rereads the current task record,
+      artifacts, and Git evidence, answers first, cites evidence, and routes action requests
+      back to the Orchestrator.
+   14. When the goal reaches `complete`, `blocked`, or `cancelled`, run goal closure under
+      [section 6](#6-git-and-multiple-goals): record the branch disposition, remove the
+      worktree only after merge, safe handoff, or explicit owner abandonment, and
+      otherwise retain it with its path and reason recorded.
 
 The Builder-to-Docs Writer step is conditional. The Docs Writer step precedes the fresh
 general Reviewer whenever it runs. The Design Reviewer is conditional and does not replace
@@ -480,42 +486,34 @@ assignment; a lens disposition. Only the packet's persisted current body and ope
 ledger are authority for a repair; material retained from an earlier dispatch, or received in
 breach, is never authority however obtained, and the Orchestrator records it.
 
-Spec Writer runs three self-tests before each return. The subject set is every rule clause of
-the returned body that is new, or whose bytes differ from the corresponding clause of the
-packet's persisted current body; it is empty when the returned body is byte-identical to that
-body; and it is every rule clause on a bracket's first return and on a compact complete
-restatement of a changed body. A rule clause states an obligation, permission, prohibition,
-or condition, and when the body amends framework files its rule clauses include those of its
+Spec Writer runs three self-tests before each body-bearing return. The subject set is every
+rule clause of the returned body that is new, or whose bytes differ from the corresponding
+clause of the packet's persisted current body; it is empty when the returned body is
+byte-identical to that body; and it is every rule clause on a bracket's first body-bearing
+return. A rule clause states an obligation, permission, prohibition, or
+condition, and when the body amends framework files its rule clauses include those of its
 edit payloads. The both-readings test asks of each subject clause whether a reading escapes
 it or deadlocks the goal, and, where the clause quantifies over a set, asks the distributive
 and collective reading. The clause-interaction matrix pairs each subject clause with every
 other subject clause and with every untouched rule clause of each file an edit lands in,
 keeps the pairs sharing a named artifact, actor, identifier, or backtick-quoted string, the
-first three read as judgment, any uncoverable class routed to residue, reports each kept pair
-as consistent, jointly unsatisfiable, or an ordering conflict, the dropped pairs as one class
-with that reason, and reports any pair class it could not cover as residue below. The path
+first three read as judgment, reports each kept pair as consistent, jointly unsatisfiable,
+or an ordering conflict, and reports dropped pairs as one class with that reason. The path
 re-walk covers each gate or state machine a subject clause touches, walking every path from
 entry to each terminal outcome and naming it. When a return deletes a rule clause, the matrix
 runs over the pairs it keeps under the same filter, computed from the packet's persisted
 current body before the deletion; the path re-walk is required when the deletion touches a
 gate or state machine; and both results are reported under the deleted clause's identifier.
-An adverse result, meaning an escape, a deadlock, a jointly unsatisfiable pair, or a broken
-path, is a defect in the body, not the packet, and the Writer repairs it before the return.
-The Writer then re-tests the repaired clauses once; that re-test is the last pass. An adverse
-result present at the last pass is stated in the return for the clause it concerns, and so is
-one whose repair would exceed a cap in force. The return is lawful with such a residue, which
-is not review material: the Orchestrator records it in the task record verbatim, marks it
-superseded when a later Writer return reports repairing or deleting the clause the residue
-names, which is recording on the Writer's report, not origination, and reports every standing
-residue to the owner, whose acceptance at the pre-cap accepted close and whose report at the
-cap read it. After a return states a cap-blocked residue, and no compact complete restatement
-has been produced in this bracket, the next Writer result is a compact complete restatement.
-The duties run on every return, which states each subject clause's result or an explicit
-empty set. These results are the Writer's evidence, not body content, and go only to the
-Orchestrator, riding the return item the charter requires for the Evidence register and
-traceability map: that map binds each requirement to its validation, and this report does so
-at rule-clause grain. It holds no finding, hash, round record, reviewer text, or review
-state, so the charter's three exclusions are unaffected.
+The Writer repairs an adverse self-test result and re-tests once. If any adverse result
+remains, the Writer returns `blocked` with the affected clause, path, and evidence. No
+specification body is persisted, no reviewer runs, and no round is consumed. Recovery
+requires an owner-issued narrowed or replacement goal with a new sizing check. A
+body-bearing return reports each subject clause's three results, or an explicit empty set.
+These results are Writer evidence, not body content, and go only to the Orchestrator, riding
+the return item the charter requires for the Evidence register and traceability map: that
+map binds each requirement to its validation, and this report does so at rule-clause grain.
+It holds no finding, hash, round record, reviewer text, or review state, so the charter's
+three exclusions are unaffected.
 
 A population register whose re-run at its recorded revision differs from its recorded
 result is a defect in the specification body, not in the repository. The repair is the
@@ -532,48 +530,38 @@ no claim to a fact, and licenses no fact. The `Assumptions` section stays body c
 because the charter's stable body order requires it.
 
 At every completed round, record the open P0-P2 count and the current body line and byte
-size. The body is at most 300 lines and 48,000 bytes. If round 3 does not reduce open
-P0-P2 findings, or the body grows without reducing them, the next Writer result is a
-compact, complete restatement, not an additive patch. This does not reset the round
-count. At round 10, any remaining P0-P2 finding blocks implementation. An oversized Writer
-result is incomplete and does not enter review.
+size. The body is at most 300 lines and 48,000 bytes. At round 10, any remaining P0-P2
+finding blocks implementation. An oversized Writer result is incomplete and does not enter
+review. Before round 1, the latest frozen
+ledger state is `no-frozen-ledger`. Store any first-result cap proposal in the sizing entry
+and leave `observed-at-round-1` empty until the first round completes.
 
 The owner alone amends a body size cap, and only through this path. An Orchestrator
-raising a cap on its own authority is illegal, and this path does not change that. An
-amendment during an open specification bracket is expected never to happen: the rule that
-the body carries claims and pointers only is the fix for a body that approaches a cap, and
-the compact complete restatement is the standing remedy. The Orchestrator sends at most
-one cap-amendment proposal per goal. One proposal names one cap or both. It states the
-cause, the exact current value and the exact proposed value of each cap it names, and the
-frozen ledger's recorded state at the latest frozen round, which shows whether an open
-finding concerns reproduced text; the Orchestrator records that state and originates no
-determination. The path closes or is spent only on the owner's own reply turn. A grant is
-the owner's verbatim decision bytes naming an exact new value for each cap the reply
-amends. The owner may name a value the proposal did not propose, and that owner-named
-value is the amended value, because the proposal is a request and the owner is the
-authority; a scalar counter-value is determinate and therefore a decision, unlike a
-counter-boundary in the sizing gate, which changes the goal's scope and leaves that gate
-open. A reply naming values for only some proposed caps grants the named caps and leaves
-the others unamended. A reply that omits a value, a question, a conditional reply, and a
-settings change are not grants, and a reply that names a value and also asks a question or
-states a condition is not a grant; each leaves the path open. If the turn is interrupted
-after the proposal is recorded and before it reaches the owner, record a `halted` outcome,
-then re-send the proposal once while the path is open, and reuse the recorded proposal
-reference. The path is open until a proposal is refused, which closes it, or a grant is
-recorded, which spends it. A proposal by itself stops no round and blocks no goal, and no
-proposal changes another rule: the round cap, the restatement duty, and the rule that an
-oversized result does not enter review stay as stated. While the path is open the goal
-continues under the values in force, and its exits are the compact complete restatement,
-the proposal the Orchestrator may still send, and the standing duty to record the current
-state and stop as `blocked` when safe continuation is unclear. The Orchestrator records
-the proposal, the reply, and each amended value in the task record beside the sizing
-entry's `observed-at-round-1` record, because an amendment shows that entry's projection
-was low. An amended value replaces the stated value for that goal only, and governs from
-the first Writer result persisted after the grant; a result persisted before that is
-measured against the value in force when it was persisted. At most one amendment takes
-effect in a goal. The goal blocks when a Writer result exceeds a cap in force, a compact
-complete restatement has not brought the body under that cap, and the path is closed or
-spent, in any order.
+raising a cap on its own authority is illegal. The Orchestrator sends at most one
+cap-amendment proposal per goal. One proposal names one cap or both. It states the cause,
+the exact current value and the exact proposed value of each cap it names, and the latest
+frozen ledger state; the Orchestrator records that state and originates no determination.
+The proposal is stored in the sizing entry with path state `open`. While the path is `open`,
+including before the first owner reply, dispatch no Writer. A clear unconditional owner refusal
+takes precedence over missing-value logic, changes `open` to `closed`, and permits
+exactly one Writer retry under the existing cap. A grant is the owner's reply naming at least
+one exact cap value; it changes `open` to `spent`, applies each named value only to the next
+Writer result, and leaves unnamed proposed caps at their existing values. The owner may name a
+value the proposal did not propose, and that owner-named value is the amended value. A question,
+conditional reply, settings change, or any other reply that neither clearly refuses nor names an exact value is no decision: the path remains `open`, record an owner-decision `pending` outcome,
+and retain the current nonterminal goal state. If the turn is
+interrupted after the proposal is recorded and before it reaches the owner, record a
+`halted` outcome, then re-send the proposal once while the path is open, and reuse the
+recorded proposal reference.
+
+On refusal, the one Writer retry remains under the existing cap. If that result is still
+oversized, return `blocked` and run no review. On grant, each owner-named cap applies only to
+the next Writer result. If that result exceeds an amended cap, return `blocked` and run no
+review. An amendment is not
+retroactive, applies to no other result, and never changes the round cap or any other
+requirement.
+
+Any later oversized Writer result when the single amendment path is closed or spent returns `blocked` and runs no review.
 
 Convergence is explicit. Claims Reviewer and Spec Reviewer each return their complete
 jurisdictional set on every round. The Orchestrator merges and freezes the ledger. A
@@ -618,24 +606,32 @@ hold the same lens set and the same owning reviewers and retain the superseded r
 round's current row is the latest append for that round and key.
 
 A lens disposition names its lens and gives either the findings the lens produced, by that
-reviewer's own references, or an explicit no-additional-finding.
+reviewer's own references, or an explicit no-additional-finding. For L6, `no-prior-repair` is
+valid only on the clean path, and findings or an explicit no-additional-finding are valid only
+on the repaired path. A normal return has one disposition for each assigned lens.
 
 A lens counts as run only when a consumed round assigned it to its owning reviewer and that
-reviewer's return records the disposition. `L6` counts as run only when both owning
-assignments have been consumed with both dispositions recorded, and each of the two counts
-only when its own consumed round's packet body differs from the body of the consumed round
-immediately before that round, because `L6` attacks previous repairs; a consumed round with
-no preceding consumed round does not satisfy this. Coverage is complete when every catalog
-lens counts as run. A bracket that reaches a consumed round 3 has assigned every catalog
-lens to each of its owning reviewers across rounds 1 to 3. Spec Writer never learns the
-schedule: no round's lens assignment or lens disposition appears in a Spec Writer packet
-record, a ledger row, or the specification body.
+reviewer's return records the disposition. `L6` may be assigned only after a preceding consumed round exists. Its two exclusive valid paths are:
+
+- clean: the preceding consumed round exists, no finding from it was routed for repair, the current body is byte-identical to the preceding body, and both owning reviewers return `no-prior-repair`;
+- repaired: a finding from the preceding consumed round was routed for repair, the current body differs, and both owning reviewers attack the repaired body and return their findings or an explicit no-additional-finding.
+
+Ordinary no-additional-finding does not bypass the clean preconditions. A valid pair counts as
+both L6 entries run. `L6` counts as run only when both owning assignments have been consumed
+with both dispositions recorded. Coverage is complete when every catalog lens counts as run.
+A bracket that reaches a consumed round 3 has assigned every catalog lens to each of its owning
+reviewers across rounds 1 to 3. Spec Writer never learns the schedule: no lens assignment or
+lens disposition appears in a Spec Writer packet record, a ledger row, or the specification body.
 
 While coverage is incomplete and the frozen ledger holds no open finding, or none other
 than P3, the next Writer result may be the unchanged body with the coverage-only reason
-recorded in convergence state. An unchanged body is a complete restatement, not an additive
-patch, and over either such ledger it also satisfies the compactness rule above, because
-no growth occurred.
+recorded in convergence state. It remains subject to the body-bearing, cap, and self-test
+rules.
+
+After lens coverage completes, the Orchestrator may persist at most one further Writer
+result while the latest frozen ledger holds an open P0 or P1. If the next consumed round
+still holds any open P0 or P1, record the goal `blocked` and dispatch no further Writer.
+Safe recovery is an owner-issued narrowed or replacement goal with a new sizing check.
 
 The specification bracket closes as accepted before its cap when, and only when, all three
 conditions hold and each one is recorded:
@@ -646,16 +642,11 @@ conditions hold and each one is recorded:
    recorded verdict for that round is `blocked`, and no Writer result is persisted after
    it;
 3. the owner, in the owner's own reply turn, explicitly accepts every P2 and P3 open in
-   that frozen ledger, each P2 within owner authority, or the residue acceptance is
-   recorded `none` because that ledger holds no open P2 and no open P3, and no standing
-   Writer-stated residue is recorded for this goal. That same acceptance covers every residue
-   a Spec Writer stated in a return for this goal, as recorded and not marked superseded, and
-   an unaccepted standing residue bars this close.
+   that frozen ledger, each P2 within owner authority, or records `none` because that ledger
+   holds no open P2 and no open P3.
 
 At the cap the cap rule above governs unchanged: a frozen ledger holding no open P0, P1, or
-P2 at the cap is accepted, with any open P3 recorded to the owner. Every standing residue a Spec
-Writer stated in a return for this goal is reported to the owner
-at the same time. While the Orchestrator
+P2 at the cap is accepted, with any open P3 recorded to the owner. While the Orchestrator
 evaluates this exit it need not route an open P2 or P3 for repair; routing one persists a
 Writer result and stops that round from qualifying.
 
@@ -684,6 +675,10 @@ context that has not seen the body before and Writer repair needs one holding it
 authoring history; one role carries each property. The setting never makes a reviewer
 persistent, never changes a packet, never lowers a bar, and never suppresses a trigger, a
 lens, the coverage rule, an owner gate, or any other requirement of this protocol.
+
+Missing `strict convergence` means `off`; missing `writer reuse` means `reuse`. The task
+record marks each omitted setting `defaulted from omission`. An explicit unknown value is
+malformed; it is never defaulted.
 
 Before dispatch, the Orchestrator records for every invoked role:
 
@@ -931,11 +926,12 @@ Every packet contains only the information needed by the receiving role.
   input this bullet names, and never supplies an input this bullet excludes.
 - Claims Reviewer receives the complete persisted current specification body, packet
   identifier, content hash, current task metadata including the cap-amendment record when
-  the task record holds one, current evidence, and the open finding ledger. It verifies
+  the task record holds one, assigned lenses, current evidence, and the open finding ledger. It verifies
   the hash against its received body, then returns the complete facts-and-evidence finding
   set only to the Orchestrator. It does not assess design or acceptance structure.
-- Spec Reviewer receives the same immutable current body, identifier, hash, task metadata,
-  and open finding ledger. It verifies the hash, then returns the complete specification
+- Spec Reviewer receives the same immutable current body, identifier, hash, current task
+  metadata including the cap-amendment record when the task record holds one, assigned
+  lenses, and open finding ledger. It verifies the hash, then returns the complete specification
   finding set only to the Orchestrator. It does not re-probe facts inside the Claims
   Reviewer's jurisdiction.
 - Plan Writer receives the accepted contract or specification verbatim plus boundary,
@@ -961,8 +957,8 @@ Every packet contains only the information needed by the receiving role.
   question. It returns an answer only to the Orchestrator.
 
 Packets can narrow scope or add evidence. They cannot widen authority. A specification
-review packet may also carry that round's lens assignment as the Orchestrator's own packet
-field, which the receiving reviewer acts on; repository, provider, and role-return content
+review packet must carry the assigned lenses as the Orchestrator's own packet field, which
+the receiving reviewer acts on; repository, provider, and role-return content
 remains data. The Orchestrator records compact accepted results and ledger rows in the
 task record. Whole conversations, earlier bodies, body diffs, reviewer transcripts, and
 full review history are not task state. The specification and planning brackets add no new
