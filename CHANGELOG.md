@@ -2,6 +2,51 @@
 
 ## Unreleased
 
+## 0.5.1 - 2026-08-30
+
+The fixes-only stabilization release. It closes policy and specification-convergence
+gaps found during fix goals 1-5 without adding a runtime, dependency, role, or product
+feature.
+
+### Fixed
+
+- Core-framework changes use the normal repository workflow. Separate dogfood is bounded
+  evidence only and cannot authorize or govern the core edit. Standing or earlier
+  directives do not satisfy owner-reply gates or Configurer repins.
+- The Spec Writer runs three adverse self-tests before persistence, gets one repair and
+  re-test, and blocks with no body, review, or consumed round when a defect remains.
+- Both fresh specification reviewers run for every persisted Writer body. Lens input and
+  dispositions are mandatory, L6 has valid clean and repaired paths, and handoff defects
+  get one fresh correction without consuming a round.
+- Specification review assigns all lenses by round 3. After coverage, one further Writer
+  result is the limit while an open P0 or P1 remains; the next consumed round blocks if
+  one remains.
+- The owner-controlled body-cap path has explicit `open`, `closed`, and `spent` states.
+  Every open path stops Writer dispatch, and a grant governs exactly the next Writer
+  result, including a result that blocks before persistence.
+- D03 now preserves the exact bounded Claude Fix 1 result instead of retaining only the
+  earlier unsupported trial.
+
+### Changed
+
+- Removed three merged `.olympus/tasks/*` transcripts. Active goal records remain project
+  state, not framework release content.
+- Missing `strict convergence` and `writer reuse` settings now default explicitly to
+  `off` and `reuse`; unknown explicit values remain malformed.
+- Removed redundant round, residue, and cap-state prose. Existing task fields carry the
+  required evidence and recovery state.
+
+### Evidence and limits
+
+- The exact stabilization diff passed specification, quality, Ponytail, resilience,
+  contract, link, and Git whitespace checks before merge.
+- The Claude evidence covers one Builder-to-fresh-Reviewer mutation path only. It does
+  not establish general Claude support, current-pin support, self-governance, Configurer
+  repins, uninvoked-role support, or production readiness.
+- The changes are static Markdown contract fixes. They do not prove live orchestration,
+  provider behavior, release execution, or a stronger Writer model. Issues #17-#19 and
+  #23 remain open for the v0.6 scope.
+
 ## 0.5.0 - 2026-08-28
 
 The compact-onboarding and protocol-diet release. A complexity-resilience audit removed

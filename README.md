@@ -1,7 +1,7 @@
 # Olympus
 
 Olympus is an opinionated, Markdown-only build system for reliable agent-led software
-development. Version `0.5.0` is a private experimental feature release.
+development. Version `0.5.1` is a private experimental fixes release.
 
 It gives a coding agent one fixed orchestration graph, fifteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
@@ -97,19 +97,19 @@ a background process. Questions do not create goals. Project-changing requests d
 
 ## Version status
 
-Olympus `0.5.0` makes onboarding compact and one-step capable, defaults the framework
-ref to `main` with a resolved recorded pin, defaults isolation to one worktree per goal
-with a closure step, and removes about 670 net lines of protocol ceremony while keeping
-every owner-authority, review, and data-loss control. Claude passed guided onboarding
-for the first time (D08): a designed stop that caught a real defect, a gated pass, and
-an express pass.
+Olympus `0.5.1` separates core-framework authority from bounded dogfood evidence and
+contains specification-review churn. Writer self-tests now block before persistence,
+both fresh reviewers cover every persisted body, lens handoff defects consume no round,
+the body-cap path has explicit owner-controlled states, and post-coverage P0/P1 repair is
+bounded. The release adds no runtime, dependency, role, or product feature.
 
 The release boundary, custom workflow, and dieted protocol are static Markdown
 contracts.
 D03 preserves the first unsupported Claude mutation trial and a later bounded pass through
 one Builder-to-fresh-Reviewer mutation path. That pass does not establish self-governance,
-current-pin support, uninvoked-role support, or general Claude support. These results do not prove live provider
-support, release execution, production readiness, or general harness support. See
+current-pin support, Configurer repin support, uninvoked-role support, or general Claude
+support. These results do not prove live provider support, release execution, production
+readiness, or general harness support. See
 [current harness evidence](docs/CONFORMANCE.md#current-harness-evidence) for exact limits.
 
 Olympus remains a private experimental `0.x` project. Existing dogfood shows mixed results
