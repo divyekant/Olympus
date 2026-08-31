@@ -637,27 +637,30 @@ the coverage-only reason recorded in convergence state. It remains subject to th
 body-bearing, cap, and self-test rules.
 
 After lens coverage completes, the Orchestrator may persist at most one further Writer
-result while the latest frozen ledger holds an open P0 or P1. If the next consumed round
-still holds any open P0 or P1, record the goal `blocked` and dispatch no further Writer.
-Safe recovery is an owner-issued narrowed or replacement goal with a new sizing check.
+result while the latest frozen ledger holds an open P0, an open P1, or, when `strict
+convergence` is `on`, an open task-related P2. If the next consumed round still holds any
+open P0, open P1, or, when `strict convergence` is `on`, open task-related P2, record the
+goal `blocked` and dispatch no further Writer. Safe recovery is an owner-issued narrowed or
+replacement goal with a new sizing check.
 
 The specification bracket closes as accepted before its cap when, and only when, all three
 conditions hold and each one is recorded:
 
 1. coverage is complete;
 2. one consumed round, at or after the round that completed coverage, returns zero new
-   blocking findings, its frozen ledger holds no open P0 and no open P1, neither reviewer's
-   recorded verdict for that round is `blocked`, and no Writer result is persisted after
-   it;
+   blocking findings, its frozen ledger holds no open P0 and no open P1, and, when `strict
+   convergence` is `on`, no open task-related P2, neither reviewer's recorded verdict for
+   that round is `blocked`, and no Writer result is persisted after it;
 3. in the owner's own reply turn addressing that round's frozen ledger, the owner reviews
    the Orchestrator's recorded task-related or non-essential classification for every open
-   P2 and P3 and may correct any of them; on the classifications standing after that review,
-   the owner then explicitly accepts every open task-related P3, and, only while `strict
-   convergence` is `off`, every open task-related P2, each within owner authority, or
-   records `none` because no open task-related P3 and, under `off`, no open task-related P2
-   need acceptance. An open task-related P2 is never accepted here while `strict
-   convergence` is `on`; this condition stays unmet while one exists, whatever the owner's
-   reply.
+   P2 and P3 and may correct any of them only by citing evidence against the task-related
+   test above; a correction lacking that citation is not a decision and leaves the prior
+   classification standing. On the classifications standing after that review, the owner
+   then explicitly accepts every open task-related P3, and, only while `strict convergence`
+   is `off`, every open task-related P2 within owner authority, or records `none` because no
+   open task-related P3 and, under `off`, no open task-related P2 need acceptance. An open
+   task-related P2 is never accepted here while `strict convergence` is `on`; this condition
+   stays unmet while one exists, whatever the owner's reply.
 
 A classification correction the owner makes only after a pre-cap close is recorded is an
 escaped finding under the rule this protocol states for [skipped work and escaped
