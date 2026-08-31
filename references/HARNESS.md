@@ -28,7 +28,7 @@ records; a status not traceable to a row or record there is not recorded here, a
 
 ## Role classes
 
-The fifteen fixed roles group into seven classes for adapter purposes. This grouping is a
+The sixteen fixed roles group into eight classes for adapter purposes. This grouping is a
 mapping convenience; the [fixed catalog](PROTOCOL.md#1-fixed-catalog) is still the
 canonical role list and order.
 
@@ -40,7 +40,12 @@ canonical role list and order.
 | Writer | Spec Writer, Plan Writer |
 | Fresh reviewer | Claims Reviewer, Spec Reviewer, Plan Verifier, Reviewer, Design Reviewer |
 | Project mutator | Builder, Docs Writer |
+| Test author | Tester |
 | Advisory, status, and release boundary | Decision Council, Liaison, Release Agent |
+
+Tester gets its own class rather than joining Project mutator: it writes and runs tests
+only in Tester-owned test paths, never product code, and never repairs a defect or issues
+a verdict — an authority shape distinct from Builder and Docs Writer.
 
 ## Claude Code mapping
 
@@ -57,6 +62,7 @@ reuses the hub's own context.
 | Writer | `untested` | Spec Writer: `untested`; Plan Writer: `untested`. No Claude Code scenario records either dispatch. |
 | Fresh reviewer | `untested` | Reviewer: `supported`, per D08 (fresh review of the exact uncommitted configuration unit) and D03 (fresh review of the exact Builder mutation). Claims Reviewer, Spec Reviewer, Plan Verifier, and Design Reviewer: `untested`, no recorded dispatch. The class stays `untested` because four of five members are unobserved. |
 | Project mutator | `untested` | Builder: `supported, bounded`, per D03 — one observed mutation path only; the earlier `unsupported` classification for a different, broader Claude trial is superseded for that exact path only, and general Claude support is not established. Docs Writer: `untested`, no recorded dispatch. The class stays `untested`. |
+| Test author | `untested` | Tester: `untested`. The role was only just added to the catalog; `docs/CONFORMANCE.md` records no Claude Code Tester dispatch at all. |
 | Advisory, status, and release boundary | `untested` | Decision Council, Liaison, Release Agent: `untested`, no recorded Claude Code dispatch for any of the three. |
 
 ## Codex mapping
@@ -73,6 +79,7 @@ not produce the artifact it reviews.
 | Writer | `untested` | Spec Writer: `untested`; Plan Writer: `untested`. D06 ran ten formal specification rounds through Spec Writer and its reviewers, but the bracket never converged — the final packet still carried one open P1, and `docs/CONFORMANCE.md` records that this "demonstrates the specification convergence failure only. It does not establish general harness quality." That is not pass evidence for Spec Writer, and no row records a Plan Writer dispatch. |
 | Fresh reviewer | `untested` | Reviewer: `supported`, per D01 and D04 (each a passing fresh review of a live Builder mutation dispatched through Olympus). The "Role craft and shared state static validation" row is not cited here even though it also reads `pass`: it shares D07's commit and D07's own text says that change "used the normal repository workflow outside Olympus" with "[f]resh contract and resilience reviews," not a live Olympus Reviewer dispatch, and that it "does not prove ... general harness support" — citing it for this role would overclaim. Claims Reviewer and Spec Reviewer ran repeatedly inside D06 but never reached an accepted body, so their pass-evidence claim is withheld for the same reason as Spec Writer above. Plan Verifier and Design Reviewer: `untested`, no recorded dispatch. The class stays `untested`. |
 | Project mutator | `untested` | Builder: `supported`, per D01, D04, and the "Simple conformance" row. Docs Writer: `untested`, no recorded dispatch — `docs/CONFORMANCE.md` D07 is a core-framework change made through the normal repository workflow outside Olympus, not a Docs Writer dispatch, and its own text says it "does not prove general harness support." The class stays `untested`. |
+| Test author | `untested` | Tester: `untested`. The role was only just added to the catalog; `docs/CONFORMANCE.md` records no Codex Tester dispatch at all. |
 | Advisory, status, and release boundary | `untested` | Release Agent: `untested`. D06 is a Release Agent scenario, but it failed at the specification stage before implementation started, so it is not pass evidence for the Release Agent role's own boundary behavior either. Decision Council and Liaison: `untested`, no recorded dispatch. |
 
 ## Reading this file
