@@ -1,7 +1,7 @@
 # Olympus
 
 Olympus is an opinionated, Markdown-only build system for reliable agent-led software
-development. Version `0.6.0` is a private experimental contract release.
+development. Version `0.6.1` is a private experimental patch release.
 
 It gives a coding agent one fixed orchestration graph, sixteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
@@ -103,10 +103,13 @@ a background process. Questions do not create goals. Project-changing requests d
 
 ## Version status
 
-Olympus `0.6.0` has sixteen roles. It adds a test-paths-only Tester, bounded
+Olympus `0.6.1` has sixteen roles. It includes a test-paths-only Tester, bounded
 diagnose-only Explorer work, `Olympus help`, an owner guide, harness adapter notes, and a
 static frontend evidence loop. Strict specification convergence now defaults to `on`.
 The release adds no runtime, service, database, package, scheduler, or test framework.
+
+Version `0.6.1` corrects the root version metadata omitted from v0.6.0. The framework
+contract content is unchanged from v0.6.0.
 
 The frontend evidence loop is a static Markdown contract. Live frontend dogfood and
 browser or harness support evidence remain pending.

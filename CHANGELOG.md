@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 0.6.1 - 2026-08-31
+
+This patch release corrects the root version metadata omitted from v0.6.0. The v0.6.0
+tag remains immutable; its tagged tree contains `VERSION=0.5.1`.
+
+### Fixed
+
+- Updated `VERSION` and current release references to `0.6.1`. The framework contract
+  content is unchanged from v0.6.0.
+
 ## 0.6.0 - 2026-08-31
 
 This private experimental release combines the reviewed work from PRs #33 through #37.
