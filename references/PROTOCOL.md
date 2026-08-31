@@ -13,7 +13,7 @@ a trigger.
 | --- | --- | --- | --- |
 | 1 | Orchestrator | every routed request | Owns classification, routing, packets, task records, gates, and result aggregation. |
 | 2 | System Configurer | owner onboarding or configuration request, plus double opt-in | Owns configuration mutation. |
-| 3 | Explorer | fresh for a material repository question blocking any required role, or an explicit audit | Answers one bounded question read-only. |
+| 3 | Explorer | fresh for a material repository question blocking any required role, an explicit audit, or a bounded diagnose-only defect question | Answers one bounded question read-only, including a defect diagnosis within the read-only reproduction bound. |
 | 4 | Spec Writer | substantial, ambiguous, architectural, or cross-layer goal | Turns a bounded goal into a testable contract. |
 | 5 | Claims Reviewer | every persisted Spec Writer body | Owns only facts, evidence, citations, counts, hashes, and uncertainty. |
 | 6 | Spec Reviewer | every persisted Spec Writer body | Owns only completeness, coherence, authority boundaries, failure paths, joint satisfiability, and acceptance-testability. |
@@ -64,7 +64,8 @@ the framework checkout is never a substitute target.
   first.
 - `Deactivate Olympus orchestration` stops new session routing. It does not cancel an
   active goal or change PROJECT.
-- Questions do not create goals. Explicit read-only audits use Explorer.
+- Questions do not create goals. Explicit read-only audits or a bounded diagnose-only
+  defect question use Explorer.
 
 All three modes use the same goal flow.
 
@@ -240,9 +241,9 @@ Then:
    inspection and the proposal. The second opt-in starts configuration mutation; it may
    arrive in advance as the express pre-approval in
    [section 3](#3-project-configuration), and every other gate is unchanged.
-3. Run Explorer fresh only when a material repository question blocks a required role or
-   the request is an explicit audit. It can unblock any required role but returns only to
-   the Orchestrator.
+3. Run Explorer fresh only when a material repository question blocks a required role,
+   the request is an explicit audit, or the request is a bounded diagnose-only defect
+   question. It can unblock any required role but returns only to the Orchestrator.
 4. For a substantial, ambiguous, architectural, or cross-layer goal, run the
    specification bracket before planning or building:
    - run the pre-bracket sizing check before the sub-items below. The check reads the
@@ -968,6 +969,18 @@ other role still requires its fixed trigger:
 | `spec-only` | explore when blocked, write and review the specification; no plan, mutation, delivery, or external action | accepted specification body and hash, or blocked specification | Explorer, Spec Writer, Claims Reviewer, Spec Reviewer, Decision Council, Liaison |
 | `mutation` | perform the approved local goal; release execution remains a separately owner-approved stage | reviewed local mutation or commit, plus any separately authorized per-action release result | all roles |
 
+Explorer's `diagnose-only` reproduction executes only inside a PROJECT-recorded
+enforcing execution environment, `supported` status, per
+[`templates/PROJECT.md`](../templates/PROJECT.md#harness-and-role-support); enumerating
+a command never grants execution authority on its own. Inside that environment,
+Explorer's own charter,
+[`agents/EXPLORER.md`](../agents/EXPLORER.md#authority-and-boundaries), bounds the
+disposable reproduction copy and permitted commands as defense-in-depth over what the
+environment must already enforce. Outside that environment, `diagnose-only` stays
+observation-only and never mutates tracked repository content. Liaison's
+`diagnose-only` participation is explanation over evidence Explorer or an earlier role
+already captured; Liaison has no reproduction authority and creates no copy.
+
 A role outside a boundary's admitted set is incompatible. An incompatible role makes a
 custom selection `invalid`; default routing truncates incompatible roles before trigger
 evaluation.
@@ -1111,7 +1124,14 @@ Every packet contains only the information needed by the receiving role.
 - Configurer receives the owner request with its framework URL and optional ref,
   repository evidence, configuration template, and double-opt-in state.
 - Explorer receives one question, path scope, revision, relevant documentation, and
-  allowed read-only commands.
+  allowed read-only commands. For a bounded diagnose-only defect question when
+  PROJECT's harness-support table records an enforcing execution environment as
+  `supported` for reproduction, it also receives the enumerated permitted reproduction
+  commands and the exact path for one disposable reproduction copy, which the
+  Orchestrator selects outside the target repository's working tree; Explorer refuses a
+  packet whose copy path is missing, inside the target repository's working tree, or
+  inside the repository itself. When that gate is not open, a diagnose-only dispatch
+  receives no reproduction fields and stays observation-only.
 - Spec Writer receives the goal boundary, source/base revision, paths, evidence,
   validation obligations, source requirements, fixed controls, and owner or permission
   boundaries. On repair it also receives the current body and open finding ledger. It never

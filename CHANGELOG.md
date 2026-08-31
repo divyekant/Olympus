@@ -35,6 +35,23 @@
   request bytes or a governing contract clause, and that requirement bears on what the
   request asks this goal to deliver. A missing required clause can no longer classify
   non-essential just because there is no body clause to name.
+- Explorer's trigger and mission now admit a bounded diagnose-only defect question,
+  alongside the existing material-question and read-only-audit triggers, across
+  `references/PROTOCOL.md`, `agents/EXPLORER.md`, `SKILL.md`, `docs/DECISIONS.md`,
+  `templates/TASK.md`, `templates/PROJECT.md`, and `docs/WHITEPAPER.md`. Explorer stays
+  fully read-only by default in every dispatch. It may execute a reproduction command in
+  one disposable reproduction copy, a read-only clone or archive-style export of the
+  packet's exact source revision that shares no worktree metadata, object store, or
+  refs with the target, only when PROJECT's harness-support table records an enforcing
+  execution environment as `supported`, with evidence that the environment itself
+  blocks network access, credential access, writes outside the copy, and access to the
+  target repository or its Git administration beyond the read that creates the copy;
+  enumerating a command never grants that authority on its own. Before running any
+  reproduction command Explorer verifies the copy's identity matches the packet's exact
+  source revision and reports that verified identity; a mismatch is reported, the copy
+  is deleted, and nothing runs. When the gate is closed, a diagnose-only dispatch stays
+  observation-only, and Explorer returns `blocked` with cause for any part needing
+  execution. See D036.
 
 ## 0.5.1 - 2026-08-30
 

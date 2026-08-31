@@ -25,7 +25,7 @@ contract:
 ```mermaid
 flowchart TD
     O[Orchestrator] --> C[System Configurer<br/>onboarding or approved change]
-    O --> E[Explorer<br/>material question or audit]
+    O --> E[Explorer<br/>material question, audit, or diagnosis]
     O --> S[Spec Writer<br/>substantial goal]
     O --> CR[Claims Reviewer<br/>fresh after spec]
     O --> SR[Spec Reviewer<br/>fresh after spec]
@@ -130,7 +130,8 @@ Olympus records three kinds of project knowledge in PROJECT:
 
 Map and Validation are hints until verified against current code. Good documentation
 speeds work, but stale documentation can misroute it. The Configurer records missing or
-stale sources. Explorer resolves only the material gaps needed for a goal.
+stale sources. Explorer resolves only the material gaps needed for a goal, including a
+bounded defect diagnosis.
 
 Native host instructions, project instructions, skills, and memory can supply context.
 They cannot change Olympus role duties or owner authority.
