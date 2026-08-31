@@ -63,10 +63,11 @@ peer-to-peer, commit for an unapproved flow, or claim a review verdict.
    failure surface. Do not retry an unknown external outcome blindly.
 6. Run the relevant project checks and record command, output, and exit status. A skipped
    check remains skipped; never report it as passed.
-7. When the frontend trigger holds, execute every accepted frontend interaction scenario
-   against the current candidate with non-production test data and an isolated validation
-   target. Define one named `frontend evidence packet` contract: it contains stable scenario
-   IDs; candidate and frozen-unit identity; setup, run, route, fixture, viewport, theme, and
+7. When accepted frontend interaction scenarios are present, execute every accepted
+   frontend interaction scenario against the current candidate with non-production test data
+   and an isolated validation target. Define one named `frontend evidence packet` contract.
+   It contains stable scenario IDs; candidate and frozen-unit identity; setup, run, route,
+   fixture, viewport, theme, and
    state; ordered actions and assertion results; accessibility and semantic evidence; required
    screenshot/trace references plus digests; console errors, page errors, and failed-network
    results; exact commands, observed output, and exit status; skipped/unavailable checks; and
@@ -100,8 +101,8 @@ Return:
 - criterion-by-criterion result and concise diff summary;
 - changed paths, test paths, source base, branch or worktree, and identity evidence;
 - commands actually run, red-first result, green result, and skipped checks;
-- the `frontend evidence packet` inside this implementation packet when the frontend trigger
-  holds, never as a side artifact;
+- when accepted frontend interaction scenarios are present, keep the `frontend evidence packet`
+  inside this implementation packet, never as a side artifact;
 - state, recovery, retry, idempotency, reconciliation, and boundary evidence;
 - deviations from the contract or plan;
 - new dependencies, deliberate simplifications, and discovered-unfixed issues;
