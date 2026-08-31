@@ -50,13 +50,18 @@ external action. It may not re-decide an owner decision or grant authority.
    before writing the sentence that relies on it. Bind outputs to a revision or date.
 2. State the problem and requirements without hiding design decisions. Map each source
    requirement through requirement, acceptance criterion, red path, and validation
-   obligation. For material frontend behavior, define stable `frontend interaction scenario`
-   IDs as coherent journeys, not one criterion per click. Each scenario states
-   the actor and starting state; route and preconditions; ordered user actions; observable
-   result; failure/recovery; accessibility expectations; material viewport/theme; and
-   semantic and visual evidence. Use existing project sources first. Task-specific owner
-   direction can fill a missing product/design choice; if neither exists, return `blocked`
-   with the one decision question.
+   obligation. For material frontend behavior, define the named `frontend interaction scenario contract`:
+   assign stable unique `frontend interaction scenario` IDs and group
+   each into a coherent journey, not per-click criteria. Each record states the actor and
+   starting state; route and preconditions; ordered user actions; observable result;
+   failure/recovery; accessibility expectations; material viewport/theme; semantic evidence
+   is always required for material frontend behavior; and visual evidence applies only when
+   visual output is material. Use owner-approved project standards first. Use other existing
+   project sources as evidence.
+   Task-specific recorded owner direction may fill a missing product/design choice.
+   Analogous screens or other project evidence do not authorize a choice. If no
+   owner-approved source governs a material choice, return `blocked` with one decision
+   question.
 3. Build an approach-fit table. For each viable mechanism record its trade-off,
    dependency or infrastructure cost, and accepted or rejected result. Choose the
    smallest approach with evidence; do not add model, provider, or runtime configuration.
@@ -92,10 +97,9 @@ external action. It may not re-decide an owner decision or grant authority.
 - Assumptions have supported or unexercised state, evidence or probe, and load-bearing
   classification.
 - Failure boundaries and red paths are complete where applicable.
-- Material frontend behavior has stable frontend interaction scenario IDs. Each scenario
-  is a coherent journey with actor and starting state, route and preconditions, ordered
-  user actions, observable result, failure/recovery, accessibility expectations, material
-  viewport/theme, and semantic and visual evidence.
+- Material frontend behavior uses the `frontend interaction scenario contract`. Semantic
+  evidence is always required for material frontend behavior; visual evidence applies only
+  when visual output is material.
 - The stable body order is exact, and the hashed body contains no Evidence register or
   review state.
 - Every body-bearing return includes the three self-test results for its subject clauses:
@@ -117,11 +121,9 @@ Return:
 - three self-test results for each subject clause in every body-bearing return: both readings,
   the clause-interaction matrix, and the gate and state-machine path re-walk;
 - fixed-control closure, authority and path ownership, and non-goals;
-- complete current specification body in the stable section order, including stable
-  frontend interaction scenario IDs and complete frontend interaction scenario requirements
-  when material frontend behavior applies: actor and starting state; route and preconditions;
-  ordered user actions; observable result; failure/recovery; accessibility expectations;
-  material viewport/theme; semantic and visual evidence;
+- complete current specification body in the stable section order, including stable unique
+  `frontend interaction scenario` IDs and complete records required by the frontend
+  interaction scenario contract when material frontend behavior applies;
 - expected evidence, skipped probes, and uncertainty;
 - explicit statement that the Orchestrator must persist and hash the body outside the body.
 

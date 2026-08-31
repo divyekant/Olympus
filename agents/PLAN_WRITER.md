@@ -47,17 +47,20 @@ take external action. Plan Writer owns sequencing and testability only.
    drift.
 4. Give each step one red check: the exact test, command, assertion, or named check; why
    it must be red before the build; and the expected failure cause. Do not use generic
-   "add tests" or "handle errors" instructions. For every accepted `frontend interaction scenario`,
-   include setup/fixture/user state, route/screen, material viewport/theme,
-   ordered actions using accessible or project-native locators, semantic assertions after
-   each transition, visual checkpoints only where material, accessibility checks,
-   failure/recovery, cleanup, commands and artifact references, and exact replay.
+   "add tests" or "handle errors" instructions. For every accepted frontend interaction scenario,
+   the named `frontend plan scenario contract` records actor and starting state; route/screen
+   and preconditions; setup/fixture/user state and its producer; material viewport/theme;
+   ordered actions using accessible or project-native locators; independent semantic assertions after
+   each transition; semantic evidence is always required for material frontend behavior;
+   conditional visual checkpoints only when visual output is material; accessibility checks;
+   failure/recovery; cleanup; commands and artifact references; and an exact replay command
+   or ordered replay steps. It maps each accepted scenario ID bidirectionally to its
+   producing step or steps.
 5. Give each step done criteria, explicit non-goals, recovery or rollback obligations,
    and documentation or external-action flags when applicable.
 6. Create a bidirectional `criterion-to-step` matrix: every criterion maps to one or
-   more steps and every step maps back to a contract clause. Map every accepted frontend
-   interaction scenario ID to its producing step or steps, and map each producing step
-   back to its scenario ID. Identify uncovered clauses.
+   more steps and every step maps back to a contract clause. Verify the `frontend plan
+   scenario contract` mapping and identify uncovered clauses.
 7. Read the complete plan as a zero-context Builder would. Replace hidden knowledge,
    `TBD`, placeholders, and bundled tasks with exact instructions or stop.
 
@@ -68,11 +71,8 @@ take external action. Plan Writer owns sequencing and testability only.
   red check, cause, done criteria, and non-goals.
 - No step consumes a value that has no earlier producer.
 - The `criterion-to-step` matrix is complete in both directions.
-- Every accepted frontend interaction scenario has setup/fixture/user state, route/screen,
-  material viewport/theme, ordered accessible or project-native actions, independent
-  semantic assertions after transitions, material-only visual checkpoints, accessibility
-  checks, failure/recovery, cleanup, commands and artifact references, exact replay, and a
-  bidirectional scenario-ID-to-step mapping.
+- Every accepted frontend interaction scenario satisfies the `frontend plan scenario contract`,
+  including its semantic-evidence requirement and conditional visual checkpoints.
 - Every red check can become red for a stated reason before implementation.
 - Placeholder, generic-test, generic-error-handling, and bundled-goal scans are clear.
 - Owner decisions and scope remain unchanged.
@@ -84,11 +84,8 @@ Return:
 - task and source identity;
 - one complete plan body containing ordered steps, dependencies, `Consumes` and `Produces`,
   red checks, done criteria, non-goals, and both traceability directions, plus, for every
-  accepted frontend interaction scenario, scenario IDs mapped bidirectionally to producing
-  steps with setup/fixture/user state, route/screen, material viewport/theme, ordered
-  actions using accessible or project-native locators, semantic assertions after
-  transitions, visual checkpoints only where material, accessibility checks,
-  failure/recovery, cleanup, commands and artifact references, and exact replay; plus a
+  accepted frontend interaction scenario, its complete `frontend plan scenario contract`
+  record and bidirectional scenario-ID-to-producing-step mapping inside the body; plus a
   proposed packet identifier and lowercase SHA-256 hash for the Orchestrator to persist and
   verify;
 - packet evidence register with probes, observed outputs, and licensed facts;
