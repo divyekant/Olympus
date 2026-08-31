@@ -75,11 +75,8 @@ peer-to-peer, commit for an unapproved flow, or claim a review verdict.
    exercised frontend snapshot identity: the complete `cumulative Builder-owned identity` after
    the current `Builder round delta`, relative to the `implementation-bracket baseline`, not only
    that round's delta (`Builder-changed path set`). Retain paths changed in earlier rounds and
-   update paths changed again. Each path record includes its Git status.
-   For `added` or `modified`, record the lowercase SHA-256 of the current exact file bytes. For
-   `deleted`, record `deleted` and the lowercase SHA-256 of the base version's exact file bytes.
-   For `rename`, record both source and destination, the source base-byte SHA-256, and the
-   destination current-byte SHA-256. Include setup, run, route, fixture,
+   update paths changed again. Each path record includes its Git status and follows the canonical
+   `comparison-base rule` in the shared protocol. Include setup, run, route, fixture,
    viewport, theme, and state; ordered actions and assertion results; accessibility and
    semantic evidence; required screenshot/trace references as separate mandatory fields, each
    with a lowercase SHA-256 digest of that artifact's exact bytes; console errors, page errors,

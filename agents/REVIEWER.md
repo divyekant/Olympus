@@ -49,10 +49,9 @@ edits, production mutation, or external action.
    Writer-owned identity. Verify exact equality between
    the packet's `Builder-changed path`
    records and the complete cumulative Builder-owned identity after the current Builder round
-   delta. Verify every path's Git status and status-specific lowercase SHA-256 identity: `added`
-   or `modified` uses current exact file bytes; `deleted` records `deleted` and base-version exact
-   file bytes; `rename` records source and destination, source base bytes, and destination current
-   bytes. Verify every recorded hash and that Builder hashes remain unchanged. Verify each
+   delta. Verify every path's Git status and status-specific identity under the canonical
+   `comparison-base rule` in the shared protocol. Verify every recorded hash and that Builder hashes
+   remain unchanged. Verify each
    cumulative identity's path statuses and status-specific hashes. Verify cumulative Builder-owned
    identity and cumulative Docs Writer-owned identity are disjoint and their union equals the complete
    final frozen mutation. When Docs Writer ran, verify its cumulative identity and each round delta

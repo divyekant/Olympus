@@ -394,10 +394,8 @@ Then:
    `frontend evidence packet` body (`frontend packet body`), proposed packet identifier, and
    lowercase SHA-256 digest inside the existing implementation packet. Its `Builder-changed path
    set` must be the complete cumulative Builder-owned identity after the current Builder round
-   delta, not only that round's delta. Each path record includes its Git status. For `added` or `modified`, record the lowercase
-   SHA-256 of the current exact file bytes. For `deleted`, record `deleted` and the lowercase
-   SHA-256 of the base version's exact file bytes. For `rename`, record both source and
-   destination, the source base-byte SHA-256, and the destination current-byte SHA-256. That
+   delta, not only that round's delta. Each path record includes its Git status and follows the
+   canonical `comparison-base rule`. That
    return is a candidate frontend packet attempt until its body, exact `Builder-changed path set`
    equality with the cumulative Builder-owned identity, every status-specific path identity, and
    every referenced screenshot/trace artifact digest pass verification.
@@ -875,6 +873,21 @@ verified frontend packet identifier and lowercase SHA-256 digest. It also record
    `cumulative Docs Writer-owned identity` relative to the same baseline. When Docs Writer does
    not run, that cumulative identity is empty. These cumulative identities must remain disjoint,
    and their union must equal the complete final mutation identity before review dispatch.
+
+The canonical `comparison-base rule` for frontend path identity is:
+
+- Each `Builder round delta` and `Docs Writer round delta` compares that dispatch's recorded
+  pre-state with its post-state.
+- Each cumulative Builder or Docs Writer identity compares current state with the
+  `implementation-bracket baseline`.
+- For `deleted`, record `deleted` and the lowercase SHA-256 of exact bytes from the comparison
+  base for the identity being recorded. For `rename`, record source and destination, the source
+  hash from that comparison base, and the destination hash from current exact bytes. Added and
+  modified paths use current exact-byte hashes.
+- A path added after the implementation-bracket baseline and later deleted is absent from the
+  relevant cumulative identity. Its deletion remains in that round delta with the hash of exact
+  bytes from the dispatch's recorded pre-state.
+
 Freeze these frontend fields only after a Builder candidate passes every required packet identity
 check; Builder does not receive or define the final unit. The Orchestrator records the applicable unit before
 each fresh review. Any edit, hook change, changed path, or post-pass change invalidates that pass
@@ -1077,9 +1090,8 @@ Every packet contains only the information needed by the receiving role.
   and applies each delta to the cumulative Builder-owned identity.
   Builder returns a candidate exact `frontend evidence packet` body, proposed identifier, and
   lowercase SHA-256 digest inside its implementation packet. Its path records must equal the
-  complete cumulative Builder-owned identity after the current round delta and use each
-  status-specific lowercase SHA-256 identity: current bytes for added/modified, base bytes for
-  deleted, and source-base plus destination-current bytes for rename. The Orchestrator applies the
+  complete cumulative Builder-owned identity after the current round delta and use the canonical
+  `comparison-base rule`. The Orchestrator applies the
   candidate verification, one-repair, and marker rules above before it records a verified identity
   or frozen unit or dispatches an implementation reviewer. The task marker pair holds only the current
   verified body; its digest excludes the markers.

@@ -308,7 +308,7 @@ Builder rounds use a separate context:
 
 | Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result and Orchestrator-observed Builder round delta and cumulative Builder-owned paths/statuses>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, each candidate attempt number, packet identifier/digest, disposition, complete replay result, implementation-bracket baseline reference, each Builder dispatch's pre/post Git state and observed Builder round delta, cumulative Builder-owned identity after the current delta, and Builder-changed path hashes with Git status: added/modified current-byte lowercase SHA-256; deleted: `deleted` plus base-byte lowercase SHA-256; rename source/destination with source-base and destination-current lowercase SHA-256; separate mandatory screenshot/trace references and exact-byte SHA-256 digests; no raw screenshot/trace bytes>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<result and Orchestrator-observed Builder round delta and cumulative Builder-owned paths/statuses>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, each candidate attempt number, packet identifier/digest, disposition, complete replay result, implementation-bracket baseline reference, each Builder dispatch's pre/post Git state and observed Builder round delta, cumulative Builder-owned identity after the current delta, and Builder-changed path hashes/status-specific identities under the canonical comparison-base rule; separate mandatory screenshot/trace references and exact-byte SHA-256 digests; no raw screenshot/trace bytes>` | `<none or limit>` |
 
 ### Current verified frontend packet body
 
@@ -331,7 +331,7 @@ Record only when its trigger holds.
 
 | Round | Context | Approved docs changed | Claims and links checked | Result and uncertainty |
 | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<approved Docs Writer-only paths and separate observed Docs Writer round delta: each run's pre/post Git states, Git statuses, and status-specific lowercase SHA-256 identities; cumulative Docs Writer-owned identity>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
+| `<n>` | `<separate context>` | `<approved Docs Writer-only paths and separate observed Docs Writer round delta: each run's pre/post Git states, Git statuses, and status-specific identities under the canonical comparison-base rule; cumulative Docs Writer-owned identity>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
 
 Review rounds use a fresh context that did not build the change. Verdicts are `pass`,
 `repair`, or `blocked`:
