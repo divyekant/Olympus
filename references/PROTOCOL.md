@@ -5,7 +5,7 @@ Markdown-only.
 
 ## 1. Fixed catalog
 
-The **Pantheon** is Olympus's fifteen fixed roles in this order. The Orchestrator is the
+The **Pantheon** is Olympus's sixteen fixed roles in this order. The Orchestrator is the
 sole hub. A role is invoked only when its trigger holds, but no project setting can remove
 a trigger.
 
@@ -20,12 +20,13 @@ a trigger.
 | 7 | Plan Writer | accepted contract has dependent steps, cross-layer or interface sequencing, or an explicit plan need | Produces an ordered implementation plan. |
 | 8 | Plan Verifier | every Plan Writer result | Freshly verifies the whole plan read-only. |
 | 9 | Builder | every non-configuration project mutation | Makes the approved project change in approved paths. |
-| 10 | Docs Writer | Builder makes tracked documentation false, or the contract requires documentation synchronization | Updates approved documentation only. |
-| 11 | Reviewer | every project or configuration mutation | Owns whether implementation evidence satisfies the accepted criteria, read-only. |
-| 12 | Design Reviewer | material user-facing interface, interaction, visual design, or design-system change | Freshly checks the change against matching project design standards read-only. |
-| 13 | Release Agent | owner-requested release preparation, remote reconciliation, or one release-boundary external action | Validates release evidence and performs at most one approved provider action submission. |
-| 14 | Decision Council | unresolved material decision with viable trade-offs | Gives one read-only advisory recommendation. |
-| 15 | Liaison | human status or explanation request | Rereads evidence and answers without changing the goal. |
+| 10 | Tester | a contract-flagged red path crosses a boundary, or an owner request, under [Tester round semantics](#tester-round-semantics) | Writes and runs tests in Tester-owned test paths only; returns per-path observation evidence, never a verdict. |
+| 11 | Docs Writer | Builder makes tracked documentation false, or the contract requires documentation synchronization | Updates approved documentation only. |
+| 12 | Reviewer | every project or configuration mutation | Owns whether implementation evidence satisfies the accepted criteria, read-only. |
+| 13 | Design Reviewer | material user-facing interface, interaction, visual design, or design-system change | Freshly checks the change against matching project design standards read-only. |
+| 14 | Release Agent | owner-requested release preparation, remote reconciliation, or one release-boundary external action | Validates release evidence and performs at most one approved provider action submission. |
+| 15 | Decision Council | unresolved material decision with viable trade-offs | Gives one read-only advisory recommendation. |
+| 16 | Liaison | human status or explanation request | Rereads evidence and answers without changing the goal. |
 
 Every role receives from and returns only to the Orchestrator. No role invokes or
 communicates with another role. The Orchestrator decides which conditional roles run and
@@ -33,11 +34,12 @@ records each invoked role's result.
 
 Only the System Configurer changes `.olympus/PROJECT.md` or managed loader blocks.
 Only the Orchestrator writes `.olympus/tasks/<goal-id>.md`. Only the Builder changes
-approved non-documentation project paths. Only the Docs Writer changes approved
-documentation paths. Claims, Spec, Plan, Design, and general Reviewers are read-only.
-Decision Council is advisory and has no gate. Release Agent changes no file, has no
-standing external authority, and returns only to the Orchestrator. Liaison is read-only
-and has no gate.
+approved non-documentation project paths. Only the Tester changes test paths, and never
+product code; see [Tester round semantics](#tester-round-semantics) for the exact
+boundary. Only the Docs Writer changes approved documentation paths. Claims, Spec, Plan,
+Design, and general Reviewers are read-only. Decision Council is advisory and has no
+gate. Release Agent changes no file, has no standing external authority, and returns
+only to the Orchestrator. Liaison is read-only and has no gate.
 
 Core-framework changes use the normal repository workflow outside Olympus. Do not create
 an Olympus goal or task record to govern the core edit. A separate dogfood scenario may
@@ -361,39 +363,48 @@ Then:
    specification when used, accepted plan when used, allowed paths, evidence, and checks
    to Builder. Builder blocks before editing on a conflict, missing decision, or verified
    code contradiction.
-7. If Builder makes tracked documentation false or the contract requires synchronization,
+7. When the Tester trigger holds, send the round's assigned test paths, the complete
+   Builder mutation, protected paths, and validation commands to a fresh Tester, under
+   [Tester round semantics](#tester-round-semantics). Tester returns its observation
+   register, findings, and self-corrections only to the Orchestrator; it issues no
+   verdict. The fresh general Reviewer's pass below grades the complete mutation, Tester's
+   test paths included, using Reviewer's own existing test-evidence axis; whether
+   incomplete per-path coverage forces the goal `blocked` at the implementation cap is
+   governed by Tester round semantics, not by Reviewer's verdict.
+8. If Builder makes tracked documentation false or the contract requires synchronization,
    send the complete behavior diff to Docs Writer. Docs Writer edits only approved docs
    and reports changed claims, links, checks, and uncertainty.
-8. Send every project or configuration mutation to a fresh Reviewer. Reviewer checks the
-   complete mutation, Builder or Configurer result, every criterion, and relevant checks.
-9. If the mutation materially affects a user-facing interface, interaction, visual design,
-   or design system, send the diff and matching project design standards to a fresh Design
-   Reviewer. Missing required standards or matching evidence blocks that trigger. Design
-   Reviewer cannot replace the general Reviewer pass.
-10. On passing invoked reviews, run final relevant checks and compare the result with
+9. Send every project or configuration mutation to a fresh Reviewer. Reviewer checks the
+   complete mutation, Builder or Configurer result, any Tester result, every criterion,
+   and relevant checks.
+10. If the mutation materially affects a user-facing interface, interaction, visual design,
+    or design system, send the diff and matching project design standards to a fresh Design
+    Reviewer. Missing required standards or matching evidence blocks that trigger. Design
+    Reviewer cannot replace the general Reviewer pass.
+11. On passing invoked reviews, run final relevant checks and compare the result with
     actual Git state. Do not claim an untested role, harness, or execution as passed.
-11. After the exact reviewed commit and final checks exist, dispatch Release Agent only
+12. After the exact reviewed commit and final checks exist, dispatch Release Agent only
     for an owner-requested release preparation, remote reconciliation, or one
     release-boundary external action, under the [release boundary](#release-boundary).
     Each action kind and target is a separate owner gate; Release Agent never receives
     standing authority.
-12. When a material decision has viable trade-offs that remain unresolved, the
+13. When a material decision has viable trade-offs that remain unresolved, the
     Orchestrator may ask Decision Council one balanced read-only question. Its advice is
     recorded but is not a gate and does not replace owner approval. For a high-stakes
     decision, the Orchestrator may use at most three fresh Council invocations for that
     same question. Record each packet separately and do not convert the set into a verdict
     or a new gate. Sequential or same-context execution is degraded independence.
-   13. For a human status or explanation request, Liaison rereads the current task record,
+   14. For a human status or explanation request, Liaison rereads the current task record,
       artifacts, and Git evidence, answers first, cites evidence, and routes action requests
       back to the Orchestrator.
-   14. When the goal reaches `complete`, `blocked`, or `cancelled`, run goal closure under
+   15. When the goal reaches `complete`, `blocked`, or `cancelled`, run goal closure under
       [section 6](#6-git-and-multiple-goals): record the branch disposition, remove the
       worktree only after merge, safe handoff, or explicit owner abandonment, and
       otherwise retain it with its path and reason recorded.
 
-The Builder-to-Docs Writer step is conditional. The Docs Writer step precedes the fresh
-general Reviewer whenever it runs. The Design Reviewer is conditional and does not replace
-that Reviewer.
+The Builder-to-Tester and Builder-to-Docs-Writer steps are conditional. When they run, the
+Tester step precedes the Docs Writer step, and the Docs Writer step precedes the fresh
+general Reviewer. The Design Reviewer is conditional and does not replace that Reviewer.
 
 The numeric cap applies independently to specification, plan, configuration, and
 implementation brackets. A repair always receives a complete fresh review from the
@@ -909,6 +920,83 @@ declaration bytes, selection, boundary, trigger closure, exclusions, handoffs, s
 completion, later-trigger evidence, and expansion decisions in the task record. It does
 not add a PROJECT setting, preset registry, executable parser, runtime, or peer edge.
 
+## Tester round semantics
+
+An **implementation round** is one complete bracket: the Builder mutation or repair for
+that round, the fresh Tester run when the Tester trigger holds, and the fresh general
+Reviewer pass over the resulting complete mutation. This section governs how that round
+is counted against the implementation cap and how the Tester loop converges; it changes
+no cap value.
+
+**Test path, product code, and ownership.** A test path is a path enumerated in the
+Orchestrator's dispatch packet for a round, drawn from the accepted contract's allowed
+paths. Product code is every allowed path that is not a Tester-owned test path.
+Assignment is the Orchestrator's per-round act of enumerating a round's test paths;
+ownership is a separate, goal-scoped fact that follows assignment, never authorship: once
+the Orchestrator assigns a path as a test path in any round, that path stays Tester-owned
+for the rest of the goal, including a path authored in an earlier round and independent
+of which round's dispatch is current or which role's edit most recently touched it. A
+path assigned to Builder in any round can never become a test path, and a Tester-owned
+path can never become Builder's, unless an explicit owner decision recorded in the task
+record crosses it before any edit under the new ownership. Builder keeps its own
+red-first obligation for its own assigned paths; Tester may correct any Tester-owned test
+path, including one from an earlier round, within its current dispatch, without
+withdrawing or suppressing an observed defect signal against product code.
+
+**Round consumption.** An implementation round is consumed only when the fresh Reviewer's
+pass grades a frozen unit produced by a Builder mutation or repair, a Tester run that
+executed at least one command, or a Docs Writer edit. A Reviewer pass required solely by
+review-unit invalidation or a hook-side change to already-reviewed content — including a
+Tester self-correction that revises only Tester-owned test-path content with no
+accompanying Builder repair — consumes no round; the Orchestrator records the cause class
+of every non-consuming pass. A halted Builder, Tester, or Reviewer attempt consumes no
+round. Because only a Builder repair, an executed Tester command, or a Docs Writer edit
+can advance the count, and a goal with an open defect always has a Builder repair
+available to produce one of those, the cap can be neither made unreachable by
+non-consuming passes nor reached before genuine repair-or-test work occurs.
+
+**Per-path coverage and convergence.** For a round's Tester dispatch, each assigned test
+path resolves to exactly one coverage state: `covered-clean` (at least one executed
+command exercised it and returned no open defect for it), `covered-with-finding` (at
+least one executed command exercised it and returned an open defect), or `skipped` (no
+in-bound command exists; recorded with reason, required capability, and consequence,
+under the `pending` cause class `unavailable execution` for a command needing network
+access, package installation, or a service start, or `writer-suppliable evidence` when
+the round's assignment was empty or missing). The Tester loop converges for a round only
+when every assigned test path is `covered-clean`; this is a per-path, distributive test,
+not an aggregate one. Any `skipped` path leaves the round `pending`, never converged,
+regardless of how many other assigned paths are `covered-clean` — a Tester that executed
+nothing against a path has tested nothing on that path, so partial coverage is never
+rounded up to whole coverage. Any `covered-with-finding` path leaves the round holding an
+open defect at that finding's severity. An empty or missing test-path assignment for a
+dispatched Tester is an Orchestrator packet defect: it consumes no round, is recorded
+`pending` under the cause class `writer-suppliable evidence`, and is corrected and
+re-dispatched; it is never recorded `unsupported` and never sets the goal `blocked` on its
+own. An owner request for a Tester run with no enumerable test path blocks that trigger
+instead of producing an empty assignment.
+
+**Cap disposition.** At the implementation cap, the final round's merged Tester evidence
+resolves as follows: any open P0 or P1 `covered-with-finding` path forces the goal
+`blocked`, with no owner-partial exit — this never widens past P0 and P1. With no open
+P0 or P1, an open P2 `covered-with-finding` path or a `skipped` path forces `blocked`
+unless the Orchestrator closes it as an explicit owner-accepted partial recorded in the
+task record, matching the general severity ladder's own rule that a P2 remains open
+until repaired or explicitly accepted by the owner within owner authority; a `skipped`
+path gets the same explicit-acceptance treatment because untested coverage carries the
+same unresolved risk as an open P2. An open P3 `covered-with-finding` path, with no open
+P0, P1, or P2 and no `skipped` path, does not block on its own, matching the general
+ladder. Silence is never a disposition; every cap exit is `blocked`, a recorded explicit
+partial, or a clean close with only P3 findings open. A halted Builder, Tester, or
+Reviewer attempt at the cap follows the shared `halted` rule and does not itself force a
+disposition.
+
+**Reviewer's role.** The fresh general Reviewer always runs in every consuming round,
+including one whose Tester run left an open P0 or P1 or an unconverged path, and grades
+the complete mutation on its own axes; Tester's observation register is test evidence
+under Reviewer's existing test-evidence axis. Reviewer issues its own verdict on the
+mutation in front of it. Whether incomplete Tester coverage forces the goal `blocked` at
+the cap is the Orchestrator's aggregation under this section, not a Reviewer verdict.
+
 ## 5. Bounded handoffs
 
 Every packet contains only the information needed by the receiving role.
@@ -942,6 +1030,13 @@ Every packet contains only the information needed by the receiving role.
 - Builder receives the goal, accepted contract, accepted specification or plan, allowed
   paths, evidence, owner decisions, validation commands, and the accepted plan identifier
   and hash when a plan exists.
+- Tester receives the goal, accepted contract or specification identity, accepted plan
+  identity when one exists, the complete Builder mutation, the round's assigned test
+  paths, protected paths, source base, branch or worktree identity, packet identity, and
+  the project's own validation commands. On repair or self-correction it also receives
+  the current mutation, the round's assigned test paths, and the open finding ledger. It
+  returns its complete observation register, findings, self-corrections, and uncertainty
+  only to the Orchestrator, and issues no verdict.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs,
   and relevant link-check commands.
 - Reviewer receives the goal boundary, complete current mutation diff, role results,

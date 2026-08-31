@@ -34,6 +34,7 @@ handoffs, owner gates, states, activation rules, and Git workflow.
 - Plan Writer: [charter](agents/PLAN_WRITER.md)
 - Plan Verifier: [charter](agents/PLAN_VERIFIER.md)
 - Builder: [charter](agents/BUILDER.md)
+- Tester: [charter](agents/TESTER.md)
 - Docs Writer: [charter](agents/DOCS_WRITER.md)
 - Reviewer: [charter](agents/REVIEWER.md)
 - Design Reviewer: [charter](agents/DESIGN_REVIEWER.md)
