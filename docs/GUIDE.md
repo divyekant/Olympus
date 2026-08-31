@@ -40,8 +40,7 @@ Three modes share one goal flow and one preflight:
 - **Project** — boot mode `orchestration` in `.olympus/PROJECT.md` activates routing at
   the start of every session, after boot resolves the pin and reruns the preflight.
 
-A question never creates a goal. Full contract:
-[`references/PROTOCOL.md` section 2](../references/PROTOCOL.md#2-activation).
+A question never creates a goal. Full contract: [`references/PROTOCOL.md` section 2](../references/PROTOCOL.md#2-activation).
 
 ## `Olympus help`
 
@@ -50,7 +49,7 @@ approves nothing, and starts no mode, in any state — it may resolve a framewor
 an outside checkout or cache, as installation does, but only ever reads from that copy.
 Ask it any time you are unsure what Olympus will do next.
 
-- In `complete` state, with no proposal pending, it returns a bounded owner card: what
+- In `complete` state, with no surface pending, it returns a bounded owner card: what
   Olympus is, the current state, and the next available owner actions — see the example
   below.
 - In `missing` state it explains that Olympus is not configured and points to
@@ -58,8 +57,11 @@ Ask it any time you are unsure what Olympus will do next.
 - In `partial` or `malformed` state it reports the exact state and the smallest safe next
   step.
 - In `changed` state it tells you a fresh preflight is required.
-- If a proposal is already waiting for your reply, it restates your three options instead
-  of any of the above, and never touches the proposal.
+- If the onboarding proposal is live, it restates your three options. If any other
+  surface this contract defines is pending your reply (a release approval, a
+  cap-amendment proposal), it names that surface and defers to its own reply rules.
+  Either way it never touches the pending surface — see
+  [the protocol](../references/PROTOCOL.md#olympus-help) for the exact rule.
 
 `Olympus help` is reachable before you install Olympus, and whenever an owner or agent
 loads this skill directly. **It is not yet reachable through an installed project's
@@ -92,8 +94,7 @@ sole hub: it classifies the request, dispatches only the roles whose trigger hol
 owns the task record at `.olympus/tasks/<goal-id>.md`. You will see, as they apply to your
 goal: a specification round, a plan round, Builder mutation rounds, and a fresh Reviewer
 pass over every mutation — each role returns only to the Orchestrator, never to another
-role. A goal ends `complete`, `blocked`, or `cancelled`. Full contract:
-[`references/PROTOCOL.md` section 4](../references/PROTOCOL.md#4-goal-flow).
+role. A goal ends `complete`, `blocked`, or `cancelled`. Full contract: [`references/PROTOCOL.md` section 4](../references/PROTOCOL.md#4-goal-flow).
 
 ## Review gates
 
@@ -137,8 +138,7 @@ submits at most one provider action. A local commit is never itself a release. F
 Each goal defaults to its own Git worktree from committed `HEAD`; your own checkout is
 never edited. A worktree is removed only after merge, safe handoff, or explicit owner
 abandonment — a `blocked` goal keeps its worktree and repair work until you say otherwise.
-Unmerged commits and branches are never deleted automatically. Full contract:
-[`references/PROTOCOL.md` section 6](../references/PROTOCOL.md#6-git-and-multiple-goals).
+Unmerged commits and branches are never deleted automatically. Full contract: [`references/PROTOCOL.md` section 6](../references/PROTOCOL.md#6-git-and-multiple-goals).
 
 ## Change or remove the configuration
 

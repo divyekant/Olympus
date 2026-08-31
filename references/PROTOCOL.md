@@ -188,17 +188,25 @@ When the session holds no recorded preflight result, `Olympus help` reports the 
 own bounded read produced and never reports `changed` — there is nothing recorded for it
 to differ from.
 
-**Live-proposal precedence.** An unchanged `## Ready to awaken Olympus` proposal from this
-session, for which no approving, rejecting, or cancelling owner reply has been given, is
-**live**. A live proposal outranks every preflight state, including `missing`. `Olympus
-help` arriving while a proposal is live restates the three live-proposal options — reply
-`Awaken Olympus` to approve; `Show details`; `Change settings` — instead of reporting
-`missing`, `partial`, `malformed`, `changed`, or `complete`. `Olympus help` is a distinct
-string from every affirmative that approves a proposal, so a reply of `Olympus help` to a
-live proposal is never an approval: the proposal, its bytes, and its approval state stay
-exactly as they were, and no opt-in is recorded.
+**Pending owner-decision precedence.** Any surface awaiting an owner reply that this
+protocol defines is **pending**, from the moment it reaches the owner until an owner
+reply the protocol recognizes as approving, rejecting, or cancelling it is given. An
+unchanged `## Ready to awaken Olympus` proposal from this session, for which no such
+reply has been given, is one instance and is also called **live** — the term this
+contract uses elsewhere for that specific surface. A pending surface outranks every
+preflight state, including `missing`. `Olympus help` arriving while a surface is pending
+never advances or cancels it: for the live onboarding proposal specifically, it restates
+the three live-proposal options — reply `Awaken Olympus` to approve; `Show details`;
+`Change settings` — instead of reporting `missing`, `partial`, `malformed`, `changed`, or
+`complete`; for any other pending surface, it names the surface and states that a
+decision is pending on it, deferring to that surface's own reply rules exactly as stated
+where that surface is itself defined, without restating or altering them. `Olympus help`
+is a distinct string from every affirmative, refusal, or exact-value reply that advances
+any pending surface, so a reply of `Olympus help` is never consumed as one: the pending
+surface, its bytes or recorded fields, and its decision state stay exactly as they were,
+and no reply is recorded against it.
 
-**Per-state report,** when no proposal is live:
+**Per-state report,** when no surface is pending:
 
 - `complete`: return the owner card defined below.
 - `missing`: state that Olympus is not configured in this repository and give the
@@ -210,7 +218,7 @@ exactly as they were, and no opt-in is recorded.
 - `changed`: state that the target changed since the last recorded read and that a fresh
   preflight is required before any activation.
 
-**The owner card.** In `complete` state with no live proposal, `Olympus help` returns one
+**The owner card.** In `complete` state with no surface pending, `Olympus help` returns one
 information card: what Olympus is, in one line; the current boot mode and preflight
 state, in one line; and the next available owner actions, one line per phrase, in fixed
 catalog order (`Use Olympus for: <goal>`; `Activate Olympus orchestration`;
@@ -221,8 +229,9 @@ repository-relative path, because that path does not resolve inside the target
 repository. Each phrase line may carry a short descriptive clause of what that phrase
 does. It is purely descriptive: never an instruction to reply, and never the
 `Reply \`<phrase>\` to approve` pattern that the `## Ready to awaken Olympus` proposal
-surface alone uses. The live-proposal precedence rule above already keeps the card from
-ever appearing while a proposal is live, so the two are never shown together.
+surface alone uses. The pending owner-decision precedence rule above already keeps the
+card from ever appearing while any surface is pending, so the two are never shown
+together.
 
 A nonblank line is any line with a non-whitespace character. The card is returned as
 plain lines, with no surrounding code fence and no heading; neither would count toward

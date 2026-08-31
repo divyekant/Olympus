@@ -21,7 +21,7 @@ walkthrough for install, activation, a goal, gates, release, and recovery.
 - PROJECT boot mode `orchestration` routes project-changing requests in every session only after an unchanged complete preflight state.
 - `Awaken Olympus` or `Awaken Olympus.` is the guided entry phrase. It is never a session-activation alias.
 - `Deactivate Olympus orchestration` stops new routing in the current session.
-- `Olympus help` is a fifth owner phrase, matched the same way as `Awaken Olympus`. It never acts: no write inside the target repository, no approval, no new mode, no goal. It is reachable on the pre-install and skill-invocation paths; reaching it through an installed `manual`-mode loader block needs a later loader revision. See [the full contract](references/PROTOCOL.md#olympus-help) for its per-state reports, live-proposal precedence, and the bounded owner card.
+- `Olympus help` is a fifth owner phrase, matched the same way as `Awaken Olympus`. It never acts: no write inside the target repository, no approval, no new mode, no goal. It is reachable on the pre-install and skill-invocation paths; reaching it through an installed `manual`-mode loader block needs a later loader revision. See [the full contract](references/PROTOCOL.md#olympus-help) for its per-state reports, pending owner-decision precedence, and the bounded owner card.
 - Questions do not create goals. An explicit read-only audit uses Explorer.
 
 The [runtime protocol](references/PROTOCOL.md) defines the fixed roles, goal flow,
