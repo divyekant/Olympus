@@ -141,7 +141,7 @@ Delete this section when no owner decision was needed after activation.
 
 | Status | Question | Evidence | Answer and uncertainty | Execution gate | Reproduction copy |
 | --- | --- | --- | --- | --- | --- |
-| `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line>` | `<answer or limit>` | `<supported, untested, unsupported, or not consulted>` | `<path and deletion status, when the gate was open and execution ran; otherwise none>` |
+| `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line>` | `<answer or limit>` | `<supported, untested, unsupported, or not consulted>` | `<path, verified source-revision identity, and deletion status, when the gate was open and execution ran; otherwise none>` |
 
 ## Sizing check
 
