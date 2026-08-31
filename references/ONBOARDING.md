@@ -30,15 +30,17 @@ terminal interface, package, service, installer, dependency, or user interface.
 
 ## The wake phrase and approval
 
-`Awaken Olympus` is the guided entry phrase. Match it case-insensitively, trim
+`Awaken Olympus` is a guided entry phrase; the read-only, never-acts `Olympus help`
+phrase is the other one, defined in [the protocol](PROTOCOL.md#olympus-help) and outside
+this onboarding conversation. Match `Awaken Olympus` case-insensitively, trim
 surrounding whitespace, and accept one optional final period; all forms carry the same
 meaning. Context decides the effect:
 
 - `missing` state: start this guided flow with a read-only inspection.
 - an unchanged `## Ready to awaken Olympus` proposal: approve it as opt-in two.
-- `complete` state: report verified readiness and the two canonical owner actions
-  (`Use Olympus for: <goal>` and `Activate Olympus orchestration`) without starting a
-  mode.
+- `complete` state: report verified readiness and the three canonical owner choices
+  (`Use Olympus for: <goal>`, `Activate Olympus orchestration`, and `Olympus help`)
+  without starting a mode.
 
 In reply to an unchanged proposal, any clear, unconditional affirmative also approves:
 for example `yes`, `approve`, or `go ahead`. A question, a conditional reply, or a

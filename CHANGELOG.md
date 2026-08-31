@@ -15,6 +15,19 @@
   required for a round's Tester loop to converge instead of a vacuous pass, and a cap
   disposition that always ends `blocked` or an explicit owner-accepted partial, never
   silence.
+- `Olympus help`, a fifth owner phrase: read-only in every preflight state, never
+  approves a proposal, never starts a mode, and never creates a goal. In `complete`
+  state with no live proposal it returns a bounded owner card, at most 15 nonblank
+  lines. It is reachable on the pre-install and skill-invocation paths only; reaching it
+  through an installed `manual`-mode loader needs a later loader revision and an
+  explicit owner decision.
+- `docs/GUIDE.md`, a one-page owner manual: the five owner phrases with examples, the
+  owner view of a goal, review gates, what a stop or failure report means, how to read a
+  task record, release, recovery, and how to change or remove the configuration —
+  deferring to the governing contracts wherever they could diverge.
+- `references/HARNESS.md`, non-normative adapter notes mapping the fixed role classes to
+  Claude Code and Codex, with a per-class evidence-status table drawn only from
+  `docs/CONFORMANCE.md`'s recorded observations.
 
 ### Changed
 

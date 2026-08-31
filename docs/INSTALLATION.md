@@ -7,7 +7,10 @@ for the complete owner conversation, exact proposal, stage evidence, and reports
 owns wake and activation classification, target identity captures, and the immediate recheck. The
 [System Configurer charter](../agents/SYSTEM_CONFIGURER.md), [PROJECT template](../templates/PROJECT.md),
 and [BOOTSTRAP template](../templates/BOOTSTRAP.md) retain the role, project, and loader
-contracts.
+contracts. Before installing, `Olympus help` gives a read-only status check — it performs
+no write and points back to this guide when nothing is configured yet; see
+[the protocol](../references/PROTOCOL.md#olympus-help) for its full contract and the
+[owner guide](GUIDE.md) for a walkthrough.
 
 The preflight classifies the target as `missing`, `partial`, `malformed`, or `complete`,
 and re-reads the target immediately before any activation. A difference between the two
