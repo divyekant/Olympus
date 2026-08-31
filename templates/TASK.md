@@ -59,6 +59,7 @@ replace them with role-specific labels.
 | Checkpoint | Required record |
 | --- | --- |
 | request boundary | `<review-only, diagnose-only, audit-only, spec-only, or mutation; terminal boundary and truncated stages>` |
+| frontend pre-bracket clean gate | `<material frontend only: exact approved Builder and Docs Writer allowed-path set, committed HEAD comparison, Git output, source identity, pass or stopped/new-goal result; protected Olympus task/config state and unrelated paths excluded>` |
 | frozen review unit | `<complete final mutation identity or artifact identity, as applicable; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus the accepted specification packet identifier/hash that contains the complete scenario set, plus the accepted plan packet identifier/hash when a plan exists), verified frontend packet identifier/digest, implementation-bracket baseline, Builder round deltas with pre/post Git states and cumulative Builder-owned identity, Docs Writer round deltas with pre/post Git states and cumulative Docs Writer-owned identity (empty when Docs Writer did not run), and the disjoint union of both cumulative identities equaling the complete final mutation identity>` |
 | transition evidence | `<role identity; packet identity; Git state; required checks; evidence verified by Orchestrator>` |
 | halted outcome | `<operational/runtime cause; partial-output disposition; last verified state; recovery owner; safe retry; completed review rounds consumed: 0>` |
@@ -308,7 +309,7 @@ Builder rounds use a separate context:
 
 | Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result and Orchestrator-observed Builder round delta and cumulative Builder-owned paths/statuses>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, each candidate attempt number, packet identifier/digest, disposition, complete replay result, implementation-bracket baseline reference, each Builder dispatch's pre/post Git state and observed Builder round delta, cumulative Builder-owned identity after the current delta, and Builder-changed path hashes/status-specific identities under the canonical comparison-base rule; bounded console/page/network/command/output/exit summaries; separate required screenshot/trace/full-log references and exact-byte SHA-256 digests; no raw artifact bytes>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<result; reference to the Builder round delta and cumulative Builder-owned identity in the shared frozen review unit checkpoint>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, candidate attempt number, packet identifier/digest, disposition, replay result, required-artifact references and exact-byte digests, bounded console/page/network/command/output/exit summaries, and no raw artifact bytes; identity details are in the shared frozen review unit checkpoint>` | `<none or limit>` |
 
 ### Current verified frontend packet body
 
@@ -332,14 +333,14 @@ Record only when its trigger holds.
 
 | Round | Context | Approved docs changed | Claims and links checked | Result and uncertainty |
 | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<approved Docs Writer-only paths and separate observed Docs Writer round delta: each run's pre/post Git states, Git statuses, and status-specific identities under the canonical comparison-base rule; cumulative Docs Writer-owned identity>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
+| `<n>` | `<separate context>` | `<approved Docs Writer-only paths; reference to the Docs Writer round delta and cumulative Docs Writer-owned identity in the shared frozen review unit checkpoint>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
 
 Review rounds use a fresh context that did not build the change. Verdicts are `pass`,
 `repair`, or `blocked`:
 
 | Implementation round | Frontend review round | Frozen unit and frontend packet | Reviewer | Verdict | Acceptance checks, findings, and uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<shared round identity, or not applicable>` | `<same frozen unit, exact current verified frontend packet body/identifier/digest, implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and disjoint union with the final mutation as in the paired Design Reviewer; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
+| `<n>` | `<shared round identity, or not applicable>` | `<shared state checkpoint: frozen review unit; current verified frontend packet body is in the dedicated packet section; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
 
 Round cap: `<1, 2, or 3; default 2>`.
 
@@ -361,7 +362,7 @@ for authority and paired-round rules.
 
 | Implementation round | Frontend review round | Frozen unit and frontend packet | Context | Governing source and matching evidence | Verdict | Checks, findings, and uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
-| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<same frozen unit, exact current verified frontend packet body/identifier/digest, implementation-bracket baseline, relevant Builder and Docs Writer round deltas, cumulative Builder-owned identity and cumulative Docs Writer-owned identity, and disjoint union with the final mutation as general Reviewer>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
+| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<shared state checkpoint: frozen review unit; current verified frontend packet body is in the dedicated packet section>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
 
 ### Decision Council and Liaison
 

@@ -53,8 +53,9 @@ take external action. Plan Writer owns sequencing and testability only.
    ordered actions using accessible or project-native locators; independent semantic assertions after
    each transition; semantic evidence is always required for material frontend behavior;
    conditional visual checkpoints only when visual output is material; accessibility checks;
-   failure/recovery; cleanup; commands and artifact references; and an exact replay command
-   or ordered replay steps. It maps each accepted scenario ID bidirectionally to its
+   failure/recovery; cleanup; commands and the exact ordered `frontend required-artifact list`
+   copied from the accepted specification; and an exact replay command or ordered replay
+   steps. It maps each accepted scenario ID bidirectionally to its
    producing step or steps.
 5. Give each step done criteria, explicit non-goals, recovery or rollback obligations,
    and documentation or external-action flags when applicable.
@@ -72,7 +73,8 @@ take external action. Plan Writer owns sequencing and testability only.
 - No step consumes a value that has no earlier producer.
 - The `criterion-to-step` matrix is complete in both directions.
 - Every accepted frontend interaction scenario satisfies the `frontend plan scenario contract`,
-  including its semantic-evidence requirement and conditional visual checkpoints.
+  including its semantic-evidence requirement, conditional visual checkpoints, and the exact
+  required-artifact list copied from the accepted specification.
 - Every red check can become red for a stated reason before implementation.
 - Placeholder, generic-test, generic-error-handling, and bundled-goal scans are clear.
 - Owner decisions and scope remain unchanged.
@@ -85,7 +87,8 @@ Return:
 - one complete plan body containing ordered steps, dependencies, `Consumes` and `Produces`,
   red checks, done criteria, non-goals, and both traceability directions, plus, for every
   accepted frontend interaction scenario, its complete `frontend plan scenario contract`
-  record and bidirectional scenario-ID-to-producing-step mapping inside the body; plus a
+  record, its exact required-artifact list, and bidirectional scenario-ID-to-producing-step
+  mapping inside the body; plus a
   proposed packet identifier and lowercase SHA-256 hash for the Orchestrator to persist and
   verify;
 - packet evidence register with probes, observed outputs, and licensed facts;

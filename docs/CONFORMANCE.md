@@ -172,14 +172,19 @@ The framework passes static inspection when:
     skipped when current evidence suffices. Material frontend behavior has accepted hashed
     interaction scenarios before planning or building, and a
     conditional plan with complete scenario execution details and bidirectional mapping when
-    the plan trigger holds. Builder evidence is candidate-bound: exact body, artifact, and
-    status-specific path lowercase SHA-256 digests must verify before persistence. Cumulative Builder and Docs
-    Writer identities must be disjoint and equal the final mutation. Fresh general and Design
-    Reviewers independently replay the same frozen candidate. Screenshot-only, stale, missing
-    state or console evidence, and unavailable browser capability cannot become a pass; report
-    `pending`, `halted`, `blocked`, or `unsupported` for the applicable cause. Project design
-    standards govern first, and a task-specific owner decision governs only an otherwise missing
-    material aspect. A repair invalidates both frontend verdicts and requires the same full replay.
+    the plan trigger holds. Before sizing, the exact approved Builder and Docs Writer allowed
+    paths are clean against committed HEAD, or the goal stops for a new owner goal after commit.
+    Builder edits and tests first, Docs Writer runs when triggered, named paths and hooks complete
+    before Builder generates candidate evidence, and paired reviewers replay the exact committed
+    candidate. Builder evidence is candidate-bound: exact body, status-specific path hashes, and
+    each scenario's artifact references equal its accepted required-artifact list before lowercase
+    SHA-256 digests verify. After paired pass, final checks are non-generating only. Cumulative
+    Builder and Docs Writer identities must be disjoint and equal the final mutation. Screenshot-only,
+    stale, missing state or console evidence, and unavailable browser capability cannot become a
+    pass; report `pending`, `halted`, `blocked`, or `unsupported` for the applicable cause.
+    Project design standards govern first, and a task-specific owner decision governs only an
+    otherwise missing material aspect. A repair invalidates both frontend verdicts and requires
+    the same full replay.
 
 ## Behavioral smoke tests
 
@@ -480,15 +485,16 @@ browser, harness, or production support. Missing output is `not run`, not pass.
 | No sources plus owner direction | When no frontend source exists, the record states `none` or the exact absence and obtains the bounded owner direction needed for the material aspect; Explorer evidence is not approval. |
 | Incomplete interaction plan | Accepted scenarios stay in the hashed specification before Plan Writer or Builder receives them. Planning remains conditional. If the existing plan trigger holds, the plan carries the complete frontend plan scenario contract and a bidirectional stable-ID-to-producing-step map; an incomplete interaction plan, contract, or map is rejected. |
 | Visual-only change | A material visual, layout, typography, motion, viewport, theme, or design-system change still enters the specification bracket, gets accepted scenarios and candidate-bound evidence, and receives paired fresh general and Design Reviewer replay. |
-| Candidate-bound evidence | Builder returns a candidate packet with exact body bytes and lowercase SHA-256 digest, proposed identifier, complete cumulative Builder-owned paths, status-specific path identities under the canonical comparison-base rule, bounded inline output summaries, and separate exact-byte screenshot, trace, or required full-log references and lowercase SHA-256 digests. The body is at most 48,000 bytes and contains neither exact task marker byte sequence. Only verified equality and digests create frozen frontend state. |
+| Commit/evidence order | Builder edits and tests first; Docs Writer runs only when triggered; the Orchestrator commits named paths and completes hooks; hook changes return to the owning role and a new commit; Builder generates evidence only against the exact clean commit; paired fresh reviewers use that same commit; after paired pass, final checks are non-generating only. Any relevant change invalidates both verdicts. |
+| Candidate-bound evidence | Builder returns a candidate packet with exact body bytes and lowercase SHA-256 digest, proposed identifier, complete cumulative Builder-owned paths, status-specific path identities under the canonical comparison-base rule, each scenario's accepted required-artifact list and exactly matching references, bounded inline output summaries, and the exact-byte artifact references and lowercase SHA-256 digests selected by each list. The body is at most 48,000 bytes and contains neither exact task marker byte sequence. Only verified equality and digests create frozen frontend state. |
 | Candidate verification failure | A failed candidate verification retains the prior verified packet body and state, permits exactly one pre-review Builder candidate repair, and blocks on a second failed candidate. Candidate attempts consume no implementation review round. |
-| Replay evidence | Screenshot-only, stale, missing state, console or page errors, missing required network outcomes, or Builder assertions alone cannot pass. Required semantic, state, accessibility, console, network, and visual replay evidence is present. |
-| Paired repair | Any relevant code or path change, identity or packet change, artifact change, or evidence regeneration invalidates both fresh general and Design Reviewer verdicts. Builder creates a new packet, and both reviewers replay the complete unchanged scenario set on the same frozen candidate. |
+| Replay evidence | Screenshot-only, stale, missing state, console or page errors, missing required network outcomes, or Builder assertions alone cannot pass. Each scenario's required-artifact references equal its accepted list before digest checks. Required semantic, state, accessibility, console, network, and visual replay evidence is present. |
+| Paired repair | Any relevant code or path change, identity or packet change, artifact change, or evidence regeneration invalidates both fresh general and Design Reviewer verdicts. Builder creates a new packet, and both reviewers replay the complete unchanged scenario set on the same frozen candidate. After paired pass, evidence is not regenerated. |
 | Scenario-set change | A required interaction-set change invalidates the accepted specification and returns through fresh Claims and Spec review. Plan Writer runs afterward only when its existing trigger holds, and every resulting plan gets a fresh Plan Verifier; plan-only re-planning cannot change the set. |
 | Browser capability | A recoverable environment or credential gap is `pending`; role, tool, transport, or runtime inability is `halted`; missing required evidence or an owner decision after review is `blocked`; a harness that cannot preserve the required capability or role is `unsupported`. Tool availability alone is not support or a pass. |
 | Jurisdiction split | The general Reviewer checks semantic results, state, recovery, security, and operational evidence. Design Reviewer checks governing standards, component reuse, responsive and visual axes, focus, and interaction presentation. Both are fresh and paired; Design Reviewer never replaces general review. |
 | Cumulative path identity | One implementation baseline is retained across multiple Builder rounds. Each round delta updates the cumulative Builder-owned identity, while Docs Writer deltas form a separate cumulative identity with no overlap. Their disjoint union, with status-specific hashes, equals the complete final mutation before either reviewer dispatches. |
-| Clean frontend baseline | Before the first Builder dispatch, every path in the included project mutation identity matches committed HEAD. Relevant dirty project work is committed, then applicable evidence, specification, and plan brackets repeat at the refreshed source identity. Protected Olympus task/config state and unrelated paths are excluded. |
+| Clean frontend baseline | Before sizing, every path in the exact approved Builder and Docs Writer allowed-path set matches committed HEAD. Relevant dirty work stops the goal; the owner commits it and issues a new goal with refreshed source identity. The new goal reruns the clean gate and then follows the normal evidence, specification, and conditional planning flow. Protected Olympus task/config state and unrelated paths are excluded. |
 
 #### C22 path identity status matrix
 

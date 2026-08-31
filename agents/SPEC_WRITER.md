@@ -56,7 +56,11 @@ external action. It may not re-decide an owner decision or grant authority.
    starting state; route and preconditions; ordered user actions; observable result;
    failure/recovery; accessibility expectations; material viewport/theme; semantic evidence
    is always required for material frontend behavior; and visual evidence applies only when
-   visual output is material. Use owner-approved project standards first. Use other existing
+   visual output is material. It also records one ordered `frontend required-artifact list` per
+   scenario, or an explicit empty list: one `screenshot:<checkpoint-id>` for each material visual
+   checkpoint, one `trace:<sequence-or-recovery-id>` for each material interaction sequence or
+   runtime failure/recovery path, and one `full-log:<command-id>` for each run, browser, or visual
+   command whose full output is required evidence. Add no other key. Use owner-approved project standards first. Use other existing
    project sources as evidence.
    Task-specific recorded owner direction may fill a missing product/design choice.
    Analogous screens or other project evidence do not authorize a choice. If no
@@ -99,7 +103,8 @@ external action. It may not re-decide an owner decision or grant authority.
 - Failure boundaries and red paths are complete where applicable.
 - Material frontend behavior uses the `frontend interaction scenario contract`. Semantic
   evidence is always required for material frontend behavior; visual evidence applies only
-  when visual output is material.
+  when visual output is material. Each scenario has one exact required-artifact list, including
+  an explicit empty list when no artifact is required, under the canonical protocol conditions.
 - The stable body order is exact, and the hashed body contains no Evidence register or
   review state.
 - Every body-bearing return includes the three self-test results for its subject clauses:
@@ -123,7 +128,8 @@ Return:
 - fixed-control closure, authority and path ownership, and non-goals;
 - complete current specification body in the stable section order, including stable unique
   `frontend interaction scenario` IDs and complete records required by the frontend
-  interaction scenario contract when material frontend behavior applies;
+  interaction scenario contract, including one exact required-artifact list per scenario, when
+  material frontend behavior applies;
 - expected evidence, skipped probes, and uncertainty;
 - explicit statement that the Orchestrator must persist and hash the body outside the body.
 

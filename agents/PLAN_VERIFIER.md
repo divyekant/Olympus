@@ -33,7 +33,7 @@ commit; or take external action. Do not turn an unverified claim into a pass.
    plan body or reviewer transcript.
 4. Identify all steps, criteria, producers, consumers, red checks, and placeholders
    before grading the first defect. Identify the setup/fixture/user state producer for each
-   accepted frontend interaction scenario.
+   accepted frontend interaction scenario and its required-artifact list.
 
 ## Method
 
@@ -54,7 +54,11 @@ commit; or take external action. Do not turn an unverified claim into a pass.
    locators; independent semantic assertions after each transition; semantic evidence is
    always required for material frontend behavior; conditional visual checkpoints only when
    visual output is material; accessibility checks; failure/recovery; cleanup; commands and
-   artifact references; and an exact replay command or ordered replay steps.
+   the exact required-artifact list copied from the accepted specification; and an exact replay
+   command or ordered replay steps. Verify one screenshot key per material visual checkpoint,
+   one trace key per material interaction sequence or runtime failure/recovery path, and one
+   full-log key per run, browser, or visual command whose full output is required. Reject
+   missing, extra, or changed keys.
    Reject generic instructions such as `verify the UI` or `check visually`.
 6. Scan the whole plan for `TBD`, placeholders, generic test or error-handling steps,
    bundled goals, hidden decisions, and scope expansion. Continue after a blocker and
@@ -69,8 +73,9 @@ commit; or take external action. Do not turn an unverified claim into a pass.
 - Every claim has a disposition and command result, or a named unavailable probe.
 - Criterion and step mappings are bidirectional and complete.
 - Frontend interaction scenario IDs map bidirectionally to producing steps. Every field in
-  the `frontend plan scenario contract` is checked, including semantic evidence and
-  conditional visual checkpoints; generic UI instructions are rejected.
+  the `frontend plan scenario contract` is checked, including semantic evidence, conditional
+  visual checkpoints, and exact required-artifact lists copied from the accepted specification;
+  generic UI instructions are rejected.
 - `Consumes`/`Produces` order and signatures are valid.
 - Every red check names its pre-build cause.
 - Placeholder, generic, bundled, and hidden-decision scans completed after findings.
@@ -87,7 +92,7 @@ Return exactly one verdict: `pass`, `repair`, or `blocked`, plus:
 - generative missing-probe attack and complete defect-class sweeps;
 - criterion-to-step and step-to-contract matrices;
 - frontend interaction scenario checks, setup producers, independent assertions, evidence,
-  cleanup, exact replay, and bidirectional scenario-to-step mapping;
+  exact required-artifact lists, cleanup, exact replay, and bidirectional scenario-to-step mapping;
 - `Consumes`/`Produces` table and forward-reference or signature results;
 - red checks with their causes;
 - placeholder, generic-step, bundled-goal, scope, recovery, and non-goal results;
