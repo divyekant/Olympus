@@ -24,7 +24,7 @@ double opt-in.
 | --- | --- |
 | repository URL | `git@github.com:divyekant/Olympus.git` |
 | requested ref | `main` |
-| full immutable commit | `58bb19288ad6f60974110e57ad894e033323c1a8` |
+| full immutable commit | `8653b5409dec4ec7d9153c8b8e9ee30b3c5113f1` |
 
 The pin identifies framework content. It does not authenticate the source or grant remote
 authority.
