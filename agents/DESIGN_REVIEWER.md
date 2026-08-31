@@ -15,7 +15,8 @@ Receive the protocol-defined frozen review unit, goal and acceptance criteria, p
 design standards, component inventory, matching rendered evidence, project instructions,
 and validation results. When accepted frontend interaction scenarios are present, receive
 the accepted frontend interaction scenarios, the exact current verified frontend packet body,
-frontend packet identifier, lowercase SHA-256 digest, applicable project or task-specific
+frontend packet identifier, lowercase SHA-256 digest, verified Builder-only Git delta, separate
+Docs Writer-only Git delta when Docs Writer ran, applicable project or task-specific
 owner-approved design sources, and frontend run/browser/visual commands. Verify the unit
 before reading. If it changes, return invalidation evidence to the Orchestrator for a fresh
 dispatch; this context does not restart itself.
@@ -43,12 +44,17 @@ visual rule.
    diff. When accepted frontend interaction scenarios are present, recompute the packet
    digest over the exact frontend packet body and verify the packet identifier and digest
    under the Builder's `frontend evidence packet` contract. Verify exact equality between the
-   packet's recorded complete `Builder-changed path set` and the exact complete set of every path
-   changed by Builder in the frozen mutation as observed in Git. Verify one recorded lowercase
-   SHA-256 digest over each changed path's exact file bytes. Artifact references and hashes are
-   separate mandatory fields; before using artifacts, recompute every referenced screenshot or
-   trace's recorded lowercase SHA-256 over its exact bytes. Any mismatch is an identity defect
-   and cannot pass.
+   packet's `Builder-changed path` records, the verified Builder-only Git delta, and the
+   Builder-owned paths in the complete final frozen mutation. Verify every path's Git status and
+   status-specific lowercase SHA-256 identity: `added` or `modified` uses current exact file bytes;
+   `deleted` records `deleted` and base-version exact file bytes; `rename` records source and
+   destination, source base bytes, and destination current bytes. Verify every recorded hash and
+   that Builder hashes remain unchanged. When present, verify the separate Docs Writer-only Git
+   delta, including each path/status and status-specific identity, against the final mutation and
+   verify that it does not overlap Builder-owned non-documentation paths. Artifact references and
+   hashes are separate mandatory fields; before
+   using artifacts, recompute every referenced screenshot or trace's recorded lowercase SHA-256
+   over its exact bytes. Any mismatch is an identity defect and cannot pass.
 2. Locate matching owner-approved project standards, recorded task-specific owner design
    decisions, and the component inventory, including an explicit evidence-backed empty
    inventory when that is the recorded result.

@@ -59,7 +59,7 @@ replace them with role-specific labels.
 | Checkpoint | Required record |
 | --- | --- |
 | request boundary | `<review-only, diagnose-only, audit-only, spec-only, or mutation; terminal boundary and truncated stages>` |
-| frozen review unit | `<spec body id/hash, plan id/hash, or mutation task/base/branch/worktree/base/head/merge-base/paths/diff digest, as applicable; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus the accepted specification packet identifier/hash that contains the complete scenario set, plus the accepted plan packet identifier/hash when a plan exists) and verified frontend packet identifier/digest>` |
+| frozen review unit | `<complete final mutation identity or artifact identity, as applicable; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus the accepted specification packet identifier/hash that contains the complete scenario set, plus the accepted plan packet identifier/hash when a plan exists), verified frontend packet identifier/digest, verified Builder-only Git delta identity (pre/post Git states, each path/status, and status-specific exact-byte identity), and separate observed Docs Writer-only Git delta identity when Docs Writer ran>` |
 | transition evidence | `<role identity; packet identity; Git state; required checks; evidence verified by Orchestrator>` |
 | halted outcome | `<operational/runtime cause; partial-output disposition; last verified state; recovery owner; safe retry; completed review rounds consumed: 0>` |
 | pending outcome | `<every applicable cause; owner; closure evidence; safe retry; consequence; all required causes cleared: yes/no>` |
@@ -185,12 +185,10 @@ append supersedes an earlier row and never replaces it.
 
 ## Specification rounds
 
-Use this bracket only when the named Spec Writer trigger holds, including material frontend
-behavior. Persist the complete current Writer result and record its identity before reviewer
-dispatch. The body between the markers is the only specification body; keep metadata and review
-state outside it. When material frontend behavior applies, the accepted hashed body contains the
-complete frontend interaction scenario set before Plan Writer or Builder receives it. See the
-protocol for body, acceptance, and review rules.
+See the [goal-flow protocol](../references/PROTOCOL.md#4-goal-flow) for the Spec Writer trigger
+and review rules. Record the complete current body and identity before reviewer dispatch. Keep
+metadata and review state outside the body. For material frontend behavior, record the complete
+accepted scenario set in the accepted body before Plan Writer or Builder receives it.
 
 ### Current specification body
 
@@ -280,11 +278,9 @@ summary.
 
 ## Plan rounds
 
-Use this bracket only when the accepted contract has dependent steps, cross-layer or
-interface sequencing, or an explicit plan need. Plan Writer receives the accepted contract
-or specification verbatim. Frontend scenarios do not make planning unconditional. When they
-exist, record the hashed plan body contract and bidirectional scenario map. See the protocol
-for plan verification.
+Use this bracket only when the existing Plan Writer trigger holds. Frontend scenarios do not make
+planning unconditional. See the [goal-flow protocol](../references/PROTOCOL.md#4-goal-flow) for
+the plan contract and verification rules. Record the packet, body, verdict, and evidence below.
 
 | Round | Plan packet identifier and hash | Plan Writer context | Fresh Plan Verifier context | Verdict | Accepted plan or findings/evidence | Uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -312,22 +308,20 @@ Builder rounds use a separate context:
 
 | Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results; when accepted frontend interaction scenarios exist, each candidate packet identifier/digest and disposition, complete scenario replay result, Builder-changed path hashes, separate mandatory screenshot/trace references and exact-byte SHA-256 digests; verified identity only after protocol checks; no raw screenshot/trace bytes>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<result and Orchestrator-observed Builder-only paths/statuses>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, each candidate attempt number, packet identifier/digest, disposition, complete replay result, pre/post Git states, and Builder-changed path hashes with Git status: added/modified current-byte lowercase SHA-256; deleted: `deleted` plus base-byte lowercase SHA-256; rename source/destination with source-base and destination-current lowercase SHA-256; separate mandatory screenshot/trace references and exact-byte SHA-256 digests; no raw screenshot/trace bytes>` | `<none or limit>` |
 
 ### Current verified frontend packet body
 
-Use this one marker pair only when accepted frontend interaction scenarios exist. Persist or
-replace the body only after the protocol's candidate checks pass. The bytes between the markers
-are the exact current verified `frontend packet body`; its digest excludes the markers. The body
-contains references and exact-byte digests, never raw screenshots or traces. An unverified
-candidate body exists only in the Builder return while checked. The Builder row records each
-candidate attempt, compact identity, path hashes, artifact references/digests, replay result,
-failure evidence, and disposition; a failed or unavailable attempt leaves the prior verified
-body unchanged. See the protocol for candidate, repair, and review state rules.
+Use this one marker pair only when accepted frontend interaction scenarios exist. It contains only
+the current verified `frontend packet body`; bytes between the markers are exact and its digest
+excludes the markers. It contains references and exact-byte digests, never raw screenshots or
+traces. Record candidate attempts, dispositions, and prior identity/evidence in the Builder row;
+replace this body only with a new verified packet. See the [goal-flow
+protocol](../references/PROTOCOL.md#4-goal-flow) for verification and repair rules.
 
 <!-- FRONTEND-PACKET-BODY:BEGIN -->
 
-`<exact current verified frontend packet body only, persisted verbatim; present only with accepted scenarios; preserve prior verified body on a failed or unavailable candidate>`
+`<exact current verified frontend packet body only, persisted verbatim; present only with accepted scenarios>`
 
 <!-- FRONTEND-PACKET-BODY:END -->
 
@@ -337,14 +331,14 @@ Record only when its trigger holds.
 
 | Round | Context | Approved docs changed | Claims and links checked | Result and uncertainty |
 | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<paths>` | `<checks/results>` | `<result and limit>` |
+| `<n>` | `<separate context>` | `<approved Docs Writer-only paths and separate observed delta: Git statuses and status-specific lowercase SHA-256 identities>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
 
 Review rounds use a fresh context that did not build the change. Verdicts are `pass`,
 `repair`, or `blocked`:
 
 | Implementation round | Frontend review round | Frozen unit and frontend packet | Reviewer | Verdict | Acceptance checks, findings, and uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<shared round identity, or not applicable>` | `<same frozen unit and exact current verified frontend packet body/identifier/digest as the Design Reviewer when paired; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
+| `<n>` | `<shared round identity, or not applicable>` | `<same frozen unit, exact current verified frontend packet body/identifier/digest, verified Builder-only Git delta, and separate Docs Writer-only Git delta as in the paired Design Reviewer; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
 
 Round cap: `<1, 2, or 3; default 2>`.
 
@@ -361,18 +355,12 @@ content receives a fresh committed-content review.
 
 ### Design review
 
-Record when the design trigger holds. Record the governing source and matching evidence under the
-protocol design-authority rule: matching owner-approved project standard first; task-specific
-owner decision only for an otherwise missing material aspect; analogous screens are evidence
-only; an evidence-backed empty component inventory is valid; `pending` and `halted` are outcomes,
-not verdicts.
+Record only when the design trigger holds. See the [goal-flow protocol](../references/PROTOCOL.md#4-goal-flow)
+for authority and paired-round rules.
 
 | Implementation round | Frontend review round | Frozen unit and frontend packet | Context | Governing source and matching evidence | Verdict | Checks, findings, and uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
-| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<same frozen unit and exact current verified frontend packet body/identifier/digest as general Reviewer>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
-
-The protocol's paired frontend review rule invalidates both verdicts on any relevant mutation
-or evidence regeneration and requires a new round.
+| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<same frozen unit, exact current verified frontend packet body/identifier/digest, verified Builder-only Git delta, and separate Docs Writer-only Git delta as general Reviewer>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
 
 ### Decision Council and Liaison
 
