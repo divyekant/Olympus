@@ -76,9 +76,10 @@ Explorer's reproduction-execution authority is one such row, recorded with role 
 `Explorer (reproduction execution)`. Only `supported` opens that gate, and only when the
 observed evidence covers exactly four limits enforced by the environment itself, not by
 Explorer's own command list: no network access, no credential access, no write outside
-the one disposable worktree, and no access to the shared Git object store beyond read.
-A sandbox's mere availability, without that evidence, stays `untested` and leaves the
-gate closed; Explorer then stays observation-only for a diagnose-only dispatch.
+the one disposable reproduction copy, and no access to the target repository or its Git
+administration beyond the read that creates the copy. A sandbox's mere availability,
+without that evidence, stays `untested` and leaves the gate closed; Explorer then stays
+observation-only for a diagnose-only dispatch.
 
 | Harness | Default mapping | Default status |
 | --- | --- | --- |

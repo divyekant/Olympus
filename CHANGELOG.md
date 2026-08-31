@@ -9,13 +9,15 @@
   `references/PROTOCOL.md`, `agents/EXPLORER.md`, `SKILL.md`, `docs/DECISIONS.md`,
   `templates/TASK.md`, `templates/PROJECT.md`, and `docs/WHITEPAPER.md`. Explorer stays
   fully read-only by default in every dispatch. It may execute a reproduction command in
-  one disposable worktree only when PROJECT's harness-support table records an
-  enforcing execution environment as `supported`, with evidence that the environment
-  itself blocks network access, credential access, writes outside the worktree, and
-  access to the shared Git object store beyond read; enumerating a command never grants
-  that authority on its own. When the gate is closed, a diagnose-only dispatch stays
-  observation-only, and Explorer returns `blocked` with cause for any part needing
-  execution. See D036.
+  one disposable reproduction copy, a read-only clone or archive-style export of
+  committed HEAD that shares no worktree metadata, object store, or refs with the
+  target, only when PROJECT's harness-support table records an enforcing execution
+  environment as `supported`, with evidence that the environment itself blocks network
+  access, credential access, writes outside the copy, and access to the target
+  repository or its Git administration beyond the read that creates the copy;
+  enumerating a command never grants that authority on its own. When the gate is
+  closed, a diagnose-only dispatch stays observation-only, and Explorer returns
+  `blocked` with cause for any part needing execution. See D036.
 
 ## 0.5.1 - 2026-08-30
 

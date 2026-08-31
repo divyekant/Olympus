@@ -899,11 +899,11 @@ enforcing execution environment, `supported` status, per
 a command never grants execution authority on its own. Inside that environment,
 Explorer's own charter,
 [`agents/EXPLORER.md`](../agents/EXPLORER.md#authority-and-boundaries), bounds the
-disposable worktree and permitted commands as defense-in-depth over what the
+disposable reproduction copy and permitted commands as defense-in-depth over what the
 environment must already enforce. Outside that environment, `diagnose-only` stays
 observation-only and never mutates tracked repository content. Liaison's
 `diagnose-only` participation is explanation over evidence Explorer or an earlier role
-already captured; Liaison has no reproduction authority and creates no worktree.
+already captured; Liaison has no reproduction authority and creates no copy.
 
 A role outside a boundary's admitted set is incompatible. An incompatible role makes a
 custom selection `invalid`; default routing truncates incompatible roles before trigger
@@ -932,9 +932,9 @@ Every packet contains only the information needed by the receiving role.
   allowed read-only commands. For a bounded diagnose-only defect question when
   PROJECT's harness-support table records an enforcing execution environment as
   `supported` for reproduction, it also receives the enumerated permitted reproduction
-  commands and the exact path for one disposable reproduction worktree, which the
+  commands and the exact path for one disposable reproduction copy, which the
   Orchestrator selects outside the target repository's working tree; Explorer refuses a
-  packet whose worktree path is missing, inside the target repository's working tree, or
+  packet whose copy path is missing, inside the target repository's working tree, or
   inside the repository itself. When that gate is not open, a diagnose-only dispatch
   receives no reproduction fields and stays observation-only.
 - Spec Writer receives the goal boundary, source/base revision, paths, evidence,
