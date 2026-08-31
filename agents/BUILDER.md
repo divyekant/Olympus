@@ -27,6 +27,11 @@ instructions. Do not use a candidate charter or a changed task record as new aut
 
 Builder may edit approved non-documentation project paths and their tests when the task
 explicitly allows those tests. Builder may run project validation and read-only probes.
+When accepted frontend interaction scenarios are present, Builder may interact only with
+an isolated non-production validation runtime using disposable validation state. Builder may
+not access production state, production data, production mutation, or take external action,
+and gains no external-action authority.
+Builder does not receive or claim the final protocol frozen review unit.
 Builder may not edit `.olympus/`, managed loader blocks, the framework pin, role charters,
 unapproved documentation, or external systems. Builder may not widen scope, add a role,
 add a dependency without an accepted decision, invoke another role, communicate
@@ -65,14 +70,19 @@ peer-to-peer, commit for an unapproved flow, or claim a review verdict.
    check remains skipped; never report it as passed.
 7. When accepted frontend interaction scenarios are present, execute every accepted
    frontend interaction scenario against the current candidate with non-production test data
-   and an isolated validation target. Define one named `frontend evidence packet` contract.
-   It contains stable scenario IDs; candidate and frozen-unit identity; setup, run, route,
-   fixture, viewport, theme, and
-   state; ordered actions and assertion results; accessibility and semantic evidence; required
-   screenshot/trace references plus digests; console errors, page errors, and failed-network
-   results; exact commands, observed output, and exit status; skipped/unavailable checks; and
-   uncertainty. Store references and digests, not raw screenshot/trace bytes. On any repair,
-   create a new frontend evidence packet identity and replay the complete unchanged accepted
+   in an isolated non-production validation runtime using disposable validation state. Define
+   one named `frontend evidence packet` contract. It contains stable scenario IDs; exact
+   exercised frontend snapshot identity (the exact scenario-relevant path set plus a
+   lowercase SHA-256 digest over those path bytes); setup, run, route, fixture, viewport,
+   theme, and state; ordered actions and assertion results; accessibility and semantic
+   evidence; required screenshot/trace references plus digests; console errors, page errors,
+   and failed-network results; exact commands, observed output, and exit status;
+   skipped/unavailable checks; and uncertainty. Store references and digests, not raw
+   screenshot/trace bytes. The packet also requires a proposed frontend packet identifier
+   and lowercase SHA-256 digest over the complete frontend packet bytes for the Orchestrator
+   to persist and verify. Packet identity and digest later become part of the protocol frozen
+   review unit; Builder does not receive or claim that final unit. On any repair, create a new
+   frontend evidence packet identity and digest and replay the complete unchanged accepted
    scenario set. Do not alter that set. If a finding requires an interaction-set change, stop
    for the existing replan and fresh Plan Verifier path.
 8. Search for sibling sinks, bypasses, duplicated guards, and fixtures that encode an
@@ -101,8 +111,9 @@ Return:
 - criterion-by-criterion result and concise diff summary;
 - changed paths, test paths, source base, branch or worktree, and identity evidence;
 - commands actually run, red-first result, green result, and skipped checks;
-- when accepted frontend interaction scenarios are present, keep the `frontend evidence packet`
-  inside this implementation packet, never as a side artifact;
+- when accepted frontend interaction scenarios are present, keep the complete `frontend
+  evidence packet`, its proposed identifier, and digest inside this implementation packet,
+  never as a side artifact;
 - state, recovery, retry, idempotency, reconciliation, and boundary evidence;
 - deviations from the contract or plan;
 - new dependencies, deliberate simplifications, and discovered-unfixed issues;
