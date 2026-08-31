@@ -256,16 +256,17 @@ specification body. The Orchestrator assigns stable IDs, merges both complete re
 freezes the rows for each round, routes repairs, classifies each P2 and P3 as task-related
 or non-essential, files each non-essential one as a repository issue, and owns state.
 
-| ID | Jurisdiction | Severity | Relatedness | Finding | Minimum evidence and closure condition | State | First seen | Last checked | Later classification |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `<F-001>` | `<Claims or Spec>` | `<P0/P1/P2/P3>` | `<task-related, non-essential, or not applicable for P0/P1>` | `<short finding>` | `<evidence; exact condition that closes it>` | `<open/repaired/accepted/filed with issue reference/non-blocking>` | `<round>` | `<round>` | `<introduced/missed, or not applicable>` |
+| ID | Jurisdiction | Severity | Relatedness | Finding | Minimum evidence and closure condition | State | Issue ref | First seen | Last checked | Later classification |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `<F-001>` | `<Claims or Spec>` | `<P0/P1/P2/P3>` | `<task-related, non-essential, or not applicable for P0/P1>` | `<short finding>` | `<evidence; exact condition that closes it>` | `<open/repaired/accepted/filed/non-blocking>` | `<issue URL or number; manual-waiver reason; or none>` | `<round>` | `<round>` | `<introduced/missed, or not applicable>` |
 
-P0 and P1 remain open until repaired. A task-related P2 remains open until repaired or
-explicitly accepted by the owner when the acceptance is within owner authority. A
-non-essential P2 or P3 remains open until repaired or filed as a repository issue, recorded
-in the State column as `filed` with the issue reference. A task-related P3 blocks neither
-the goal nor the cap, and blocks only the pre-cap accepted close the protocol states for the
-specification bracket.
+P0 and P1 remain open until repaired. A task-related P2 remains open until repaired, or,
+only while `strict convergence` is `off`, until explicitly accepted by the owner when the
+acceptance is within owner authority. A non-essential P2 or P3 remains open until repaired
+or filed as a repository issue, recorded `filed` in the State column with the reference in
+`Issue ref`. A task-related P3 blocks neither the goal nor the cap, and blocks only the
+pre-cap accepted close the protocol states for the specification bracket, where it remains
+open until repaired or owner-accepted.
 
 ### Convergence state
 

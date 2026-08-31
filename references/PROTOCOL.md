@@ -623,10 +623,18 @@ A bracket that reaches a consumed round 3 has assigned every catalog lens to eac
 reviewers across rounds 1 to 3. Spec Writer never learns the schedule: no lens assignment or
 lens disposition appears in a Spec Writer packet record, a ledger row, or the specification body.
 
-While coverage is incomplete and the frozen ledger holds no open finding, or none other
-than P3, the next Writer result may be the unchanged body with the coverage-only reason
-recorded in convergence state. It remains subject to the body-bearing, cap, and self-test
-rules.
+Every P2 and P3 finding in the specification bracket is task-related or non-essential. A
+finding is task-related when its minimum reproducing evidence names a clause in the current
+specification body, a path in the goal's allowed paths, or an artifact the owner request
+bytes name; otherwise it is non-essential. The Orchestrator classifies each P2 and P3 at
+first seen and records the classification beside the finding in the finding ledger. This
+classification governs the qualifying round's blocking set and the coverage-only shortcut
+below; the owner reviews it and may correct it only as stated at the pre-cap accepted close.
+
+While coverage is incomplete and the frozen ledger holds no open finding, or none open
+other than P3 or non-essential P2, the next Writer result may be the unchanged body with
+the coverage-only reason recorded in convergence state. It remains subject to the
+body-bearing, cap, and self-test rules.
 
 After lens coverage completes, the Orchestrator may persist at most one further Writer
 result while the latest frozen ledger holds an open P0 or P1. If the next consumed round
@@ -641,35 +649,49 @@ conditions hold and each one is recorded:
    blocking findings, its frozen ledger holds no open P0 and no open P1, neither reviewer's
    recorded verdict for that round is `blocked`, and no Writer result is persisted after
    it;
-3. the owner, in the owner's own reply turn, explicitly accepts every P2 and P3 open in
-   that frozen ledger, each P2 within owner authority, or records `none` because that ledger
-   holds no open P2 and no open P3.
+3. in the owner's own reply turn addressing that round's frozen ledger, the owner reviews
+   the Orchestrator's recorded task-related or non-essential classification for every open
+   P2 and P3 and may correct any of them; on the classifications standing after that review,
+   the owner then explicitly accepts every open task-related P3, and, only while `strict
+   convergence` is `off`, every open task-related P2, each within owner authority, or
+   records `none` because no open task-related P3 and, under `off`, no open task-related P2
+   need acceptance. An open task-related P2 is never accepted here while `strict
+   convergence` is `on`; this condition stays unmet while one exists, whatever the owner's
+   reply.
 
-At the cap the cap rule above governs unchanged: a frozen ledger holding no open P0, P1, or
-P2 at the cap is accepted, with any open P3 recorded to the owner. While the Orchestrator
-evaluates this exit it need not route an open P2 or P3 for repair; routing one persists a
-Writer result and stops that round from qualifying.
-
-Every P2 and P3 finding in the specification bracket is task-related or non-essential. A
-finding is task-related when its minimum reproducing evidence names a clause in the current
-specification body, a path in the goal's allowed paths, or an artifact the owner request
-bytes name; otherwise it is non-essential. The Orchestrator classifies each P2 and P3 at
-first seen and records the classification beside the finding. The owner may correct a
-recorded classification in the owner's own reply turn while accepting the pre-cap close
-under condition 3 above; a correction found only after a close is recorded is an escaped
-finding under the rule this protocol states for [skipped work and escaped
+A classification correction the owner makes only after a pre-cap close is recorded is an
+escaped finding under the rule this protocol states for [skipped work and escaped
 findings](#skipped-work-and-escaped-findings), and does not reopen that close.
 
-A non-essential P2 or P3 remains open until repaired or filed. Before the Orchestrator
-evaluates a round for the qualifying round or the cap close, it files every remaining open
-non-essential P2 and P3 from that round's frozen ledger: it opens one repository issue
-naming the finding, records the issue reference beside the finding, and moves the finding's
-state to `filed`. A filed finding is not open and needs no owner acceptance under condition
-3 above. Filing is not a repair route: it persists no Writer result and does not stop that
-round from qualifying. When the repository issue channel is unavailable, filing blocks: the
-finding stays open, the Orchestrator records the failure as skipped or unrunnable work with
-its reason and recovery owner, and the finding blocks that round's qualification or cap
-close exactly as its severity requires.
+At the cap the cap rule above governs unchanged: a frozen ledger holding no open P0, P1, or
+P2 at the cap is accepted, with any open P3 recorded to the owner. The condition 3 review is
+a pre-cap step only; the cap close has no owner turn, so the classifications the
+Orchestrator recorded for that round stand, and the completion report lists every finding
+filed that round with its issue reference for the owner's awareness. A classification
+correction found only after a cap close is recorded is an escaped finding under the same
+rule and does not reopen that close. While the Orchestrator evaluates either exit it need
+not route an open P2 or P3 for repair; routing one persists a Writer result and stops that
+round from qualifying.
+
+A non-essential P2 or P3 remains open until repaired or filed; filing is not a repair route,
+persists no Writer result, and does not stop a round from qualifying. For the pre-cap
+accepted close, filing is not itself part of condition 3: once condition 3 is otherwise met,
+the Orchestrator files every P2 and P3 that stands classified non-essential after the
+owner's review. For the cap close, the Orchestrator files every open non-essential P2 and P3
+in that round's frozen ledger before evaluating the cap rule, since an unfiled one is still
+open and blocks there. Filing opens one repository issue naming the finding and records the
+issue reference in the finding's `Issue ref` field, moving the finding's state to `filed`; a
+filed finding is not open and needs no owner acceptance.
+
+When the repository issue channel is unavailable, filing is skipped or unrunnable work,
+recorded with its reason. The Orchestrator may then propose, and the owner may grant in the
+owner's own reply turn, a manual filing record instead: the owner supplies an issue
+reference, or explicitly waives filing with a recorded reason. Recording either moves the
+finding's state to `filed` with that reference or reason in `Issue ref`, satisfies the
+filing duty, and unblocks the cap rule or the pre-cap close's bookkeeping for that finding.
+Absent that owner turn, the finding stays open and blocks exactly as its severity and
+classification require; a goal that reaches its cap in that state records `blocked`, and the
+safe recovery is the owner-issued narrowed or replacement goal stated above.
 
 A finding is new in round `n` when its ledger row's `First seen` is `n`. A severity change
 to an existing row is a re-grade and keeps that `First seen`, but only while the row's
@@ -683,12 +705,13 @@ other severity meaning.
 
 `strict convergence` is a PROJECT boundary setting with values `off` and `on`, default `on`.
 The value meanings are unchanged by this default: `on` keeps the qualifying-round bar at
-zero open task-related P2; `off` is the owner-selected relaxation to the P0/P1-only bar. It
-changes only through the [section 3](#3-project-configuration) configuration flow, the goal
-uses the value in force at goal start, and the Orchestrator records that value with the
-goal. The setting never lowers a bar, never exempts a task-related P2 from repair or owner
-acceptance, and never suppresses a trigger, a lens, the coverage rule, the non-essential
-filing duty, an owner gate, or any other requirement in this section.
+zero open task-related P2 and removes owner acceptance as a closure route for a task-related
+P2, exactly as condition 3 above states; `off` is the owner-selected relaxation that restores
+owner acceptance for a task-related P2, matching the pre-`on` default. It changes only
+through the [section 3](#3-project-configuration) configuration flow, the goal uses the
+value in force at goal start, and the Orchestrator records that value with the goal. The
+setting never lowers a bar and never suppresses a trigger, a lens, the coverage rule, the
+non-essential filing duty, an owner gate, or any other requirement in this section.
 
 `writer reuse` is a PROJECT boundary setting with values `reuse` and `fresh-per-round`,
 default `reuse`. It changes only through the [section 3](#3-project-configuration)
@@ -739,14 +762,18 @@ Use one severity ladder for every finding:
 - `P3`: non-blocking suggestion. It blocks neither the goal nor the cap, and blocks only
   the pre-cap accepted close this section states for the specification bracket.
 
-P0 and P1 remain open until repaired. P2 remains open until repaired or explicitly accepted
-by the owner when the acceptance is within owner authority; in the specification bracket, a
-non-essential P2 remains open until repaired or filed under the rule stated above instead.
-P3 blocks neither the goal nor the cap, and blocks only the pre-cap accepted close this
-section states for the specification bracket; there, a non-essential P3 remains open until
-repaired or filed under that same rule instead. The Orchestrator records severity, state,
-jurisdiction, minimum reproducing evidence, and a closure condition in the finding ledger,
-and in the specification bracket also records task-relatedness beside each P2 and P3.
+P0 and P1 remain open until repaired. Outside the specification bracket, P2 remains open
+until repaired or explicitly accepted by the owner when the acceptance is within owner
+authority. In the specification bracket, a task-related P2 remains open until repaired, or,
+only while `strict convergence` is `off`, until explicitly accepted by the owner when the
+acceptance is within owner authority; a non-essential P2 remains open until repaired or
+filed under the rule stated above. P3 blocks neither the goal nor the cap, and blocks only
+the pre-cap accepted close this section states for the specification bracket; there, a
+task-related P3 remains open until repaired or owner-accepted, and a non-essential P3
+remains open until repaired or filed under that same rule. The Orchestrator records
+severity, state, jurisdiction, minimum reproducing evidence, and a closure condition in the
+finding ledger, and in the specification bracket also records task-relatedness and, once
+filed, the issue reference, beside each P2 and P3.
 
 Fresh reviewers use the same canonical checklist from the immutable framework commit that
 is recorded when the goal starts. If the goal edits a reviewer charter, that recorded
