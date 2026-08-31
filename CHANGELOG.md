@@ -2,6 +2,83 @@
 
 ## Unreleased
 
+## 0.6.0 - 2026-08-31
+
+This private experimental release combines the reviewed work from PRs #33 through #37.
+It adds the Tester role, bounded diagnosis, owner help and adapter documentation, and a
+static frontend evidence loop. It also makes strict specification convergence the default.
+
+### Added
+
+- Tester, the 16th Pantheon role, at position 10 after Builder and before Docs Writer.
+  Tester writes and runs tests in Tester-owned test paths only, never product code, and
+  never issues a verdict; its trigger is a contract-flagged red path crossing a boundary
+  or an owner request, and PROJECT may make it more eager but not suppress it. See
+  `agents/TESTER.md`.
+- [Tester round semantics](references/PROTOCOL.md#tester-round-semantics): goal-scoped
+  path ownership that follows assignment rather than authorship, the exact classes of
+  Reviewer pass that consume an implementation round, per-path `covered-clean` coverage
+  required for a round's Tester loop to converge instead of a vacuous pass, and a cap
+  disposition that always ends `blocked` or an explicit owner-accepted partial, never
+  silence.
+- `Olympus help`, a fifth owner phrase: read-only in every preflight state, never
+  approves a proposal, never starts a mode, and never creates a goal. In `complete`
+  state with no live proposal it returns a bounded owner card, at most 15 nonblank
+  lines. It is reachable on the pre-install and skill-invocation paths only; reaching it
+  through an installed `manual`-mode loader needs a later loader revision and an
+  explicit owner decision.
+- `docs/GUIDE.md`, a one-page owner manual: the five owner phrases with examples, the
+  owner view of a goal, review gates, what a stop or failure report means, how to read a
+  task record, release, recovery, and how to change or remove the configuration —
+  deferring to the governing contracts wherever they could diverge.
+- `references/HARNESS.md`, non-normative adapter notes mapping the fixed role classes to
+  Claude Code and Codex, with a per-class evidence-status table drawn only from
+  `docs/CONFORMANCE.md`'s recorded observations.
+- The static frontend craft and evidence loop in C22 and D038, including source discovery,
+  accepted interaction scenarios, conditional plan mapping, candidate-bound browser evidence,
+  cumulative path identity, and paired fresh review with repair invalidation.
+
+### Changed
+
+- `strict convergence` now defaults `on`. The specification bracket's qualifying round
+  requires zero open P0, zero open P1, and zero open task-related P2 by default, matching
+  the cap rule, which already required zero open P0, P1, and P2 regardless of the setting.
+  An owner can relax the qualifying-round bar to P0/P1 only by setting the PROJECT boundary
+  `off`; value meanings are unchanged.
+- Every P2 and P3 finding in the specification bracket is classified task-related or
+  non-essential. The Orchestrator files each non-essential finding as a repository issue
+  and records the issue reference beside it in the finding ledger, instead of carrying it
+  as accepted residue in the task record. A task-related P2 needs repair, and, only while
+  `strict convergence` is `off`, may instead be owner-accepted; a task-related P3 still
+  needs owner acceptance at the pre-cap accepted close. Owner acceptance never closes a
+  task-related P2 while `strict convergence` is `on`.
+- The task-related test also covers a requirement the current body omits: a P2 or P3 is
+  task-related when its evidence names the omitted requirement's exact source, in the owner
+  request bytes or a governing contract clause, and that requirement bears on what the
+  request asks this goal to deliver. A missing required clause can no longer classify
+  non-essential just because there is no body clause to name.
+- Explorer's trigger and mission now admit a bounded diagnose-only defect question,
+  alongside the existing material-question and read-only-audit triggers, across
+  `references/PROTOCOL.md`, `agents/EXPLORER.md`, `SKILL.md`, `docs/DECISIONS.md`,
+  `templates/TASK.md`, `templates/PROJECT.md`, and `docs/WHITEPAPER.md`. Explorer stays
+  fully read-only by default in every dispatch. It may execute a reproduction command in
+  one disposable reproduction copy, a read-only clone or archive-style export of the
+  packet's exact source revision that shares no worktree metadata, object store, or
+  refs with the target, only when PROJECT's harness-support table records an enforcing
+  execution environment as `supported`, with evidence that the environment itself
+  blocks network access, credential access, writes outside the copy, and access to the
+  target repository or its Git administration beyond the read that creates the copy;
+  enumerating a command never grants that authority on its own. Before running any
+  reproduction command Explorer verifies the copy's identity matches the packet's exact
+  source revision and reports that verified identity; a mismatch is reported, the copy
+  is deleted, and nothing runs. When the gate is closed, a diagnose-only dispatch stays
+  observation-only, and Explorer returns `blocked` with cause for any part needing
+  execution. See D036.
+
+### Known limits
+
+- Live frontend dogfood and browser or harness support evidence remain pending.
+
 ## 0.5.1 - 2026-08-30
 
 The fixes-only stabilization release. It closes policy and specification-convergence

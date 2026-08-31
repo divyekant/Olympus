@@ -1,9 +1,9 @@
 # Olympus
 
 Olympus is an opinionated, Markdown-only build system for reliable agent-led software
-development. Version `0.5.1` is a private experimental fixes release.
+development. Version `0.6.0` is a private experimental contract release.
 
-It gives a coding agent one fixed orchestration graph, fifteen conditional roles, bounded
+It gives a coding agent one fixed orchestration graph, sixteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
 no runtime, service, database, package, or scheduler.
 
@@ -19,9 +19,12 @@ Long agent sessions lose scope on large codebases. They can mix discovery, imple
 - Spec Writers, Claims Reviewers, and Spec Reviewers define and falsify substantial goals.
 - Plan Writers and Plan Verifiers cover dependent or cross-layer implementation steps.
 - Builders make the smallest approved project change.
+- Testers write and run tests in their own test paths only, when a contract-flagged red
+  path crosses a boundary or the owner requests one.
 - Docs Writers synchronize approved documentation when the contract requires it.
 - Fresh Reviewers verify each mutation and return `pass`, `repair`, or `blocked`.
-- Design Reviewers check material user-facing changes against project-provided standards.
+- Design Reviewers check material frontend behavior against project standards first, or a
+  task-specific owner decision only for an otherwise missing material aspect.
 - The Release Agent prepares or reconciles one owner-requested release action. Execution
   needs separate owner approval; the role has no file or standing external authority.
 - Decision Council gives read-only advice for unresolved material trade-offs.
@@ -79,6 +82,7 @@ The framework stays outside the target repository and is resolved at the exact c
 - This session: `Activate Olympus orchestration`
 - Every session: choose `boot mode: orchestration` during onboarding
 - Guided entry: `Awaken Olympus` opens onboarding or reports readiness; it never activates a session.
+- Help: `Olympus help` returns a read-only owner card where the entry path supports it.
 - Stop session routing: `Deactivate Olympus orchestration`
 
 Each entry runs the canonical preflight before routing. Project boot is routing authority, not
@@ -91,20 +95,21 @@ a background process. Questions do not create goals. Project-changing requests d
 - [Decision record](docs/DECISIONS.md)
 - [Skill-to-charter distillation](docs/DISTILLATION.md)
 - [Installation and onboarding](docs/INSTALLATION.md)
+- [Owner guide](docs/GUIDE.md)
+- [Harness adapter notes](references/HARNESS.md)
 - [Conformance plan and evidence](docs/CONFORMANCE.md)
 - [Roadmap](ROADMAP.md)
 - [Changelog](CHANGELOG.md)
 
 ## Version status
 
-Olympus `0.5.1` separates core-framework authority from bounded dogfood evidence and
-contains specification-review churn. Writer self-tests now block before persistence,
-both fresh reviewers cover every persisted body, lens handoff defects consume no round,
-the body-cap path has explicit owner-controlled states, and post-coverage P0/P1 repair is
-bounded. The release adds no runtime, dependency, role, or product feature.
+Olympus `0.6.0` has sixteen roles. It adds a test-paths-only Tester, bounded
+diagnose-only Explorer work, `Olympus help`, an owner guide, harness adapter notes, and a
+static frontend evidence loop. Strict specification convergence now defaults to `on`.
+The release adds no runtime, service, database, package, scheduler, or test framework.
 
-The release boundary, custom workflow, and dieted protocol are static Markdown
-contracts.
+The frontend evidence loop is a static Markdown contract. Live frontend dogfood and
+browser or harness support evidence remain pending.
 D03 preserves the first unsupported Claude mutation trial and a later bounded pass through
 one Builder-to-fresh-Reviewer mutation path. That pass does not establish self-governance,
 current-pin support, Configurer repin support, uninvoked-role support, or general Claude

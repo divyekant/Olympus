@@ -23,7 +23,7 @@ The framework passes static inspection when:
 
 1. `SKILL.md` has valid frontmatter, links to the protocol, and links to every local
    charter and template it names.
-2. The protocol names one Orchestrator and the fixed ordered 15-role catalog with its
+2. The protocol names one Orchestrator and the fixed ordered 16-role catalog with its
    triggers and authority.
 3. PROJECT supports manual and project orchestration modes, exact role preferences,
    harness evidence, and design-standard matching details. The contract requires a
@@ -87,7 +87,7 @@ The framework passes static inspection when:
     and failure endings.
 17. Each of the five consumers has exactly one link to the canonical onboarding contract,
     and every target and anchor resolves.
-18. The canonical contract retains the immutable pin, fifteen-role catalog, Orchestrator
+18. The canonical contract retains the immutable pin, sixteen-role catalog, Orchestrator
     authority, Configurer-only mutation, fresh exact-unit review, hook rereview, external
     approval gates, truthful `supported`, `unsupported`, and `untested` meanings, the
     provider-neutral Release Agent boundary, owner-selected workflow limits, and
@@ -108,10 +108,11 @@ The framework passes static inspection when:
     criterion names. Reproduced text carries no evidentiary force, and each reviewer
     verifies the claims in its own jurisdiction by that reviewer's own charter method.
 21. One compact Orchestrator-owned finding ledger records stable ID, reviewer jurisdiction,
-    severity, concise finding, minimum reproducing evidence, closure condition, state,
-    first-seen round, last-checked round, and `introduced` or `missed` classification for
-    findings first reported after round 1. Claims Reviewer and Spec Reviewer each return a
-    complete jurisdictional set every round. The Orchestrator merges and freezes the ledger.
+    severity, task-relatedness for each P2 and P3, concise finding, minimum reproducing
+    evidence, closure condition, state, an issue reference for each `filed` finding, first-
+    seen round, last-checked round, and `introduced` or `missed` classification for findings
+    first reported after round 1. Claims Reviewer and Spec Reviewer each return a complete
+    jurisdictional set every round. The Orchestrator merges and freezes the ledger.
 22. Claims Reviewer owns only facts, evidence, citations, counts, hashes, and uncertainty,
     and excludes design completeness, coherence, authorization, mechanism quality, and
     acceptance-test structure. Spec Reviewer owns only completeness, coherence, authority
@@ -136,10 +137,24 @@ The framework passes static inspection when:
     Only the owner amends a body size cap, through at most one Orchestrator proposal per goal
     that names one cap or both, states the cause and exact current and proposed values, and
     is granted in the owner's own reply turn by verbatim decision bytes naming an exact new
-    value. At completed round 10, remaining P0-P2 findings block implementation. After lens
-    coverage completes, at most one further Writer result may be persisted while the latest
-    frozen ledger holds an open P0 or P1; if the next consumed round still holds one, the
-    goal is `blocked` and no further Writer dispatch occurs.
+    value. At completed round 10, remaining open P0, P1, or P2 findings block
+    implementation, with no owner-acceptance route for an open P2 at the cap. `strict
+    convergence` defaults `on`, so the pre-cap qualifying round also requires zero open
+    task-related P2, and owner acceptance never closes one while the setting is `on`; only
+    repair does. An owner may relax the setting to `off` for the P0/P1-only qualifying-round
+    bar, restoring owner acceptance for a task-related P2; the cap rule above is unaffected
+    by that value. The Orchestrator classifies each P2 and P3 as task-related or
+    non-essential; a body-omission finding is task-related too when its evidence names the
+    omitted requirement's exact source in the owner request bytes or a governing contract
+    clause bearing on what the request asks this goal to deliver, and non-essential
+    otherwise. A non-essential P2 or P3 remains open until repaired or filed as a
+    repository issue, recorded `filed` with its issue reference, and needs no owner
+    acceptance. When the issue channel is unavailable, the owner may grant a manual filing
+    record in the owner's own reply turn instead; absent that, the finding stays open and
+    blocking. After lens coverage completes, at most one further Writer result may be
+    persisted while the latest frozen ledger holds an open P0, an open P1, or, when `strict
+    convergence` is `on`, an open task-related P2; if the next consumed round still holds
+    one, the goal is `blocked` and no further Writer dispatch occurs.
 24. After acceptance, the general Reviewer owns whether implementation evidence satisfies the
     accepted criteria. Specification reviewers do not replace that implementation review.
 
@@ -167,6 +182,33 @@ The framework passes static inspection when:
     state with a matching recheck means no activation claim.
 28. The Issue #8 fixtures below cover source identity, state classes, wake phrases, mutation
     races, compact disclosure, safe defaults, plain-text fallback, and unchanged review gates.
+29. Current PROJECT or current-repository evidence may provide the complete frontend source
+    map; dispatch Explorer only for a material gap blocking a required role, and record Explorer
+    skipped when current evidence suffices. Material frontend behavior has accepted hashed
+    interaction scenarios before planning or building, and a
+    conditional plan with complete scenario execution details and bidirectional mapping when
+    the plan trigger holds. Before sizing and before worktree creation, the source checkout
+    supplying the base records the exact approved Builder and Docs Writer allowed paths clean
+    against committed HEAD, or the goal stops for a new owner goal after commit; the worktree
+    rechecks that source and path set before Builder dispatch. Builder implementation returns
+    `frontend evidence packet: not yet permitted`; Builder edits and tests first, Docs Writer runs
+    when triggered, named paths and hooks complete before the evidence-only Builder pass generates
+    candidate evidence, and paired reviewers replay the exact committed candidate. Hook evidence
+    records the exact pre-commit whole-tree Git state and intended identity, then compares it with
+    post-hook whole-tree committed HEAD, index, and working-tree identities. The owning role
+    validates each in-scope changed path. An out-of-set path stops before evidence and requires
+    owner cleanup or commit plus a new goal. A corrective commit runs
+    only when validated bytes are not already cleanly committed, and a post-correction difference
+    blocks. The proper cumulative identity then refreshes from final committed HEAD bytes. Builder evidence is candidate-bound: exact body, status-specific
+    path hashes, and each scenario's artifact references equal its accepted required-artifact list
+    before lowercase SHA-256 digests verify. After paired pass, final checks are non-generating only.
+    Cumulative Builder and Docs Writer identities must be disjoint and equal the final mutation. Screenshot-only,
+    stale, missing state or console evidence, and unavailable browser capability cannot become a
+    pass; report `pending`, `halted`, `blocked`, or `unsupported` for the applicable cause.
+    Project design standards govern first, and a task-specific owner decision governs only an
+    otherwise missing material aspect. A repair invalidates both frontend verdicts. A
+    frontend-affecting repair requires full replay; only a proven disjoint Docs Writer-only
+    documentation delta can use the canonical no-browser replay disposition.
 
 ## Behavioral smoke tests
 
@@ -228,7 +270,7 @@ transcript analysis, or Git plumbing to compensate.
 
 ### C09 — Fixed catalog and triggers
 
-The Orchestrator records the ordered 15-role catalog, predicts the roles for the goal, and
+The Orchestrator records the ordered 16-role catalog, predicts the roles for the goal, and
 invokes each role only when its trigger holds. An owner-selected workflow is an ordered
 allowlist, not a new graph or invocation list. PROJECT can make optional triggers more eager
 but cannot suppress a framework trigger or add a role. Every invoked role has a mapping,
@@ -250,9 +292,11 @@ implementation caps apply independently.
 
 When Builder makes tracked documentation false or the contract requires synchronization,
 Docs Writer changes approved documentation only and verifies touched links before fresh
-general review. A material user-facing change invokes Design Reviewer when its trigger
-holds and matching project design standards and evidence exist; missing required standards
-block the goal, not the trigger. Design Reviewer cannot replace general review.
+general review. Material frontend behavior invokes Design Reviewer when its trigger
+holds. Each material aspect uses a matching owner-approved project standard first, or a
+recorded task-specific owner design decision only for an otherwise missing aspect. The goal
+blocks when neither source governs the aspect, not when project standards alone are absent.
+Design Reviewer cannot replace general review.
 Accessibility basics remain in Builder and general Reviewer checks.
 
 ### C12 — Advisory and status roles
@@ -331,8 +375,9 @@ after either exact final line.
 The task record stores one current specification body only. Its metadata stays outside the
 body hash. A compact round summary records packet identifier, hash, each complete reviewer
 finding count, aggregate state, open P0-P2 count, and current body line and byte counts. One
-Orchestrator-owned finding ledger stores stable IDs, jurisdiction, severity, concise finding,
-minimum evidence, closure condition, state, first-seen and last-checked rounds, and
+Orchestrator-owned finding ledger stores stable IDs, jurisdiction, severity,
+task-relatedness for each P2 and P3, concise finding, minimum evidence, closure condition,
+state, an issue reference for each `filed` finding, first-seen and last-checked rounds, and
 `introduced` or `missed` for findings first reported after round 1. Claims Reviewer returns
 all facts-and-evidence findings in one pass and does not assess design or acceptance
 structure. Spec Reviewer returns all
@@ -343,9 +388,12 @@ and freezes both sets.
 If a repair causes a later finding, classify it `introduced`; otherwise classify it `missed`.
 A new missed P0/P1 is a framework-review failure. The specification cap is default 10
 completed rounds, with expected closure in 2-3 rounds. Halted attempts remain visible but do
-not consume that cap. At completed round 10, any remaining P0-P2 finding blocks
-implementation. The later general Reviewer checks implementation evidence only after
-acceptance.
+not consume that cap. At completed round 10, any remaining open P0, P1, or P2 finding
+blocks implementation, with no owner-acceptance route for an open P2 at the cap; a
+non-essential P2 or P3 that reached the `filed` state through the repository-issue rule, or
+through an owner-granted manual filing record when the issue channel was unavailable, is
+not open and does not block. The later general Reviewer checks
+implementation evidence only after acceptance.
 
 ### C17 — Role craft adversarial fixtures
 
@@ -454,6 +502,41 @@ be the same.
 | Post-coverage P0/P1 | At most one further Writer result is persisted; any P0/P1 in the next consumed round blocks dispatch | Another Writer repair is dispatched |
 | Omitted settings | Missing values become `off` and `reuse`, each recorded `defaulted from omission`; an unknown explicit value is malformed | Omission is ambiguous or an unknown value is defaulted |
 
+### C22 — Frontend evidence loop
+
+These are static fixture definitions for the conditional frontend loop. They do not prove live
+browser, harness, or production support. Missing output is `not run`, not pass.
+
+| Fixture | Observable pass evidence |
+| --- | --- |
+| Source discovery | Current PROJECT or current-repository evidence may satisfy the source map: record design philosophy, owner-approved standards or tokens, reusable components, exemplar screens or flows, routes, states, fixtures, browser or visual commands, freshness, conflicts, and unknowns. Dispatch Explorer only for a material gap blocking a required role, and record Explorer skipped when current evidence suffices. An absent source is explicit and is not permission to invent one. |
+| No sources plus owner direction | When no frontend source exists, the record states `none` or the exact absence and obtains the bounded owner direction needed for the material aspect; Explorer evidence is not approval. |
+| Canonical shared definitions | The protocol defines the frontend interaction scenario contract, plan scenario contract, artifact grammar, general-review packet, design-review packet, and replay dispositions once. Role charters cite those definitions and do not copy their field lists. |
+| Specification artifact list | Every accepted frontend scenario contains one exact ordered required-artifact list. Spec Reviewer rejects a missing, extra, duplicated, reordered, or invalid artifact key under the canonical grammar and cardinality rules, including on a no-plan path. |
+| Incomplete interaction plan | Accepted scenarios stay in the hashed specification before Plan Writer or Builder receives them. Planning remains conditional. If the existing plan trigger holds, the plan carries the complete frontend plan scenario contract and a bidirectional stable-ID-to-producing-step map; an incomplete interaction plan, contract, or map is rejected. |
+| Visual-only change | A material visual, layout, typography, motion, viewport, theme, or design-system change still enters the specification bracket, gets accepted scenarios and candidate-bound evidence, and receives paired fresh general and Design Reviewer replay. |
+| Commit/evidence order | Builder implementation returns `frontend evidence packet: not yet permitted`; Builder edits and tests first; Docs Writer runs only when triggered; the Orchestrator records the exact pre-commit whole-tree state and intended identity, commits named paths, completes hooks, and records post-hook whole-tree HEAD, index, and working-tree identities. In-scope differences return to their owning role. An out-of-set difference stops before evidence and requires owner cleanup or commit plus a new goal; path authority never widens silently. If validated bytes are already cleanly committed, no empty repair commit runs; otherwise exactly one corrective commit is allowed, and a post-correction difference blocks. The proper cumulative identity refreshes from final committed HEAD bytes. The evidence-only Builder pass generates evidence only against that exact clean commit; paired fresh reviewers use the same commit; after paired pass, final checks are non-generating only. |
+| Candidate-bound evidence | Only the evidence-only Builder pass returns a candidate packet with exact body bytes and lowercase SHA-256 digest, proposed identifier, complete cumulative Builder-owned paths, status-specific path identities under the canonical comparison-base rule, each scenario's accepted required-artifact list and exactly matching references, bounded inline output summaries, and the exact-byte artifact references and lowercase SHA-256 digests selected by each list. The body is at most 48,000 bytes and contains neither exact task marker byte sequence. Only verified equality and digests create frozen frontend state. |
+| Candidate verification failure | A failed candidate verification retains the prior verified packet body and state, permits exactly one pre-review Builder candidate repair, and blocks on a second failed candidate. Candidate attempts consume no implementation review round. |
+| Replay evidence | Screenshot-only, stale, missing state, console or page errors, missing required network outcomes, or Builder assertions alone cannot pass. Each scenario's required-artifact references equal its accepted list before digest checks. For `full`, both reviewers replay the complete unchanged accepted scenario set with separate disposable outputs. For a proven disjoint Docs Writer-only documentation delta, both fresh reviewers verify the new exact unit and unchanged identities without browser execution. A command that cannot write to the assigned disposable path makes required full replay unavailable and cannot pass. |
+| Paired repair | A frontend-affecting change, packet or artifact change, or evidence regeneration requires a new packet and complete-set `full` replay by both fresh reviewers. A Docs Writer-only delta can use `verified-disjoint-docs-only` only when no changed path or bytes feed a route, fixture, runtime, command, artifact, or governing design source; both reviewers are still fresh on the new exact unit. After paired pass, evidence is not regenerated. |
+| Scenario-set change | A required interaction-set change invalidates the accepted specification and returns through fresh Claims and Spec review. Plan Writer runs afterward only when its existing trigger holds, and every resulting plan gets a fresh Plan Verifier; plan-only re-planning cannot change the set. |
+| Browser capability | A recoverable environment or credential gap is `pending`; role, tool, transport, or runtime inability is `halted`; missing required evidence or an owner decision after review is `blocked`; a harness that cannot preserve the required capability or role is `unsupported`. Tool availability alone is not support or a pass. |
+| Jurisdiction split | The general Reviewer checks semantic results, state, recovery, security, and operational evidence. Design Reviewer checks governing standards, component reuse, responsive and visual axes, focus, and interaction presentation. Both are fresh and paired; Design Reviewer never replaces general review. |
+| Cumulative path identity | One implementation baseline is retained across multiple Builder rounds. Each round delta updates the cumulative Builder-owned identity, while Docs Writer deltas form a separate cumulative identity with no overlap. Whole-tree hook comparison catches unexpected paths before evidence. In-scope hook changes enter the proper cumulative identity only after owning-role validation, using final committed HEAD bytes. A corrective commit runs only when validated bytes are not already cleanly committed; any post-correction identity difference blocks. A first union mismatch gets one bounded pre-review identity repair; a second blocks. |
+| Clean frontend baseline | Before sizing and before worktree creation, the source checkout supplying the base records every path in the exact approved Builder and Docs Writer allowed-path set clean against committed HEAD. A relevant dirty path stops the goal; after its commit, a new goal starts from refreshed source identity. After the gate passes, the worktree starts from that committed source and rechecks the recorded path set and source identity before Builder dispatch. Protected Olympus task/config state and unrelated paths are excluded. |
+
+#### C22 path identity status matrix
+
+| Status or identity | Required evidence |
+| --- | --- |
+| Every round delta | Compare each dispatch pre-state (the recorded pre-state) with its post-state. |
+| Every cumulative identity | Compare current state with the implementation-bracket baseline. |
+| `added` or `modified` | Use current exact-byte lowercase SHA-256 hashes. |
+| `deleted` | Record `deleted` and the lowercase SHA-256 of exact bytes from the applicable comparison base for that identity. |
+| `rename` | Record source and destination; hash the source from the applicable comparison base and the destination from current exact bytes. |
+| `add-then-delete` | The path is absent from the cumulative identity relative to the baseline. Retain its deletion in the round delta with the hash of exact bytes from the dispatch pre-state. |
+
 ### V1-V12 Release Agent and custom workflow fixtures
 
 These fixtures extend the static and bounded contract checks above. They are not live
@@ -463,9 +546,13 @@ not `pass`.
 
 #### V1 — Population and role order
 
-Assert that every current catalog copy has the exact 15-role order from the protocol, with
-Release Agent after Design Reviewer and before Decision Council. Assert 14 worker links in
-`SKILL.md`, 14 worker charters, and the fixed 15-role Configurer phrase. A positive fixture
+Assert that every current catalog copy has the exact 16-role order from the protocol, with
+Tester after Builder and before Docs Writer, and Release Agent after Design Reviewer and
+before Decision Council. Assert 15 worker links in `SKILL.md` and 15 worker charters. This
+fixture checks the framework's own current text — `SKILL.md`, the protocol, charters, and
+templates — not an already-configured project's pinned `.olympus/PROJECT.md`, whose own
+catalog claims change only through an explicit owner-approved Configurer repin proposal,
+separate from a framework content change. A positive fixture
 passes only when all copies match. A missing, extra, reordered, or duplicated role fails and
 records the exact consumer.
 

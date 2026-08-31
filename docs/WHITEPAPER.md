@@ -8,7 +8,7 @@ edit it, and judge its own work. Context fills with old assumptions and self-rev
 inherits the Builder's blind spots.
 
 Olympus keeps one small Orchestrator context and sends bounded work to a fixed
-conditional catalog of fifteen roles. Git stores project configuration and task records.
+conditional catalog of sixteen roles. Git stores project configuration and task records.
 Codex or Claude supplies the agents and tools. Olympus supplies no runtime. Its
 success criterion is product delivery: administration that costs more than the change is
 a failure.
@@ -25,13 +25,14 @@ contract:
 ```mermaid
 flowchart TD
     O[Orchestrator] --> C[System Configurer<br/>onboarding or approved change]
-    O --> E[Explorer<br/>material question or audit]
+    O --> E[Explorer<br/>material question, audit, or diagnosis]
     O --> S[Spec Writer<br/>substantial goal]
     O --> CR[Claims Reviewer<br/>fresh after spec]
     O --> SR[Spec Reviewer<br/>fresh after spec]
     O --> P[Plan Writer<br/>dependent steps]
     O --> PV[Plan Verifier<br/>fresh after plan]
     O --> B[Builder<br/>project mutation]
+    O --> T[Tester<br/>boundary red path or owner request]
     O --> D[Docs Writer<br/>conditional after builder]
     O --> R[Fresh Reviewer<br/>every mutation]
     O --> DR[Design Reviewer<br/>conditional after mutation]
@@ -46,6 +47,7 @@ flowchart TD
     P --> O
     PV --> O
     B --> O
+    T --> O
     D --> O
     DR --> O
     RA --> O
@@ -128,10 +130,30 @@ Olympus records three kinds of project knowledge in PROJECT:
 
 Map and Validation are hints until verified against current code. Good documentation
 speeds work, but stale documentation can misroute it. The Configurer records missing or
-stale sources. Explorer resolves only the material gaps needed for a goal.
+stale sources. Explorer resolves only the material gaps needed for a goal, including a
+bounded defect diagnosis.
 
 Native host instructions, project instructions, skills, and memory can supply context.
 They cannot change Olympus role duties or owner authority.
+
+## Frontend craft and evidence boundary
+
+For material frontend behavior, current project and repository evidence maps the design
+philosophy, owner-approved standards or tokens, reusable components, exemplar screens or flows,
+routes, states, fixtures, and browser commands. Explorer resolves only a material gap that blocks
+a required role. When no source exists, the record states the absence and obtains owner direction;
+it does not invent a standard. Accepted interaction scenarios remain in the hashed specification.
+Planning stays conditional, but a plan carries scenario execution details and a bidirectional
+scenario-to-step map when its trigger holds.
+
+Builder creates a reproducible browser-evidence candidate with exact packet, path, and artifact
+identities. A fresh general Reviewer and a fresh Design Reviewer independently replay the same
+frozen candidate in the isolated validation runtime. Screenshot-only, stale, or missing state,
+console, or required replay evidence cannot pass. A frontend-affecting repair requires a new
+packet and full replay. A proven disjoint Docs Writer-only documentation delta retains the packet
+and gets fresh identity review without browser execution. Project standards govern first; a
+task-specific owner decision covers only an otherwise missing material aspect. Browser execution
+is a project or harness capability. This contract does not claim live browser or harness support.
 
 ## Goal architecture
 
@@ -145,6 +167,7 @@ sequenceDiagram
     participant P as Plan Writer
     participant PV as Plan Verifier
     participant B as Builder
+    participant T as Tester
     participant D as Docs Writer
     participant R as Reviewer
     participant DR as Design Reviewer
@@ -155,7 +178,7 @@ sequenceDiagram
         O->>E: One bounded question
         E-->>O: Evidence and uncertainty
     end
-    opt Substantial, ambiguous, architectural, or cross-layer goal
+    opt Substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal
         O->>S: Bounded goal packet
         S-->>O: Complete traceable specification, identifier, and hash
         O->>O: Persist body, verify hash
@@ -179,6 +202,10 @@ sequenceDiagram
     end
     O->>B: Goal, accepted specification and plan identities, paths, evidence, checks
     B-->>O: Diff, results, uncertainty
+    opt Tester trigger holds
+        O->>T: Assigned test paths, complete Builder mutation, validation commands
+        T-->>O: Observation register, findings, self-corrections
+    end
     opt Documentation trigger holds
         O->>D: Complete behavior diff and approved docs
         D-->>O: Documentation result
@@ -186,12 +213,8 @@ sequenceDiagram
     O->>R: Goal, complete diff, results
     R-->>O: General review verdict
     opt Design trigger holds
-        alt Matching standards available
-            O->>DR: Diff and matching standards
-            DR-->>O: Design verdict
-        else Required standards missing
-            O->>O: Record blocked
-        end
+        O->>DR: Diff and project standards first, then bounded task decisions
+        DR-->>O: Pass, repair, or blocked design verdict
     end
     alt Every invoked review passes
         O->>O: Final verification
@@ -258,7 +281,7 @@ after real goals show that Markdown, native agents, and Git cannot provide the r
 ### Ceremony cost
 
 The main risk is that the framework becomes slower than the work. Configurer, Explorer,
-specification, planning, Docs Writer, Design Reviewer, Council, and Liaison are
+specification, planning, Tester, Docs Writer, Design Reviewer, Council, and Liaison are
 conditional. Task records stay short. Dogfood measures setup, build, review, and
 finalization separately.
 

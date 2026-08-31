@@ -9,17 +9,21 @@ description: >-
 
 Olympus is a fixed Markdown workflow. It adds no runtime, service, database, or project
 dependency. Read the [runtime protocol](references/PROTOCOL.md) before routing work; load
-only the charter needed for the next role.
+only the charter needed for the next role. The [harness adapter notes](references/HARNESS.md)
+map host mechanics to evidence status; the [owner guide](docs/GUIDE.md) is the practical
+walkthrough for install, activation, a goal, gates, release, and recovery.
 
 ## Activation
 
-- Every manual-goal, session, project-boot, or guided wake entry first runs the [canonical activation preflight](references/PROTOCOL.md#canonical-activation-preflight) and its immediate final recheck against the target repository root. No entry creates a goal, routes later requests, or reports Olympus as active before an unchanged complete result authorizes it.
+- Every manual-goal, session, project-boot, or guided wake entry — except `Olympus help`, which is read-only in every state and runs its own bounded procedure instead — first runs the [canonical activation preflight](references/PROTOCOL.md#canonical-activation-preflight) and its immediate final recheck against the target repository root. No entry creates a goal, routes later requests, or reports Olympus as active before an unchanged complete result authorizes it.
 - `Use Olympus for: <goal>` runs one goal only after an unchanged complete preflight state.
 - `Activate Olympus orchestration` routes later project-changing requests in the current session only after an unchanged complete preflight state.
 - PROJECT boot mode `orchestration` routes project-changing requests in every session only after an unchanged complete preflight state.
 - `Awaken Olympus` or `Awaken Olympus.` is the guided entry phrase. It is never a session-activation alias.
 - `Deactivate Olympus orchestration` stops new routing in the current session.
-- Questions do not create goals. An explicit read-only audit uses Explorer.
+- `Olympus help` is a fifth owner phrase, matched the same way as `Awaken Olympus`. It never acts: no write inside the target repository, no approval, no new mode, no goal. It is reachable on the pre-install and skill-invocation paths; reaching it through an installed `manual`-mode loader block needs a later loader revision. See [the full contract](references/PROTOCOL.md#olympus-help) for its per-state reports, pending owner-decision precedence, and the bounded owner card.
+- Questions do not create goals. An explicit read-only audit or a bounded diagnose-only
+  defect question uses Explorer.
 
 The [runtime protocol](references/PROTOCOL.md) defines the fixed roles, goal flow,
 handoffs, owner gates, states, activation rules, and Git workflow.
@@ -34,6 +38,7 @@ handoffs, owner gates, states, activation rules, and Git workflow.
 - Plan Writer: [charter](agents/PLAN_WRITER.md)
 - Plan Verifier: [charter](agents/PLAN_VERIFIER.md)
 - Builder: [charter](agents/BUILDER.md)
+- Tester: [charter](agents/TESTER.md)
 - Docs Writer: [charter](agents/DOCS_WRITER.md)
 - Reviewer: [charter](agents/REVIEWER.md)
 - Design Reviewer: [charter](agents/DESIGN_REVIEWER.md)

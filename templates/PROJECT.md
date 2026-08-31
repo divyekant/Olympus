@@ -41,11 +41,19 @@ authority.
 | --- | --- | --- | --- |
 | `<area>` | `<paths>` | `<purpose>` | `<none or limit>` |
 
+For a user-facing frontend, Map records or explicitly marks absent a `frontend source map`
+for design philosophy, design-system/token sources, reusable component inventory, and
+exemplar screens/flows. An explicit absence is evidence, not permission to invent a source.
+
 ### Validation
 
 | Scope | Command or evidence | When to use it | Known limit |
 | --- | --- | --- | --- |
 | `<scope>` | `<command/source>` | `<condition>` | `<none or limit>` |
+
+For a user-facing frontend, Validation records or explicitly marks absent interaction and
+accessibility rules, material viewport/theme rules, and frontend run, route, fixture,
+browser, and visual commands. Check these fields against the current code for each goal.
 
 Map and Validation are hints. Check them against current code for each goal.
 
@@ -57,7 +65,7 @@ Map and Validation are hints. Check them against current code for each goal.
 | allowed project areas | `<paths or all except protected paths>` |
 | branch/worktree policy | `<one worktree per goal with closure at goal end (default); current checkout or branch when the owner permits it for simple sequential work; commit or explicitly include relevant dirty work>` |
 | review round cap | `2` (`1`, `2`, or `3`) |
-| strict convergence | `off` (`off` or `on`) |
+| strict convergence | `on` (`off` or `on`) |
 | writer reuse | `reuse` (`reuse` or `fresh-per-round`) |
 | local commit policy | `<project convention>` |
 
@@ -72,6 +80,15 @@ the protocol requires, with status `untested` until behavior is observed at the 
 commit. Add one exception row for each harness-role pair that diverges from the default
 or has observed evidence.
 
+Explorer's reproduction-execution authority is one such row, recorded with role value
+`Explorer (reproduction execution)`. Only `supported` opens that gate, and only when the
+observed evidence covers exactly four limits enforced by the environment itself, not by
+Explorer's own command list: no network access, no credential access, no write outside
+the one disposable reproduction copy, and no access to the target repository or its Git
+administration beyond the read that creates the copy. A sandbox's mere availability,
+without that evidence, stays `untested` and leaves the gate closed; Explorer then stays
+observation-only for a diagnose-only dispatch.
+
 | Harness | Default mapping | Default status |
 | --- | --- | --- |
 | `<harness>` | `host default; protocol freshness rules` | `untested` |
@@ -85,8 +102,14 @@ Unsupported harnesses do not run goals that invoke unsupported roles through Oly
 ## Project design standards
 
 Record the sources and matching details that Design Reviewer uses, or `none recorded`.
-Missing required standards or matching evidence makes a triggered Design Reviewer
-unavailable.
+For a user-facing frontend, record or explicitly mark absent the design philosophy,
+design-system/token sources, reusable component inventory, exemplar screens/flows,
+interaction/accessibility rules, and material viewport/theme rules. A missing source is not
+permission to invent a standard. A recorded task-specific owner design decision may govern
+only an otherwise missing material aspect in that task. Analogous screens and flows are
+evidence, not authority. If neither a matching owner-approved project standard nor that
+task-specific decision governs a material aspect, the triggered Design Reviewer blocks.
+An evidence-backed empty component inventory is valid input.
 
 | Source | Matching project area or component | Standard or rule | Status and evidence | Limit |
 | --- | --- | --- | --- | --- |
