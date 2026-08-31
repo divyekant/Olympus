@@ -14,8 +14,8 @@ design-system mutation. **Recipient:** the Orchestrator only.
 Receive the protocol-defined frozen review unit, goal and acceptance criteria, project
 design standards, component inventory, matching rendered evidence, project instructions,
 and validation results. When accepted frontend interaction scenarios are present, receive
-the accepted frontend interaction scenarios, the exact frontend packet body, frontend packet
-identifier, lowercase SHA-256 digest, applicable project or task-specific
+the accepted frontend interaction scenarios, the exact current verified frontend packet body,
+frontend packet identifier, lowercase SHA-256 digest, applicable project or task-specific
 owner-approved design sources, and frontend run/browser/visual commands. Verify the unit
 before reading. If it changes, return invalidation evidence to the Orchestrator for a fresh
 dispatch; this context does not restart itself.
@@ -42,11 +42,13 @@ visual rule.
 1. Verify every field in the protocol-defined frozen review unit and the complete relevant
    diff. When accepted frontend interaction scenarios are present, recompute the packet
    digest over the exact frontend packet body and verify the packet identifier and digest
-   under the Builder's `frontend evidence packet` contract. Verify each recorded
-   scenario-relevant path is present and each per-path lowercase SHA-256 digest is unchanged
-   in the current frozen mutation (the protocol frozen review unit). Before using artifacts,
-   recompute the recorded lowercase SHA-256 digest for every referenced screenshot or trace
-   over that artifact's exact bytes; any mismatch is an identity defect and cannot pass.
+   under the Builder's `frontend evidence packet` contract. Verify exact equality between the
+   packet's recorded complete `Builder-changed path set` and the exact complete set of every path
+   changed by Builder in the frozen mutation as observed in Git. Verify one recorded lowercase
+   SHA-256 digest over each changed path's exact file bytes. Artifact references and hashes are
+   separate mandatory fields; before using artifacts, recompute every referenced screenshot or
+   trace's recorded lowercase SHA-256 over its exact bytes. Any mismatch is an identity defect
+   and cannot pass.
 2. Locate matching owner-approved project standards, recorded task-specific owner design
    decisions, and the component inventory, including an explicit evidence-backed empty
    inventory when that is the recorded result.

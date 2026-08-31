@@ -185,19 +185,12 @@ append supersedes an earlier row and never replaces it.
 
 ## Specification rounds
 
-Use this bracket only for substantial, ambiguous, architectural, cross-layer, or material frontend behavior goals.
-Persist the complete current Writer result and record its identity before reviewer
-dispatch. The body between the markers is the only specification body in this record. It
-must contain requirements, invariants, acceptance criteria, red paths, and validation
-obligations. Keep metadata, packet identifiers, hashes, verdict counts, findings,
-convergence state, and body size outside the hashed body. Never put earlier bodies, body
-diffs, reviewer transcripts, review history, evidence transcripts, or defensive
-annotations in the body. The body carries claims and pointers only, under the protocol
-rule for reproduced text.
-When material frontend behavior applies, accepted `frontend interaction scenario` records
-and stable IDs stay inside the hashed body, not in task metadata or a side artifact. The
-accepted hashed specification body must contain the complete scenario set before Plan Writer
-or Builder receives it. An accepted plan maps that set but cannot replace it.
+Use this bracket only when the named Spec Writer trigger holds, including material frontend
+behavior. Persist the complete current Writer result and record its identity before reviewer
+dispatch. The body between the markers is the only specification body; keep metadata and review
+state outside it. When material frontend behavior applies, the accepted hashed body contains the
+complete frontend interaction scenario set before Plan Writer or Builder receives it. See the
+protocol for body, acceptance, and review rules.
 
 ### Current specification body
 
@@ -289,10 +282,9 @@ summary.
 
 Use this bracket only when the accepted contract has dependent steps, cross-layer or
 interface sequencing, or an explicit plan need. Plan Writer receives the accepted contract
-or specification verbatim. When accepted frontend interaction scenarios exist, the hashed
-plan body contains the current `frontend plan scenario contract` and bidirectional
-scenario-ID-to-producing-step map. Plan Verifier checks both in a fresh context. Frontend
-scenarios do not make planning unconditional.
+or specification verbatim. Frontend scenarios do not make planning unconditional. When they
+exist, record the hashed plan body contract and bidirectional scenario map. See the protocol
+for plan verification.
 
 | Round | Plan packet identifier and hash | Plan Writer context | Fresh Plan Verifier context | Verdict | Accepted plan or findings/evidence | Uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -320,27 +312,24 @@ Builder rounds use a separate context:
 
 | Round | Builder | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results; when accepted frontend interaction scenarios exist, proposed and verified frontend packet identifier/digest, complete scenario replay result, scenario-relevant path hashes, and screenshot/trace artifact references with exact-byte SHA-256 digests; no raw screenshot/trace bytes>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results; when accepted frontend interaction scenarios exist, each candidate packet identifier/digest and disposition, complete scenario replay result, Builder-changed path hashes, separate mandatory screenshot/trace references and exact-byte SHA-256 digests; verified identity only after protocol checks; no raw screenshot/trace bytes>` | `<none or limit>` |
 
-### Current frontend packet body
+### Current verified frontend packet body
 
-Persist this body only when accepted frontend interaction scenarios exist. The bytes between
-these markers are the exact current `frontend packet body`; its digest excludes the markers.
-The body contains references and exact-byte digests, not raw screenshots or traces. Replace the
-body when Builder returns a new packet. The Builder round row retains compact prior packet
-identity, digest, replay result, and artifact evidence.
+Use this one marker pair only when accepted frontend interaction scenarios exist. Persist or
+replace the body only after the protocol's candidate checks pass. The bytes between the markers
+are the exact current verified `frontend packet body`; its digest excludes the markers. The body
+contains references and exact-byte digests, never raw screenshots or traces. An unverified
+candidate body exists only in the Builder return while checked. The Builder row records each
+candidate attempt, compact identity, path hashes, artifact references/digests, replay result,
+failure evidence, and disposition; a failed or unavailable attempt leaves the prior verified
+body unchanged. See the protocol for candidate, repair, and review state rules.
 
 <!-- FRONTEND-PACKET-BODY:BEGIN -->
 
-`<exact current frontend packet body only, persisted verbatim; not required when no accepted frontend interaction scenarios exist>`
+`<exact current verified frontend packet body only, persisted verbatim; present only with accepted scenarios; preserve prior verified body on a failed or unavailable candidate>`
 
 <!-- FRONTEND-PACKET-BODY:END -->
-
-If any required frontend packet identity check cannot execute, record `pending` for a recoverable
-environment or credential cause or `halted` for role, tool, transport, or runtime inability.
-Create no verified frontend identity, freeze no frontend review unit, and dispatch no
-implementation reviewer. A failed identity equality or hash check also creates no verified
-frontend identity or frozen frontend review unit and dispatches no implementation reviewer.
 
 ### Docs Writer results
 
@@ -355,7 +344,7 @@ Review rounds use a fresh context that did not build the change. Verdicts are `p
 
 | Implementation round | Frontend review round | Frozen unit and frontend packet | Reviewer | Verdict | Acceptance checks, findings, and uncertainty |
 | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<shared round identity, or not applicable>` | `<same frozen unit and exact frontend packet body/identifier/digest as the Design Reviewer when paired; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
+| `<n>` | `<shared round identity, or not applicable>` | `<same frozen unit and exact current verified frontend packet body/identifier/digest as the Design Reviewer when paired; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
 
 Round cap: `<1, 2, or 3; default 2>`.
 
@@ -372,23 +361,18 @@ content receives a fresh committed-content review.
 
 ### Design review
 
-Record whenever the material user-facing design trigger holds. Use a matching owner-approved
-project standard first. A recorded task-specific owner design decision may govern only an
-otherwise missing material aspect in that task. Analogous screens are evidence, not
-authority. If neither governs a material aspect, record `blocked`. An evidence-backed empty
-component inventory is valid input. Pending or halted runtime outcomes remain visible and
-are not verdicts.
+Record when the design trigger holds. Record the governing source and matching evidence under the
+protocol design-authority rule: matching owner-approved project standard first; task-specific
+owner decision only for an otherwise missing material aspect; analogous screens are evidence
+only; an evidence-backed empty component inventory is valid; `pending` and `halted` are outcomes,
+not verdicts.
 
 | Implementation round | Frontend review round | Frozen unit and frontend packet | Context | Governing source and matching evidence | Verdict | Checks, findings, and uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
-| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<same frozen unit and exact frontend packet body/identifier/digest as general Reviewer>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
+| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<same frozen unit and exact current verified frontend packet body/identifier/digest as general Reviewer>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
 
-For a paired frontend review round, any code change, scenario-relevant file change, frontend
-packet body/identifier/digest change, artifact reference/digest change, or evidence
-regeneration invalidates both paired verdicts and requires a new round. Builder creates a new
-packet and replays the complete unchanged accepted scenario set; both reviewers are fresh.
-If a finding changes that set, record the existing one re-plan and fresh Plan Verifier path
-before Builder. Do not silently change scenarios.
+The protocol's paired frontend review rule invalidates both verdicts on any relevant mutation
+or evidence regeneration and requires a new round.
 
 ### Decision Council and Liaison
 

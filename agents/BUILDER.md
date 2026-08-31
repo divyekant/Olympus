@@ -71,20 +71,23 @@ peer-to-peer, commit for an unapproved flow, or claim a review verdict.
    frontend interaction scenario against the current candidate with non-production test data
    in an isolated non-production validation runtime using disposable validation state. Define
    one named `frontend evidence packet` contract. It contains stable scenario IDs; exact
-   exercised frontend snapshot identity: the exact scenario-relevant path set, and for each
-   path a lowercase SHA-256 digest of its exact file bytes; setup, run, route, fixture,
+   exercised frontend snapshot identity: the exact complete set of every path changed by Builder
+   in the current mutation (`Builder-changed path set`), and one lowercase SHA-256 digest of
+   each path's exact file bytes; setup, run, route, fixture,
    viewport, theme, and state; ordered actions and assertion results; accessibility and
-   semantic evidence; required screenshot/trace references, each with a lowercase SHA-256
-   digest of that artifact's exact bytes; console errors, page errors, and failed-network
+   semantic evidence; required screenshot/trace references as separate mandatory fields, each
+   with a lowercase SHA-256 digest of that artifact's exact bytes; console errors, page errors,
+   and failed-network
    results; exact commands, observed output, and exit status;
    skipped/unavailable checks; and uncertainty. Store references and digests, not raw
    screenshot/trace bytes. The named `frontend packet body` is the exact bytes of all
    frontend evidence fields, excluding the proposed frontend packet identifier and digest.
    Its lowercase SHA-256 digest is over the frontend packet body only. The packet requires a
    proposed frontend packet identifier and digest for the Orchestrator to persist and verify.
-   The Builder returns this packet data to the Orchestrator and does not receive or claim the
-   final protocol frozen review unit. On any repair, create a new
-   frontend evidence packet identity and digest and replay the complete unchanged accepted
+   This return is a candidate until the Orchestrator verifies the body and exact
+   `Builder-changed path set` equality, every per-path digest, and every artifact digest. The
+   Builder returns this candidate only inside the implementation packet. On any repair, create
+   a new frontend evidence packet identity and digest and replay the complete unchanged accepted
    scenario set. Do not alter that set. If a finding requires an interaction-set change, stop
    for the existing replan and fresh Plan Verifier path.
 8. Search for sibling sinks, bypasses, duplicated guards, and fixtures that encode an
