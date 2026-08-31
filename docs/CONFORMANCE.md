@@ -108,10 +108,11 @@ The framework passes static inspection when:
     criterion names. Reproduced text carries no evidentiary force, and each reviewer
     verifies the claims in its own jurisdiction by that reviewer's own charter method.
 21. One compact Orchestrator-owned finding ledger records stable ID, reviewer jurisdiction,
-    severity, concise finding, minimum reproducing evidence, closure condition, state,
-    first-seen round, last-checked round, and `introduced` or `missed` classification for
-    findings first reported after round 1. Claims Reviewer and Spec Reviewer each return a
-    complete jurisdictional set every round. The Orchestrator merges and freezes the ledger.
+    severity, task-relatedness for each P2 and P3, concise finding, minimum reproducing
+    evidence, closure condition, state, first-seen round, last-checked round, and
+    `introduced` or `missed` classification for findings first reported after round 1.
+    Claims Reviewer and Spec Reviewer each return a complete jurisdictional set every round.
+    The Orchestrator merges and freezes the ledger.
 22. Claims Reviewer owns only facts, evidence, citations, counts, hashes, and uncertainty,
     and excludes design completeness, coherence, authorization, mechanism quality, and
     acceptance-test structure. Spec Reviewer owns only completeness, coherence, authority
@@ -136,10 +137,16 @@ The framework passes static inspection when:
     Only the owner amends a body size cap, through at most one Orchestrator proposal per goal
     that names one cap or both, states the cause and exact current and proposed values, and
     is granted in the owner's own reply turn by verbatim decision bytes naming an exact new
-    value. At completed round 10, remaining P0-P2 findings block implementation. After lens
-    coverage completes, at most one further Writer result may be persisted while the latest
-    frozen ledger holds an open P0 or P1; if the next consumed round still holds one, the
-    goal is `blocked` and no further Writer dispatch occurs.
+    value. At completed round 10, remaining open P0-P2 findings block implementation. `strict
+    convergence` defaults `on`, so the qualifying round before the cap also requires zero
+    open task-related P2; an owner may relax it to `off` for the P0/P1-only qualifying-round
+    bar, but the cap rule above is unaffected by that value. The Orchestrator classifies
+    each P2 and P3 as task-related or non-essential and records the classification beside
+    the finding; a non-essential P2 or P3 remains open until repaired or filed as a
+    repository issue, recorded `filed` with its issue reference, and needs no owner
+    acceptance. After lens coverage completes, at most one further Writer result may be
+    persisted while the latest frozen ledger holds an open P0 or P1; if the next consumed
+    round still holds one, the goal is `blocked` and no further Writer dispatch occurs.
 24. After acceptance, the general Reviewer owns whether implementation evidence satisfies the
     accepted criteria. Specification reviewers do not replace that implementation review.
 
@@ -343,9 +350,10 @@ and freezes both sets.
 If a repair causes a later finding, classify it `introduced`; otherwise classify it `missed`.
 A new missed P0/P1 is a framework-review failure. The specification cap is default 10
 completed rounds, with expected closure in 2-3 rounds. Halted attempts remain visible but do
-not consume that cap. At completed round 10, any remaining P0-P2 finding blocks
-implementation. The later general Reviewer checks implementation evidence only after
-acceptance.
+not consume that cap. At completed round 10, any remaining open P0-P2 finding blocks
+implementation; a non-essential P2 or P3 that reached the `filed` state through the
+repository-issue rule is not open and does not block. The later general Reviewer checks
+implementation evidence only after acceptance.
 
 ### C17 — Role craft adversarial fixtures
 

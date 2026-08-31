@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Changed
+
+- `strict convergence` now defaults `on`. The specification bracket's qualifying round
+  requires zero open task-related P0-P2 by default, matching the cap rule, which already
+  required zero open P0-P2 regardless of the setting. An owner can relax the
+  qualifying-round bar to P0/P1 only by setting the PROJECT boundary `off`; value meanings
+  are unchanged.
+- Every P2 and P3 finding in the specification bracket is classified task-related or
+  non-essential. The Orchestrator files each non-essential finding as a repository issue
+  and records the issue reference beside it in the finding ledger, instead of carrying it
+  as accepted residue in the task record. A task-related P2 still needs repair or owner
+  acceptance; a task-related P3 still needs owner acceptance at the pre-cap accepted close.
+
 ## 0.5.1 - 2026-08-30
 
 The fixes-only stabilization release. It closes policy and specification-convergence

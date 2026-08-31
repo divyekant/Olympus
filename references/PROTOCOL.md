@@ -650,21 +650,45 @@ P2 at the cap is accepted, with any open P3 recorded to the owner. While the Orc
 evaluates this exit it need not route an open P2 or P3 for repair; routing one persists a
 Writer result and stops that round from qualifying.
 
+Every P2 and P3 finding in the specification bracket is task-related or non-essential. A
+finding is task-related when its minimum reproducing evidence names a clause in the current
+specification body, a path in the goal's allowed paths, or an artifact the owner request
+bytes name; otherwise it is non-essential. The Orchestrator classifies each P2 and P3 at
+first seen and records the classification beside the finding. The owner may correct a
+recorded classification in the owner's own reply turn while accepting the pre-cap close
+under condition 3 above; a correction found only after a close is recorded is an escaped
+finding under the rule this protocol states for [skipped work and escaped
+findings](#skipped-work-and-escaped-findings), and does not reopen that close.
+
+A non-essential P2 or P3 remains open until repaired or filed. Before the Orchestrator
+evaluates a round for the qualifying round or the cap close, it files every remaining open
+non-essential P2 and P3 from that round's frozen ledger: it opens one repository issue
+naming the finding, records the issue reference beside the finding, and moves the finding's
+state to `filed`. A filed finding is not open and needs no owner acceptance under condition
+3 above. Filing is not a repair route: it persists no Writer result and does not stop that
+round from qualifying. When the repository issue channel is unavailable, filing blocks: the
+finding stays open, the Orchestrator records the failure as skipped or unrunnable work with
+its reason and recovery owner, and the finding blocks that round's qualification or cap
+close exactly as its severity requires.
+
 A finding is new in round `n` when its ledger row's `First seen` is `n`. A severity change
 to an existing row is a re-grade and keeps that `First seen`, but only while the row's
 recorded minimum reproducing evidence is unchanged. For a matched row the current round's
 reviewer severity governs; the Orchestrator records that severity and never originates one.
 A defect whose reproducing evidence differs from every frozen row is a new finding with a
 new identifier and `First seen` set to the current round. The blocking set for the
-qualifying round is P0 and P1 when `strict convergence` is `off`, and P0, P1, and P2 when
-it is `on`. That set governs the qualifying round only and changes no other severity
-meaning.
+qualifying round is P0 and P1 when `strict convergence` is `off`, and P0, P1, and every
+task-related P2 when it is `on`. That set governs the qualifying round only and changes no
+other severity meaning.
 
-`strict convergence` is a PROJECT boundary setting with values `off` and `on`, default
-`off`. It changes only through the [section 3](#3-project-configuration) configuration
-flow, the goal uses the value in force at goal start, and the Orchestrator records that
-value with the goal. The setting never lowers a bar and never suppresses a trigger, a
-lens, the coverage rule, an owner gate, or any other requirement in this section.
+`strict convergence` is a PROJECT boundary setting with values `off` and `on`, default `on`.
+The value meanings are unchanged by this default: `on` keeps the qualifying-round bar at
+zero open task-related P2; `off` is the owner-selected relaxation to the P0/P1-only bar. It
+changes only through the [section 3](#3-project-configuration) configuration flow, the goal
+uses the value in force at goal start, and the Orchestrator records that value with the
+goal. The setting never lowers a bar, never exempts a task-related P2 from repair or owner
+acceptance, and never suppresses a trigger, a lens, the coverage rule, the non-essential
+filing duty, an owner gate, or any other requirement in this section.
 
 `writer reuse` is a PROJECT boundary setting with values `reuse` and `fresh-per-round`,
 default `reuse`. It changes only through the [section 3](#3-project-configuration)
@@ -676,7 +700,7 @@ authoring history; one role carries each property. The setting never makes a rev
 persistent, never changes a packet, never lowers a bar, and never suppresses a trigger, a
 lens, the coverage rule, an owner gate, or any other requirement of this protocol.
 
-Missing `strict convergence` means `off`; missing `writer reuse` means `reuse`. The task
+Missing `strict convergence` means `on`; missing `writer reuse` means `reuse`. The task
 record marks each omitted setting `defaulted from omission`. An explicit unknown value is
 malformed; it is never defaulted.
 
@@ -716,10 +740,13 @@ Use one severity ladder for every finding:
   the pre-cap accepted close this section states for the specification bracket.
 
 P0 and P1 remain open until repaired. P2 remains open until repaired or explicitly accepted
-by the owner when the acceptance is within owner authority. P3 blocks neither the goal nor
-the cap, and blocks only the pre-cap accepted close this section states for the
-specification bracket. The Orchestrator records severity, state, jurisdiction, minimum
-reproducing evidence, and a closure condition in the finding ledger.
+by the owner when the acceptance is within owner authority; in the specification bracket, a
+non-essential P2 remains open until repaired or filed under the rule stated above instead.
+P3 blocks neither the goal nor the cap, and blocks only the pre-cap accepted close this
+section states for the specification bracket; there, a non-essential P3 remains open until
+repaired or filed under that same rule instead. The Orchestrator records severity, state,
+jurisdiction, minimum reproducing evidence, and a closure condition in the finding ledger,
+and in the specification bracket also records task-relatedness beside each P2 and P3.
 
 Fresh reviewers use the same canonical checklist from the immutable framework commit that
 is recorded when the goal starts. If the goal edits a reviewer charter, that recorded
