@@ -264,8 +264,10 @@ implementation caps apply independently.
 When Builder makes tracked documentation false or the contract requires synchronization,
 Docs Writer changes approved documentation only and verifies touched links before fresh
 general review. A material user-facing change invokes Design Reviewer when its trigger
-holds and matching project design standards and evidence exist; missing required standards
-block the goal, not the trigger. Design Reviewer cannot replace general review.
+holds. Each material aspect uses a matching owner-approved project standard first, or a
+recorded task-specific owner design decision only for an otherwise missing aspect. The goal
+blocks when neither source governs the aspect, not when project standards alone are absent.
+Design Reviewer cannot replace general review.
 Accessibility basics remain in Builder and general Reviewer checks.
 
 ### C12 — Advisory and status roles

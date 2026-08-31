@@ -25,7 +25,8 @@ Long agent sessions lose scope on large codebases. They can mix discovery, imple
 - Builders make the smallest approved project change.
 - Docs Writers synchronize approved documentation when the contract requires it.
 - Fresh Reviewers verify each mutation and return `pass`, `repair`, or `blocked`.
-- Design Reviewers check material user-facing changes against project-provided standards.
+- Design Reviewers check material user-facing changes against project standards first, or a
+  task-specific owner decision only for an otherwise missing material aspect.
 - The Release Agent prepares or reconciles one owner-requested release action. Execution
   needs separate owner approval; the role has no file or standing external authority.
 - Decision Council gives read-only advice for unresolved material trade-offs.

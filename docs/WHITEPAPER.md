@@ -173,7 +173,7 @@ sequenceDiagram
         O->>E: One bounded question
         E-->>O: Evidence and uncertainty
     end
-    opt Substantial, ambiguous, architectural, or cross-layer goal
+    opt Substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal
         O->>S: Bounded goal packet
         S-->>O: Complete traceable specification, identifier, and hash
         O->>O: Persist body, verify hash
@@ -204,10 +204,10 @@ sequenceDiagram
     O->>R: Goal, complete diff, results
     R-->>O: General review verdict
     opt Design trigger holds
-        alt Matching standards available
-            O->>DR: Diff and matching standards
+        alt A governing source exists for each material aspect
+            O->>DR: Diff and project standards first, then bounded task decisions
             DR-->>O: Design verdict
-        else Required standards missing
+        else A material aspect has no governing source
             O->>O: Record blocked
         end
     end
