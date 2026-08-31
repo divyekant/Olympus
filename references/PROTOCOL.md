@@ -896,7 +896,9 @@ other role still requires its fixed trigger:
 Explorer's `diagnose-only` reproduction is bounded to the disposable worktree and
 read-only commands that its own charter,
 [`agents/EXPLORER.md`](../agents/EXPLORER.md#authority-and-boundaries), defines; it
-never mutates tracked repository content.
+never mutates tracked repository content. Liaison's `diagnose-only` participation is
+explanation over evidence Explorer or an earlier role already captured; Liaison has no
+reproduction authority and creates no worktree.
 
 A role outside a boundary's admitted set is incompatible. An incompatible role makes a
 custom selection `invalid`; default routing truncates incompatible roles before trigger
@@ -924,7 +926,9 @@ Every packet contains only the information needed by the receiving role.
 - Explorer receives one question, path scope, revision, relevant documentation, and
   allowed read-only commands. For a bounded diagnose-only defect question, it also
   receives the enumerated permitted reproduction commands and the exact path for one
-  disposable reproduction worktree.
+  disposable reproduction worktree, which the Orchestrator selects outside the target
+  repository's working tree. Explorer refuses a packet whose worktree path is missing,
+  inside the target repository's working tree, or inside the repository itself.
 - Spec Writer receives the goal boundary, source/base revision, paths, evidence,
   validation obligations, source requirements, fixed controls, and owner or permission
   boundaries. On repair it also receives the current body and open finding ledger. It never
