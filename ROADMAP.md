@@ -9,7 +9,7 @@ promise.
 | 2 — One target harness | complete | Codex simple conformance; loader fix `0d7705069a90ffea996a1de33a0eb52b023acb66`; fresh-clone install `e6a70e777213afb0935ac9c572e558d600624bb1` |
 | 3 — Dogfood | complete | Codex correctness pilot `214be8163ba672d42b62ec7ad8ebe8fa71b466b5` |
 | 4 — Large-codebase proof | complete, mixed | D02 failed; Issue #750 tied with no P0-P2 defects; see D05 |
-| 5 — Second harness and unrelated project | complete | Claude `unsupported`; unrelated Codex mutation `pass`; see D03–D04 in `docs/CONFORMANCE.md` |
+| 5 — Second harness and unrelated project | complete | Claude bounded mutation-path pass; unrelated Codex mutation pass; see D03-D04 |
 | 6 — OSS readiness | private experimental releases | Apache-2.0; private canonical repository; `v0.5.0` released with compact onboarding and the protocol diet |
 | Role and state quality | static pass, live test pending | all existing charters strengthened at `d894317851b5ceacc0337578b9d684729401e7b6`; C17-C18 specified |
 | Catalog and workflow expansion | static contract added; live evidence pending | the catalog now has fifteen roles, including a provider-neutral Release Agent and five fixed request boundaries with an owner-selected role allowlist; see the [release boundary](references/PROTOCOL.md#release-boundary), [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), and [V1–V12 fixtures](docs/CONFORMANCE.md#v1-v12-release-agent-and-custom-workflow-fixtures) |
@@ -46,8 +46,9 @@ installation passed. The loader ambiguity fix is recorded in the phase table.
 
 **Gate:** Start only after Phase 2 passes.
 
-Use Olympus to improve its own Markdown files. Each change is a new goal with a frozen
-prior framework revision. A running goal cannot change the rules that govern it.
+Core-framework changes use the normal repository workflow. A separate run may dogfood the
+merged change at one immutable commit. That run supplies bounded evidence and never governs
+or authorizes the core edit.
 
 **Outcome:** The Codex correctness pilot passed. Keep fixes tied to observed escapes,
 confusion, false claims, or unnecessary cost.
@@ -73,8 +74,10 @@ tests. It does not prove a quality advantage.
 
 Keep harness-specific mappings outside the semantic core.
 
-**Outcome:** The Claude trial is `unsupported`. The unrelated-project Codex mutation is
-`pass`, recorded in D03–D04.
+**Outcome:** The first Claude trial was `unsupported`. Claude later passed one bounded
+Builder-to-fresh-Reviewer mutation path. The unrelated-project Codex mutation is
+`pass`.
+These scenario results are recorded in D03-D04 and do not establish general harness support.
 
 ## Phase 6 — OSS release readiness
 

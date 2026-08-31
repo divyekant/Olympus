@@ -105,8 +105,10 @@ for the first time (D08): a designed stop that caught a real defect, a gated pas
 an express pass.
 
 The release boundary, custom workflow, and dieted protocol are static Markdown
-contracts. D08 covers the onboarding scenario only; the D03 `unsupported` result for a
-Claude mutation goal stands until a new trial. These results do not prove live provider
+contracts.
+D03 preserves the first unsupported Claude mutation trial and a later bounded pass through
+one Builder-to-fresh-Reviewer mutation path. That pass does not establish self-governance,
+current-pin support, uninvoked-role support, or general Claude support. These results do not prove live provider
 support, release execution, production readiness, or general harness support. See
 [current harness evidence](docs/CONFORMANCE.md#current-harness-evidence) for exact limits.
 

@@ -1,4 +1,4 @@
-# Contributing to Olympus v0.1
+# Contributing to Olympus
 
 Implement and review core-framework changes through the normal repository workflow,
 outside Olympus. Do not use an Olympus goal or `.olympus` task record to govern a core

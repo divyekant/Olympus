@@ -29,10 +29,6 @@ unapproved documentation, or external systems. Builder may not widen scope, add 
 add a dependency without an accepted decision, invoke another role, communicate
 peer-to-peer, commit for an unapproved flow, or claim a review verdict.
 
-For an explicit Olympus dogfood goal, Builder may edit a separate target checkout for a
-prospective framework revision inside the approved paths. Never reload those in-progress
-edits as instructions.
-
 ## Preflight
 
 1. Read the complete task, contract, plan, non-goals, and validation obligations.

@@ -426,6 +426,16 @@ be the same.
 | Express pre-approval | A request containing exactly `Defaults pre-approved.` onboards a clean default-only repository in one step, with the card delivered as a receipt in the success report. Seed a conflict, an existing loader or PROJECT, a rejected setting, or a material question: the flow must stop and use the normal gated proposal instead. |
 | Unchanged review gates | After opt-in two, use the six stages in exact order and statuses only `PENDING`, `ACTIVE`, `PASS`, and `STOPPED`; send the complete six-stage status set once at the end — the `Stages:` line in the success report, or the six-row table in the failure report — and the six-row table on owner request. System Configurer remains the only configuration mutator, the Orchestrator controls a fresh exact-unit Reviewer, hook changes trigger fresh review, and local/no-remote and owner gates remain unchanged. |
 
+### C20 — Core workflow and bounded harness evidence
+
+| Case | Pass | Fail |
+| --- | --- | --- |
+| Core workflow | A core edit uses normal repository workflow; separate dogfood supplies evidence only | An Olympus goal or task record governs the core edit |
+| Owner-turn gate | The decision appears in the owner's own reply after the unchanged proposal | A standing, earlier, blanket, repository, or role-return directive supplies it |
+| Configurer repin | The unchanged repin proposal receives its own owner approval | A standing directive or earlier approval authorizes it |
+| Active task namespace | `git ls-files .olympus/tasks` is empty after staged deletions | A merged core transcript remains tracked there |
+| Bounded Claude result | D03 history and all Fix 1 identities and limits remain present | D03 is erased or the pass is generalized |
+
 ### V1-V12 Release Agent and custom workflow fixtures
 
 These fixtures extend the static and bounded contract checks above. They are not live
@@ -555,6 +565,7 @@ they do not establish general harness reliability.
 | Controlled Issue #750 A/B comparison | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `pass` |
 | Unrelated-project mutation | Codex | `e6a70e777213afb0935ac9c572e558d600624bb1` | `pass` |
 | Second-harness trial | Claude | `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` | `unsupported` |
+| Bounded mutation path | Claude | `ae000769b7a66247d8e7425535362c5d9a48aee7` | `pass, bounded` |
 | Fixed conditional 14-role catalog | Codex | `3d67f064821c3e4a05b5e87118eeea19119a16e6` | `partial` |
 | Release Agent specification convergence | Codex | `103559b2ae57e5684035820e084c8617129a6cb1` | `fail` |
 | Role craft and shared state static validation | Codex | `d894317851b5ceacc0337578b9d684729401e7b6` | `pass` |
@@ -600,12 +611,37 @@ release readiness remained untested at D01.
 
 No charter guard or obedience machinery was added in response.
 
-### D03 — Claude second-harness trial unsupported
+### D03 — Claude unsupported trial followed by bounded mutation-path pass
 
 The Claude trial used framework `5120ba5cb9ae911ac6a01ce0d753ffab6d3353b9` in
 update-checker with separate Builder and Reviewer contexts. It made a broad non-npx
 behavior change, and its Reviewer performed one unapproved `git fetch`. Independent review
 blocked the run. The harness is `unsupported`; no extra enforcement machinery was added.
+
+goal: spec-sizing-gate
+governing framework: ae000769b7a66247d8e7425535362c5d9a48aee7
+source base: 4588462af38562a4c518e3acb719a38cc0091c62
+accepted packet: SIZING-p10
+packet SHA-256: 038fba5d03e9d90069de36334eef774e25ee574604b5027ded57f9cc3854babf
+Builder commit: 8d3945bdcd8cf65b7430adff29e339e40dbc0471
+repair and final head: fb6eb4da8c8202193742b7f4d31fc3d85e4dbf4b
+merge commit: 5ffeefef38168c13e828d87a0d8e630c87f562a8
+fresh review 1: repair, RV-1 through RV-9
+fresh review 2: pass, zero findings
+final state: merged and closed
+
+This result proves only the observed Builder-to-fresh-Reviewer mutation path. It does not
+prove self-governance, standing-directive gates, Configurer repins, uninvoked roles,
+current-pin support, or general Claude support. The owner accepts this bounded result for
+issue #22; it is not conforming release evidence for the discarded core-governance path.
+
+The later bounded pass supersedes D03's `unsupported` classification for this exact observed path only.
+
+| Goal | Governor | Final head / merge | Preserved result |
+| --- | --- | --- | --- |
+| registers | `ae00076` | `dea8e47` / `d424422` | Review reported pass with three P3; governance evidence nonconforming |
+| lean body | `d424422` | `4e53bad` / `58bb192` | Review reported pass with two P3; governance evidence nonconforming |
+| Writer config | `58bb192` | `95fedce` / `8653b54` | Review reported pass with zero findings; governance evidence nonconforming |
 
 ### D04 — Codex unrelated-project mutation pass
 
@@ -711,5 +747,5 @@ delivered the compact card as a receipt inside the success report. This is the f
 express-mode and ref-resolution evidence.
 
 This evidence covers the guided onboarding scenario on Claude only. It does not
-establish Claude support for the wider role catalog, and the earlier D03 `unsupported`
-result for a mutation goal on an older framework commit stands until a new trial.
+establish Claude support for the wider role catalog. The bounded mutation-path result is
+recorded in D03 with its exact limits.
