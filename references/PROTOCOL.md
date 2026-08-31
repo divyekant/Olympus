@@ -424,19 +424,21 @@ Then:
    When accepted frontend interaction scenarios are present and Docs Writer does not run, record an
    empty `cumulative Docs Writer-owned identity` relative to the implementation-bracket baseline.
    When accepted frontend interaction scenarios are present, after Builder and Docs Writer edits
-   finish, before each named-path commit the Orchestrator records the exact pre-commit Git state,
+   finish, before each named-path commit the Orchestrator records the exact pre-commit Git state
+   and intended included-path identity,
    commits the named project paths under normal local Git policy, and completes the applicable
-   hooks. Immediately after hooks, record the exact post-hook Git state and the exact
-   `frontend hook delta` from pre-commit working-tree bytes to post-hook working-tree bytes for
-   every included path; the commit's `HEAD` movement alone produces no byte delta. If the first hook
-   cycle changes an included byte, route the changed path to its owning Builder or Docs Writer
-   for validation, make exactly one new named-path commit, and complete the hooks again. Do not
-   assign the hook delta's bytes to a cumulative identity until its owning role validates them;
-   then assign or update the proper cumulative identity from the exact committed bytes. Keep the
-   cumulative Builder and Docs Writer identities disjoint, and keep their union equal to the final
-   mutation.
-   If hooks change an included byte again on this second named-path commit, block the goal; one
-   hook repair is allowed. Do not generate candidate evidence from a dirty or pre-hook state.
+   hooks. Immediately after hooks, record each included path's exact committed `HEAD`, index, and
+   working-tree identity. The `frontend hook delta` is every difference between the intended
+   identity and those three post-hook identities; the commit's `HEAD` movement with unchanged
+   bytes produces no delta. Route every changed path to its owning Builder or Docs Writer for
+   validation. If the validated bytes already equal committed `HEAD` and the index and working
+   tree match `HEAD`, make no empty repair commit. Otherwise permit exactly one corrective
+   named-path commit and complete its hooks. After that corrective commit, any included identity
+   that differs from the owning role's validated identity, or any included index or working-tree
+   difference from `HEAD`, blocks the goal. Assign or update the proper cumulative identity only
+   after owning-role validation, using exact final committed `HEAD` bytes. Keep the cumulative
+   Builder and Docs Writer identities disjoint, and keep their union equal to the final mutation.
+   Do not generate candidate evidence from a dirty or pre-hook state.
 8. When accepted frontend interaction scenarios are present, dispatch Builder for an evidence-only
    pass against that exact clean commit. Builder makes no relevant edits and executes the complete
    unchanged accepted scenario set in isolated non-production state. It returns the exact
@@ -920,10 +922,12 @@ verified frontend packet identifier and lowercase SHA-256 digest. It also record
    For each Docs Writer run, it records the pre/post state and `Docs Writer round delta`, and the
    `cumulative Docs Writer-owned identity` relative to the same baseline. When Docs Writer does
    not run, that cumulative identity is empty. For material frontend behavior, each named-path
-   commit also records the exact pre-commit and post-hook Git states and the `frontend hook delta`.
+   commit also records the pre-commit intended included-path identity and the post-hook committed
+   `HEAD`, index, and working-tree identities. The `frontend hook delta` is their difference.
    After the owning role validates a first hook delta, assign or refresh that role's cumulative
-   identity from exact committed bytes; a second included-byte hook delta on the repair commit
-   blocks the goal. These cumulative identities must remain disjoint, and their union must equal the
+   identity from exact final committed `HEAD` bytes. Make one corrective commit only when validated
+   bytes are not already cleanly committed; a post-correction difference blocks. These cumulative
+   identities must remain disjoint, and their union must equal the
    complete final mutation identity before review dispatch.
 
 The canonical `comparison-base rule` for frontend path identity is:
