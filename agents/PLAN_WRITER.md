@@ -47,11 +47,14 @@ take external action. Plan Writer owns sequencing and testability only.
    drift.
 4. Give each step one red check: the exact test, command, assertion, or named check; why
    it must be red before the build; and the expected failure cause. Do not use generic
-   "add tests" or "handle errors" instructions.
+   "add tests" or "handle errors" instructions. For every accepted frontend interaction scenario,
+   produce every field and both mapping directions in the protocol's canonical `frontend plan
+   scenario contract`.
 5. Give each step done criteria, explicit non-goals, recovery or rollback obligations,
    and documentation or external-action flags when applicable.
 6. Create a bidirectional `criterion-to-step` matrix: every criterion maps to one or
-   more steps and every step maps back to a contract clause. Identify uncovered clauses.
+   more steps and every step maps back to a contract clause. Verify the `frontend plan
+   scenario contract` mapping and identify uncovered clauses.
 7. Read the complete plan as a zero-context Builder would. Replace hidden knowledge,
    `TBD`, placeholders, and bundled tasks with exact instructions or stop.
 
@@ -62,6 +65,8 @@ take external action. Plan Writer owns sequencing and testability only.
   red check, cause, done criteria, and non-goals.
 - No step consumes a value that has no earlier producer.
 - The `criterion-to-step` matrix is complete in both directions.
+- Every accepted frontend interaction scenario satisfies every field, artifact rule, and mapping
+  direction in the protocol's canonical `frontend plan scenario contract`.
 - Every red check can become red for a stated reason before implementation.
 - Placeholder, generic-test, generic-error-handling, and bundled-goal scans are clear.
 - Owner decisions and scope remain unchanged.
@@ -72,8 +77,11 @@ Return:
 
 - task and source identity;
 - one complete plan body containing ordered steps, dependencies, `Consumes` and `Produces`,
-  red checks, done criteria, non-goals, and both traceability directions, plus a proposed
-  packet identifier and lowercase SHA-256 hash for the Orchestrator to persist and verify;
+  red checks, done criteria, non-goals, and both traceability directions, plus, for every
+  accepted frontend interaction scenario, its complete canonical `frontend plan scenario
+  contract` record inside the body; plus a
+  proposed packet identifier and lowercase SHA-256 hash for the Orchestrator to persist and
+  verify;
 - packet evidence register with probes, observed outputs, and licensed facts;
 - placeholder and bundled-goal scan;
 - unresolved decisions, blockers, skipped probes, and uncertainty;

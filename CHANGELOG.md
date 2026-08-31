@@ -28,6 +28,9 @@
 - `references/HARNESS.md`, non-normative adapter notes mapping the fixed role classes to
   Claude Code and Codex, with a per-class evidence-status table drawn only from
   `docs/CONFORMANCE.md`'s recorded observations.
+- The static frontend craft and evidence loop in C22 and D038, including source discovery,
+  accepted interaction scenarios, conditional plan mapping, candidate-bound browser evidence,
+  cumulative path identity, and paired fresh review with repair invalidation.
 
 ### Changed
 
@@ -65,6 +68,9 @@
   is deleted, and nothing runs. When the gate is closed, a diagnose-only dispatch stays
   observation-only, and Explorer returns `blocked` with cause for any part needing
   execution. See D036.
+### Known limits
+
+- Live frontend dogfood and browser or harness support evidence remain pending.
 
 ## 0.5.1 - 2026-08-30
 

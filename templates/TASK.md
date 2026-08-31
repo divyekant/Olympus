@@ -33,7 +33,7 @@ invoked role before dispatch.
 | 1 | Orchestrator | every routed request | `<yes>` | `<yes>` | `<mapping and evidence>` |
 | 2 | System Configurer | `<owner config request and double-opt-in flow>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 3 | Explorer | `<material question, explicit audit, or diagnose-only defect question>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 4 | Spec Writer | `<substantial or other trigger>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 4 | Spec Writer | `<substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 5 | Claims Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 6 | Spec Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 7 | Plan Writer | `<dependent or cross-layer steps or explicit need>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
@@ -42,7 +42,7 @@ invoked role before dispatch.
 | 10 | Tester | `<contract-flagged red path crosses a boundary, or an owner request>` | `<yes/no>` | `<yes/no>` | `<separate mapping and evidence>` |
 | 11 | Docs Writer | `<false tracked docs or sync contract>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 12 | Reviewer | `<every project or configuration mutation>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
-| 13 | Design Reviewer | `<material user-facing change>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
+| 13 | Design Reviewer | `<material frontend behavior>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 14 | Release Agent | `<owner-requested release preparation, reconciliation, or external action>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 15 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 16 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
@@ -60,7 +60,9 @@ replace them with role-specific labels.
 | Checkpoint | Required record |
 | --- | --- |
 | request boundary | `<review-only, diagnose-only, audit-only, spec-only, or mutation; terminal boundary and truncated stages>` |
-| frozen review unit | `<spec body id/hash, plan id/hash, or mutation task/base/branch/worktree/base/head/merge-base/paths/diff digest, as applicable>` |
+| frontend pre-bracket clean gate | `<material frontend only: source checkout path supplying the base and committed HEAD, exact approved Builder and Docs Writer allowed-path set, Git output before worktree creation, pass or stopped/new-goal result; worktree path and path/source recheck before Builder dispatch; protected Olympus task/config state and unrelated paths excluded>` |
+| frontend commit and hook checkpoint | `<material frontend only: exact pre-commit whole-tree Git state and intended identity, named-path commit, exact post-hook whole-tree committed HEAD/index/working-tree identities, their hook delta, every out-of-set path and stopped/new-goal result, owning-role validation of in-scope changes, whether validated bytes were already cleanly committed or needed the one corrective commit, cumulative identity refreshed from final committed HEAD bytes, and corrective-commit result or blocked outcome>` |
+| frozen review unit | `<specification: persisted body identifier/hash; plan: persisted bytes identifier/hash; mutation: task identifier, source base, branch or worktree, base, head, merge-base, allowed and protected paths, and exact diff or snapshot digest; when accepted frontend scenarios exist, interaction-set identity (ordered stable scenario IDs plus accepted specification identifier/hash and accepted plan identifier/hash when one exists), verified frontend packet identifier/digest, implementation-bracket baseline, frontend commit and hook checkpoint reference, Builder round deltas with pre/post Git states and cumulative Builder-owned identity, Docs Writer round deltas with pre/post Git states and cumulative Docs Writer-owned identity (empty when Docs Writer did not run), disjoint-union result, and replay disposition>` |
 | transition evidence | `<role identity; packet identity; Git state; required checks; evidence verified by Orchestrator>` |
 | halted outcome | `<operational/runtime cause; partial-output disposition; last verified state; recovery owner; safe retry; completed review rounds consumed: 0>` |
 | pending outcome | `<every applicable cause; owner; closure evidence; safe retry; consequence; all required causes cleared: yes/no>` |
@@ -142,7 +144,7 @@ Delete this section when no owner decision was needed after activation.
 
 | Status | Question | Evidence | Answer and uncertainty | Execution gate | Reproduction copy |
 | --- | --- | --- | --- | --- | --- |
-| `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line>` | `<answer or limit>` | `<supported, untested, unsupported, or not consulted>` | `<path, verified source-revision identity, and deletion status, when the gate was open and execution ran; otherwise none>` |
+| `<used or skipped>` | `<one material question or reason skipped>` | `<paths, commands, file:line; for the frontend question, the frontend source map covering philosophy, standards/tokens, components, exemplars, routes/states/fixtures, commands, freshness/conflicts/unknowns>` | `<answer or limit; evidence is not approval>` | `<supported, untested, unsupported, or not consulted>` | `<path, verified source-revision identity, and deletion status, when the diagnosis gate was open and execution ran; otherwise none>` |
 
 ## Sizing check
 
@@ -186,15 +188,10 @@ append supersedes an earlier row and never replaces it.
 
 ## Specification rounds
 
-Use this bracket only for substantial, ambiguous, architectural, or cross-layer goals.
-Persist the complete current Writer result and record its identity before reviewer
-dispatch. The body between the markers is the only specification body in this record. It
-must contain requirements, invariants, acceptance criteria, red paths, and validation
-obligations. Keep metadata, packet identifiers, hashes, verdict counts, findings,
-convergence state, and body size outside the hashed body. Never put earlier bodies, body
-diffs, reviewer transcripts, review history, evidence transcripts, or defensive
-annotations in the body. The body carries claims and pointers only, under the protocol
-rule for reproduced text.
+See the [goal-flow protocol](../references/PROTOCOL.md#4-goal-flow) for the Spec Writer trigger
+and review rules. Record the complete current body and identity before reviewer dispatch. Keep
+metadata and review state outside the body. For material frontend behavior, record the complete
+accepted scenario set in the accepted body before Plan Writer or Builder receives it.
 
 ### Current specification body
 
@@ -288,9 +285,9 @@ summary.
 
 ## Plan rounds
 
-Use this bracket only when the accepted contract has dependent steps, cross-layer or
-interface sequencing, or an explicit plan need. Plan Writer receives the accepted contract
-or specification verbatim. Plan Verifier receives that contract plus the whole plan.
+Use this bracket only when the existing Plan Writer trigger holds. Frontend scenarios do not make
+planning unconditional. See the [goal-flow protocol](../references/PROTOCOL.md#4-goal-flow) for
+the plan contract and verification rules. Record the packet, body, verdict, and evidence below.
 
 | Round | Plan packet identifier and hash | Plan Writer context | Fresh Plan Verifier context | Verdict | Accepted plan or findings/evidence | Uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -308,7 +305,7 @@ Accepted plan:
 
 <!-- PLAN-BODY:BEGIN -->
 
-`<complete accepted plan body only, persisted verbatim before verification, or not required>`
+`<complete accepted plan body only, persisted verbatim before verification, including the frontend plan scenario contract and bidirectional scenario-ID-to-producing-step map when accepted frontend scenarios exist, or not required>`
 
 <!-- PLAN-BODY:END -->
 
@@ -323,7 +320,7 @@ goal-wide history for the Tester ownership check.
 
 | Round | Builder | Assigned paths | Changed paths and result | Docs claims affected and trigger | Checks and results | Uncertainty |
 | --- | --- | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<paths the dispatch named for Builder this round>` | `<result and paths>` | `<claims and Docs Writer yes/no>` | `<commands/results>` | `<none or limit>` |
+| `<n>` | `<separate context>` | `<paths the dispatch named for Builder this round>` | `<result and paths; implementation pass states frontend evidence packet: not yet permitted; evidence-only candidate references the Builder round delta and cumulative Builder-owned identity>` | `<claims and Docs Writer yes/no>` | `<commands/results; with scenarios, candidate attempt, packet identifier/digest only after commit/hooks, disposition, replay result, required-artifact references and exact-byte digests, bounded summaries, and no raw artifact bytes>` | `<none or limit>` |
 
 ### Tester results
 
@@ -343,20 +340,36 @@ assignment is `assignment-complete` against its trigger and every assigned test 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `<n>` | `<separate context>` | `<paths>` | `<assignment-complete or assignment-narrower-than-trigger with omitted paths>` | `<per-path entries: covered-clean, covered-with-finding, or skipped>` | `<reason and prior signal, or none; 1st per round is non-consuming>` | `<yes, or no with cause class>` | `<none or limit>` |
 
+### Current verified frontend packet body
+
+Use this one marker pair only when accepted frontend interaction scenarios exist. It contains only
+the current verified `frontend packet body`; bytes between the markers are exact, at most 48,000
+bytes, contain neither exact marker byte sequence, and its digest excludes the markers. It contains
+bounded summaries plus references and exact-byte digests, never raw screenshots, traces, or full
+logs. Record candidate attempts, dispositions, and prior identity/evidence in the Builder row;
+replace this body only with a new verified packet. See the [goal-flow
+protocol](../references/PROTOCOL.md#4-goal-flow) for verification and repair rules.
+
+<!-- FRONTEND-PACKET-BODY:BEGIN -->
+
+`<exact current verified frontend packet body only, persisted verbatim; at most 48,000 bytes; no marker byte sequence; present only with accepted scenarios>`
+
+<!-- FRONTEND-PACKET-BODY:END -->
+
 ### Docs Writer results
 
 Record only when its trigger holds.
 
 | Round | Context | Approved docs changed | Claims and links checked | Result and uncertainty |
 | --- | --- | --- | --- | --- |
-| `<n>` | `<separate context>` | `<paths>` | `<checks/results>` | `<result and limit>` |
+| `<n>` | `<separate context>` | `<approved Docs Writer-only paths; reference to the Docs Writer round delta, cumulative Docs Writer-owned identity, and frontend commit and hook checkpoint in the shared frozen review unit checkpoint>` | `<claims, links, checks, and non-overlap result>` | `<result and limit>` |
 
 Review rounds use a fresh context that did not build the change. Verdicts are `pass`,
 `repair`, or `blocked`:
 
-| Round | Reviewer | Verdict | Acceptance checks, findings, and uncertainty |
-| --- | --- | --- | --- |
-| `<n>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
+| Implementation round | Frontend review round | Frozen unit and frontend packet | Reviewer | Verdict | Acceptance checks, findings, and uncertainty |
+| --- | --- | --- | --- | --- | --- |
+| `<n>` | `<shared round identity, or not applicable>` | `<shared state checkpoint: frozen review unit; current verified frontend packet body is in the dedicated packet section; otherwise not applicable>` | `<fresh context>` | `<verdict>` | `<criterion results and findings>` |
 
 Round cap: `<1, 2, or 3; default 2>`.
 
@@ -373,12 +386,12 @@ content receives a fresh committed-content review.
 
 ### Design review
 
-Record whenever the material user-facing design trigger holds. Missing required project
-standards or matching evidence produce `blocked`, not `not used`.
+Record only when the design trigger holds. See the [goal-flow protocol](../references/PROTOCOL.md#4-goal-flow)
+for authority and paired-round rules.
 
-| Context | Standards and matching evidence | Verdict | Checks, findings, and uncertainty |
-| --- | --- | --- | --- |
-| `<fresh context>` | `<sources and paths>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
+| Implementation round | Frontend review round | Frozen unit and frontend packet | Context | Governing source and matching evidence | Verdict | Checks, findings, and uncertainty |
+| --- | --- | --- | --- | --- | --- | --- |
+| `<same implementation round as general Reviewer>` | `<same shared round identity as general Reviewer>` | `<shared state checkpoint: frozen review unit; current verified frontend packet body is in the dedicated packet section>` | `<fresh context>` | `<matching project standard first; task-specific owner decision only for an otherwise missing material aspect; evidence-backed empty component inventory valid; analogous screens are evidence only>` | `<pass, repair, or blocked>` | `<checks and evidence>` |
 
 ### Decision Council and Liaison
 

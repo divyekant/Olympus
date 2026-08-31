@@ -182,6 +182,33 @@ The framework passes static inspection when:
     state with a matching recheck means no activation claim.
 28. The Issue #8 fixtures below cover source identity, state classes, wake phrases, mutation
     races, compact disclosure, safe defaults, plain-text fallback, and unchanged review gates.
+29. Current PROJECT or current-repository evidence may provide the complete frontend source
+    map; dispatch Explorer only for a material gap blocking a required role, and record Explorer
+    skipped when current evidence suffices. Material frontend behavior has accepted hashed
+    interaction scenarios before planning or building, and a
+    conditional plan with complete scenario execution details and bidirectional mapping when
+    the plan trigger holds. Before sizing and before worktree creation, the source checkout
+    supplying the base records the exact approved Builder and Docs Writer allowed paths clean
+    against committed HEAD, or the goal stops for a new owner goal after commit; the worktree
+    rechecks that source and path set before Builder dispatch. Builder implementation returns
+    `frontend evidence packet: not yet permitted`; Builder edits and tests first, Docs Writer runs
+    when triggered, named paths and hooks complete before the evidence-only Builder pass generates
+    candidate evidence, and paired reviewers replay the exact committed candidate. Hook evidence
+    records the exact pre-commit whole-tree Git state and intended identity, then compares it with
+    post-hook whole-tree committed HEAD, index, and working-tree identities. The owning role
+    validates each in-scope changed path. An out-of-set path stops before evidence and requires
+    owner cleanup or commit plus a new goal. A corrective commit runs
+    only when validated bytes are not already cleanly committed, and a post-correction difference
+    blocks. The proper cumulative identity then refreshes from final committed HEAD bytes. Builder evidence is candidate-bound: exact body, status-specific
+    path hashes, and each scenario's artifact references equal its accepted required-artifact list
+    before lowercase SHA-256 digests verify. After paired pass, final checks are non-generating only.
+    Cumulative Builder and Docs Writer identities must be disjoint and equal the final mutation. Screenshot-only,
+    stale, missing state or console evidence, and unavailable browser capability cannot become a
+    pass; report `pending`, `halted`, `blocked`, or `unsupported` for the applicable cause.
+    Project design standards govern first, and a task-specific owner decision governs only an
+    otherwise missing material aspect. A repair invalidates both frontend verdicts. A
+    frontend-affecting repair requires full replay; only a proven disjoint Docs Writer-only
+    documentation delta can use the canonical no-browser replay disposition.
 
 ## Behavioral smoke tests
 
@@ -265,9 +292,11 @@ implementation caps apply independently.
 
 When Builder makes tracked documentation false or the contract requires synchronization,
 Docs Writer changes approved documentation only and verifies touched links before fresh
-general review. A material user-facing change invokes Design Reviewer when its trigger
-holds and matching project design standards and evidence exist; missing required standards
-block the goal, not the trigger. Design Reviewer cannot replace general review.
+general review. Material frontend behavior invokes Design Reviewer when its trigger
+holds. Each material aspect uses a matching owner-approved project standard first, or a
+recorded task-specific owner design decision only for an otherwise missing aspect. The goal
+blocks when neither source governs the aspect, not when project standards alone are absent.
+Design Reviewer cannot replace general review.
 Accessibility basics remain in Builder and general Reviewer checks.
 
 ### C12 — Advisory and status roles
@@ -472,6 +501,41 @@ be the same.
 | Writer adverse result | One repair and re-test occurs; a remaining defect returns `blocked` without a body or reviewer dispatch | A remaining defect is accepted, persisted, or reviewed |
 | Post-coverage P0/P1 | At most one further Writer result is persisted; any P0/P1 in the next consumed round blocks dispatch | Another Writer repair is dispatched |
 | Omitted settings | Missing values become `off` and `reuse`, each recorded `defaulted from omission`; an unknown explicit value is malformed | Omission is ambiguous or an unknown value is defaulted |
+
+### C22 — Frontend evidence loop
+
+These are static fixture definitions for the conditional frontend loop. They do not prove live
+browser, harness, or production support. Missing output is `not run`, not pass.
+
+| Fixture | Observable pass evidence |
+| --- | --- |
+| Source discovery | Current PROJECT or current-repository evidence may satisfy the source map: record design philosophy, owner-approved standards or tokens, reusable components, exemplar screens or flows, routes, states, fixtures, browser or visual commands, freshness, conflicts, and unknowns. Dispatch Explorer only for a material gap blocking a required role, and record Explorer skipped when current evidence suffices. An absent source is explicit and is not permission to invent one. |
+| No sources plus owner direction | When no frontend source exists, the record states `none` or the exact absence and obtains the bounded owner direction needed for the material aspect; Explorer evidence is not approval. |
+| Canonical shared definitions | The protocol defines the frontend interaction scenario contract, plan scenario contract, artifact grammar, general-review packet, design-review packet, and replay dispositions once. Role charters cite those definitions and do not copy their field lists. |
+| Specification artifact list | Every accepted frontend scenario contains one exact ordered required-artifact list. Spec Reviewer rejects a missing, extra, duplicated, reordered, or invalid artifact key under the canonical grammar and cardinality rules, including on a no-plan path. |
+| Incomplete interaction plan | Accepted scenarios stay in the hashed specification before Plan Writer or Builder receives them. Planning remains conditional. If the existing plan trigger holds, the plan carries the complete frontend plan scenario contract and a bidirectional stable-ID-to-producing-step map; an incomplete interaction plan, contract, or map is rejected. |
+| Visual-only change | A material visual, layout, typography, motion, viewport, theme, or design-system change still enters the specification bracket, gets accepted scenarios and candidate-bound evidence, and receives paired fresh general and Design Reviewer replay. |
+| Commit/evidence order | Builder implementation returns `frontend evidence packet: not yet permitted`; Builder edits and tests first; Docs Writer runs only when triggered; the Orchestrator records the exact pre-commit whole-tree state and intended identity, commits named paths, completes hooks, and records post-hook whole-tree HEAD, index, and working-tree identities. In-scope differences return to their owning role. An out-of-set difference stops before evidence and requires owner cleanup or commit plus a new goal; path authority never widens silently. If validated bytes are already cleanly committed, no empty repair commit runs; otherwise exactly one corrective commit is allowed, and a post-correction difference blocks. The proper cumulative identity refreshes from final committed HEAD bytes. The evidence-only Builder pass generates evidence only against that exact clean commit; paired fresh reviewers use the same commit; after paired pass, final checks are non-generating only. |
+| Candidate-bound evidence | Only the evidence-only Builder pass returns a candidate packet with exact body bytes and lowercase SHA-256 digest, proposed identifier, complete cumulative Builder-owned paths, status-specific path identities under the canonical comparison-base rule, each scenario's accepted required-artifact list and exactly matching references, bounded inline output summaries, and the exact-byte artifact references and lowercase SHA-256 digests selected by each list. The body is at most 48,000 bytes and contains neither exact task marker byte sequence. Only verified equality and digests create frozen frontend state. |
+| Candidate verification failure | A failed candidate verification retains the prior verified packet body and state, permits exactly one pre-review Builder candidate repair, and blocks on a second failed candidate. Candidate attempts consume no implementation review round. |
+| Replay evidence | Screenshot-only, stale, missing state, console or page errors, missing required network outcomes, or Builder assertions alone cannot pass. Each scenario's required-artifact references equal its accepted list before digest checks. For `full`, both reviewers replay the complete unchanged accepted scenario set with separate disposable outputs. For a proven disjoint Docs Writer-only documentation delta, both fresh reviewers verify the new exact unit and unchanged identities without browser execution. A command that cannot write to the assigned disposable path makes required full replay unavailable and cannot pass. |
+| Paired repair | A frontend-affecting change, packet or artifact change, or evidence regeneration requires a new packet and complete-set `full` replay by both fresh reviewers. A Docs Writer-only delta can use `verified-disjoint-docs-only` only when no changed path or bytes feed a route, fixture, runtime, command, artifact, or governing design source; both reviewers are still fresh on the new exact unit. After paired pass, evidence is not regenerated. |
+| Scenario-set change | A required interaction-set change invalidates the accepted specification and returns through fresh Claims and Spec review. Plan Writer runs afterward only when its existing trigger holds, and every resulting plan gets a fresh Plan Verifier; plan-only re-planning cannot change the set. |
+| Browser capability | A recoverable environment or credential gap is `pending`; role, tool, transport, or runtime inability is `halted`; missing required evidence or an owner decision after review is `blocked`; a harness that cannot preserve the required capability or role is `unsupported`. Tool availability alone is not support or a pass. |
+| Jurisdiction split | The general Reviewer checks semantic results, state, recovery, security, and operational evidence. Design Reviewer checks governing standards, component reuse, responsive and visual axes, focus, and interaction presentation. Both are fresh and paired; Design Reviewer never replaces general review. |
+| Cumulative path identity | One implementation baseline is retained across multiple Builder rounds. Each round delta updates the cumulative Builder-owned identity, while Docs Writer deltas form a separate cumulative identity with no overlap. Whole-tree hook comparison catches unexpected paths before evidence. In-scope hook changes enter the proper cumulative identity only after owning-role validation, using final committed HEAD bytes. A corrective commit runs only when validated bytes are not already cleanly committed; any post-correction identity difference blocks. A first union mismatch gets one bounded pre-review identity repair; a second blocks. |
+| Clean frontend baseline | Before sizing and before worktree creation, the source checkout supplying the base records every path in the exact approved Builder and Docs Writer allowed-path set clean against committed HEAD. A relevant dirty path stops the goal; after its commit, a new goal starts from refreshed source identity. After the gate passes, the worktree starts from that committed source and rechecks the recorded path set and source identity before Builder dispatch. Protected Olympus task/config state and unrelated paths are excluded. |
+
+#### C22 path identity status matrix
+
+| Status or identity | Required evidence |
+| --- | --- |
+| Every round delta | Compare each dispatch pre-state (the recorded pre-state) with its post-state. |
+| Every cumulative identity | Compare current state with the implementation-bracket baseline. |
+| `added` or `modified` | Use current exact-byte lowercase SHA-256 hashes. |
+| `deleted` | Record `deleted` and the lowercase SHA-256 of exact bytes from the applicable comparison base for that identity. |
+| `rename` | Record source and destination; hash the source from the applicable comparison base and the destination from current exact bytes. |
+| `add-then-delete` | The path is absent from the cumulative identity relative to the baseline. Retain its deletion in the round delta with the hash of exact bytes from the dispatch pre-state. |
 
 ### V1-V12 Release Agent and custom workflow fixtures
 

@@ -75,6 +75,13 @@ pattern. Issue
 #750 began catalog dogfood, but not every conditional role ran. The `v0.3.0` charter upgrade
 has static and independent review evidence; a new live target-repository run remains pending.
 
+## Frontend craft and evidence boundary
+
+Frontend craft is distilled in the Explorer, Builder, Reviewer, and Design Reviewer charters;
+see the [C22 frontend evidence loop](CONFORMANCE.md#c22--frontend-evidence-loop), [D038](DECISIONS.md),
+and the [runtime protocol](../references/PROTOCOL.md#4-goal-flow). Live browser and harness support
+remain untested.
+
 ## Deliberate exclusions
 
 - Source skill names and invocation commands are not runtime dependencies.

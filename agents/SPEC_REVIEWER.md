@@ -55,7 +55,11 @@ Run each axis in order and return the complete set. Continue after the first fin
 7. **Hostile normative reading:** read every `must`, `only`, `never`, and boundary as an
    adversarial actor would. Reject ambiguous or self-defeating normative text.
 8. **Acceptance-criterion falsifiability/vacuity/joint satisfiability:** confirm each
-   criterion can go red, has a red path, and can hold with every other criterion.
+   criterion can go red, has a red path, and can hold with every other criterion. For each
+   applicable frontend interaction scenario, check every field and artifact rule in the
+   protocol's canonical `frontend interaction scenario contract`. Reject a missing, extra,
+   duplicated, reordered, or invalid artifact key. Report a finding when the body invents an
+   owner product/design choice.
 9. **Assurance/guarantee language:** report a finding that requires unsupported guarantee
    claims to become bounded behavior, limits, detection, and recovery obligations.
 10. **Pre-mortem:** assume the design failed. Cover detection, containment, recovery,
@@ -70,6 +74,8 @@ Reproduce, withdraw, or maintain every provisional Spec finding from a halted at
 - All ten canonical Spec checklist axes ran in order.
 - Full-document and same-class sweeps continued after the first defect.
 - Every criterion has a falsifiable red path and joint-satisfiability result.
+- The Method 8 frontend interaction scenario check ran for each applicable scenario. Its
+  complete field, required-artifact-list, owner-choice, and per-click results are recorded.
 - Permission, taint, instruction authority, mechanism defeat, observability, residual
   owner, recovery, and rollback are explicit.
 - No factual disposition, count, citation, quote, or hash was re-probed inside the
@@ -93,6 +99,8 @@ Otherwise return exactly one verdict: `pass`, `repair`, or `blocked`, plus:
 - one disposition for each assigned lens, including `no-prior-repair` for a valid clean L6 or
   findings or explicit `no-additional-finding` for a valid repaired L6;
 - every acceptance criterion and red-path result;
+- Method 8 frontend interaction scenario check results for every applicable scenario,
+  including the exact required-artifact-list result, owner-choice, and per-click results;
 - complete jurisdictional finding set, or explicit empty set;
 - same-class sweeps and current-packet evidence;
 - minimum evidence, severity, and one bounded repair per finding;

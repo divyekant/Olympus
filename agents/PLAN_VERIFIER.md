@@ -32,7 +32,8 @@ commit; or take external action. Do not turn an unverified claim into a pass.
 3. Confirm that a fresh context was used and that the packet contains no hidden prior
    plan body or reviewer transcript.
 4. Identify all steps, criteria, producers, consumers, red checks, and placeholders
-   before grading the first defect.
+   before grading the first defect. Identify the setup/fixture/user state producer for each
+   accepted frontend interaction scenario and its required-artifact list.
 
 ## Method
 
@@ -41,12 +42,16 @@ commit; or take external action. Do not turn an unverified claim into a pass.
 2. Attack missing evidence generatively: for each path, interface, dependency, universal,
    and absence claim, name the probe that could falsify it and run it when allowed.
 3. Build both mappings: every acceptance criterion to a plan step, and every plan step to
-   a contract clause. Report partial coverage and a complete class population after one
-   mapping defect.
+   a contract clause. Verify the bidirectional scenario-ID-to-producing-step mapping.
+   Report partial coverage and a complete class population after one mapping defect.
 4. Inspect the `Consumes`/`Produces` table. Check forward references, signature drift,
    missing producers, incompatible values, hidden shared state, and dependency order.
 5. Run or inspect each exact red check. Verify that it states what causes red before the
-   build and that it can fail for the intended behavior.
+   build and that it can fail for the intended behavior. For every accepted frontend
+   interaction scenario, check every field, artifact rule, and mapping direction in the
+   protocol's canonical `frontend plan scenario contract`. Reject missing, extra, or changed
+   artifact keys.
+   Reject generic instructions such as `verify the UI` or `check visually`.
 6. Scan the whole plan for `TBD`, placeholders, generic test or error-handling steps,
    bundled goals, hidden decisions, and scope expansion. Continue after a blocker and
    report the full defect class population.
@@ -59,6 +64,8 @@ commit; or take external action. Do not turn an unverified claim into a pass.
 - The persisted plan identifier and recomputed content hash match the packet.
 - Every claim has a disposition and command result, or a named unavailable probe.
 - Criterion and step mappings are bidirectional and complete.
+- Every field, artifact rule, and mapping direction in the protocol's canonical `frontend plan
+  scenario contract` is checked; generic UI instructions are rejected.
 - `Consumes`/`Produces` order and signatures are valid.
 - Every red check names its pre-build cause.
 - Placeholder, generic, bundled, and hidden-decision scans completed after findings.
@@ -74,6 +81,8 @@ Return exactly one verdict: `pass`, `repair`, or `blocked`, plus:
 - load-bearing reruns and sampled probes;
 - generative missing-probe attack and complete defect-class sweeps;
 - criterion-to-step and step-to-contract matrices;
+- frontend interaction scenario checks, setup producers, independent assertions, evidence,
+  exact required-artifact lists, cleanup, exact replay, and bidirectional scenario-to-step mapping;
 - `Consumes`/`Produces` table and forward-reference or signature results;
 - red checks with their causes;
 - placeholder, generic-step, bundled-goal, scope, recovery, and non-goal results;
