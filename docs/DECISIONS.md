@@ -28,7 +28,7 @@ The owner reset version one to its product goal: faster, correct software buildi
 | D019 | Olympus product identity | The framework is Olympus. Its fixed collection of specialized roles is the Pantheon. Project paths, records, loader markers, commands, and documentation use the Olympus name. |
 | D020 | Experimental version 0.1.0 | The Issue #750 A/B result is enough to start larger experiments. Version `0.1.0` makes no production-readiness or quality-superiority claim. |
 | D021 | Apache-2.0 license | Olympus uses Apache-2.0. It is permissive and includes an explicit contributor patent grant. |
-| D022 | Private incubation through 0.x | The canonical repository is `https://github.com/divyekant/Olympus`. Keep it private through experimental `0.x` releases. Make it public only with owner approval for version `1.0.0`. |
+| D022 (historical) | Private incubation through 0.x | The canonical repository is `https://github.com/divyekant/Olympus`. Keep it private through experimental `0.x` releases. Make it public only with owner approval for version `1.0.0`. |
 | D023 | v0.1 core changes stay outside Olympus | Implement and review core-framework changes through the normal repository workflow. An enhancement needs concrete dogfood evidence, then a new isolated dogfood run at the changed immutable commit. Each run is scenario evidence only; one scenario cannot establish general support or production readiness. External actions and protected repository controls do not change. |
 | D024 | Specification handoffs are hash-checked | Persist one complete Writer body before two fresh reviewers receive it. Each reviewer recomputes the body hash and stops on a mismatch; a defective handoff consumes no round and stays recorded. The hash is an integrity checksum, not an authority proof or proposal manifest. The earlier acknowledgement handshake and round reservation were removed as message overhead without a defect they prevented. |
 | D025 | Fixed roles need operational craft | Each role charter defines a narrow jurisdiction, bounded input, evidence method, readiness check, complete return packet, and stop boundary. Shared protocol remains canonical; charters add role-specific craft instead of copying workflow rules. |
@@ -46,7 +46,7 @@ The owner reset version one to its product goal: faster, correct software buildi
 | D037 | `Olympus help`, the owner card, and the adapter and owner docs | [`Olympus help`](../references/PROTOCOL.md#olympus-help) is a fifth owner phrase: read-only in every preflight state, never approves a proposal, never starts a mode, and never creates a goal or task record. It is reachable on the pre-install and skill-invocation paths only; reaching it through an installed `manual`-mode project's `templates/BOOTSTRAP.md` loader block needs a later loader revision adding a fourth entry-gate exception, which is an open owner decision this goal does not resolve. In `complete` state with no live proposal it returns a bounded owner card, at most 15 nonblank lines, that always keeps the five owner phrases and the `docs/GUIDE.md` pointer and drops descriptive prose first on overflow. [`references/HARNESS.md`](../references/HARNESS.md) and [`docs/GUIDE.md`](GUIDE.md) are non-normative: the protocol and the role charters win over both, and a `HARNESS.md` class row reads `supported` only when every member role in it has its own recorded observation in `docs/CONFORMANCE.md`. |
 | D038 | Conditional frontend craft and evidence loop | Current project and repository evidence supplies design philosophy, approved standards or tokens, reusable components, and relevant frontend sources. Explorer resolves only a material gap that blocks a required role. Material frontend behavior requires accepted hashed interaction scenarios before planning or building. Plans stay conditional; when used, they carry complete interaction execution details and bidirectional scenario mapping. Builder creates reproducible browser evidence as a candidate with exact packet, path, and artifact identities. Fresh general and Design Reviewers independently replay the same frozen candidate. A frontend-affecting repair requires a new packet and full replay. Only a proven disjoint Docs Writer-only documentation delta retains the packet and gets fresh identity review without browser execution. This adds no role, runtime, dependency, or setting. Browsers are project or harness capabilities, and missing capability is reported honestly. Project standards govern first; a task-specific owner decision governs only an otherwise missing material aspect. |
 
-## D039 — Opt-in product decision and learning layer (Unreleased)
+## D039 — Opt-in product decision and learning layer (v0.7.0)
 
 The owner accepted a generic software factory with continuous discovery, prioritization,
 experimentation and building. FPLGuru is a proving ground, not framework policy. Add three
@@ -77,8 +77,10 @@ Git history preserves the detailed experiments as rationale, not runtime rules.
 
 ## Release visibility
 
-- Keep the canonical repository private through `0.x`.
-- Public visibility starts only with explicit owner approval for `1.0.0`.
+D022 records the original private-incubation policy: private through `0.x`, with public
+visibility planned for owner-approved `1.0.0`. GitHub reports the canonical repository as
+public during v0.7.0 release preparation. That policy is historical, not a description of
+current access. This release preserves the existing visibility and changes no access settings.
 
 ## Explicit deferrals
 

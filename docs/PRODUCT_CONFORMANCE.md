@@ -1,6 +1,6 @@
 # Product layer conformance
 
-These fixtures test the unreleased Markdown product contract. They do not establish real
+These fixtures test the Markdown product contract introduced in v0.7.0. They do not establish real
 customer value, statistical correctness of a live platform, general harness support, or
 unattended execution. No target product is changed by these tests.
 

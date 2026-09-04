@@ -1,6 +1,6 @@
 # Olympus conformance and dogfood evidence
 
-Unreleased product-layer checks and bounded observations are recorded in
+Product-layer checks and bounded observations are recorded in
 [Product layer conformance](PRODUCT_CONFORMANCE.md). Historical runs below retain their
 original release scope; they do not prove the new roles or unattended continuation.
 

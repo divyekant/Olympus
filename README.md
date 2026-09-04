@@ -1,14 +1,14 @@
 # Olympus
 
 Olympus is an opinionated, Markdown-only software factory for agent-led product discovery and
-development. Version `0.6.1` is a private experimental patch release.
+development. Version `0.7.0` is an experimental feature release.
 
 It gives a coding agent one fixed orchestration graph, nineteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
 no runtime, service, database, package, or scheduler.
 
-The three product roles are **Unreleased** additions. Released `0.6.1` and existing
-installed pins retain their original build contract.
+Version `0.7.0` adds three opt-in product roles. Existing installed pins retain their
+original build contract.
 
 ## Why it exists
 
@@ -47,7 +47,7 @@ fixed triggers, paired checks, owner gates, and sole-hub routing remain mandator
 [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow) are canonical
 protocol sections.
 
-## Product work (Unreleased)
+## Product work
 
 Explicit product goals use [the product protocol](references/PRODUCT.md): understand the
 offering, investigate workflows and customer evidence, compare whole-product investments,
@@ -120,13 +120,14 @@ a background process. Questions do not create goals. Project-changing requests d
 
 ## Version status
 
-Olympus `0.6.1` has sixteen roles. It includes a test-paths-only Tester, bounded
+Olympus `0.7.0` has nineteen roles, including three opt-in product specialists. It retains
+a test-paths-only Tester, bounded
 diagnose-only Explorer work, `Olympus help`, an owner guide, harness adapter notes, and a
 static frontend evidence loop. Strict specification convergence now defaults to `on`.
 The release adds no runtime, service, database, package, scheduler, or test framework.
 
-Version `0.6.1` corrects the root version metadata omitted from v0.6.0. The framework
-contract content is unchanged from v0.6.0.
+Version `0.6.1` corrected the root version metadata omitted from v0.6.0 without changing
+its framework contract. Version `0.7.0` adds the product layer and knowledge-only routing.
 
 The frontend evidence loop is a static Markdown contract. Live frontend dogfood and
 browser or harness support evidence remain pending.
@@ -137,9 +138,9 @@ support. These results do not prove live provider support, release execution, pr
 readiness, or general harness support. See
 [current harness evidence](docs/CONFORMANCE.md#current-harness-evidence) for exact limits.
 
-Olympus remains a private experimental `0.x` project. Existing dogfood shows mixed results
-and does not prove quality superiority or production readiness. Public visibility starts
-only with owner approval for version `1.0.0`.
+Olympus remains an experimental `0.x` project. The canonical repository is public.
+Existing dogfood shows mixed results and does not prove quality superiority or production
+readiness.
 
 ## License
 

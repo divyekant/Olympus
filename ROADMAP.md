@@ -10,11 +10,11 @@ promise.
 | 3 — Dogfood | complete | Codex correctness pilot `214be8163ba672d42b62ec7ad8ebe8fa71b466b5` |
 | 4 — Large-codebase proof | complete, mixed | D02 failed; Issue #750 tied with no P0-P2 defects; see D05 |
 | 5 — Second harness and unrelated project | complete | Claude bounded mutation-path pass; unrelated Codex mutation pass; see D03-D04 |
-| 6 — OSS readiness | private experimental releases | Apache-2.0; private canonical repository; `v0.6.1` corrects version metadata for the v0.6.0 contract release |
+| 6 — OSS readiness | experimental releases | Apache-2.0; public canonical repository; `v0.7.0` adds the opt-in product layer |
 | Role and state quality | static pass, live test pending | all existing charters strengthened at `d894317851b5ceacc0337578b9d684729401e7b6`; C17-C18 specified |
-| Catalog and workflow expansion | static contract added; live evidence pending | the released v0.6.1 catalog has sixteen roles, including a provider-neutral Release Agent, a test-paths-only Tester, and five fixed request boundaries with an owner-selected role allowlist; see the [release boundary](references/PROTOCOL.md#release-boundary), [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), [Tester round semantics](references/PROTOCOL.md#tester-round-semantics), and [V1–V12 fixtures](docs/CONFORMANCE.md#v1-v12-release-agent-and-custom-workflow-fixtures) |
+| Catalog and workflow expansion | static contract added; live evidence pending | the v0.7.0 catalog has nineteen roles, including a provider-neutral Release Agent, a test-paths-only Tester, and five fixed request boundaries with an owner-selected role allowlist; see the [release boundary](references/PROTOCOL.md#release-boundary), [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), [Tester round semantics](references/PROTOCOL.md#tester-round-semantics), and [V1–V12 fixtures](docs/CONFORMANCE.md#v1-v12-release-agent-and-custom-workflow-fixtures) |
 | v0.6.0 — frontend evidence | static contract; live dogfood and support evidence pending | [C22](docs/CONFORMANCE.md#c22--frontend-evidence-loop); [D038](docs/DECISIONS.md) |
-| Product decision and learning layer | Unreleased; validation recorded separately | Three compact product roles, specialist methods, whole-product decisions and knowledge, reviewed learning and host-bounded continuation. See [product protocol](references/PRODUCT.md) and [bounded conformance](docs/PRODUCT_CONFORMANCE.md). No unattended host or FPLGuru activation is included. |
+| Product decision and learning layer | v0.7.0; validation recorded separately | Three compact product roles, specialist methods, whole-product decisions and knowledge, reviewed learning and host-bounded continuation. See [product protocol](references/PRODUCT.md) and [bounded conformance](docs/PRODUCT_CONFORMANCE.md). No unattended host or FPLGuru activation is included. |
 
 ## Phase 1 — Specify the fixed framework
 
@@ -87,16 +87,18 @@ These scenario results are recorded in D03-D04 and do not establish general harn
 fresh-clone installation; known limits and unsupported paths; conformance evidence; and
 owner approval for public remote, tag, package, or release actions.
 
-**Outcome:** Experimental releases use Apache-2.0 and remain private. Version `0.3.0`
-strengthened the fixed role and state contracts. Version `0.4.0` added the
+**Outcome:** Experimental releases use Apache-2.0. The canonical repository was observed
+as public during v0.7.0 release preparation; release publication does not change visibility.
+Version `0.3.0` strengthened the fixed role and state contracts. Version `0.4.0` added the
 provider-neutral Release Agent and owner-selected workflow boundaries. Version `0.5.0`
 made onboarding compact and removed protocol ceremony. Version `0.5.1` fixed core-change
 authority and specification convergence. Version `0.6.0` added the Tester, bounded
-diagnosis, help and adapter documentation, and the static frontend evidence loop. The
-current private experimental `0.6.1` corrects release metadata without changing that
-contract. Claude passed guided onboarding and one bounded mutation path. No live provider
-behavior, production readiness, or general Claude support is established. Keep the
-canonical repository private until the owner approves public version `1.0.0`.
+diagnosis, help and adapter documentation, and the static frontend evidence loop. Version
+`0.6.1` corrected release metadata without changing that contract. The current experimental
+`0.7.0` adds the opt-in product discovery and learning layer. Claude passed guided onboarding
+and one bounded mutation path. No live provider behavior, production readiness, or general
+Claude support is established. The original private-incubation policy is preserved as
+historical decision D022; it does not describe current repository visibility.
 
 ## Deferred until evidence requires it
 

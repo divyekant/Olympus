@@ -31,7 +31,7 @@ message; any conflict still falls back to the normal proposal. Full contract: [`
 
 ## Activate
 
-Unreleased product work uses the same entry, for example:
+Product work in v0.7.0 uses the same entry, for example:
 `Use Olympus for: investigate obstacles in our appointment-booking journey using the supplied redacted evidence; do not change the product`.
 After activation, Orchestrator selects the bounded product method. Work beyond that one
 request is not authorized. For recurring work, approve a concrete

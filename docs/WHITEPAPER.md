@@ -74,7 +74,7 @@ accepted results enter the goal record. This keeps:
 
 ## System boundary
 
-The unreleased [product supplement](../references/PRODUCT.md) adds an opt-in loop around
+The v0.7.0 [product supplement](../references/PRODUCT.md) adds an opt-in loop around
 the build graph. Knowledge and evidence inform investment decisions; accepted decisions
 inform specs; workflow acceptance and measured outcomes update knowledge. Product
 Researcher, Product Strategist and Experiment Analyst use one named specialist method per

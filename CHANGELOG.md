@@ -2,10 +2,14 @@
 
 ## Unreleased
 
+## 0.7.0 - 2026-09-04
+
+Experimental release of the opt-in product discovery and learning layer.
+
 ### Added
 
 - Three opt-in product roles: Product Researcher, Product Strategist and Experiment
-  Analyst. The current source catalog has 19 roles; released v0.6.1 remains unchanged.
+  Analyst. The catalog has 19 roles; existing installed pins remain unchanged.
 - A shared product protocol, per-assignment specialist methods and a Product Knowledgebase
   template. Whole-product investment checks, independent challenges, experiment evidence
   review, spec traceability and distinct acceptance/outcome records connect discovery to
