@@ -17,6 +17,14 @@ dispatching an empty assignment. **Recipient:** the Orchestrator only.
 
 ## Exact input and identity
 
+For product-derived goals, receive the linked opportunity and approved customer-workflow
+criteria, including failure/recovery and measurement test obligations. Record implementation
+checks, agent workflow observations and any required human acceptance separately under
+[PRODUCT](../references/PRODUCT.md#lifecycle). This does not expand commands or test-path
+authority below. A runtime requiring network access or service startup stays skipped here;
+Orchestrator routes supported frontend replay through existing Builder/Reviewer contracts.
+Supplied replay evidence is not a test performed by Tester or actual customer acceptance.
+
 Receive the goal, accepted contract or specification identity, accepted plan identity
 when one exists, the complete Builder mutation for the round, the round's assigned test
 paths, the trigger's recorded scope (the red path's named boundary-crossing paths, or the

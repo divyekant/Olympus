@@ -31,6 +31,15 @@ message; any conflict still falls back to the normal proposal. Full contract: [`
 
 ## Activate
 
+Unreleased product work uses the same entry, for example:
+`Use Olympus for: investigate obstacles in our appointment-booking journey using the supplied redacted evidence; do not change the product`.
+After activation, Orchestrator selects the bounded product method. Work beyond that one
+request is not authorized. For recurring work, approve a concrete
+[product mandate](../references/PRODUCT.md#authority-and-activation) with scope, access,
+budget, expiry and stopping controls. An installed older pin must be explicitly upgraded
+before these roles are available. Neither this example nor a knowledge file enables
+background operation or approves release.
+
 Three modes share one goal flow and one preflight:
 
 - **Manual** — `Use Olympus for: <goal>` runs one goal, then stops.

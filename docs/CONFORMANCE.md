@@ -1,5 +1,9 @@
 # Olympus conformance and dogfood evidence
 
+Unreleased product-layer checks and bounded observations are recorded in
+[Product layer conformance](PRODUCT_CONFORMANCE.md). Historical runs below retain their
+original release scope; they do not prove the new roles or unattended continuation.
+
 Conformance checks whether a harness can use the fixed framework. It does not prove
 that an agent obeyed every instruction.
 
@@ -23,7 +27,7 @@ The framework passes static inspection when:
 
 1. `SKILL.md` has valid frontmatter, links to the protocol, and links to every local
    charter and template it names.
-2. The protocol names one Orchestrator and the fixed ordered 16-role catalog with its
+2. The protocol names one Orchestrator and the fixed ordered 19-role catalog with its
    triggers and authority.
 3. PROJECT supports manual and project orchestration modes, exact role preferences,
    harness evidence, and design-standard matching details. The contract requires a
@@ -87,7 +91,7 @@ The framework passes static inspection when:
     and failure endings.
 17. Each of the five consumers has exactly one link to the canonical onboarding contract,
     and every target and anchor resolves.
-18. The canonical contract retains the immutable pin, sixteen-role catalog, Orchestrator
+18. The canonical contract retains the immutable pin, nineteen-role catalog, Orchestrator
     authority, Configurer-only mutation, fresh exact-unit review, hook rereview, external
     approval gates, truthful `supported`, `unsupported`, and `untested` meanings, the
     provider-neutral Release Agent boundary, owner-selected workflow limits, and
@@ -270,7 +274,7 @@ transcript analysis, or Git plumbing to compensate.
 
 ### C09 — Fixed catalog and triggers
 
-The Orchestrator records the ordered 16-role catalog, predicts the roles for the goal, and
+The Orchestrator records the ordered 19-role catalog, predicts the roles for the goal, and
 invokes each role only when its trigger holds. An owner-selected workflow is an ordered
 allowlist, not a new graph or invocation list. PROJECT can make optional triggers more eager
 but cannot suppress a framework trigger or add a role. Every invoked role has a mapping,
@@ -546,9 +550,9 @@ not `pass`.
 
 #### V1 — Population and role order
 
-Assert that every current catalog copy has the exact 16-role order from the protocol, with
+Assert that every current catalog copy has the exact 19-role order from the protocol, with
 Tester after Builder and before Docs Writer, and Release Agent after Design Reviewer and
-before Decision Council. Assert 15 worker links in `SKILL.md` and 15 worker charters. This
+before Decision Council. Assert 18 worker links in `SKILL.md` and 18 worker charters. This
 fixture checks the framework's own current text — `SKILL.md`, the protocol, charters, and
 templates — not an already-configured project's pinned `.olympus/PROJECT.md`, whose own
 catalog claims change only through an explicit owner-approved Configurer repin proposal,

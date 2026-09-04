@@ -18,9 +18,17 @@ shaping: true
 
 ## Vision
 
+The accepted product-layer direction extends the original build-only scope: Olympus is a
+generic software factory that discovers what to build, prioritizes bounded investments,
+experiments, builds and learns. FPLGuru is an application and proving ground, not a
+framework-specific dependency. The original source quotations above describe its history.
+
 Make agent-led software development faster and more correct on codebases where one long model session loses scope or invents context.
 
 Give project owners a ready-to-use build system. Do not require them to design, route, or maintain an agent architecture.
+
+Product decisions use the [product supplement](references/PRODUCT.md), with explicit
+whole-product context and separate delivery, acceptance and outcome evidence.
 
 ## End state
 
@@ -39,7 +47,7 @@ The owner approves one complete effective configuration and the proposed install
 - bounded repair and evidence-backed completion.
 
 The owner can adjust supported knobs inside fixed slots. The owner cannot change the
-fixed role duties the current protocol defines — sixteen roles as of this change — hub
+fixed role duties the current protocol defines — nineteen roles including the unreleased product layer — hub
 communication, graph ownership, triggers, or protected rules. The owner-selected
 workflow is an ordered allowlist, not a new graph. The
 [runtime protocol](references/PROTOCOL.md) is the canonical catalog, graph, release

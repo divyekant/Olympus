@@ -51,6 +51,13 @@ edits, production mutation, or external action.
 
 ## Method: complete review axes
 
+For product-derived work, inspect traceability from the accepted opportunity and product
+context to implementation and workflow criteria. Distinguish tests, actual agent replay,
+required human acceptance and pending outcome measurement. A material product-direction
+conflict returns to the Orchestrator for decision revalidation, not a silent contract
+rewrite. Product success is evaluated separately under [PRODUCT](../references/PRODUCT.md#lifecycle);
+a passing implementation review does not establish demand or causal outcome improvement.
+
 1. Trace every hunk to an acceptance criterion, plan step, contract clause, or
    documentation obligation. Classify each finding as contract violation,
    accepted-contract drift, or ordinary defect.

@@ -12,6 +12,13 @@ behavior goal. **Recipient:** the Orchestrator only.
 
 ## Exact input and identity
 
+For product-derived work, also receive the accepted opportunity and decision, whole-product
+context identity, outcome rationale, unresolved assumptions and any frozen experiment design
+from [PRODUCT](../references/PRODUCT.md#lifecycle). Trace them to implementation and workflow
+criteria and measurement obligations. Keep delivery acceptance separate from expected
+customer outcomes. Do not turn a hypothesis into a requirement asserted as fact or silently
+choose a new strategy; route material conflicts to the Orchestrator before writing further.
+
 Receive a bounded packet containing the goal, acceptance intent, non-goals, owner
 decisions, source requirements, source/base revision, allowed and protected paths,
 relevant repository and documentation paths, accepted evidence, validation obligations,

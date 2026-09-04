@@ -34,7 +34,7 @@ invoked role before dispatch.
 | 2 | System Configurer | `<owner config request and double-opt-in flow>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 3 | Explorer | `<material question, explicit audit, or diagnose-only defect question>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 4 | Spec Writer | `<substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 5 | Claims Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
+| 5 | Claims Reviewer | `<persisted spec or material product evidence/design/result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 6 | Spec Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 7 | Plan Writer | `<dependent or cross-layer steps or explicit need>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 8 | Plan Verifier | `<every Plan Writer result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
@@ -46,12 +46,29 @@ invoked role before dispatch.
 | 14 | Release Agent | `<owner-requested release preparation, reconciliation, or external action>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 15 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 16 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 17 | Product Researcher | `<bounded product evidence question>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 18 | Product Strategist | `<investment choice, fresh challenge, or reconsideration>` | `<yes/no>` | `<yes/no>` | `<authorship separation and evidence>` |
+| 19 | Experiment Analyst | `<experiment design or due outcome analysis>` | `<yes/no>` | `<yes/no>` | `<selected method and evidence>` |
 
 Missing required mapping blocks dispatch. The Spec Writer row records that role's
 mapping, context record, and support evidence; the per-attempt continuity log is the
 `writer continuity` row. Use `supported`, `unsupported`, or `untested`.
 
 ## Shared state checkpoints
+
+For product work only, record the following checkpoint. The governing rules are in the
+[product supplement](../references/PRODUCT.md); omit this table for build-only goals.
+
+| Product field | Record |
+| --- | --- |
+| mandate | `<owner approval; scope; methods; permissions; budgets; expiry; revocation source>` |
+| context | `<knowledge/source identities; current direction; conflicts; pending updates>` |
+| phase and trigger | `<phase; event ID; due time/event; last verified action>` |
+| investment | `<decision artifact; alternatives; whole-product assessment; author and fresh challenge; evidence review>` |
+| experiment | `<frozen design; measurement window; data identity; outcome; uncertainty>` |
+| linked work | `<task/effect identities; delivery status; workflow acceptance; required human acceptance>` |
+| continuation | `<next action; remaining total budget; exclusive host execution evidence; reconciliation; recovery owner>` |
+| closure | `<learning status separate from delivery; knowledge publication/review; revisit or abandonment reason>` |
 
 Record the fields below at the named transition. Apply the meanings in the [shared state
 and evidence rules](../references/PROTOCOL.md#shared-state-and-evidence-rules); do not

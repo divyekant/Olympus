@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Added
+
+- Three opt-in product roles: Product Researcher, Product Strategist and Experiment
+  Analyst. The current source catalog has 19 roles; released v0.6.1 remains unchanged.
+- A shared product protocol, per-assignment specialist methods and a Product Knowledgebase
+  template. Whole-product investment checks, independent challenges, experiment evidence
+  review, spec traceability and distinct acceptance/outcome records connect discovery to
+  building and learning.
+- Bounded standing local mandates and host-neutral continuation/reconciliation rules.
+  External approvals are unchanged. No scheduler, product connector or background host is
+  installed; bounded fixture evidence and limitations are in
+  [product conformance](docs/PRODUCT_CONFORMANCE.md).
+
 ## 0.6.1 - 2026-08-31
 
 This patch release corrects the root version metadata omitted from v0.6.0. The v0.6.0

@@ -1,11 +1,14 @@
 # Olympus
 
-Olympus is an opinionated, Markdown-only build system for reliable agent-led software
+Olympus is an opinionated, Markdown-only software factory for agent-led product discovery and
 development. Version `0.6.1` is a private experimental patch release.
 
-It gives a coding agent one fixed orchestration graph, sixteen conditional roles, bounded
+It gives a coding agent one fixed orchestration graph, nineteen conditional roles, bounded
 review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
 no runtime, service, database, package, or scheduler.
+
+The three product roles are **Unreleased** additions. Released `0.6.1` and existing
+installed pins retain their original build contract.
 
 ## Why it exists
 
@@ -43,6 +46,20 @@ fixed triggers, paired checks, owner gates, and sole-hub routing remain mandator
 [release boundary](references/PROTOCOL.md#release-boundary) and
 [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow) are canonical
 protocol sections.
+
+## Product work (Unreleased)
+
+Explicit product goals use [the product protocol](references/PRODUCT.md): understand the
+offering, investigate workflows and customer evidence, compare whole-product investments,
+run bounded tests, and learn from outcomes. Product Researcher, Product Strategist and
+Experiment Analyst receive one specialized assignment at a time. Existing build-only
+goals keep their current path.
+
+The [Product Knowledgebase template](templates/PRODUCT.md) lives in approved project
+documentation. Knowledge does not grant permission. A standing mandate can authorize
+bounded local work; releases retain their exact owner gates. Hosts supply any wakeups and
+resumption; no background service is installed. See [product conformance](docs/PRODUCT_CONFORMANCE.md)
+for observed evidence and limits.
 
 ## Install
 

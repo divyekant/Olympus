@@ -46,3 +46,11 @@ handoffs, owner gates, states, activation rules, and Git workflow.
 - Decision Council: [charter](agents/DECISION_COUNCIL.md)
 - Liaison: [charter](agents/LIAISON.md)
 - Orchestrator: [task template](templates/TASK.md)
+- Product Researcher: [charter](agents/PRODUCT_RESEARCHER.md)
+- Product Strategist: [charter](agents/PRODUCT_STRATEGIST.md)
+- Experiment Analyst: [charter](agents/EXPERIMENT_ANALYST.md)
+
+For explicitly requested product work, load the [product supplement](references/PRODUCT.md)
+and one selected [method section](references/PRODUCT_METHODS.md). Existing build-only goals
+keep their current path. A standing product mandate does not activate a host scheduler or
+grant external authority. Product knowledge uses the [product template](templates/PRODUCT.md).
