@@ -5,7 +5,7 @@ Markdown-only.
 
 ## 1. Fixed catalog
 
-The **Pantheon** is Olympus's sixteen fixed roles in this order. The Orchestrator is the
+The **Pantheon** is Olympus's nineteen fixed roles in this order. The Orchestrator is the
 sole hub. A role is invoked only when its trigger holds, but no project setting can remove
 a trigger.
 
@@ -15,18 +15,26 @@ a trigger.
 | 2 | System Configurer | owner onboarding or configuration request, plus double opt-in | Owns configuration mutation. |
 | 3 | Explorer | fresh for a material repository question blocking any required role, an explicit audit, or a bounded diagnose-only defect question | Answers one bounded question read-only, including a defect diagnosis within the read-only reproduction bound. |
 | 4 | Spec Writer | substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal | Turns a bounded goal into a testable contract. |
-| 5 | Claims Reviewer | every persisted Spec Writer body | Owns only facts, evidence, citations, counts, hashes, and uncertainty. |
+| 5 | Claims Reviewer | every persisted Spec Writer body; in explicit product work, material product evidence, experiment design or outcome claim | Owns facts, evidence, citations, counts, hashes, uncertainty and product measurement validity. |
 | 6 | Spec Reviewer | every persisted Spec Writer body | Owns only completeness, coherence, authority boundaries, failure paths, joint satisfiability, and acceptance-testability. |
 | 7 | Plan Writer | accepted contract has dependent steps, cross-layer or interface sequencing, or an explicit plan need | Produces an ordered implementation plan. |
 | 8 | Plan Verifier | every Plan Writer result | Freshly verifies the whole plan read-only. |
-| 9 | Builder | every non-configuration project mutation | Makes the approved project change in approved paths. |
+| 9 | Builder | every non-configuration project mutation except a product-knowledge-only documentation goal | Makes the approved project change in approved paths. |
 | 10 | Tester | a contract-flagged red path crosses a boundary, or an owner request, under [Tester round semantics](#tester-round-semantics) | Writes and runs tests in Tester-owned test paths only; returns per-path observation evidence, never a verdict. |
-| 11 | Docs Writer | Builder makes tracked documentation false, or the contract requires documentation synchronization | Updates approved documentation only. |
+| 11 | Docs Writer | Builder makes tracked documentation false, the contract requires documentation synchronization, or an approved product-knowledge-only documentation goal | Updates approved documentation only. |
 | 12 | Reviewer | every project or configuration mutation | Owns whether implementation evidence satisfies the accepted criteria, read-only. |
 | 13 | Design Reviewer | material frontend behavior mutation | Freshly checks the change against a matching owner-approved project standard first, or a task-specific owner design decision only for an otherwise missing material aspect, read-only. |
 | 14 | Release Agent | owner-requested release preparation, remote reconciliation, or one release-boundary external action | Validates release evidence and performs at most one approved provider action submission. |
 | 15 | Decision Council | unresolved material decision with viable trade-offs | Gives one read-only advisory recommendation. |
 | 16 | Liaison | human status or explanation request | Rereads evidence and answers without changing the goal. |
+| 17 | Product Researcher | a bounded product evidence question in explicit product work | Investigates offering, workflows or customer evidence; returns observations and opportunities, not approval. |
+| 18 | Product Strategist | in explicit product work, a product investment choice, material fresh challenge or outcome-driven reconsideration | Compares whole-product alternatives; proposes decisions or independently challenges them. |
+| 19 | Experiment Analyst | in explicit product work, a product assumption needs a test, or due experiment evidence needs interpretation | Designs one test or analyzes its outcome; never grants release authority. |
+
+The [product supplement](PRODUCT.md) defines opt-in product work, packets, methods,
+knowledge ownership, product review and continuation. It is part of the fixed protocol
+at this pin, not a PROJECT evolution. All three new roles return only to the Orchestrator
+and do not edit project or task files. They use one selected method per assignment.
 
 For this protocol, `material frontend behavior` means any material change to a user-facing
 interface, interaction, visual presentation, layout, typography, motion, viewport, theme,
@@ -357,6 +365,19 @@ For each goal, the Orchestrator creates one task record with:
 
 Use these states: `planned`, `active`, `reviewing`, `complete`, `blocked`, or `cancelled`.
 
+For explicit product work, the Orchestrator first applies the
+[product lifecycle](PRODUCT.md#lifecycle). A product mandate may authorize selecting
+bounded local child goals; each such build or knowledge-documentation goal follows the
+normal flow below. For a product-knowledge-only documentation goal, the approved evidence
+delta, paths and documentation acceptance criteria form its accepted contract. Docs Writer
+is the sole mutator: skip Builder in step 6, dispatch Docs Writer in step 7, and send its
+complete mutation and result to fresh Reviewer in step 9. Repairs return to Docs Writer
+under the normal implementation cap. Specification and planning remain conditional on
+their existing triggers; this exception grants no code or configuration authority.
+Product-only evidence or decision dispatches use the product packet
+and applicable product reviews, not a fabricated implementation bracket. Completed builds
+and pending product measurement retain separate records. Build-only goals are unchanged.
+
 Then:
 
 1. Classify the request, confirm scope, and record the predicted roles and support
@@ -514,7 +535,8 @@ Then:
    hash, and send the same contract plus that frozen plan to a fresh Plan Verifier. A plan
    repair gets a new identity and complete fresh verification. Builder receives only the
    exact accepted plan identity.
-6. For every non-configuration project mutation, send the accepted contract, accepted
+6. For every non-configuration project mutation except the product-knowledge-only path
+   above, send the accepted contract, accepted
    specification when the Spec Writer trigger holds, accepted plan when used, allowed paths,
    this round's Builder-assigned paths, evidence, and checks to Builder. The Orchestrator
    selects and records those paths at dispatch time under [Tester round
@@ -547,8 +569,9 @@ Then:
    register, findings, and self-corrections only to the Orchestrator; it issues no verdict.
    The fresh general Reviewer grades the complete mutation, including Tester-owned paths.
    Incomplete per-path coverage is governed by Tester round semantics, not that verdict.
-   If Builder makes tracked documentation false or the contract requires synchronization,
-   send the complete behavior diff to Docs Writer. Before each Docs Writer dispatch, the
+   If Builder makes tracked documentation false, the contract requires synchronization,
+   or this is an approved product-knowledge-only documentation goal, send the applicable
+   Docs Writer packet from section 5. Before each Docs Writer dispatch, the
    Orchestrator records its pre-state. Immediately after each Docs Writer return, it records the
    post-state and exact `Docs Writer round delta` in the existing Docs Writer row. When accepted
    frontend interaction scenarios are present, it applies each `Docs Writer round delta` to the
@@ -625,7 +648,7 @@ Then:
    whenever the repair changes the Builder round delta or cumulative identity. A second mismatch
    blocks. Send every project or
    configuration mutation to a fresh Reviewer.
-   Reviewer checks the complete mutation, Builder or Configurer result, any Tester result,
+   Reviewer checks the complete mutation, Builder, Docs Writer or Configurer result, any Tester result,
    every criterion, and relevant checks.
    When accepted frontend interaction scenarios are present, send the protocol's canonical
    `frontend general-review packet`. Reviewer applies its recorded replay disposition.
@@ -1344,11 +1367,30 @@ other role still requires its fixed trigger:
 
 | Boundary | Allowed effects | Terminal artifact | Admitted roles |
 | --- | --- | --- | --- |
-| `review-only` | read frozen artifacts and evidence; no mutation, plan, release preparation, or external action | complete review verdict or finding set, including empty | Explorer, Claims Reviewer, Spec Reviewer, Reviewer, Design Reviewer, Decision Council, Liaison |
+| `review-only` | read frozen artifacts and evidence; no mutation, plan, release preparation, or external action | complete review verdict or finding set, including empty; product evaluation may include a bounded next-disposition recommendation | Explorer, Claims Reviewer, Spec Reviewer, Reviewer, Design Reviewer, Decision Council, Liaison, Product Strategist (investment-challenge or outcome-driven reconsideration only), Experiment Analyst (outcome-analysis only) |
 | `diagnose-only` | reproduce, trace, and explain; no proposal, plan, mutation, verdict, advice, or external action | cause, sink, expected behavior, smallest test boundary, evidence, and uncertainty | Explorer, Liaison |
-| `audit-only` | enumerate and assess the stated population read-only | complete scoped findings, including explicit empty set and limits | Explorer, Liaison |
-| `spec-only` | explore when blocked, write and review the specification; no plan, mutation, delivery, or external action | accepted specification body and hash, or blocked specification | Explorer, Spec Writer, Claims Reviewer, Spec Reviewer, Decision Council, Liaison |
+| `audit-only` | enumerate and assess the stated population read-only, with only the gated disposable-copy exception below | complete scoped findings, including explicit empty set and limits | Explorer, Liaison, Product Researcher (observation-only unless the product probe gate below holds) |
+| `spec-only` | explore when blocked, write and review the specification or an explicitly requested product decision/experiment design; no implementation plan, project mutation, delivery, or external action; only the gated disposable-copy exception below | accepted specification body and hash, or bounded product decision/design report with applicable product reviews and uncertainty, or blocked result | Explorer, Spec Writer, Claims Reviewer, Spec Reviewer, Decision Council, Liaison, Product Researcher (observation-only unless the product probe gate below holds), Product Strategist, Experiment Analyst (experiment-design only) |
 | `mutation` | perform the approved local goal; release execution remains a separately owner-approved stage | reviewed local mutation or commit, plus any separately authorized per-action release result | all roles |
+
+For explicit product-only comparison or experiment-design requests without implementation,
+default to `spec-only` and its product report terminal artifact. This does not trigger Spec
+Writer merely to wrap a product report. For product evidence enumeration, use `audit-only`;
+for independent challenge or interpretation of an existing result, use `review-only`.
+For product evaluation under `review-only`, Strategist may use `investment` only to
+reconsider the supplied outcome and recommend the next disposition. Record closure or a
+pending next decision; do not start the recommended investigation, experiment or build
+inside this boundary. A broader follow-on requires its own authorized request boundary.
+An ongoing product mandate that permits local changes uses `mutation`; its bounded cycle
+may instead close with a recorded defer/stop decision and no mutation under the product
+lifecycle. Actual mutations always retain normal review. These product-only exceptions
+do not change the terminal artifacts for ordinary build specifications or other requests.
+
+Product Researcher's probe exception applies in `audit-only`, `spec-only`, and `mutation`
+only under [the product probe gate](PRODUCT.md#authority-and-activation). It permits writes
+solely inside one disposable copy, never to project files or Git administration. It grants
+no network, service-start, installation or credential authority. A closed or untested gate
+leaves the role observation-only; report the execution-dependent part blocked.
 
 Explorer's `diagnose-only` reproduction executes only inside a PROJECT-recorded
 enforcing execution environment, `supported` status, per
@@ -1382,7 +1424,8 @@ not add a PROJECT setting, preset registry, executable parser, runtime, or peer 
 ## Tester round semantics
 
 An **implementation round** is one complete bracket: the Builder mutation or repair for
-that round, the fresh Tester run when the Tester trigger holds, and the fresh general
+that round, or the Docs Writer edit for a product-knowledge-only documentation goal,
+the fresh Tester run when the Tester trigger holds, and the fresh general
 Reviewer pass over the resulting complete mutation. This section governs how that round
 is counted against the implementation cap and how the Tester loop converges; it changes
 no cap value.
@@ -1433,9 +1476,9 @@ an ordinary Tester run, or, if the cap is already reached, the round is `blocked
 mirroring the one-free-repeat pattern the shared halted-attempt and evidence-backed
 dispute rules use elsewhere. A halted Builder, Tester, or Reviewer attempt consumes no
 round. Because only a Builder repair, an executed Tester command, or a Docs Writer edit
-can advance the count, and a goal with an open defect always has a Builder repair
-available to produce one of those, the cap can be neither made unreachable by
-non-consuming passes nor reached before genuine repair-or-test work occurs; the
+can advance the count, an open defect routes to the role that owns its affected paths;
+a knowledge-only documentation repair returns to Docs Writer. The cap can be neither
+made unreachable by non-consuming passes nor reached before genuine repair-or-test work occurs; the
 one-free-self-correction bound keeps a pure self-correction cycle from advancing the
 round count indefinitely without ever consuming one.
 
@@ -1499,6 +1542,12 @@ mutation in front of it. Whether incomplete Tester coverage forces the goal `blo
 the cap is the Orchestrator's aggregation under this section, not a Reviewer verdict.
 
 ## 5. Bounded handoffs
+
+Product-role and product evidence-review handoffs use the
+[product dispatch packet](PRODUCT.md#dispatch-packet). Their exact alternate inputs and
+reviews are defined in that supplement. Product-derived build handoffs additionally
+carry the accepted opportunity, context identity, outcome rationale, assumptions and
+measurement obligations. These additions never replace normal build packet fields.
 
 Every packet contains only the information needed by the receiving role.
 
@@ -1564,7 +1613,11 @@ Every packet contains only the information needed by the receiving role.
   returns its complete observation register, assignment-vs-trigger disposition, findings,
   self-corrections, and uncertainty only to the Orchestrator, and issues no verdict.
 - Docs Writer receives the complete behavior diff, the accepted contract, approved docs,
-  and relevant link-check commands.
+  and relevant link-check commands. For a product-knowledge-only documentation goal,
+  receive the approved evidence/decision delta, exact source and knowledge identities
+  (or explicit absence), approved paths, documentation acceptance criteria and checks
+  instead of a behavior diff or Builder result. These form the accepted documentation
+  contract; no implementation specification is required unless its trigger holds.
 - Reviewer receives the goal boundary, complete current mutation diff, role results, checks,
   project instructions, and prior findings only for repair context. When accepted frontend
   scenarios exist, this is the canonical `frontend general-review packet` defined in the shared

@@ -37,6 +37,12 @@ evidence.
 
 ## Method: canonical Spec checklist
 
+For product-derived specifications, trace the accepted outcome, opportunity and decision
+through the proposed change, workflow acceptance and measurement obligations under
+[PRODUCT](../references/PRODUCT.md#lifecycle). Report dropped constraints, changed hypotheses,
+missing downstream acceptance and a design unable to answer its stated question. This
+checks coherence and testability; Claims Reviewer still owns factual evidence.
+
 Run each axis in order and return the complete set. Continue after the first finding.
 
 1. **Full-document consistency:** read the whole body and find contradictions between

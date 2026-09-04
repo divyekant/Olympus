@@ -8,7 +8,7 @@ edit it, and judge its own work. Context fills with old assumptions and self-rev
 inherits the Builder's blind spots.
 
 Olympus keeps one small Orchestrator context and sends bounded work to a fixed
-conditional catalog of sixteen roles. Git stores project configuration and task records.
+conditional catalog of nineteen roles. Git stores project configuration and task records.
 Codex or Claude supplies the agents and tools. Olympus supplies no runtime. Its
 success criterion is product delivery: administration that costs more than the change is
 a failure.
@@ -39,6 +39,12 @@ flowchart TD
     O --> RA[Release Agent<br/>release boundary]
     O --> DC[Decision Council<br/>advisory]
     O --> L[Liaison<br/>status]
+    O --> PR[Product Researcher<br/>bounded evidence question]
+    O --> PS[Product Strategist<br/>investment or fresh challenge]
+    O --> EA[Experiment Analyst<br/>design or analysis]
+    PR --> O
+    PS --> O
+    EA --> O
     C --> O
     E --> O
     S --> O
@@ -67,6 +73,14 @@ accepted results enter the goal record. This keeps:
 3. owner attention on material decisions, not agent routing.
 
 ## System boundary
+
+The v0.7.0 [product supplement](../references/PRODUCT.md) adds an opt-in loop around
+the build graph. Knowledge and evidence inform investment decisions; accepted decisions
+inform specs; workflow acceptance and measured outcomes update knowledge. Product
+Researcher, Product Strategist and Experiment Analyst use one named specialist method per
+dispatch. Fresh challenge and evidence review are conditional on material decisions.
+Existing role numbers and build-only paths are preserved. A host must supply and prove
+unattended continuation capabilities; the Markdown framework does not implement them.
 
 ```mermaid
 flowchart LR

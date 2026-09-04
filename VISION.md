@@ -18,9 +18,17 @@ shaping: true
 
 ## Vision
 
+The accepted product-layer direction extends the original build-only scope: Olympus is a
+generic software factory that discovers what to build, prioritizes bounded investments,
+experiments, builds and learns. FPLGuru is an application and proving ground, not a
+framework-specific dependency. The original source quotations above describe its history.
+
 Make agent-led software development faster and more correct on codebases where one long model session loses scope or invents context.
 
 Give project owners a ready-to-use build system. Do not require them to design, route, or maintain an agent architecture.
+
+Product decisions use the [product supplement](references/PRODUCT.md), with explicit
+whole-product context and separate delivery, acceptance and outcome evidence.
 
 ## End state
 
@@ -39,7 +47,7 @@ The owner approves one complete effective configuration and the proposed install
 - bounded repair and evidence-backed completion.
 
 The owner can adjust supported knobs inside fixed slots. The owner cannot change the
-fixed role duties the current protocol defines — sixteen roles as of this change — hub
+fixed role duties the current protocol defines — nineteen roles including the opt-in product layer — hub
 communication, graph ownership, triggers, or protected rules. The owner-selected
 workflow is an ordered allowlist, not a new graph. The
 [runtime protocol](references/PROTOCOL.md) is the canonical catalog, graph, release
@@ -86,9 +94,9 @@ invoked role through the harness, test Codex and Claude, and label unsupported m
 honestly. The original 14-role catalog began dogfood in the controlled Issue #750 A/B comparison;
 not every conditional role has evidence. The earlier experimental version `0.3.0` strengthened
 role craft and shared state after the Release Agent specification failed to converge. It exists
-for larger tests, not to claim production readiness. The current private experimental `0.6.1`
-scope has sixteen roles, including a provider-neutral Release Agent and test-paths-only
-Tester. It also includes owner-selected workflow boundaries, compact guided onboarding,
+for larger tests, not to claim production readiness. The current experimental `0.7.0`
+scope has nineteen roles, including three product specialists, a provider-neutral Release
+Agent and test-paths-only Tester. It also includes owner-selected workflow boundaries, compact guided onboarding,
 bounded diagnosis, owner help, worktree-per-goal isolation, and a static frontend evidence
 loop.
 Claude has passed guided onboarding and one bounded Builder-to-fresh-Reviewer mutation

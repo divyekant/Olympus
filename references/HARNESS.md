@@ -28,7 +28,7 @@ records; a status not traceable to a row or record there is not recorded here, a
 
 ## Role classes
 
-The sixteen fixed roles group into eight classes for adapter purposes. This grouping is a
+The nineteen fixed roles group into nine classes for adapter purposes. This grouping is a
 mapping convenience; the [fixed catalog](PROTOCOL.md#1-fixed-catalog) is still the
 canonical role list and order.
 
@@ -42,6 +42,18 @@ canonical role list and order.
 | Project mutator | Builder, Docs Writer |
 | Test author | Tester |
 | Advisory, status, and release boundary | Decision Council, Liaison, Release Agent |
+| Product investigation and decisions | Product Researcher, Product Strategist, Experiment Analyst |
+
+The new product roles and extended product evidence-review method are `untested` on both
+hosts until scenario-specific evidence is recorded. Historical support rows below do not
+cover these additions. A fresh Strategist challenge must not reuse the proposing context.
+Use one charter, mandatory product boundary and one selected method per dispatch.
+
+Product runtime probes and unattended continuation require separate observed capability
+evidence under [PRODUCT](PRODUCT.md#continuation). A host must supply wakeups, persistent
+checkpoints, exclusive execution, expiry/revocation checks and reconciliation. No host
+implementation, scheduler installation or live product support is supplied by this file.
+Without those capabilities, use bounded foreground work or explicit manual resume.
 
 Tester gets its own class rather than joining Project mutator: it writes and runs tests
 only in Tester-owned test paths, never product code, and never repairs a defect or issues

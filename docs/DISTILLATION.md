@@ -23,7 +23,7 @@ The FPLGuru pattern at `d77b93ba` supplied separate mutation and review contexts
 loop owner, and one canonical charter copy. The later frozen FPLGuru role-charter source
 from PR #894 at `fa57be9b5e933dacdbe00066b48a6c07ecad4141` supplied detailed role methods,
 evidence packets, readiness checks, and escalation boundaries. Olympus keeps those generic
-craft patterns for the fixed 16-role catalog. It does not copy project-specific roles,
+craft patterns for the v0.6.1 16-role catalog. It does not copy project-specific roles,
 review history, service delivery paths, model choices, provider commands, or unbounded
 review pressure.
 
@@ -47,6 +47,26 @@ requirements.
 | `council/SKILL.md` | adversarial option comparison, challenge resolution, and pre-mortem | Decision Council advisory role |
 | `skill-creator/SKILL.md` | valid metadata and progressive loading | Pack structure and conformance |
 
+## Product craft sources (v0.7.0)
+
+The following primary articles/pages were inspected on 2026-09-04 during product shaping.
+This records article-level provenance, not complete-book study or evidence that one method
+is universally best. Retained behavior lives in the three product charters, the
+[product protocol](../references/PRODUCT.md), and [selected methods](../references/PRODUCT_METHODS.md).
+Sources are not runtime dependencies and updates never silently change active rules.
+
+| Source | Retained behavior | Excluded or limited |
+| --- | --- | --- |
+| [Christensen Institute: Jobs to Be Done](https://www.christenseninstitute.org/theory/jobs-to-be-done/) | Customer circumstances, desired progress and alternatives in research. | No inferred demand from agent experience. |
+| [Product Talk: Discovering Solutions](https://www.producttalk.org/discovering-solutions/) | Separate opportunities, solutions and assumption tests; decision-changing research. | No mandatory interview count or full solution build before learning. |
+| [Roger Martin: Why Bother Doing Strategy](https://rogerlmartin.com/docs/default-source/default-document-library/why-bother-doing-strategy.pdf) | Explicit direction, alternatives and assumptions that revise choices. | No guarantee of strategy success. |
+| [SVPG: Four Big Risks](https://www.svpg.com/four-big-risks/) | Value, usability, feasibility and business viability in investment reasoning. | No separate agent or gate for each risk. |
+| [Intercom: RICE](https://www.intercom.com/blog/rice-simple-prioritization-for-product-managers/) | Explicit reach, impact, confidence and effort when comparable. | No universal ranking score or fabricated precision. |
+| [Basecamp: Set Boundaries](https://basecamp.com/shapeup/1.2-chapter-03) | Investment appetite and narrow problem definition. | No fixed six-week calendar or mandatory betting ceremony. |
+| [Strategyzer: Test Card](https://www.strategyzer.com/library/validate-your-ideas-with-the-test-card) | Hypothesis, method, measurement and threshold before execution. | No forced statistical experiment for qualitative questions. |
+| [Microsoft: Post-Experiment Stage](https://www.microsoft.com/en-us/research/articles/patterns-of-trustworthy-experimentation-post-experiment-stage/) | Measurement validity, guardrails, uncertainty and retained outcomes. | Large-platform infrastructure and traffic assumptions. |
+| [Amplitude: Inside Wave](https://amplitude.com/blog/wave) | Offering/code context, ongoing opportunities and outcome feedback. | Vendor performance claims, connectors and runtime architecture are not Olympus proof or dependencies. |
+
 ## Historical charter sources for fixed roles
 
 Historical charter sources informed the original thirteen worker roles. They are design
@@ -67,8 +87,9 @@ craft by role family.
 | General Reviewer charter | Freeze the review unit, test acceptance evidence independently, classify findings, and invalidate stale passes. | Implementation, repair authority, and approval of external actions. |
 
 The source charters remain historical inputs. The original thirteen worker charters retain
-only generic behavior that fits their fixed Olympus jurisdiction. The current set has fifteen
-worker charters; the provider-neutral [Release Agent charter](../agents/RELEASE_AGENT.md)
+only generic behavior that fits their fixed Olympus jurisdiction. The v0.6.1 set had fifteen
+worker charters; v0.7.0 adds three product worker charters.
+The provider-neutral [Release Agent charter](../agents/RELEASE_AGENT.md)
 uses the current shared protocol and adds no provider-specific commands or authority. The
 test-paths-only [Tester charter](../agents/TESTER.md) follows the same generic craft
 pattern. Issue

@@ -6,7 +6,22 @@ Review every persisted Spec Writer body in a fresh, read-only context. Own facts
 citations, counts, hashes, and uncertainty only. Return one complete jurisdictional
 packet to the Orchestrator, including an explicit empty finding set when none exists.
 
-**Trigger:** every persisted Spec Writer body. **Recipient:** the Orchestrator only.
+**Trigger:** every persisted Spec Writer body; in explicit product work, the material
+evidence, experiment-design and outcome checks in [PRODUCT](../references/PRODUCT.md#decision-and-review).
+**Recipient:** the Orchestrator only.
+
+## Product evidence assignments
+
+For an explicit product assignment, use the [product dispatch packet](../references/PRODUCT.md#dispatch-packet)
+and [evidence-review method](../references/PRODUCT_METHODS.md#evidence-review) instead of
+the spec-only input, preflight, checklist, readiness and return sections below. Bind the
+exact decision/design/result artifact, sources and uncertainty. Do not require a Spec
+Writer body, Writer register, spec lenses or implementation diff when none exists.
+Retain fresh read-only authority, source-as-data handling and supported/falsified/unverified
+claim grading. Return pass, repair or blocked, with exact evidence, material findings,
+missing probes and remaining uncertainty. Experiment measurement validity is in scope;
+strategic preference and release approval are not. Normal specification reviews retain
+every existing check below.
 
 ## Exact input and identity
 

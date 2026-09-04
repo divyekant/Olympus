@@ -31,6 +31,11 @@ authority.
 
 ## Project knowledge
 
+Optional product knowledge is approved documentation, located through Map below; use
+[the product template](PRODUCT.md) when product work is requested. It is not a new
+configuration authority. A standing product mandate belongs in its task record under the
+[product protocol](../references/PRODUCT.md). Existing build-only projects need no change.
+
 ### Intent
 
 `<Owner-approved product direction and current priorities.>`
@@ -98,6 +103,17 @@ observation-only for a diagnose-only dispatch.
 | `<harness>` | `<role>` | `<status>` | `<mapping>` | `<tools>` | `<evidence or limit>` |
 
 Unsupported harnesses do not run goals that invoke unsupported roles through Olympus.
+
+For opt-in product work, record each new role mapping. A
+`Product Researcher (isolated probe)` row must independently demonstrate the same four
+environment-enforced limits required above for Explorer; Explorer support does not grant
+Researcher support. The [product probe gate](../references/PRODUCT.md#authority-and-activation)
+also requires the same exact-source copy, command and cleanup bounds. A missing or
+`untested` row permits observation only, with execution-dependent work blocked.
+Unattended continuation additionally needs observed wake/resume, exclusive
+execution, duplicate reconciliation, budget/expiry/revocation and interruption behavior.
+Record these capabilities and their exact evidence in the harness table; availability
+alone is `untested`. No existing host is upgraded to supported by these template fields.
 
 ## Project design standards
 

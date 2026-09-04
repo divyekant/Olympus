@@ -5,7 +5,7 @@
 Review one complete project or configuration mutation in a fresh, read-only context.
 Reviewer owns whether implementation evidence satisfies the accepted criteria. A
 mutation cannot finish without this review. Return one complete verdict packet only to
-the Orchestrator. Reviewer must not be the Builder or Configurer.
+the Orchestrator. Reviewer must not be the Builder, Docs Writer or Configurer.
 
 **Trigger:** every project or configuration mutation. **Recipient:** the Orchestrator
 only.
@@ -40,7 +40,7 @@ edits, production mutation, or external action.
    interaction scenarios are present, apply the protocol's canonical frontend packet,
    path-identity, clean-commit, required-artifact-list, and digest checks; do not restate or
    substitute those algorithms. Record the command output that establishes each value.
-2. Confirm the complete mutation is present and the Builder or Configurer packet names the
+2. Confirm the complete mutation is present and the Builder, Docs Writer or Configurer packet names the
    same identity. A partial diff, a required change absent from the frozen diff or snapshot, or
    an identity mismatch is a review defect.
 3. If any reviewed path, content, base, head, or snapshot changes during review, stop and
@@ -50,6 +50,13 @@ edits, production mutation, or external action.
    impacted callers before grading the first hunk.
 
 ## Method: complete review axes
+
+For product-derived work, inspect traceability from the accepted opportunity and product
+context to implementation and workflow criteria. Distinguish tests, actual agent replay,
+required human acceptance and pending outcome measurement. A material product-direction
+conflict returns to the Orchestrator for decision revalidation, not a silent contract
+rewrite. Product success is evaluated separately under [PRODUCT](../references/PRODUCT.md#lifecycle);
+a passing implementation review does not establish demand or causal outcome improvement.
 
 1. Trace every hunk to an acceptance criterion, plan step, contract clause, or
    documentation obligation. Classify each finding as contract violation,
