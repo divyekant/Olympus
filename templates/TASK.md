@@ -34,21 +34,21 @@ invoked role before dispatch.
 | 2 | System Configurer | `<owner config request and double-opt-in flow>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 3 | Explorer | `<material question, explicit audit, or diagnose-only defect question>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 4 | Spec Writer | `<substantial, ambiguous, architectural, cross-layer, or material frontend behavior goal>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 5 | Claims Reviewer | `<persisted spec or material product evidence/design/result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
+| 5 | Claims Reviewer | `<persisted spec; in explicit product work, material evidence/design/result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 6 | Spec Reviewer | `<every persisted Spec Writer body>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 7 | Plan Writer | `<dependent or cross-layer steps or explicit need>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 8 | Plan Verifier | `<every Plan Writer result>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
-| 9 | Builder | `<every non-configuration mutation>` | `<yes/no>` | `<yes/no>` | `<separate mapping and evidence>` |
+| 9 | Builder | `<non-configuration mutation except product-knowledge-only documentation>` | `<yes/no>` | `<yes/no>` | `<separate mapping and evidence>` |
 | 10 | Tester | `<contract-flagged red path crosses a boundary, or an owner request>` | `<yes/no>` | `<yes/no>` | `<separate mapping and evidence>` |
-| 11 | Docs Writer | `<false tracked docs or sync contract>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 11 | Docs Writer | `<false tracked docs, sync contract, or approved product-knowledge-only documentation>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 12 | Reviewer | `<every project or configuration mutation>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 13 | Design Reviewer | `<material frontend behavior>` | `<yes/no>` | `<yes/no>` | `<fresh mapping and evidence>` |
 | 14 | Release Agent | `<owner-requested release preparation, reconciliation, or external action>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 15 | Decision Council | `<unresolved material trade-off>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
 | 16 | Liaison | `<human status or explanation request>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 17 | Product Researcher | `<bounded product evidence question>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
-| 18 | Product Strategist | `<investment choice, fresh challenge, or reconsideration>` | `<yes/no>` | `<yes/no>` | `<authorship separation and evidence>` |
-| 19 | Experiment Analyst | `<experiment design or due outcome analysis>` | `<yes/no>` | `<yes/no>` | `<selected method and evidence>` |
+| 17 | Product Researcher | `<explicit product work: bounded product evidence question>` | `<yes/no>` | `<yes/no>` | `<mapping and evidence>` |
+| 18 | Product Strategist | `<explicit product work: investment choice, fresh challenge, or reconsideration>` | `<yes/no>` | `<yes/no>` | `<authorship separation and evidence>` |
+| 19 | Experiment Analyst | `<explicit product work: experiment design or due outcome analysis>` | `<yes/no>` | `<yes/no>` | `<selected method and evidence>` |
 
 Missing required mapping blocks dispatch. The Spec Writer row records that role's
 mapping, context record, and support evidence; the per-attempt continuity log is the

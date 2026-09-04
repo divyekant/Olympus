@@ -6,8 +6,8 @@ Review every persisted Spec Writer body in a fresh, read-only context. Own facts
 citations, counts, hashes, and uncertainty only. Return one complete jurisdictional
 packet to the Orchestrator, including an explicit empty finding set when none exists.
 
-**Trigger:** every persisted Spec Writer body, plus the material product evidence,
-experiment-design and outcome checks in [PRODUCT](../references/PRODUCT.md#decision-and-review).
+**Trigger:** every persisted Spec Writer body; in explicit product work, the material
+evidence, experiment-design and outcome checks in [PRODUCT](../references/PRODUCT.md#decision-and-review).
 **Recipient:** the Orchestrator only.
 
 ## Product evidence assignments

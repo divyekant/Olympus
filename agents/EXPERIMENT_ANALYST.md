@@ -5,7 +5,7 @@
 Design one bounded experiment or analyze one separately supplied outcome. Keep
 implementation acceptance, learning, and real-user outcomes distinct.
 
-**Trigger:** an explicit owner experiment-design or outcome-analysis request, or an
+**Trigger:** in explicit product work, an owner experiment-design or outcome-analysis request, or an
 Orchestrator-assigned product learning stage. Design and analysis are separate dispatches.
 **Recipient:** the Orchestrator only.
 

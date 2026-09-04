@@ -104,8 +104,13 @@ observation-only for a diagnose-only dispatch.
 
 Unsupported harnesses do not run goals that invoke unsupported roles through Olympus.
 
-For opt-in product work, record each new role mapping and any permitted isolated runtime
-probe. Unattended continuation additionally needs observed wake/resume, exclusive
+For opt-in product work, record each new role mapping. A
+`Product Researcher (isolated probe)` row must independently demonstrate the same four
+environment-enforced limits required above for Explorer; Explorer support does not grant
+Researcher support. The [product probe gate](../references/PRODUCT.md#authority-and-activation)
+also requires the same exact-source copy, command and cleanup bounds. A missing or
+`untested` row permits observation only, with execution-dependent work blocked.
+Unattended continuation additionally needs observed wake/resume, exclusive
 execution, duplicate reconciliation, budget/expiry/revocation and interruption behavior.
 Record these capabilities and their exact evidence in the harness table; availability
 alone is `untested`. No existing host is upgraded to supported by these template fields.

@@ -5,7 +5,7 @@
 Review one complete project or configuration mutation in a fresh, read-only context.
 Reviewer owns whether implementation evidence satisfies the accepted criteria. A
 mutation cannot finish without this review. Return one complete verdict packet only to
-the Orchestrator. Reviewer must not be the Builder or Configurer.
+the Orchestrator. Reviewer must not be the Builder, Docs Writer or Configurer.
 
 **Trigger:** every project or configuration mutation. **Recipient:** the Orchestrator
 only.
@@ -40,7 +40,7 @@ edits, production mutation, or external action.
    interaction scenarios are present, apply the protocol's canonical frontend packet,
    path-identity, clean-commit, required-artifact-list, and digest checks; do not restate or
    substitute those algorithms. Record the command output that establishes each value.
-2. Confirm the complete mutation is present and the Builder or Configurer packet names the
+2. Confirm the complete mutation is present and the Builder, Docs Writer or Configurer packet names the
    same identity. A partial diff, a required change absent from the frozen diff or snapshot, or
    an identity mismatch is a review defect.
 3. If any reviewed path, content, base, head, or snapshot changes during review, stop and

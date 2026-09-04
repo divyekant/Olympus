@@ -48,11 +48,12 @@ are isolated role-method replays and a manual transition walk, not a full activa
 | product.md SHA-256 | `3313ff6ab62bfba0141f5581208a115a4cfe523300bc4f86be40d9da2aac2f77` |
 | experiment.md SHA-256 | `c4e587dd44032ca278fa801f51a7a313b92a1190bb427f21b9d318fabb68e709` |
 
-Local evidence root:
-`/Users/dk/.codex/experiments/olympus/2026-09-04-product-layer/`.
-It retains independent Git repositories `candidate/`, `candidate-final/`, `fixtures/`,
-snapshot manifests, `freeze.py`, and `check_contract.py`. These are local test artifacts,
-not runtime dependencies or distributed host tooling. Fixture names and people are synthetic.
+The snapshot hashes, five role-method replays, eight manual transition checks, and checker
+result below are historical local-only evidence from that source base. The independent Git
+repositories `candidate/`, `candidate-final/`, `fixtures/`, snapshot manifests, `freeze.py`,
+and `check_contract.py` were retained outside this repository. They are not distributed,
+cannot be rerun from a fresh checkout, and are not runtime dependencies or host tooling.
+Fixture names and people are synthetic.
 
 ### Independent review and repairs
 
@@ -62,7 +63,7 @@ and non-experiment builds lacked a valid evaluation path. It also requested an e
 read-only Researcher bootstrap. The corrected candidate added the product report terminal
 path, non-experiment closure and bootstrap clarification. The same reviewer inspected the
 four-file fix wave independently: both P2s and the clarification addressed, no new P0–P2
-finding. This is the current review result, not the initial verdict.
+finding. This is the review result for that historical candidate, not the current PR head.
 
 ### Observed role-method replays
 
@@ -116,12 +117,9 @@ The standard-library checker first failed on the original 16-role catalog, then 
 on the corrected 19-role catalog, 18 linked charters, identical task-role order, unchanged
 protected files and VERSION, whitespace, and no new broken local Markdown links across
 44 Markdown files. It excludes one pre-existing link finding rather than claiming a
-globally clean historical link set. Re-run locally with:
-
-```sh
-python3 /Users/dk/.codex/experiments/olympus/2026-09-04-product-layer/check_contract.py /Users/dk/.codex/worktrees/625c/Olympus
-git diff --check
-```
+globally clean historical link set. This checker result is historical local-only evidence;
+the checker and its fixture and snapshot artifacts are not distributed and cannot be rerun
+from a fresh checkout. Use `git diff --check` for the portable whitespace check.
 
 All three snapshot/fixture repositories were clean on final identity check. The source
 runtime contracts matched the corrected snapshot before recording this evidence. Subsequent
@@ -133,3 +131,29 @@ orchestration, knowledge publication through a live Docs Writer goal, wake deliv
 concurrency enforcement, production release, or unattended host support. The manual
 transition walk proves review interpretation only. All new host support stays untested;
 no fixture result grants authority or proves product value, lower cost, or superiority.
+
+## PR #40 correction review
+
+The six comments against `4eb6a43c2681ef87ea2ea6d1334c33ce31b0b8ee` were validated
+against the catalog, goal flow, handoffs, charters and boundary table. The corrections are:
+
+| Finding | Correction |
+| --- | --- |
+| Knowledge publication has no admitted writer | Widen Docs Writer's trigger and packet; route knowledge-only goals directly to Docs Writer, then fresh Reviewer, with a documentation contract and normal repair cap. |
+| Researcher probe lacks Explorer's enforced limits | Require a distinct supported Researcher row, the same four enforced limits, and exact-source copy, command and cleanup bounds. |
+| Probe conflicts with audit/spec admission | Explicitly admit only the gated disposable-copy exception; missing enforcement leaves execution-dependent work blocked. |
+| Review-only evaluation cannot reach a disposition | Admit outcome-driven Strategist reconsideration as a recommendation only; further work requires a separately authorized boundary. |
+| Product triggers affect ordinary build goals | Scope all product-only triggers, including product evidence review, to explicit product work. |
+| Checker command depends on private local files | Remove the absolute paths and command; identify the checker and prior replay artifacts as historical local-only evidence, not reproducible from checkout. |
+
+A fresh independent reviewer found no P0–P3 finding in the 13-file correction diff.
+Eight manual contract walks covered knowledge creation, audit/spec probe admission,
+missing enforcement, Explorer-only support, forbidden probe effects, review-only outcome
+disposition, ordinary build opt-in, and fresh-checkout evidence limits. All matched the
+allowed dispositions; no runtime or activated goal was executed.
+Its HEAD and `git diff --binary HEAD` SHA-256 were unchanged at review start and end:
+`4eb6a43c2681ef87ea2ea6d1334c33ce31b0b8ee` and
+`4a46336ffd72000bd3c98e18c0c1e811d3bb225c94c9e985b4072205af48c955`.
+This evidence section was added after that frozen review; it changes no runtime contract.
+The existing local structural checker and diff whitespace check also passed. This review
+does not establish sandbox enforcement, a live Docs Writer goal, or unattended execution.

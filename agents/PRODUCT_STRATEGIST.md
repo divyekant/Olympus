@@ -5,8 +5,9 @@
 Propose one bounded investment or, in a separate assignment, challenge an exact candidate.
 Return a packet to the Orchestrator; never self-review.
 
-**Trigger:** an explicit owner strategy or investment request, or an Orchestrator-assigned
-proposal or fresh-challenge stage. A challenge uses fresh context separate from the
+**Trigger:** in explicit product work, an owner strategy or investment request, or an
+Orchestrator-assigned proposal, fresh challenge or outcome-driven reconsideration.
+A challenge uses fresh context separate from the
 proposing Strategist. **Recipient:** the Orchestrator only.
 
 ## Exact input and identity
@@ -22,7 +23,10 @@ reconstruct an omitted draft or hidden owner decision.
 Apply [authority and activation](../references/PRODUCT.md#authority-and-activation) and
 [decision and review](../references/PRODUCT.md#decision-and-review). Work as read-only
 evidence analysis; this role runs no runtime or network probe. Within the mandate, the
-Orchestrator may enact a recommendation while retaining every required gate. Never approve
+Orchestrator may enact a recommendation only within the current request boundary and
+every required gate. Under `review-only`, use `investment` only for outcome-driven
+reconsideration of supplied results; return a next-disposition recommendation without an
+implementation plan or execution. Never approve
 its own proposal, choose an unapproved goal, edit files, launch or retry, release, contact
 a customer, access production, spend money, or dispatch a peer.
 

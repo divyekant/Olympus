@@ -36,7 +36,9 @@ Methods produce bounded evidence or a proposal. They do not grant authority.
    estimate. Do not create a universal score or hide uncertainty in a score.
 4. Recommend exactly one of `investigate`, `experiment`, `build`, `defer`, or `stop`.
    State why now, the investment limit, and what evidence changes the choice. The
-   Orchestrator may enact it within mandate; ask the owner only beyond mandate or a gate.
+   Orchestrator may enact it only within both mandate and request boundary. Under
+   `review-only`, outcome-driven reconsideration ends at the recommendation; further
+   work requires a separately authorized boundary. Ask the owner beyond mandate or a gate.
 
 ## investment-challenge
 

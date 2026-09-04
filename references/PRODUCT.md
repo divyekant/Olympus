@@ -37,13 +37,22 @@ and other external effects need their own explicit authority and the applicable 
 gate. No new role may deploy, contact customers, use production data, or change an account.
 Approved redacted exports can supply evidence without granting access to their source.
 
-Use only named, permitted read sources and commands. Product Researcher may exercise an
-explicitly approved isolated non-production runtime with disposable test state when the
-host's enforcing boundary is recorded as supported for that exact capability. Record
-the test account, routes/actions, commands, permitted network endpoints, output paths,
-cleanup, and observed isolation. Otherwise remain observation-only and report the missing
-capability. A browser's availability does not establish safe isolation. Startup, fixtures,
-or instrumentation needing code changes route through the existing build workflow.
+Use only named, permitted read sources and commands. Product Researcher may run an
+explicitly approved probe in one disposable copy only when PROJECT records
+`Product Researcher (isolated probe)` as `supported`. Evidence must show the environment
+itself blocks network access, credential access, writes outside the copy, and access to
+the target repository or its Git administration beyond the read that creates the copy.
+Reuse Explorer's [copy, command and cleanup bounds](../agents/EXPLORER.md#authority-and-boundaries)
+for this research dispatch: export the packet's exact committed source revision to the
+Orchestrator-selected outside path, never use a linked worktree, verify the copy's identity
+before execution, and delete the copy before returning or report cleanup failure.
+Enumerated commands may not install packages, start services, access the network or write
+outside the copy. A command list or available browser is not enforcing evidence.
+These probe bounds apply in every admitted research boundary, including `mutation`.
+Without the gate, remain observation-only and report the execution-dependent part blocked.
+Workflow replay needing a browser service or network uses the existing authorized
+Builder/Reviewer frontend workflow; it cannot widen this probe. Startup, fixtures or
+instrumentation needing project changes also route through the existing build workflow.
 
 No mandate changes the immutable framework pin or the rules of an active build. Updating
 PROJECT or an installed loader remains Configurer-owned. Knowledge is evidence, not
@@ -92,7 +101,9 @@ never credentials or raw private customer exports in Git.
 Roles return proposed updates. Orchestrator alone writes product task checkpoints and
 accepted decisions in `.olympus/tasks/<goal-id>.md`; Docs Writer alone updates approved
 knowledge documentation, with normal mutation review. A reviewed documentation-only child
-goal can persist knowledge without product code. Review does not convert unknown beliefs
+goal can persist knowledge without product code or a Builder dispatch. Its approved
+evidence delta, paths and acceptance criteria form the documentation contract under
+[the normal flow's product exception](PROTOCOL.md#4-goal-flow). Review does not convert unknown beliefs
 to facts. Until publication, packets may use the exact pending evidence in the product task,
 marked pending and bound to that identity. Knowledge edits never alter the mandate.
 
@@ -155,6 +166,12 @@ states. The following **phase** is separate from task status and from linked bui
 | awaiting evidence | Record due time/event, data source, collection window and timeout decision. Keep build completion separate. A wake without relevant new evidence does no new work. |
 | evaluation | For an experiment, Analyst compares results with its frozen design and Claims Reviewer checks material conclusions. For other builds, use the non-experiment closure below. Strategist proposes the next disposition; any further effect returns through decision and authority checks. |
 | closed | Preserve learning, pending measurements or explicit abandonment reasons, knowledge-update disposition and revisit trigger. Complete means this bounded cycle is closed, never that the product is proven successful. |
+
+Under `review-only`, evaluation may finish with Strategist's bounded outcome-driven
+recommendation using `investment`. Close the evaluation report or record a pending next
+decision without enacting it. Any recommended investigation, experiment, build or knowledge
+edit needs a separately authorized boundary; a standing mandate does not widen this one.
+An interpretation-only request may end with its analysis report without opening a full cycle.
 
 **Non-experiment closure:** a build without an experiment does not need an invented
 experiment identity or design. Strategist receives the accepted decision, implementation

@@ -7,7 +7,8 @@ approved paths and return one implementation packet to the Orchestrator. Builder
 an accepted contract or plan into the smallest tested change. Builder does not re-decide
 the design, review its own work, or control delivery.
 
-**Trigger:** every non-configuration project mutation. **Recipient:** the Orchestrator.
+**Trigger:** every non-configuration project mutation except a product-knowledge-only
+documentation goal, which routes directly to Docs Writer. **Recipient:** the Orchestrator.
 
 ## Exact input and identity
 
