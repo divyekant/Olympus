@@ -15,6 +15,12 @@
   installed; bounded fixture evidence and limitations are in
   [product conformance](docs/PRODUCT_CONFORMANCE.md).
 
+### Changed
+
+- Builder's trigger excludes product-knowledge-only documentation goals. Docs Writer's
+  trigger now includes those approved goals; they route directly to Docs Writer and then
+  fresh general review under the normal implementation cap.
+
 ## 0.6.1 - 2026-08-31
 
 This patch release corrects the root version metadata omitted from v0.6.0. The v0.6.0

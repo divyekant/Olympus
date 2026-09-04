@@ -1424,7 +1424,8 @@ not add a PROJECT setting, preset registry, executable parser, runtime, or peer 
 ## Tester round semantics
 
 An **implementation round** is one complete bracket: the Builder mutation or repair for
-that round, the fresh Tester run when the Tester trigger holds, and the fresh general
+that round, or the Docs Writer edit for a product-knowledge-only documentation goal,
+the fresh Tester run when the Tester trigger holds, and the fresh general
 Reviewer pass over the resulting complete mutation. This section governs how that round
 is counted against the implementation cap and how the Tester loop converges; it changes
 no cap value.
@@ -1475,9 +1476,9 @@ an ordinary Tester run, or, if the cap is already reached, the round is `blocked
 mirroring the one-free-repeat pattern the shared halted-attempt and evidence-backed
 dispute rules use elsewhere. A halted Builder, Tester, or Reviewer attempt consumes no
 round. Because only a Builder repair, an executed Tester command, or a Docs Writer edit
-can advance the count, and a goal with an open defect always has a Builder repair
-available to produce one of those, the cap can be neither made unreachable by
-non-consuming passes nor reached before genuine repair-or-test work occurs; the
+can advance the count, an open defect routes to the role that owns its affected paths;
+a knowledge-only documentation repair returns to Docs Writer. The cap can be neither
+made unreachable by non-consuming passes nor reached before genuine repair-or-test work occurs; the
 one-free-self-correction bound keeps a pure self-correction cycle from advancing the
 round count indefinitely without ever consuming one.
 

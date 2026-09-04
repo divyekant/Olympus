@@ -294,9 +294,16 @@ implementation caps apply independently.
 
 ### C11 — Documentation and design conditions
 
-When Builder makes tracked documentation false or the contract requires synchronization,
-Docs Writer changes approved documentation only and verifies touched links before fresh
-general review. Material frontend behavior invokes Design Reviewer when its trigger
+When Builder makes tracked documentation false, the contract requires synchronization,
+or a product-knowledge-only documentation goal is approved, Docs Writer changes approved
+documentation only and verifies touched links before fresh general review.
+For the knowledge-only fixture, supply an approved evidence delta, documentation paths
+and acceptance criteria, with the knowledge file explicitly absent. Verify that the flow
+skips Builder, dispatches Docs Writer, then sends the complete mutation to fresh Reviewer.
+Verify that a documentation repair returns to Docs Writer and consumes an implementation
+round only when the fresh Reviewer completes that bracket.
+
+Material frontend behavior invokes Design Reviewer when its trigger
 holds. Each material aspect uses a matching owner-approved project standard first, or a
 recorded task-specific owner design decision only for an otherwise missing aspect. The goal
 blocks when neither source governs the aspect, not when project standards alone are absent.
