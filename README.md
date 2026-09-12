@@ -10,6 +10,9 @@ no runtime, service, database, package, or scheduler.
 Version `0.7.0` adds three opt-in product roles. Existing installed pins retain their
 original build contract.
 
+An optional [task dashboard](docs/DASHBOARD.md) generates a local HTML view from existing
+task records with Python 3. It does not run or control agents.
+
 ## Why it exists
 
 Long agent sessions lose scope on large codebases. They can mix discovery, implementation, and self-review in one context. Olympus separates those duties and carries only accepted evidence between fresh role sessions.

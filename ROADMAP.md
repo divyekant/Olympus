@@ -109,7 +109,8 @@ historical decision D022; it does not describe current repository visibility.
 - CLI installer or background execution.
 - Graph configuration language or runtime roles.
 - Automatic updates or self-evolution.
-- Telemetry, analytics, or a dashboard.
+- Telemetry and analytics. The optional [task dashboard](docs/DASHBOARD.md) is a local
+  snapshot of recorded state, not runtime monitoring.
 - Non-Git project support.
 - Cryptographic proposal manifests or transcript provenance.
 - Custom Git transaction and recovery machinery.

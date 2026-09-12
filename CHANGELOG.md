@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Added
+
+- Optional read-only task dashboard: a compact goal rail, stage columns, task details,
+  search, filters, and pending owner-decision highlights in one standalone HTML file.
+- A Python standard-library generator reads existing `.olympus/tasks/*.md` records.
+  Optional foreground watch mode regenerates the snapshot after record changes.
+  No task store, scheduler, agent control, or project dependency is added.
+- Dashboard parser and output-safety tests. Missing stages and noncanonical statuses
+  remain Unknown; recorded role participation does not claim live agent activity.
+
+See [dashboard usage and limits](docs/DASHBOARD.md). Browser refresh is required to
+load a regenerated snapshot. Generated files contain the original task records.
+
 ## 0.7.0 - 2026-09-04
 
 Experimental release of the opt-in product discovery and learning layer.
