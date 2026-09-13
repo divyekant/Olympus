@@ -94,7 +94,7 @@ invoked role through the harness, test Codex and Claude, and label unsupported m
 honestly. The original 14-role catalog began dogfood in the controlled Issue #750 A/B comparison;
 not every conditional role has evidence. The earlier experimental version `0.3.0` strengthened
 role craft and shared state after the Release Agent specification failed to converge. It exists
-for larger tests, not to claim production readiness. The current experimental `0.7.0`
+for larger tests, not to claim production readiness. The current experimental `0.8.0`
 scope has nineteen roles, including three product specialists, a provider-neutral Release
 Agent and test-paths-only Tester. It also includes owner-selected workflow boundaries, compact guided onboarding,
 bounded diagnosis, owner help, worktree-per-goal isolation, and a static frontend evidence

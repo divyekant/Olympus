@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+## 0.8.0 - 2026-09-13
+
+### Added
+
+- Schema 2 task-record contract: explicit current state, parent and related-task IDs,
+  owner-action state, checkpoint time, and separate product phase. The Orchestrator
+  updates it at existing checkpoints; a read-only validator checks structure and links.
+- Static task dashboard: fixed HTML/CSS/JS loads a local `tasks-data.js` export. Open
+  it directly in Chrome without a server or folder picker. An optional local watcher
+  refreshes only data after source changes; the page checks for updates automatically.
+- Real-record compatibility: supporting specifications and plans are excluded, observed
+  Claude task formats remain readable, and missing decision coverage is explicit.
+  Compact navigation, status grouping, product phases, search, and task details preserve
+  access to the original source without claiming live agent activity.
+
+See [dashboard usage and limits](docs/DASHBOARD.md). The export is disposable; the
+Orchestrator-owned Markdown records remain the source of truth. Existing pins and legacy
+records are not migrated automatically. No additional reporting agent is introduced.
+
 ## 0.7.0 - 2026-09-04
 
 Experimental release of the opt-in product discovery and learning layer.

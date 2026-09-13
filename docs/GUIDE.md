@@ -135,6 +135,9 @@ with their round-by-round finding counts, the Builder and review rounds, and the
 An open finding's row always names its minimum evidence and closure condition — that is
 what still has to happen before the goal can close.
 
+For a compact browser view, use the optional [task dashboard](DASHBOARD.md). It reads
+these same records and does not change task state.
+
 ## Release
 
 Release Agent changes no file and holds no standing external authority; it validates

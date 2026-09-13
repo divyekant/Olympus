@@ -158,6 +158,11 @@ completed review round. No automatic retry without new recovery evidence and bud
 Product task status uses the existing planned/active/reviewing/complete/blocked/cancelled
 states. The following **phase** is separate from task status and from linked build status.
 
+For schema 2 records, keep the current phase in frontmatter `product-phase` under the
+[task-record contract](PROTOCOL.md#task-record-contract). The `phase and trigger` checkpoint
+retains the event, due condition, and verified-action evidence. `linked-tasks` records local
+task identities; the linked-work checkpoint retains delivery and acceptance evidence.
+
 | Phase | Required result and next transition |
 | --- | --- |
 | discovery | Researcher returns evidence or explicit gaps; Strategist selects decision-changing investigation or moves to decision. |
