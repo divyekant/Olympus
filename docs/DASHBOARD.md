@@ -88,3 +88,13 @@ Claude validation yielded 45 task records, excluded 21 supporting documents, rec
 20 unsupported or missing status values and no supported role or owner-decision tables.
 It is historical evidence, not live swarm validation. Do not rewrite historical source
 records merely to improve their appearance in the dashboard.
+
+A bounded Codex dogfood run at framework commit
+`32dbde5bb8816a3e268d26f4fabe15aae85747a3` used approved isolated configuration, a fresh
+configuration Reviewer, and a fresh read-only Explorer. The validator suite passed 29
+tests. Explorer confirmed that the real active task record agreed with its export.
+Chrome then observed the Orchestrator's Active-to-Complete transition automatically,
+with unchanged HTML and no page errors. No web server or reporting agent was used.
+This one audit-only goal does not establish swarm scale, product outcomes, general
+agent compliance, or production readiness. Release metadata does not change that
+validated implementation.

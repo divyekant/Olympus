@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.8.0 - 2026-09-13
+
 ### Added
 
 - Schema 2 task-record contract: explicit current state, parent and related-task IDs,

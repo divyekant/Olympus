@@ -10,11 +10,12 @@ promise.
 | 3 — Dogfood | complete | Codex correctness pilot `214be8163ba672d42b62ec7ad8ebe8fa71b466b5` |
 | 4 — Large-codebase proof | complete, mixed | D02 failed; Issue #750 tied with no P0-P2 defects; see D05 |
 | 5 — Second harness and unrelated project | complete | Claude bounded mutation-path pass; unrelated Codex mutation pass; see D03-D04 |
-| 6 — OSS readiness | experimental releases | Apache-2.0; public canonical repository; `v0.7.0` adds the opt-in product layer |
+| 6 — OSS readiness | experimental releases | Apache-2.0; public canonical repository; `v0.8.0` adds task-record validation and the optional static dashboard |
 | Role and state quality | static pass, live test pending | all existing charters strengthened at `d894317851b5ceacc0337578b9d684729401e7b6`; C17-C18 specified |
 | Catalog and workflow expansion | static contract added; live evidence pending | the v0.7.0 catalog has nineteen roles, including a provider-neutral Release Agent, a test-paths-only Tester, and five fixed request boundaries with an owner-selected role allowlist; see the [release boundary](references/PROTOCOL.md#release-boundary), [owner-selected workflow](references/PROTOCOL.md#owner-selected-workflow), [Tester round semantics](references/PROTOCOL.md#tester-round-semantics), and [V1–V12 fixtures](docs/CONFORMANCE.md#v1-v12-release-agent-and-custom-workflow-fixtures) |
 | v0.6.0 — frontend evidence | static contract; live dogfood and support evidence pending | [C22](docs/CONFORMANCE.md#c22--frontend-evidence-loop); [D038](docs/DECISIONS.md) |
 | Product decision and learning layer | v0.7.0; validation recorded separately | Three compact product roles, specialist methods, whole-product decisions and knowledge, reviewed learning and host-bounded continuation. See [product protocol](references/PRODUCT.md) and [bounded conformance](docs/PRODUCT_CONFORMANCE.md). No unattended host or FPLGuru activation is included. |
+| Task visibility | v0.8.0; bounded dogfood passed | Schema 2 current-state records and a static browser view; [dashboard evidence and limits](docs/DASHBOARD.md#verification). Swarm scale remains untested. |
 
 ## Phase 1 — Specify the fixed framework
 

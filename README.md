@@ -1,10 +1,10 @@
 # Olympus
 
-Olympus is an opinionated, Markdown-only software factory for agent-led product discovery and
-development. Version `0.7.0` is an experimental feature release.
+Olympus is an opinionated, Markdown-based software factory for agent-led product discovery and
+development. Version `0.8.0` is an experimental feature release.
 
 It gives a coding agent one fixed orchestration graph, nineteen conditional roles, bounded
-review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. Olympus adds
+review, and Git-backed handoffs. The fixed role catalog is the **Pantheon**. The core workflow adds
 no runtime, service, database, package, or scheduler.
 
 Version `0.7.0` adds three opt-in product roles. Existing installed pins retain their
@@ -124,11 +124,14 @@ a background process. Questions do not create goals. Project-changing requests d
 
 ## Version status
 
-Olympus `0.7.0` has nineteen roles, including three opt-in product specialists. It retains
+Olympus `0.8.0` has nineteen roles, including three opt-in product specialists. It retains
 a test-paths-only Tester, bounded
 diagnose-only Explorer work, `Olympus help`, an owner guide, harness adapter notes, and a
 static frontend evidence loop. Strict specification convergence now defaults to `on`.
-The release adds no runtime, service, database, package, scheduler, or test framework.
+The core workflow remains Markdown. Version `0.8.0` adds schema 2 task records, a
+read-only validator, and an optional static dashboard with a Python standard-library
+exporter and watcher. The dashboard needs no web server, folder picker, or reporting
+agent. No database, package dependency, or scheduler is added.
 
 Version `0.6.1` corrected the root version metadata omitted from v0.6.0 without changing
 its framework contract. Version `0.7.0` adds the product layer and knowledge-only routing.
