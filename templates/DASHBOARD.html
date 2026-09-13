@@ -69,52 +69,154 @@ article.card{padding:16px}article.card:hover{border-color:var(--muted)}article.c
 .source-warnings{margin:0 34px 20px;padding:12px 15px;border:1px solid var(--amber-line);border-radius:8px;color:var(--amber);font-size:12px}.source-warnings li{margin:8px 0;overflow-wrap:anywhere}
 .raw-source{margin-top:24px;border-top:1px solid var(--line);padding-top:15px;font-size:12px}.raw-source pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.6 ui-monospace,monospace;max-height:65vh;overflow:auto}.record-decision{margin:10px 0;padding-bottom:10px;border-bottom:1px solid var(--line)}.detail-limit{margin-bottom:8px}.decision-notice{color:var(--amber);font-size:12px;margin-bottom:12px}.record-id{overflow-wrap:anywhere;min-width:0}.card-note{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.state{flex-shrink:0}.goal-button[data-tooltip]::after{max-width:300px;white-space:normal;width:max-content}.description{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 @media(max-width:780px){.board{grid-template-columns:1fr!important}.source-warnings{margin:0 18px 20px}}
+
+.view-switch{display:flex;gap:6px;margin-top:18px}.view-switch button{padding:6px 16px;border:1px solid var(--line);color:var(--muted)}.view-switch button[aria-pressed="true"]{background:var(--selected);color:var(--ink);border-color:var(--brand)}
+.sidebar{overflow-y:auto;overflow-x:hidden}.goal-button[data-tooltip]::after{display:none}.goal-button:focus-visible{outline-offset:-2px}.rail-label{font-size:10px;color:var(--muted);text-align:center}.more-goals{font-size:18px}.column-more{width:100%;padding:10px;border:1px solid var(--line);color:var(--brand)}.card h3{overflow-wrap:anywhere;font-size:14px}.record-id{font-size:10px}.card-note{margin-top:7px}.overview .coverage{color:var(--amber)}.filter-select select{max-width:240px}.completed-row{gap:18px}.empty p{margin-top:8px}.column-header{position:sticky;top:0;background:var(--surface);z-index:1}.detail-id{overflow-wrap:anywhere}
+@media(max-width:780px){.top-meta .sample{display:none}.top-meta{min-width:0}.attention-button{font-size:11px}.sidebar.mobile-open #navigation{flex-wrap:wrap;justify-content:flex-start}.sidebar.mobile-open{max-height:240px;overflow:auto}.filter-select select{max-width:100%}.view-switch{margin-top:14px}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to work</a>
 <div class="app">
-<header class="topbar"><div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 18 5-12 4 9 4-9 5 12M5 18h14"/></svg></span>Olympus</div><div class="top-meta"><span class="sample">Recorded snapshot</span><time id="snapshot-time"></time><button class="attention-button" id="global-attention"><span aria-hidden="true">◉</span><span id="attention-total"></span></button><button class="mobile-toggle" id="nav-toggle" aria-expanded="false" aria-controls="sidebar">Goals</button></div></header>
+<header class="topbar"><div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 18 5-12 4 9 4-9 5 12M5 18h14"/></svg></span>Olympus</div><div class="top-meta"><span class="sample">Local task files</span><time id="snapshot-time"></time><button class="attention-button" id="global-attention"><span aria-hidden="true">◉</span><span id="attention-total"></span></button><button class="mobile-toggle" id="nav-toggle" aria-expanded="false" aria-controls="sidebar">Goals</button></div></header>
 <aside class="sidebar" id="sidebar"><div class="nav-title"><span>Goals</span><span id="goal-count"></span></div><nav aria-label="Goals" id="navigation"></nav></aside>
-<main class="main" id="main" tabindex="-1"><section class="page-head"><div class="breadcrumb"><span>Workspace</span><span aria-hidden="true">/</span><span id="crumb">All goals</span></div><h1 id="title">Recorded work</h1><p class="description" id="description"></p><div class="overview" id="overview"></div></section><div class="toolbar"><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></svg><span class="sr-only">Search all goals and work</span><input id="search" type="search" placeholder="Search all goals…" autocomplete="off"></label><div class="filters" aria-label="Work filters"><button id="all-filter" aria-pressed="true">All work</button><button id="attention-filter" aria-pressed="false">Needs you</button><button id="clear-filters" hidden>Reset filters</button><label class="filter-select">Status<select id="status-filter"><option value="">Any status</option></select></label><label class="filter-select">Stage<select id="stage-filter"><option value="">Any stage</option></select></label><label class="filter-select">Goal<select id="goal-filter"><option value="">All goals</option></select></label></div></div><p class="sr-only" id="result-count" role="status" aria-live="polite"></p><details class="source-warnings" id="source-warnings" hidden><summary id="warning-title"></summary><ul id="warning-list"></ul></details><section class="board" id="board" aria-label="Work by stage"></section><details class="completed" id="completed"><summary id="completed-title"></summary><div id="completed-list"></div></details><footer class="footer"><span id="latest"></span><span>Read-only · Agent activity is last reported</span></footer></main>
+<main class="main" id="main" tabindex="-1"><section class="page-head"><div class="breadcrumb"><span>Workspace</span><span aria-hidden="true">/</span><span id="crumb">All goals</span></div><h1 id="title">Recorded work</h1><p class="description" id="description"></p><div class="view-switch" aria-label="Work view"><button id="delivery-view" aria-pressed="true">Delivery</button><button id="product-view" aria-pressed="false">Product</button></div><div class="overview" id="overview"></div></section><div class="toolbar"><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></svg><span class="sr-only">Search tasks in this view</span><input id="search" type="search" placeholder="Search tasks in this view…" autocomplete="off"></label><div class="filters" aria-label="Work filters"><button id="all-filter" aria-pressed="true">All work</button><button id="attention-filter" aria-pressed="false">Needs you</button><button id="clear-filters" hidden>Reset filters</button><label class="filter-select">Status<select id="status-filter"><option value="">Any status</option></select></label><label class="filter-select" id="group-control">Group by<select id="group-by"><option value="status">Status</option><option value="stage">Stage</option></select></label><label class="filter-select">Goal<select id="goal-filter"><option value="">All goals</option></select></label></div></div><p class="sr-only" id="result-count" role="status" aria-live="polite"></p><details class="source-warnings" id="source-warnings" hidden><summary id="warning-title"></summary><ul id="warning-list"></ul></details><section class="board" id="board" aria-label="Work by stage"></section><details class="completed" id="completed"><summary id="completed-title"></summary><div id="completed-list"></div></details><footer class="footer"><span id="latest"></span><span>Read-only · Data checked every 2 seconds</span></footer></main>
 <aside class="detail-panel" id="detail-panel" aria-label="Task details" hidden><div class="detail-head"><span class="detail-eyebrow">Task details</span><button class="detail-close" id="detail-close" type="button" aria-label="Close task details">×</button></div><div id="detail-content"></div></aside>
 </div>
-<script id="olympus-data" type="application/json">{"project":"Olympus","root":"","generatedAt":null,"records":[],"warnings":["No records loaded. Generate this page with scripts/dashboard.py."]}</script>
+<script id="olympus-data" type="application/json">{"project":"Olympus","root":"","generatedAt":null,"records":[],"warnings":["No data file loaded. Start the local task exporter to create tasks-data.js beside this page."]}</script>
+<script src="tasks-data.js"></script>
 <script>
-const snapshot=JSON.parse(document.getElementById('olympus-data').textContent);
-const records=snapshot.records;
+let snapshot=window.olympusSnapshot||JSON.parse(document.getElementById('olympus-data').textContent);
+let records=snapshot.records;
 const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const byId=new Map(records.map(r=>[r.id,r]));
-const stages=['Prepare','Build','Verify','Unknown'];
-let selected='',attention=false,selectedTask=null,lastCardId='';
+const isClosed=r=>['Complete','Cancelled'].includes(r.status);
+// Unknown records remain visible in the default work view.
+const kind=r=>r.kind==='product'?'product':'delivery';
+const phaseNames=['discovery','decision','execution','awaiting evidence','evaluation','closed','Unknown'];
+const label=value=>value==='Unknown'?'Not recorded':value[0].toUpperCase()+value.slice(1);
+const newest=(a,b)=>String(b.modifiedAt||'').localeCompare(String(a.modifiedAt||''));
+let selected='',attention=false,selectedTask=null,lastCardId='',view='delivery';
+const expanded=new Set();
 function formatTime(value){const date=new Date(value);return value&&!Number.isNaN(date.valueOf())?date.toLocaleString():'Unknown';}
 function linkedIds(id){const seen=new Set(),pending=[id];while(pending.length){const next=pending.pop();if(seen.has(next)||!byId.has(next))continue;seen.add(next);pending.push(...(byId.get(next).links||[]));}return seen;}
-function filtered(){const query=$('search').value.trim().toLowerCase(),ids=selected?linkedIds(selected):null;return records.filter(r=>(query||!ids||ids.has(r.id))&&(!query||[r.id,r.title,r.request,r.statusRaw,r.source,...r.agents.flat()].join(' ').toLowerCase().includes(query))&&(!$('status-filter').value||r.status===$('status-filter').value)&&(!$('stage-filter').value||r.stage===$('stage-filter').value)&&(!attention||r.needs));}
-function focusMain(){$('main').focus({preventScroll:true});$('main').scrollTop=0;if(matchMedia('(max-width:780px)').matches)window.scrollTo(0,0);}
-function selectGoal(id){selected=id;attention=false;selectedTask=null;$('search').value='';$('status-filter').value='';$('stage-filter').value='';$('goal-filter').value=id;render();$('sidebar').classList.remove('mobile-open');$('nav-toggle').setAttribute('aria-expanded','false');focusMain();}
-function abbreviation(r,index){const words=r.title.split(/[^a-zA-Z0-9]+/).filter(Boolean);return words.length>1?words.slice(0,2).map(w=>w[0]).join('').toUpperCase():(words[0]||String(index+1)).slice(0,2).toUpperCase();}
-function renderNav(){const query=$('search').value.trim();$('navigation').innerHTML=`<button type="button" class="goal-button" data-select="" data-tooltip="All goals" title="All goals" aria-label="All goals" ${!selected||query?'aria-current="page"':''}><span class="goal-abbr">All</span></button>`+records.map((r,index)=>`<div class="nav-goal"><button type="button" class="goal-button" data-select="${esc(r.id)}" data-tooltip="${esc(r.title)}" title="${esc(r.title)}" aria-label="${esc(r.title)}" ${!query&&selected===r.id?'aria-current="page"':''}><span class="goal-abbr">${esc(abbreviation(r,index))}</span>${r.needs?'<span class="badge" aria-label="Needs your decision">!</span>':''}</button></div>`).join('');$('goal-count').textContent=records.length;$('attention-total').textContent=`${records.filter(r=>r.needs).length} need you`;}
-function card(r){return `<article class="card ${r.needs?'needs ':''}${selectedTask===r.id?'selected':''}" data-task="${esc(r.id)}" tabindex="0" role="button" aria-pressed="${selectedTask===r.id}" aria-label="Open details for ${esc(r.title)}"><div class="card-top"><span class="record-id">${esc(r.id)}</span><span class="state ${r.needs?'attention':''}">${r.needs?'Needs you':esc(r.status)}</span></div><h3>${esc(r.title)}</h3><p class="card-note">${esc(r.status==='Unknown'?'Recorded status: '+(r.statusRaw||'not supplied'):r.request||'No goal description recorded.')}</p><div class="card-bottom"><span class="roles">${r.agents.length?`${r.agents.length} recorded roles`:'Roles unknown'}</span><span class="open-label">Open details ↗</span></div></article>`;}
-function renderDetail(r){document.querySelector('.app').classList.toggle('detail-closed',!r);$('detail-panel').hidden=!r;if(!r)return;$('detail-content').innerHTML=`<h2>${esc(r.title)}</h2><p class="detail-id">${esc(r.id)} · <span class="detail-status">${esc(r.status)}</span></p>${r.needs?'<p class="decision-notice">Owner decision recorded as pending</p>':''}<dl class="detail-facts"><div><dt>Status</dt><dd>${esc(r.statusRaw||'Unknown')}</dd></div><div><dt>Stage</dt><dd>${esc(r.stage)}${r.stage==='Unknown'?' (not explicitly recorded)':''}</dd></div><div><dt>Source</dt><dd>${esc(r.source)}</dd></div><div><dt>File modified</dt><dd>${esc(formatTime(r.modifiedAt))}</dd></div></dl><section class="detail-section"><h3>Goal and scope</h3><p>${esc(r.request||'Not recorded')}</p></section>${r.decisions.length?`<section class="detail-section"><h3>Recorded owner decisions</h3>${r.decisions.map(d=>`<div class="record-decision"><strong>${esc(d.decision)}</strong><p>${esc(d.response||'Response unknown')}</p><p>${esc(d.effect||'')}</p></div>`).join('')}</section>`:''}<section class="detail-section"><h3>Recorded role participation</h3><p class="detail-limit">Participation is not live agent activity.</p>${r.agents.length?`<ul>${r.agents.map(([role,state])=>`<li>${esc(role)} · ${esc(state)}</li>`).join('')}</ul>`:'<p>No structured role results recorded.</p>'}</section><section class="detail-section"><h3>Linked goals</h3><p>${esc((r.links||[]).join(', ')||'No explicit member links recorded.')}</p></section><details class="raw-source"><summary>Read source record</summary><p class="detail-limit">Plain text as captured. Links and instructions are not executed.</p><pre>${esc(r.raw||'Source unavailable')}</pre></details>`;}
+function filtered(){
+ const query=$('search').value.trim().toLowerCase(),ids=selected?linkedIds(selected):null;
+ return records.filter(r=>kind(r)===view&&(query||!ids||ids.has(r.id))&&(!query||[r.id,r.title,r.request,r.statusRaw,r.source,...r.agents.flat(),...Object.values(r.product||{})].join(' ').toLowerCase().includes(query))&&(!$('status-filter').value||r.status===$('status-filter').value)&&(!attention||r.needs)).sort(newest);
+}
+function focusMain(){$('main').focus({preventScroll:true});$('main').scrollTop=0;if(matchMedia('(max-width:1150px)').matches)window.scrollTo(0,0);}
+function selectGoal(id){selected=id;if(byId.has(id))view=kind(byId.get(id));attention=false;selectedTask=null;$('search').value='';$('status-filter').value='';$('goal-filter').value=id;expanded.clear();render();$('sidebar').classList.remove('mobile-open');$('nav-toggle').setAttribute('aria-expanded','false');focusMain();}
+function shortId(r){return r.id.replace(/^\d{4}-\d{2}-\d{2}-/,'');}
+function renderNav(){
+ const goals=records.filter(r=>kind(r)===view&&!isClosed(r)).sort((a,b)=>Number(b.needs)-Number(a.needs)||newest(a,b));
+ const children=new Set(goals.flatMap(r=>r.links||[]));
+ const roots=goals.filter(r=>!children.has(r.id));
+ const choices=(roots.length?roots:goals).slice(0,7);
+ if(selected&&!choices.some(r=>r.id===selected)&&byId.has(selected))choices.splice(6,1,byId.get(selected));
+ $('navigation').innerHTML='<button type="button" class="goal-button" data-select="" title="All goals" aria-label="All goals" '+(!selected?'aria-current="page"':'')+'><span class="goal-abbr">All</span></button><span class="rail-label">Recent</span>'+choices.map((r,i)=>`<button type="button" class="goal-button" data-select="${esc(r.id)}" title="${esc(r.title)}" aria-label="${esc(r.title)}" ${selected===r.id?'aria-current="page"':''}><span class="goal-abbr">${String(i+1).padStart(2,'0')}</span>${r.needs?'<span class="badge" aria-label="Recorded owner request">!</span>':''}</button>`).join('')+'<button type="button" class="goal-button more-goals" id="browse-goals" title="Find any goal" aria-label="Find any goal">⌕</button>';
+ $('goal-count').textContent=records.length;
+ const pending=records.filter(r=>kind(r)===view&&r.needs).length,unknown=records.filter(r=>kind(r)===view&&!isClosed(r)&&!r.attentionKnown).length;
+ $('attention-total').textContent=pending?`${pending} recorded request${pending===1?'':'s'}`:unknown?'Attention incomplete':'No recorded requests';
+ $('global-attention').title=unknown?`${unknown} unfinished or unclassified records lack structured decision data`:'Filter recorded pending owner requests';
+}
+function card(r){return `<article class="card ${r.needs?'needs ':''}${selectedTask===r.id?'selected':''}" data-task="${esc(r.id)}" tabindex="0" role="button" aria-pressed="${selectedTask===r.id}" aria-label="Open details for ${esc(r.title)}"><div class="card-top"><span class="record-id">${esc(shortId(r))}</span><span class="state">${r.needs?'Needs you':r.status==='Unknown'?esc(r.statusRaw&&r.statusRaw.length<=40?r.statusRaw:'Unclassified'):esc(r.status)}</span></div><h3>${esc(r.title)}</h3><p class="card-note">${esc(r.request||r.statusRaw||'Open the original record for context.')}</p><div class="card-bottom"><span class="roles">${r.agents.length?`${r.agents.length} recorded roles`:!r.attentionKnown?'Decision data unavailable':'Decision data recorded'}</span><span class="open-label">Details ↗</span></div></article>`;}
+function relatedButton(id){return byId.has(id)?`<button type="button" class="column-more" data-related="${esc(id)}">${esc(byId.get(id).title)}</button>`:`<p>${esc(id)} · record unavailable</p>`;}
+function renderDetail(r){
+ document.querySelector('.app').classList.toggle('detail-closed',!r);$('detail-panel').hidden=!r;if(!r)return;
+ const product=Object.entries(r.product||{});
+ $('detail-content').innerHTML=`<h2>${esc(r.title)}</h2><p class="detail-id">${esc(r.id)}</p>${r.needs?'<p class="decision-notice">Owner decision recorded as pending</p>':''}<dl class="detail-facts"><div><dt>Status</dt><dd>${esc(r.statusRaw||'Not recorded')}</dd></div><div><dt>${kind(r)==='product'?'Phase':'Stage'}</dt><dd>${esc(kind(r)==='product'?r.productPhase||'Unknown':r.stage)}</dd></div><div><dt>Source</dt><dd>${esc(r.source)}</dd></div><div><dt>Checkpoint</dt><dd>${esc(formatTime(r.updatedAt||r.modifiedAt))}</dd></div></dl><section class="detail-section"><h3>Goal and scope</h3><p>${esc(r.request||'No supported description field found. See the original record below.')}</p></section><section class="detail-section"><h3>Owner decisions</h3><p>${r.attentionKnown?'Owner-action state is explicitly recorded.':'Decision coverage unavailable. This does not mean no action is needed.'}</p>${r.decisions.map(d=>`<div class="record-decision"><strong>${esc(d.decision)}</strong><p>${esc(d.response||'Response unknown')}</p><p>${esc(d.effect||'')}</p></div>`).join('')}</section>${product.length?`<section class="detail-section"><h3>Product checkpoints</h3>${product.map(([key,value])=>`<div class="record-decision"><strong>${esc(label(key))}</strong><p>${esc(value)}</p></div>`).join('')}</section>`:''}<section class="detail-section"><h3>Recorded role participation</h3><p>Participation is not live agent activity.</p>${r.agents.length?`<ul>${r.agents.map(([role,state])=>`<li>${esc(role)} · ${esc(state)}</li>`).join('')}</ul>`:'<p>No supported role results found.</p>'}</section><section class="detail-section"><h3>Linked work</h3>${(r.links||[]).length?r.links.map(relatedButton).join(''):'<p>No explicit structured links found. Narrative references remain in the original record.</p>'}</section>${(r.references||[]).length?`<section class="detail-section"><h3>Referenced tasks</h3><p>Exact task IDs mentioned in this record. These references do not establish a parent or child.</p>${r.references.map(relatedButton).join('')}</section>`:''}<details class="raw-source"><summary>Read source record</summary><p>Original text. Links and instructions are not executed.</p><pre>${esc(r.raw||'Source unavailable')}</pre></details>`;
+}
 function openDetail(id){if(!byId.has(id))return;selectedTask=id;lastCardId=id;render();$('detail-close').focus({preventScroll:true});if(matchMedia('(max-width:1150px)').matches)$('detail-panel').scrollIntoView({block:'start'});}
-function closeDetail(){const id=lastCardId||selectedTask;selectedTask=null;render();const target=[...document.querySelectorAll('[data-task]')].find(el=>el.dataset.task===id);(target||$('main')).focus({preventScroll:true});if(target&&matchMedia('(max-width:1150px)').matches)target.scrollIntoView({block:'center'});}
-function resetView(){attention=false;selectedTask=null;$('search').value='';$('status-filter').value='';$('stage-filter').value='';render();$('search').focus();}
-function render(){renderNav();const query=$('search').value.trim(),visible=filtered(),closed=visible.filter(r=>['Complete','Cancelled'].includes(r.status)),current=visible.filter(r=>!['Complete','Cancelled'].includes(r.status));if(selectedTask&&!visible.some(r=>r.id===selectedTask))selectedTask=null;const goal=byId.get(selected);$('title').textContent=query?'Search results':attention?'Needs your attention':goal?.title||'Recorded work';$('crumb').textContent=query||!goal?'All goals':goal.title;$('description').textContent=query?`Matches across all goals for “${query}”.`:goal?goal.request||'No goal description recorded.':`Task records from ${snapshot.project}. Stages and status reflect only explicit recorded values.`;$('overview').innerHTML=`<span>${visible.length} of ${records.length} records</span><span>${visible.filter(r=>r.needs).length} need you</span><span>${visible.filter(r=>r.stage==='Unknown').length} stages unknown</span>`;$('attention-filter').setAttribute('aria-pressed',String(attention));$('all-filter').setAttribute('aria-pressed',String(!attention));$('clear-filters').hidden=!(query||attention||$('status-filter').value||$('stage-filter').value);$('result-count').textContent=`${visible.length} matching records. ${closed.length} complete or cancelled.`;const board=$('board');board.hidden=!current.length&&!!closed.length;if(!records.length){board.hidden=false;board.innerHTML='<div class="empty"><h2>No task records found</h2><p>This snapshot has no records to display. Check the source path and warnings above.</p></div>';}else if(!visible.length){board.hidden=false;board.innerHTML='<div class="empty"><h2>No matching records</h2><p>Try another search or clear the filters.</p><button id="reset" type="button">Reset filters</button></div>';}else{const populated=stages.filter(stage=>current.some(r=>r.stage===stage));board.style.gridTemplateColumns=`repeat(${Math.min(populated.length||1,3)},minmax(0,1fr))`;board.innerHTML=populated.map(stage=>`<section class="column" aria-label="${stage} stage"><div class="column-header"><span class="stage-icon ${stage.toLowerCase()}" aria-hidden="true"></span><h2>${stage==='Unknown'?'Stage unknown':stage}</h2><span class="count">${current.filter(r=>r.stage===stage).length}</span></div>${current.filter(r=>r.stage===stage).sort((a,b)=>Number(b.needs)-Number(a.needs)).map(card).join('')}</section>`).join('');}$('completed').hidden=!closed.length;if(closed.length&&(query||['Complete','Cancelled'].includes($('status-filter').value)||!current.length))$('completed').open=true;$('completed-title').textContent=`Complete or cancelled · ${closed.length}`;$('completed-list').innerHTML=closed.map(r=>`<button type="button" class="completed-row" data-task="${esc(r.id)}" aria-pressed="${selectedTask===r.id}"><span>${esc(r.title)}</span><span class="muted">${esc(r.status)}</span></button>`).join('');renderDetail(byId.get(selectedTask));}
-function taskClick(event){const node=event.target.closest('[data-task]');if(node)openDetail(node.dataset.task);if(event.target.id==='reset')resetView();}
-function taskKey(event){if(['Enter',' '].includes(event.key)&&event.target.closest('[data-task]')){event.preventDefault();openDetail(event.target.closest('[data-task]').dataset.task);}}
-$('navigation').addEventListener('click',event=>{const node=event.target.closest('[data-select]');if(node)selectGoal(node.dataset.select);});
-$('global-attention').addEventListener('click',()=>{selected='';$('goal-filter').value='';$('search').value='';$('status-filter').value='';$('stage-filter').value='';attention=true;render();focusMain();});
+function closeDetail(){const id=lastCardId;selectedTask=null;render();const target=[...document.querySelectorAll('[data-task]')].find(el=>el.dataset.task===id);(target||$('main')).focus({preventScroll:true});if(target&&matchMedia('(max-width:1150px)').matches)target.scrollIntoView({block:'center'});}
+function resetView(){attention=false;selectedTask=null;selected='';$('goal-filter').value='';$('search').value='';$('status-filter').value='';expanded.clear();render();$('search').focus();}
+function render(){
+ renderNav();
+ const query=$('search').value.trim(),visible=filtered(),closed=visible.filter(isClosed),current=visible.filter(r=>!isClosed(r));
+ if(selectedTask&&!visible.some(r=>r.id===selectedTask))selectedTask=null;
+ const goal=byId.get(selected),unknown=visible.filter(r=>!isClosed(r)&&!r.attentionKnown).length;
+ $('title').textContent=query?'Search results':attention?'Recorded owner requests':goal?.title||`${label(view)} work`;
+ $('crumb').textContent=query||!goal?'All goals':goal.title;
+ $('description').textContent=query?`Matches within ${view} work for “${query}”.`:goal?goal.request||'See the source record for context.':view==='product'?'Discovery, decisions, execution, and learning. Delivery completion does not prove a product outcome.':`Recorded work from ${snapshot.project}. Updates come from the local data export, not a live agent connection.`;
+ $('overview').innerHTML=`<span>${visible.length} of ${records.length} tasks</span>${snapshot.excludedCount?`<span>${snapshot.excludedCount} supporting documents excluded</span>`:''}${unknown?`<span class="coverage">${unknown} tasks lack decision data</span>`:''}`;
+ $('delivery-view').setAttribute('aria-pressed',String(view==='delivery'));$('product-view').setAttribute('aria-pressed',String(view==='product'));
+ $('attention-filter').setAttribute('aria-pressed',String(attention));$('all-filter').setAttribute('aria-pressed',String(!attention));
+ $('clear-filters').hidden=!(query||attention||$('status-filter').value||selected);
+ $('group-control').hidden=view==='product';
+ const hasStages=records.some(r=>kind(r)==='delivery'&&r.stage!=='Unknown');
+ $('group-by').querySelector('[value="stage"]').disabled=!hasStages;
+ $('group-control').title=hasStages?'Group by recorded status or explicit stage':'No explicit stages recorded; grouping by status';
+ if(!hasStages)$('group-by').value='status';
+ $('result-count').textContent=`${visible.length} matching tasks. ${closed.length} complete or cancelled.`;
+ const board=$('board');board.hidden=!current.length&&!!closed.length;
+ if(!visible.length){
+  board.hidden=false;board.innerHTML=`<div class="empty"><h2>${!records.length?'No task records found':view==='product'&&!records.some(r=>kind(r)==='product')?'No product checkpoints recorded':'No matching tasks'}</h2><p>${!records.length?'The selected source has no task records. A running agent alone does not populate this view.':view==='product'&&!records.some(r=>kind(r)==='product')?'Product work appears here when existing task files contain product checkpoints. No phases are inferred.':'Try another search, choose another view, or reset the filters.'}</p><button id="reset" type="button">Reset filters</button></div>`;
+ }else{
+  const group=view==='product'?'productPhase':$('group-by').value;
+  const order=group==='productPhase'?phaseNames:group==='stage'?['Prepare','Build','Verify','Unknown']:['Blocked','Active','Reviewing','Planned','Unknown'];
+  const groups=order.filter(name=>current.some(r=>(r[group]||'Unknown')===name));
+  board.style.gridTemplateColumns=`repeat(${Math.min(groups.length||1,3)},minmax(0,1fr))`;
+  board.innerHTML=groups.map(name=>{
+   const items=current.filter(r=>(r[group]||'Unknown')===name).sort((a,b)=>Number(b.needs)-Number(a.needs)||newest(a,b));
+   const key=group+':'+name,shown=expanded.has(key)?items:items.slice(0,6);
+   return `<section class="column" aria-label="${esc(label(name))} tasks"><div class="column-header"><h2>${name==='Unknown'?'Unclassified':esc(label(name))}</h2><span class="count">${items.length}</span></div>${shown.map(card).join('')}${items.length>6?`<button type="button" class="column-more" data-expand="${esc(key)}" aria-expanded="${expanded.has(key)}">${expanded.has(key)?'Show fewer':`Show all ${items.length} tasks`}</button>`:''}</section>`;
+  }).join('');
+ }
+ $('completed').hidden=!closed.length;
+ if(closed.length&&(query||['Complete','Cancelled'].includes($('status-filter').value)||!current.length))$('completed').open=true;
+ $('completed-title').textContent=`Complete or cancelled · ${closed.length}`;
+ $('completed-list').innerHTML=closed.map(r=>`<button type="button" class="completed-row" data-task="${esc(r.id)}" aria-pressed="${selectedTask===r.id}"><span>${esc(r.title)}</span><span class="muted">${esc(r.status)}</span></button>`).join('');
+ renderDetail(byId.get(selectedTask));
+}
+function taskClick(event){const node=event.target.closest('[data-task]');if(node)openDetail(node.dataset.task);if(event.target.id==='reset')resetView();const expand=event.target.closest('[data-expand]');if(expand){const key=expand.dataset.expand;expanded.has(key)?expanded.delete(key):expanded.add(key);render();[...document.querySelectorAll('[data-expand]')].find(el=>el.dataset.expand===key)?.focus({preventScroll:true});}}
+function taskKey(event){if(['Enter',' '].includes(event.key)&&event.target.closest('article[data-task]')){event.preventDefault();openDetail(event.target.closest('[data-task]').dataset.task);}}
+$('navigation').addEventListener('click',event=>{const node=event.target.closest('[data-select]');if(node)selectGoal(node.dataset.select);if(event.target.closest('#browse-goals')){$('goal-filter').focus();}});
+$('global-attention').addEventListener('click',()=>{selected='';$('goal-filter').value='';$('search').value='';$('status-filter').value='';attention=true;render();focusMain();});
 $('all-filter').addEventListener('click',()=>{attention=false;render();});$('attention-filter').addEventListener('click',()=>{attention=true;render();});
-$('search').addEventListener('input',render);['status-filter','stage-filter'].forEach(id=>$(id).addEventListener('change',render));$('goal-filter').addEventListener('change',()=>selectGoal($('goal-filter').value));
-$('clear-filters').addEventListener('click',resetView);$('board').addEventListener('click',taskClick);$('board').addEventListener('keydown',taskKey);$('completed-list').addEventListener('click',taskClick);$('completed-list').addEventListener('keydown',taskKey);
+$('search').addEventListener('input',()=>{expanded.clear();render();});$('status-filter').addEventListener('change',render);$('group-by').addEventListener('change',()=>{expanded.clear();render();});$('goal-filter').addEventListener('change',()=>selectGoal($('goal-filter').value));
+for(const mode of ['delivery','product'])$(mode+'-view').addEventListener('click',()=>{view=mode;resetView();});
+$('clear-filters').addEventListener('click',resetView);$('board').addEventListener('click',taskClick);$('board').addEventListener('keydown',taskKey);$('completed-list').addEventListener('click',taskClick);
+$('detail-content').addEventListener('click',event=>{const node=event.target.closest('[data-related]');if(node){selectGoal(node.dataset.related);openDetail(node.dataset.related);}});
 $('detail-close').addEventListener('click',closeDetail);document.addEventListener('keydown',event=>{if(event.key==='Escape'&&selectedTask)closeDetail();});$('nav-toggle').addEventListener('click',()=>{const open=$('sidebar').classList.toggle('mobile-open');$('nav-toggle').setAttribute('aria-expanded',String(open));});
-$('status-filter').innerHTML='<option value="">Any status</option>'+[...new Set(records.map(r=>r.status))].sort().map(status=>`<option>${esc(status)}</option>`).join('');
-$('stage-filter').innerHTML='<option value="">Any stage</option>'+stages.map(stage=>`<option>${stage}</option>`).join('');
-$('goal-filter').innerHTML='<option value="">All goals</option>'+records.map(r=>`<option value="${esc(r.id)}">${esc(r.title)}</option>`).join('');
-$('snapshot-time').textContent='Generated '+formatTime(snapshot.generatedAt);$('snapshot-time').dateTime=snapshot.generatedAt||'';
-$('latest').textContent=snapshot.root?'Source: '+snapshot.root:'Source not configured';
-$('source-warnings').hidden=!snapshot.warnings.length;$('warning-title').textContent=`${snapshot.warnings.length} source warning${snapshot.warnings.length===1?'':'s'}`;$('warning-list').innerHTML=snapshot.warnings.map(w=>`<li>${esc(w)}</li>`).join('');
-render();
+function refreshData(next){
+ if(!next||!Array.isArray(next.records)||!Array.isArray(next.warnings))throw new Error('Invalid data file');
+ const status=$('status-filter').value,focused=document.activeElement;
+ const focusedTask=focused?.closest('[data-task]')?.dataset.task;
+ const sourceOpen=!!document.querySelector('.raw-source[open]');
+ snapshot=next;records=next.records;byId.clear();for(const record of records)byId.set(record.id,record);
+ if(selected&&!byId.has(selected)){selected='';selectedTask=null;}
+ $('status-filter').innerHTML='<option value="">Any status</option>'+[...new Set(records.map(r=>r.status))].sort().map(value=>`<option>${esc(value)}</option>`).join('');
+ if([...$('status-filter').options].some(option=>option.value===status))$('status-filter').value=status;
+ $('goal-filter').innerHTML='<option value="">All goals</option>'+[...records].sort(newest).map(r=>`<option value="${esc(r.id)}">${esc(r.title)}</option>`).join('');
+ $('goal-filter').value=selected;
+ $('snapshot-time').textContent='Exported '+formatTime(snapshot.generatedAt);$('snapshot-time').dateTime=snapshot.generatedAt||'';
+ const latest=[...records].sort(newest)[0]?.modifiedAt;
+ $('latest').textContent=(snapshot.root?'Source: '+snapshot.root:'Source not configured')+' · Latest file change: '+formatTime(latest);
+ $('source-warnings').hidden=!snapshot.warnings.length;$('warning-title').textContent=`${snapshot.warnings.length} source warning${snapshot.warnings.length===1?'':'s'} · inspect coverage`;$('warning-list').innerHTML=snapshot.warnings.map(w=>`<li>${esc(w)}</li>`).join('');
+ render();
+ if(sourceOpen&&selectedTask)document.querySelector('.raw-source')?.setAttribute('open','');
+ if(focusedTask)([...document.querySelectorAll('[data-task]')].find(node=>node.dataset.task===focusedTask)||$('main')).focus({preventScroll:true});
+}
+let lastPayload=JSON.stringify(snapshot),loading=false;
+refreshData(snapshot);
+function reloadData(){
+ if(loading||document.hidden)return;
+ loading=true;
+ const script=document.createElement('script');
+ script.src='tasks-data.js?v='+Date.now();
+ function finish(){loading=false;script.remove();}
+ script.onload=()=>{
+  try{
+   const next=window.olympusSnapshot,payload=JSON.stringify(next);
+   if(payload!==lastPayload){refreshData(next);lastPayload=payload;}
+   document.querySelector('.sample').textContent='Local task files';
+  }catch(error){document.querySelector('.sample').textContent='Invalid data · showing last snapshot';}
+  finish();
+ };
+ script.onerror=()=>{document.querySelector('.sample').textContent='Data unavailable · showing last snapshot';finish();};
+ document.head.append(script);
+}
+setInterval(reloadData,2000);
+document.addEventListener('visibilitychange',reloadData);
 </script>
 </body></html>

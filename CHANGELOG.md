@@ -4,16 +4,20 @@
 
 ### Added
 
-- Optional read-only task dashboard: a compact goal rail, stage columns, task details,
-  search, filters, and pending owner-decision highlights in one standalone HTML file.
-- A Python standard-library generator reads existing `.olympus/tasks/*.md` records.
-  Optional foreground watch mode regenerates the snapshot after record changes.
-  No task store, scheduler, agent control, or project dependency is added.
-- Dashboard parser and output-safety tests. Missing stages and noncanonical statuses
-  remain Unknown; recorded role participation does not claim live agent activity.
+- Schema 2 task-record contract: explicit current state, parent and related-task IDs,
+  owner-action state, checkpoint time, and separate product phase. The Orchestrator
+  updates it at existing checkpoints; a read-only validator checks structure and links.
+- Static task dashboard: fixed HTML/CSS/JS loads a local `tasks-data.js` export. Open
+  it directly in Chrome without a server or folder picker. An optional local watcher
+  refreshes only data after source changes; the page checks for updates automatically.
+- Real-record compatibility: supporting specifications and plans are excluded, observed
+  Claude task formats remain readable, and missing decision coverage is explicit.
+  Compact navigation, status grouping, product phases, search, and task details preserve
+  access to the original source without claiming live agent activity.
 
-See [dashboard usage and limits](docs/DASHBOARD.md). Browser refresh is required to
-load a regenerated snapshot. Generated files contain the original task records.
+See [dashboard usage and limits](docs/DASHBOARD.md). The export is disposable; the
+Orchestrator-owned Markdown records remain the source of truth. Existing pins and legacy
+records are not migrated automatically. No additional reporting agent is introduced.
 
 ## 0.7.0 - 2026-09-04
 

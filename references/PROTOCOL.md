@@ -365,6 +365,61 @@ For each goal, the Orchestrator creates one task record with:
 
 Use these states: `planned`, `active`, `reviewing`, `complete`, `blocked`, or `cancelled`.
 
+### Task-record contract
+
+New goals at this framework revision use schema 2 in `templates/TASK.md`. The filename
+stem is the stable task ID: `.olympus/tasks/<goal-id>.md`. Any existing supporting
+`.spec.md` and `.plan.md` exports are not tasks. Canonical inline specification and plan
+bodies retain their existing locations and rules. Existing pins and schema 1 or
+legacy records remain readable. Do not migrate historical records automatically.
+
+Frontmatter is the sole current-state summary. Write one top-level scalar per line;
+`linked-tasks` is a JSON array of strings on one line. Do not repeat keys or use multiline
+YAML values in this header. Evidence tables and narrative history do not override it.
+
+| Field | Required meaning |
+| --- | --- |
+| `record`, `schema` | `olympus-task`, `2` |
+| `title` | Short, human-readable title; no placeholder |
+| `status` | One of the six existing task states above |
+| `kind` | `delivery` or `product` |
+| `parent` | Owning parent task ID, or `none`; never self or a cycle |
+| `linked-tasks` | Unique related task IDs, or `[]`; links do not imply ownership |
+| `owner-action` | `none` or `pending`; agree with the latest structured owner-decision rows |
+| `updated-at` | UTC time of this recorded checkpoint, such as `2026-09-13T12:00:00Z`; not a heartbeat |
+| `product-phase` | `none` for delivery; an existing product lifecycle phase for product work |
+
+IDs in parent and link fields must resolve to task records in the same task directory.
+Record an external goal or effect in evidence text instead of inventing a local task.
+An optional `stage` may record `Prepare`, `Build`, or `Verify`; it is not required and
+does not replace status or product phase. Product phases retain their meanings in
+[the product lifecycle](PRODUCT.md#lifecycle); build completion never implies a measured
+product outcome. `complete` and `cancelled` require `owner-action: none`.
+
+The Orchestrator remains the sole task-record writer. Workers return results and evidence;
+they do not maintain a second list. At creation, before dispatch, after accepting a role
+result, and on a split, block, phase change, owner-decision change, or closure, update the
+current fields and the existing evidence checkpoint together. Set a pending owner action
+only with its structured pending decision row; preserve resolved decision history. On a
+split, persist each child and its `parent` before dispatch. Never infer completion from a
+worker invocation or a stale external link. Replace each record atomically where supported.
+
+At these checkpoints, run the read-only check from the resolved framework checkout:
+
+```sh
+python3 scripts/dashboard.py --root /path/to/target --validate-only
+```
+
+Repair invalid current records before dependent dispatch or a completion claim. If the
+checker is unavailable, report validation as unavailable; do not claim the contract passed.
+The checker verifies structure and references, not the truth of evidence or owner approval.
+Legacy records are reported as skipped, not validated. This introduces no new review role,
+owner gate, model call, or authority to change protected configuration.
+
+Dashboard data is a disposable projection of these records. A local exporter may watch
+for file changes and refresh it without agent work. Do not hand-edit the projection, use
+it as an approval source, or treat its export time as proof of current agent activity.
+
 For explicit product work, the Orchestrator first applies the
 [product lifecycle](PRODUCT.md#lifecycle). A product mandate may authorize selecting
 bounded local child goals; each such build or knowledge-documentation goal follows the

@@ -10,8 +10,9 @@ no runtime, service, database, package, or scheduler.
 Version `0.7.0` adds three opt-in product roles. Existing installed pins retain their
 original build contract.
 
-An optional [task dashboard](docs/DASHBOARD.md) generates a local HTML view from existing
-task records with Python 3. It does not run or control agents.
+An optional [task dashboard](docs/DASHBOARD.md) opens directly in Chrome and reads a sibling
+data export from existing task records. An optional Python watcher updates the data.
+It needs no web server and does not run or control agents.
 
 ## Why it exists
 

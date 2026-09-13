@@ -1,81 +1,90 @@
 # Task dashboard
 
-The dashboard is an optional, read-only view of existing Olympus task records. It uses
-Python 3's standard library and generates one self-contained HTML file. It adds no
-scheduler, database, project dependency, or agent authority.
+The dashboard is fixed HTML, CSS, and JavaScript. Open `index.html` directly in desktop
+Chrome. It loads a sibling `tasks-data.js` file as a classic script. No web server,
+folder picker, framework, or model call is needed to display or refresh the view.
 
-The generator requires Python 3.10 or later on macOS or Linux. It uses Unix file-opening
-flags to reject symlink records. Windows is not supported by this version.
+The data file is a disposable export of existing `.olympus/tasks/*.md` records. Python
+reads those records; it does not maintain another task list or control agents. Task
+record instructions and validation are defined in the
+[task-record contract](../references/PROTOCOL.md#task-record-contract).
 
-From the framework checkout, generate a snapshot:
+## Start once
 
-```sh
-python3 scripts/dashboard.py --root /path/to/project --output /path/to/status.html
-```
-
-Open the generated file in a browser. No web server is required. The output directory
-must be separate from the task records. The generator refuses to replace existing files
-unless they carry its generated-file marker.
-
-The HTML includes full original task records and the local source path. Keep it local
-unless that content is suitable for sharing.
-
-To rebuild after records change, keep this command running in a terminal:
+From the framework checkout, run:
 
 ```sh
-python3 scripts/dashboard.py --root /path/to/project --output /path/to/status.html --watch 2
+python3 scripts/dashboard.py --root /path/to/project --output /path/to/dashboard/index.html --watch 2
 ```
 
-This foreground process checks for changes every two seconds. Stop it with Ctrl+C.
-Refresh the browser to load the latest generated snapshot. The page displays its generation
-time and source directory. There is no automatic host registration or background service.
-Alternatively, run the one-shot command after an Orchestrator checkpoint.
+Then open the output `index.html` in Chrome. The exporter creates the HTML and its data
+file together. It changes HTML only when the framework template changes. Watch mode
+checks source files every two seconds and exports data after a change. The open page
+checks that data file every two seconds and updates its view without a full page reload.
+Allow roughly four seconds after a completed record write. Checks pause while the tab
+is hidden and resume when it becomes visible.
 
-## Source and interpretation
+There is no per-turn user command. Keep this foreground exporter running during work;
+Ctrl+C stops it. Without `--watch`, the command exports one snapshot. This is not an
+installed background service or an automatic host integration. If the exporter stops,
+the dashboard retains its last export time; it cannot prove that an agent is still running.
+A missing or unreadable data file shows a warning and retains the last loaded snapshot.
 
-The generator reads only `.olympus/tasks/*.md` under the explicit source root. Use the
-checkout that actually holds the task records. A goal worktree does not necessarily hold
-records maintained in the main checkout. The generator does not scan other worktrees,
-follow links, or collect data from other projects.
+The exporter requires Python 3.10 or later on macOS or Linux. Windows export is not
+supported by this version. The browser view uses no network fetch or module import.
+The HTML and data file must remain together. Never edit the exported JavaScript by hand;
+it contains serialized data and a fixed assignment, not agent-generated code.
 
-- Each record supplies one card. Explicit member-goal links can include related records
-  when a goal is selected. Free-form plans do not become invented subtasks.
-- Canonical frontmatter status is displayed as recorded. Unknown and legacy status values
-  remain visible, with the original text in task details.
-- Stage is shown only when an explicit frontmatter `stage` names `Prepare`, `Build`, or
-  `Verify`. Existing templates do not require this field. Records without it appear under
-  **Stage unknown**. Historical sections never prove a task's current stage.
-- **Needs you** comes from a structured owner-decision row with a pending owner response.
-  A later response for the same decision replaces the earlier pending response for this
-  display. Completed and cancelled tasks do not receive this highlight.
-- Role participation comes from recorded Actual values. It does not prove that an agent
-  is running now. Missing participation remains unknown.
-- The details panel includes the source path, file modification time, and original record
-  as plain text. Modification time is not a heartbeat or a verified completion time.
+Both files contain or expose task information, including full source records and local
+paths. Keep them local unless that information is suitable for sharing. The exporter
+refuses unsigned existing output files, symlinks, and protected record paths.
 
-The records remain the source of truth. The dashboard never changes them, approves a
-request, starts an agent, or changes a goal. Unsupported or malformed data produces a
-visible warning instead of a guessed success state. Historical statements in the source
-are not refreshed against GitHub, Git, or an agent host.
+## Validate task records
 
-## Limits and validation
+```sh
+python3 scripts/dashboard.py --root /path/to/project --validate-only
+```
 
-This is a best-effort filesystem snapshot. It detects files that change during a read,
-but it does not establish a transaction across several independently changing records.
-Watch mode can reflect the next completed write. Symlink records are not followed.
+This read-only check reports invalid schema 2 fields, contradictory owner-action state,
+unresolved task references, and invalid parent relationships. It does not rewrite files.
+Schema 1 and legacy records are reported as skipped. Passing structure checks does not
+prove that an agent's claims, timestamps, external state, or approvals are true.
 
-The HTML template is `templates/DASHBOARD.html`. Record text is embedded as escaped JSON
-and displayed as text, not executed as HTML or Markdown instructions.
+## What the view means
 
-Run the focused checks from the framework checkout:
+- Each task supplies one card. Supporting `.spec.md` and `.plan.md` files are excluded.
+- Schema 2 frontmatter supplies the current title, status, parent, related tasks, owner
+  action, checkpoint time, and product phase. Children are derived from parent IDs.
+  The original evidence and history remain available in task details.
+- Legacy formats remain readable, including observed Claude `# Goal` headings and
+  top-level owner-request tables. Missing and unsupported state remains Unclassified.
+  The dashboard never infers completion from prose or old pull-request references.
+- Delivery defaults to status. Optional stage grouping requires explicit `Prepare`,
+  `Build`, or `Verify` values. No recorded stages means no stage grouping.
+- Product phases are discovery, decision, execution, awaiting evidence, evaluation, and
+  closed. Product phase is separate from delivery status. Legacy product checkpoint
+  tables remain supported. A completed build does not prove a product outcome.
+- Pending owner actions are highlighted. Missing legacy decision data shows incomplete
+  coverage rather than an implied absence of owner actions.
+- The rail shows seven recent goals, omitting known completed work. Search and the goal
+  selector retain access to all tasks. Completed work and long columns are collapsible.
+- Explicit related-task links and exact narrative task references are navigable. Narrative
+  references never establish ownership. Role participation never claims live activity.
+
+Choose the checkout holding the records. A running Claude session or a task worktree may
+have none. The exporter does not discover sessions, combine worktrees, follow source
+symlinks, or collect data from other projects. Its snapshot detects individual files
+changing during reads, but is not a transaction across several task records.
+
+## Verification
 
 ```sh
 python3 -m unittest discover -s tests -p 'test_dashboard.py'
 ```
 
-Release preparation on 2026-09-12 passed all 14 tests on macOS with Python 3.14.4.
-An isolated sample build verified watch updates from Active to Reviewing to Complete.
-Browser checks at 1440px and 390px covered search, attention and status filters, task
-details, Escape focus handling, and horizontal overflow. Independent review found an
-indented-code parsing defect; the fix passed regression tests and focused re-review.
-This validates the local dashboard flow, not live swarm execution or Windows support.
+Initial synthetic checks missed real-record compatibility defects. Corrected historical
+Claude validation yielded 45 task records, excluded 21 supporting documents, recovered
+33 descriptions, and exposed exact references in eight records. That source still has
+20 unsupported or missing status values and no supported role or owner-decision tables.
+It is historical evidence, not live swarm validation. Do not rewrite historical source
+records merely to improve their appearance in the dashboard.

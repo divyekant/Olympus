@@ -1,7 +1,14 @@
 ---
 record: olympus-task
-schema: 1
+schema: 2
+title: <short human-readable task title>
 status: planned
+kind: delivery
+parent: none
+linked-tasks: []
+owner-action: none
+updated-at: <UTC timestamp, for example 2026-09-13T12:00:00Z>
+product-phase: none
 ---
 
 # Olympus task: `<goal-id>`
@@ -9,6 +16,10 @@ status: planned
 The Orchestrator is the sole owner of this record. Every role returns bounded results only
 to it. This record stores facts and accepted results; the rules and state meanings live in
 the pinned [runtime protocol](../references/PROTOCOL.md) and are not restated here.
+The frontmatter holds current task state; the sections below retain evidence and history.
+Use the [task-record contract](../references/PROTOCOL.md#task-record-contract) for field
+meanings, checkpoint updates, and validation. Replace title and timestamp placeholders
+before the first dispatch. For product work, use `kind: product` and its current product phase.
 
 ## Goal and scope
 
